@@ -32,14 +32,18 @@ class Course extends Model
         return $this->hasMany('App\CourseStep', 'course_id', 'id');
     }
 
+    public static function createCourse($data)
+    {
+        return Course::create(['name' => $data['name'], 'description' => $data['description']]);
+    }
+
     public function start()
     {
         $this->state = 'started';
         $this->start_date = Carbon::now();
-        $invite = str_random(8);
         do {
             $invite = str_random(8);
-        } while (Course::where('invite', $invite)->count()!=0);
+        } while (Course::where('invite', $invite)->count() != 0);
         $this->invite = $invite;
         $this->save();
     }
