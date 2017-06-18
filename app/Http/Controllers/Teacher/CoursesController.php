@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Teacher;
 
 use App\Course;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class CoursesController extends Controller
@@ -25,21 +26,33 @@ class CoursesController extends Controller
     public function index()
     {
         $courses = Course::all();
-        return view('home', compact('courses'));
+        return view('teacher.home', compact('courses'));
     }
     public function details($id)
     {
         $course = Course::findOrFail($id);
-        return view('courses.details', compact('course'));
+        return view('teacher.courses.details', compact('course'));
     }
     public function createView()
     {
-        return view('courses.create');
+        return view('teacher.courses.create');
     }
     public function editView($id)
     {
         $course = Course::findOrFail($id);
-        return view('courses.edit', compact('course'));
+        return view('teacher.courses.edit', compact('course'));
+    }
+    public function start($id)
+    {
+        $course = Course::findOrFail($id);
+        $course->start();
+        return redirect('/teacher/courses/'.$course->id);
+    }
+    public function stop($id)
+    {
+        $course = Course::findOrFail($id);
+        $course->end();
+        return redirect('/teacher/courses/'.$course->id);
     }
     public function edit($id, Request $request)
     {
@@ -60,7 +73,7 @@ class CoursesController extends Controller
 
         }
         $course->save();
-        return redirect('/courses/'.$course->id);
+        return redirect('/teacher/courses/'.$course->id);
     }
     public function create(Request $request)
     {
@@ -81,6 +94,6 @@ class CoursesController extends Controller
             $course->image = 'course_avatars/blank.png';
         }
         $course->save();
-        return redirect('/courses');
+        return redirect('/teacher/courses');
     }
 }

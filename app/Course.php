@@ -19,12 +19,12 @@ class Course extends Model
 
     public function students()
     {
-        return $this->belongsToMany('App\User', 'courses_students', 'course_id', 'user_id');
+        return $this->hasMany('App\User', 'course_students', 'course_id', 'user_id');
     }
 
     public function teachers()
     {
-        return $this->belongsToMany('App\User', 'courses_teachers', 'course_id', 'user_id');
+        return $this->belongsToMany('App\User', 'course_teachers', 'course_id', 'user_id');
     }
 
     public function steps()

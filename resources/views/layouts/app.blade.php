@@ -23,13 +23,41 @@
     <style>
         body {
             background: none;
-            background-color: #D9E8F5 !important;
-        }
-        h3 a {
-            color: #003354 !important;
+            background-color: #FFFEF1 !important;
         }
         h3 {
-            margin: 15px !important;
+            color: #0C273D !important;
+        }
+        .course-panel {
+
+        }
+        .course-panel .panel-body {
+
+        }
+
+        .course-panel .panel-body .media-left {
+            background-color: white;
+        }
+
+
+        .navbar {
+            background: none;
+            box-shadow: none;
+            border: none;
+            color: white;
+            background-color: #2C5E2E;
+            border-radius: 0px;
+        }
+        .navbar-brand {
+            color: white !important;
+            text-shadow: none;
+        }
+        .dropdown a {
+            color: white !important;
+            text-shadow: none;
+        }
+        .blue {
+            color: #0C273D;
         }
     </style>
 
@@ -92,7 +120,17 @@
             </div>
         </nav>
 
-        @yield('content')
+        <div class="container">
+            @if(Session::has('alert-class') and Session::get('alert-destination')=='head')
+                <div class="alert {{ Session::get('alert-class') }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>{{Session::get('alert-title')}}</strong> {{ Session::get('alert-text') }}
+                </div>
+            @endif
+            @yield('content')
+        </div>
+
+
     </div>
 
     <!-- Latest compiled and minified CSS -->
