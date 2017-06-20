@@ -1,33 +1,32 @@
 @extends('layouts.app')
 
-@section('content')
-    <h3 style="padding-bottomc: 10px; ">Курсы
-        <span class="pull-right small">
-                <a href="{{url('/teacher/courses/create/')}}" class="btn btn-success btn-sm">Добавить</a>
-            </span>
-    </h3>
-    <div class="row">
+@section('title')
+    GeekClass
+@endsection
 
-        @foreach($courses as $course)
-            <div class="col-md-4">
-                <div class="panel panel-default course-panel">
-                    <div class="panel-body">
-                        <div class="media">
-                            <div class="media-left media-top">
-                                <a href="{{url('teacher/courses/'.$course->id)}}">
-                                    <img style="height: 70px;" class="img-rounded media-object"
-                                         src="{{url('media/'.$course->image)}}" alt="...">
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h4><a href="{{url('teacher/courses/'.$course->id)}}">{{$course->name}}</a></h4>
-                                <p class="blue">{{$course->state}}</p>
-                            </div>
+@section('content')
+    <div class="mdl-layout">
+        <div class="mdl-grid">
+            <h2>Курсы</h2>
+        </div>
+        <div class="fixed-action-btn horizontal">
+        <a href="{{url('/teacher/courses/create/')}}" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+        </div>
+        <div class="row">
+            @foreach($courses as $course)
+                <div class="col s12 m4">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">{{$course->name}}</span>
+                            @parsedown($course->description)
+                        </div>
+                        <div class="card-action">
+                            <a href="{{url('teacher/courses/'.$course->id)}}">Страница курса</a>
                         </div>
                     </div>
                 </div>
+            @endforeach
+        </div>
 
-            </div>
-        @endforeach
     </div>
 @endsection

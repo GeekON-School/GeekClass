@@ -1,46 +1,44 @@
 @extends('layouts.app')
 
-@section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">Изменение курса</div>
+@section('title')
+    GeekClass: Изменение курса "{{$course->name}}"
+@endsection
 
-                <div class="panel-body">
+@section('content')
+    <div class="row" style="padding-top: 20px;">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Изменение курса "{{$course->name}}"</span>
                     <form method="POST" class="form-horizontal" enctype="multipart/form-data">
                         {{ csrf_field() }}
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Название</label>
-
-                            <div class="col-md-8">
-                                @if (old('name')!="")
-                                    <input id="name" type="name" class="form-control" name="name"
-                                           value="{{old('name')}}" required>
-                                @else
-                                    <input id="name" type="name" class="form-control" name="name"
-                                           value="{{$course->name}}" required>
-                                @endif
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
+                        <div class="input-field col s12">
+                            @if (old('name')!="")
+                                <input id="name" type="text" class="validate" name="name"
+                                       value="{{old('name')}}" required>
+                            @else
+                                <input id="name" type="text" class="validate" name="name"
+                                       value="{{$course->name}}" required>
+                            @endif
+                            <label for="name">Название</label>
+                            @if ($errors->has('name'))
+                                <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
-                                @endif
-                            </div>
+                            @endif
                         </div>
-                        <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                            <label for="description" class="col-md-4 control-label">Описание</label>
-                            <div class="col-md-8">
-                                <textarea id="description" class="form-control" name="description"
-                                          required>@if (old('description')!=""){{old('description')}}@else{{$course->description}}@endif</textarea>
 
-                                @if ($errors->has('description'))
-                                    <span class="help-block">
+                        <div class="input-field col s12">
+                            <textarea id="description" class="materialize-textarea" name="description"
+                                      required>@if (old('description')!=""){{old('description')}}@else{{$course->description}}@endif</textarea>
+                            <label for="description">Описание</label>
+                            @if ($errors->has('description'))
+                                <span class="help-block">
                                         <strong>{{ $errors->first('description') }}</strong>
                                     </span>
-                                @endif
-                            </div>
+                            @endif
                         </div>
+                    <!--
                         <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
                             <label for="image" class="col-md-4 control-label">Аватар</label>
 
@@ -48,20 +46,19 @@
                                 <input id="image" type="file" class="form-control" name="image"/>
 
                                 @if ($errors->has('image'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('image') }}</strong>
+                        <span class="help-block">
+                            <strong>{{ $errors->first('image') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-success">Сохранить</button>
-                            </div>
-                        </div>
+                        -->
+
+                        <button type="submit" class="btn btn-success">Сохранить</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
