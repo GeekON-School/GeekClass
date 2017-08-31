@@ -7,14 +7,14 @@
             <form method="POST">
                 {{ csrf_field() }}
                 <div class="row">
-                    <div class="input-field col s12">
+                    <div class="form-group col">
                         <label for="name">Название</label>
 
                         @if (old('name')!="")
-                            <input id="name" type="text" class="validate" value="{{old('name')}}"
+                            <input id="name" type="text" class="form-control" value="{{old('name')}}"
                                    name="name" required>
                         @else
-                            <input id="name" type="text" class="validate" value="{{$step->name}}"
+                            <input id="name" type="text" class="form-control" value="{{$step->name}}"
                                    name="name" required>
                         @endif
                         @if ($errors->has('name'))
@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="input-field col s12">
+                    <div class="form-group col">
                         <label for="description" style="padding-bottom: 10px;">Описание</label>
 
                         @if (old('description')!="")
@@ -43,23 +43,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="input-field col s12">
-                        <label for="notes" style="padding-bottom: 10px;">Комментарий для преподавателя</label>
-                        @if (old('notes')!="")
-                            <textarea id="notes" class="form-control" name="notes">{{old('notes')}}</textarea>
-                        @else
-                            <textarea id="notes" class="form-control" name="notes">{{$step->notes}}</textarea>
-                        @endif
-
-                        @if ($errors->has('notes'))
-                            <span class="help-block">
-                                        <strong>{{ $errors->first('notes') }}</strong>
-                                    </span>
-                        @endif
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
+                    <div class="form-group col">
                         <label for="theory" style="padding-bottom: 10px;">Теоретический материал</label>
                         @if (old('theory')!="")
                             <textarea id="theory" class="form-control"
@@ -80,7 +64,6 @@
             </form>
             <script>
                 var simplemde_description = new SimpleMDE({spellChecker: false,element: document.getElementById("description")});
-                var simplemde_notes = new SimpleMDE({spellChecker: false,element: document.getElementById("notes")});
                 var simplemde_theory = new SimpleMDE({spellChecker: false,element: document.getElementById("theory")});
             </script>
         </div>

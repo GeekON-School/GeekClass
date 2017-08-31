@@ -13,11 +13,8 @@
 
 
 Route::get('/', function () {
-    if (\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::User()->role == 'teacher') {
-        return redirect('/teacher');
-    }
-    if (\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::User()->role == 'student') {
-        return redirect('/student');
+    if (\Illuminate\Support\Facades\Auth::check() ) {
+        return redirect('/insider');
     }
     return redirect('/login');
 
@@ -25,43 +22,35 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::prefix('teacher')->middleware(['auth', 'teacher'])->group(function () {
+Route::prefix('insider')->middleware(['auth'])->group(function () {
 
     Route::get('/', function () {
-        return redirect('/teacher/courses');
+        return redirect('/insider/courses');
     });
-    Route::get('/courses', 'Teacher\CoursesController@index')->name('Courses');
+    Route::get('/courses', 'CoursesController@index')->name('Courses');
 
-    Route::get('/courses/create', 'Teacher\CoursesController@createView')->name('Create course');
-    Route::post('/courses/create', 'Teacher\CoursesController@create');
+    Route::get('/courses/create', 'CoursesController@createView')->name('Create course');
+    Route::post('/courses/create', 'CoursesController@create');
 
-    Route::get('/courses/{id}/', 'Teacher\CoursesController@details');
-    Route::get('/courses/{id}/edit', 'Teacher\CoursesController@editView');
-    Route::get('/courses/{id}/start', 'Teacher\CoursesController@start');
-    Route::get('/courses/{id}/stop', 'Teacher\CoursesController@stop');
-    Route::post('/courses/{id}/edit', 'Teacher\CoursesController@edit');
+    Route::get('/courses/{id}/', 'CoursesController@details');
+    Route::get('/courses/{id}/edit', 'CoursesController@editView');
+    Route::get('/courses/{id}/start', 'CoursesController@start');
+    Route::get('/courses/{id}/stop', 'CoursesController@stop');
+    Route::post('/courses/{id}/edit', 'CoursesController@edit');
 
-    Route::get('/courses/{id}/create', 'Teacher\StepsController@createView');
-    Route::post('/courses/{id}/create', 'Teacher\StepsController@create');
+    Route::get('/courses/{id}/create', 'StepsController@createView');
+    Route::post('/courses/{id}/create', 'StepsController@create');
 
-    Route::get('/lessons/{id}', 'Teacher\StepsController@details');
-    Route::get('/lessons/{id}/edit', 'Teacher\StepsController@editView');
-    Route::post('/lessons/{id}/edit', 'Teacher\StepsController@edit');
-    Route::post('/lessons/{id}/question', 'Teacher\StepsController@question');
-    Route::post('/lessons/{id}/task', 'Teacher\StepsController@task');
+    Route::get('/lessons/{id}', 'StepsController@details');
+    Route::get('/lessons/{id}/edit', 'StepsController@editView');
+    Route::post('/lessons/{id}/edit', 'StepsController@edit');
+    Route::post('/lessons/{id}/question', 'StepsController@question');
+    Route::post('/lessons/{id}/task', 'StepsController@task');
 
-    Route::get('/questions/{id}/delete', 'Teacher\StepsController@deleteQuestion');
-    Route::get('/tasks/{id}/delete', 'Teacher\StepsController@deleteTask');
+    Route::get('/questions/{id}/delete', 'StepsController@deleteQuestion');
+    Route::get('/tasks/{id}/delete', 'StepsController@deleteTask');
+    Route::get('/invite', 'CoursesController@invite');
 });
 
-Route::prefix('student')->middleware(['auth', 'student'])->group(function () {
-    Route::get('/courses', 'Student\CoursesController@index');
-    Route::get('/invite', 'Student\CoursesController@invite');
-    Route::get('/courses/{id}/', 'Student\CoursesController@details');
-
-    Route::get('/', function () {
-        return redirect('/student/courses');
-    });
-});
 
 Route::get('media/{dir}/{name}', 'MediaController@index');

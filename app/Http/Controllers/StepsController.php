@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Teacher;
+namespace App\Http\Controllers;
 
 use App\Course;
 use App\CourseStep;
@@ -31,13 +31,13 @@ class StepsController extends Controller
     public function details($id)
     {
         $step = CourseStep::findOrFail($id);
-        return view('teacher.steps.details', compact('step'));
+        return view('steps.details', compact('step'));
     }
 
     public function createView($id)
     {
         $course = Course::findOrFail($id);
-        return view('teacher.steps.create', compact($course));
+        return view('steps.create', compact($course));
     }
 
     public function create($id, Request $request)
@@ -48,13 +48,13 @@ class StepsController extends Controller
             'description' => 'required|string',
         ]);
         CourseStep::createStep($course, $request);
-        return redirect('/teacher/courses/' . $course->id);
+        return redirect('/insider/courses/' . $course->id);
     }
 
     public function editView($id)
     {
         $step = CourseStep::findOrFail($id);
-        return view('teacher.steps.edit', compact('step'));
+        return view('steps.edit', compact('step'));
     }
 
     public function edit($id, Request $request)
@@ -65,7 +65,7 @@ class StepsController extends Controller
             'description' => 'required|string',
         ]);
         CourseStep::editStep($step, $request);
-        return redirect('/teacher/lessons/' . $step->id);
+        return redirect('/insider/lessons/' . $step->id);
     }
 
     public function question($id, Request $request)
@@ -85,7 +85,7 @@ class StepsController extends Controller
             $variant->question_id = $question->id;
             $variant->save();
         }
-        return redirect('/teacher/lessons/' . $step->id);
+        return redirect('/insider/lessons/' . $step->id);
     }
 
     public function task($id, Request $request)
@@ -97,7 +97,7 @@ class StepsController extends Controller
         ]);
         $task = Task::create(['text' => $request->text, 'step_id'=>$step->id, 'name'=>$request->name]);
 
-        return redirect('/teacher/lessons/' . $step->id);
+        return redirect('/insider/lessons/' . $step->id.'#tasks');
     }
 
     public function deleteQuestion($id)
@@ -105,7 +105,7 @@ class StepsController extends Controller
         $question = Question::findOrFail($id);
         $step_id = $question->step_id;
         $question->delete();
-        return redirect('/teacher/lessons/' . $step_id);
+        return redirect('/insider/lessons/' . $step_id);
     }
 
     public function deleteTask($id)
@@ -113,6 +113,6 @@ class StepsController extends Controller
         $task = Task::findOrFail($id);
         $step_id = $task->step_id;
         $task->delete();
-        return redirect('/teacher/lessons/' . $step_id);
+        return redirect('/insider/lessons/' . $step_id);
     }
 }
