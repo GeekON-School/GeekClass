@@ -68,9 +68,9 @@
                         </div>
                     </form>
                     <script>
-                        var simplemde_description = new SimpleMDE({element: document.getElementById("description")});
-                        var simplemde_notes = new SimpleMDE({element: document.getElementById("notes")});
-                        var simplemde_theory = new SimpleMDE({element: document.getElementById("theory")});
+                        var simplemde_description = new SimpleMDE({spellChecker: false,element: document.getElementById("description")});
+                        var simplemde_notes = new SimpleMDE({spellChecker: false,element: document.getElementById("notes")});
+                        var simplemde_theory = new SimpleMDE({spellChecker: false,element: document.getElementById("theory")});
                     </script>
                 </div>
             </div>
