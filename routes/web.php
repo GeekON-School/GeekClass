@@ -49,6 +49,7 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
 
     Route::get('/questions/{id}/delete', 'StepsController@deleteQuestion');
     Route::get('/tasks/{id}/delete', 'StepsController@deleteTask');
+    Route::post('/tasks/{id}/solution', 'StepsController@postSolution');
     Route::get('/invite', 'CoursesController@invite');
 });
 

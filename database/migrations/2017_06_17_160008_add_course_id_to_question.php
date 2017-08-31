@@ -17,6 +17,7 @@ class AddCourseIdToQuestion extends Migration
             $table->integer('step_id')->unsigned()->nullable();
             $table->foreign('step_id')->references('id')
                 ->on('course_steps')->onDelete('cascade');
+
         });
     }
 

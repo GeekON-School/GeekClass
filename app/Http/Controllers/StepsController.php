@@ -7,8 +7,11 @@ use App\CourseStep;
 use App\Http\Controllers\Controller;
 use App\Question;
 use App\QuestionVariant;
+use App\Solution;
 use App\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Auth;
 
 class StepsController extends Controller
 {
@@ -67,7 +70,7 @@ class StepsController extends Controller
         CourseStep::editStep($step, $request);
         return redirect('/insider/lessons/' . $step->id);
     }
-
+    /*
     public function question($id, Request $request)
     {
         $step = CourseStep::findOrFail($id);
@@ -87,26 +90,27 @@ class StepsController extends Controller
         }
         return redirect('/insider/lessons/' . $step->id);
     }
-
+    */
     public function task($id, Request $request)
     {
         $step = CourseStep::findOrFail($id);
         $this->validate($request, [
             'text' => 'required|string',
             'name' => 'required|string',
+            'max_mark' => 'required|integer|min:0|max:100'
         ]);
-        $task = Task::create(['text' => $request->text, 'step_id'=>$step->id, 'name'=>$request->name]);
+        $task = Task::create(['text' => $request->text, 'step_id'=>$step->id, 'name'=>$request->name, 'max_mark'=>$request->max_mark]);
 
-        return redirect('/insider/lessons/' . $step->id.'#tasks');
+        return redirect('/insider/lessons/' . $step->id.'#task'.$task->id);
     }
-
+    /*
     public function deleteQuestion($id)
     {
         $question = Question::findOrFail($id);
         $step_id = $question->step_id;
         $question->delete();
-        return redirect('/insider/lessons/' . $step_id);
-    }
+        return redirect('/insider/lessons/' . $step_id . '#tasks');
+    }*/
 
     public function deleteTask($id)
     {
@@ -114,5 +118,25 @@ class StepsController extends Controller
         $step_id = $task->step_id;
         $task->delete();
         return redirect('/insider/lessons/' . $step_id);
+    }
+
+
+    public function postSolution($id, Request $request)
+    {
+        $task = Task::findOrFail($id);
+        $this->validate($request, [
+            'text' => 'required|string',
+        ]);
+
+        $step_id = $task->step_id;
+
+        $solution = new Solution();
+        $solution->task_id = $id;
+        $solution->user_id=Auth::User()->id;
+        $solution->submitted = Carbon::now();
+        $solution->text = $request->text;
+        $solution->save();
+
+        return redirect('/insider/lessons/' . $step_id. '#task'.$id);
     }
 }

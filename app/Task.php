@@ -9,7 +9,7 @@ class Task extends Model
     protected $table = 'tasks';
 
     protected $fillable = [
-        'text', 'step_id', 'deadline', 'name'
+        'text', 'step_id', 'deadline', 'name', 'max_mark'
     ];
 
     protected $dates = [
@@ -19,6 +19,11 @@ class Task extends Model
     public function step()
     {
         return $this->belongsTo('App\CourseStep', 'step_id', 'id');
+    }
+
+    public function solutions()
+    {
+        return $this->hasMany('App\Solution', 'task_id', 'id');
     }
 
 

@@ -14,8 +14,13 @@
             <h2><span style="font-weight: 200;">{{$step->course->name}} - </span>{{$step->name}}</h2>
         </div>
         <div class="col-md-4">
+
             <a href="{{url('/insider/lessons/'.$step->id.'/edit')}}"
                class="float-right btn btn-sm btn-success">Редактировать</a>
+            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
+                    data-toggle="modal" data-target="#exampleModal">
+                Добавить задачу
+            </button>
         </div>
     </div>
     <div class="row" style="margin-top: 15px;">
@@ -23,19 +28,22 @@
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="theory-tab" data-toggle="pill" href="#theory" role="tab"
-                       aria-controls="theory" aria-expanded="true">Теория</a>
+                       aria-controls="theory" aria-expanded="true">0. Теория</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="tasks-tab" data-toggle="pill" href="#tasks" role="tab"
-                       aria-controls="tasks" aria-expanded="true">Задачи</a>
-                </li>
+                @foreach ($step->tasks as $key => $task)
+                    <li class="nav-item">
+                        <a class="nav-link" id="tasks-tab{{$task->id}}" data-toggle="pill" href="#task{{$task->id}}"
+                           role="tab"
+                           aria-controls="tasks{{$task->id}}" aria-expanded="true">{{$key+1}}. {{$task->name}}</a>
+                    </li>
+                @endforeach
 
             </ul>
         </div>
 
 
     </div>
-    <div class="tab-content" id="pills-tabContent" style="margin: 15px 0;">
+    <div class="tab-content" id="pills-tabContent" style="margin-top: 15px; margin-bottom: 15px;">
         <div class="tab-pane fade show active" id="theory" role="tabpanel" aria-labelledby="v-theory-tab">
             <div class="row">
                 <div class="col">
@@ -47,79 +55,178 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+        @foreach ($step->tasks as $key => $task)
+            <div class="tab-pane fade" id="task{{$task->id}}" role="tabpanel" aria-labelledby="tasks-tab{{$task->id}}">
 
 
+                <div class="row">
+                    <div class="col">
 
-            <div class="row">
-                <div class="col">
-                    @foreach ($step->tasks as $task)
-                    <div class="card">
-                        <div class="card-header">
-                            {{$task->name}}
-                            <a class="float-right btn btn-danger btn-sm" href="{{url('/teacher/tasks/'.$task->id.'/delete')}}">Удалить</a>
-                            <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm" href="{{url('/teacher/tasks/'.$task->id.'/edit')}}">Редактировать</a>
+                        <div class="card">
+                            <div class="card-header">
+                                {{$task->name}}
+                                <a class="float-right btn btn-danger btn-sm"
+                                   href="{{url('/insider/tasks/'.$task->id.'/delete')}}">Удалить</a>
+                                <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm"
+                                   href="{{url('/insider/tasks/'.$task->id.'/edit')}}">Редактировать</a>
+
+                            </div>
+                            <div class="card-body markdown">
+                                @parsedown($task->text)
+
+                                <span class="badge badge-secondary">Максимальный балл: {{$task->max_mark}}</span>
+                            </div>
                         </div>
-                        <div class="card-body markdown">
-                            @parsedown($task->text)
-                        </div>
+
                     </div>
-                    @endforeach
+
                 </div>
+                @foreach ($task->solutions as $key => $solution)
+                    @if ($solution->user_id == Auth::User()->id)
+                        <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
 
+                            <div class="col">
 
-
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-
-                        <div class="panel-body">
-
-
-                            <form action="{{url('/insider/lessons/'.$step->id.'/task')}}" method="POST"
-                                  class="form-horizontal">
-                                {{ csrf_field() }}
-                                <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                    <label for="name" class="col-md-4">Название</label>
-
-                                    <div class="col-md-12">
-                                        <input type="text" name="name" class="form-control" id="name"/>
-                                        @if ($errors->has('name'))
-                                            <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                        @endif
+                                <div class="card">
+                                    <div class="card-header">
+                                        Дата сдачи: {{ $solution->submitted->format('d.M.Y H:m')}}
+                                        <div class="float-right">
+                                            @if ($solution->mark!=null)
+                                                <span class="badge badge-primary">Оценка: {{$solution->mark}}</span><br>
+                                                <span class="badge badge-default">Проверено: {{$solution->checked}}</span>
+                                            @else
+                                                <span class="badge badge-secondary">Решение еще не проверено</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        {{$solution->text}}
                                     </div>
                                 </div>
-                                <div class="form-group{{ $errors->has('text') ? ' has-error' : '' }}">
-                                    <label for="text" class="col-md-4">Текст вопроса</label>
 
-                                    <div class="col-md-12">
-                                        <textarea id="text" class="form-control" name="text">{{old('text')}}</textarea>
+                            </div>
 
-                                        @if ($errors->has('text'))
-                                            <span class="help-block">
+
+                        </div>
+                    @endif
+                @endforeach
+                <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
+
+                    <div class="col">
+
+                        <div class="card">
+                            <div class="card-header">
+                                Добавить решение
+                            </div>
+                            <div class="card-body">
+                                <form action="{{url('/insider/tasks/'.$task->id.'/solution')}}" method="POST"
+                                      class="form-horizontal">
+                                    {{ csrf_field() }}
+
+                                    <div class="form-group{{ $errors->has('text') ? ' has-error' : '' }}">
+                                        <label for="text{{$task->id}}" class="col-md-4">Текст ответа</label>
+
+                                        <div class="col-md-12">
+                                                <textarea id="text{{$task->id}}" class="form-control"
+                                                          name="text">{{old('text')}}</textarea>
+
+                                            @if ($errors->has('text'))
+                                                <span class="help-block">
                                         <strong>{{ $errors->first('text') }}</strong>
                                     </span>
-                                        @endif
+                                            @endif
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <button type="submit" class="btn btn-success">Создать</button>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <button type="submit" class="btn btn-success">Создать</button>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
+
                     </div>
+
+
+                </div>
+            </div>
+        @endforeach
+
+
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавление задачи</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{url('/insider/lessons/'.$step->id.'/task')}}" method="POST"
+                          class="form-horizontal">
+                        {{ csrf_field() }}
+                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4">Название</label>
+
+                            <div class="col-md-12">
+                                <input type="text" name="name" class="form-control" id="name"/>
+                                @if ($errors->has('name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('max_mark') ? ' has-error' : '' }}">
+                            <label for="max_mark" class="col-md-4">Максимальный балл</label>
+
+                            <div class="col-md-12">
+                                <input type="text" name="max_mark" class="form-control" id="max_mark"/>
+                                @if ($errors->has('max_mark'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('max_mark') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('text') ? ' has-error' : '' }}">
+                            <label for="text" class="col-md-4">Текст вопроса</label>
+
+                            <div class="col-md-12">
+                                                <textarea id="text" class="form-control"
+                                                          name="text">{{old('text')}}</textarea>
+
+                                @if ($errors->has('text'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('text') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-success">Создать</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-
     </div>
+
+    <script>
+        var simplemde_task = new SimpleMDE({
+            spellChecker: false,
+            element: document.getElementById("text")
+        });
+    </script>
 
 
 
