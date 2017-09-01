@@ -45,11 +45,13 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/lessons/{id}/edit', 'StepsController@editView');
     Route::post('/lessons/{id}/edit', 'StepsController@edit');
     Route::post('/lessons/{id}/question', 'StepsController@question');
-    Route::post('/lessons/{id}/task', 'StepsController@task');
+    Route::post('/lessons/{id}/task', 'TasksController@create');
 
     Route::get('/questions/{id}/delete', 'StepsController@deleteQuestion');
-    Route::get('/tasks/{id}/delete', 'StepsController@deleteTask');
-    Route::post('/tasks/{id}/solution', 'StepsController@postSolution');
+    Route::get('/tasks/{id}/delete', 'TasksController@delete');
+    Route::get('/tasks/{id}/edit', 'TasksController@editForm');
+    Route::post('/tasks/{id}/edit', 'TasksController@edit');
+    Route::post('/tasks/{id}/solution', 'TasksController@postSolution');
     Route::get('/invite', 'CoursesController@invite');
 });
 

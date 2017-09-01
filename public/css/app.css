@@ -29,3 +29,6 @@
     font-size: 1.5rem;
     margin: 25px 0;
 }
+.markdown img {
+    max-width: 80%;
+}

@@ -2,6 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\HasAccessToCourse;
+use App\Http\Middleware\HasAccessToStep;
+use App\Http\Middleware\HasAccessToTask;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -58,5 +61,8 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'step' => HasAccessToStep::class,
+        'course' => HasAccessToCourse::class,
+        'task' => HasAccessToTask::class
     ];
 }
