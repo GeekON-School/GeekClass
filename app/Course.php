@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Course extends Model
 {
@@ -34,7 +35,9 @@ class Course extends Model
 
     public static function createCourse($data)
     {
-        return Course::create(['name' => $data['name'], 'description' => $data['description']]);
+        $course = Course::create(['name' => $data['name'], 'description' => $data['description']]);
+        $course->teachers()->attach(Auth::User()->id);
+        return $course;
     }
 
     public function start()

@@ -13,19 +13,24 @@
         <div class="col-md-8">
             <h2><span style="font-weight: 200;">{{$step->course->name}} - </span>{{$step->name}}</h2>
         </div>
-        <div class="col-md-4">
+        @if ($user->role=='teacher')
+            <div class="col-md-4">
 
-            <a href="{{url('/insider/lessons/'.$step->id.'/edit')}}"
-               class="float-right btn btn-sm btn-success">Редактировать</a>
-            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
-                    data-toggle="modal" data-target="#exampleModal">
-                Добавить задачу
-            </button>
-        </div>
+                <a href="{{url('/insider/lessons/'.$step->id.'/edit')}}"
+                   class="float-right btn btn-sm btn-success">Редактировать</a>
+                <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
+                        data-toggle="modal" data-target="#exampleModal">
+                    Добавить задачу
+                </button>
+            </div>
+        @endif
     </div>
     <div class="row" style="margin-top: 15px;">
         <div class="col">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" role="tab" id="back-link" href="{{url('/insider/courses/'.$step->course_id)}}"><i class="icon ion-chevron-left"></i></a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link active" id="theory-tab" data-toggle="pill" href="#theory" role="tab"
                        aria-controls="theory" aria-expanded="true">0. Теория</a>
@@ -65,10 +70,12 @@
                         <div class="card">
                             <div class="card-header">
                                 {{$task->name}}
-                                <a class="float-right btn btn-danger btn-sm"
-                                   href="{{url('/insider/tasks/'.$task->id.'/delete')}}">Удалить</a>
-                                <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm"
-                                   href="{{url('/insider/tasks/'.$task->id.'/edit')}}">Редактировать</a>
+                                @if ($user->role=='teacher')
+                                    <a class="float-right btn btn-danger btn-sm"
+                                       href="{{url('/insider/tasks/'.$task->id.'/delete')}}">Удалить</a>
+                                    <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm"
+                                       href="{{url('/insider/tasks/'.$task->id.'/edit')}}">Редактировать</a>
+                                @endif
 
                             </div>
                             <div class="card-body markdown">

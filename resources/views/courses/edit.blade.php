@@ -28,6 +28,38 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="git">Git репозиторий</label>
+
+                    @if (old('git')!="")
+                        <input id="git" type="text" class="form-control" name="git" value="{{old('git')}}">
+                    @else
+                        <input id="git" type="text" class="form-control" name="git" value="{{$course->git}}"
+                               required>
+                    @endif
+                    @if ($errors->has('git'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('git') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+
+                <div class="form-group">
+                    <label for="telegram">Telegram чат</label>
+
+                    @if (old('telegram')!="")
+                        <input id="telegram" type="text" class="form-control" name="telegram" value="{{old('telegram')}}">
+                    @else
+                        <input id="telegram" type="text" class="form-control" name="telegram" value="{{$course->telegram}}"
+                               required>
+                    @endif
+                    @if ($errors->has('telegram'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('telegram') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+
+                <div class="form-group">
                     <label for="description">Описание</label>
                     <textarea id="description" class="form-control" name="description"
                               required>@if (old('description')!=""){{old('description')}}@else{{$course->description}}@endif</textarea>

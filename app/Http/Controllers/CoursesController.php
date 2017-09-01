@@ -35,8 +35,9 @@ class CoursesController extends Controller
     }
     public function details($id)
     {
+        $user  = User::findOrFail(Auth::User()->id);
         $course = Course::findOrFail($id);
-        return view('courses.details', compact('course'));
+        return view('courses.details', compact('course', 'user'));
     }
     public function createView()
     {
@@ -70,6 +71,10 @@ class CoursesController extends Controller
         $course = Course::findOrFail($id);
         $course->name = $request->name;
         $course->description = $request->description;
+        if ($request->has('git'))
+            $course->git = $request->git;
+        if ($request->has('telegram'))
+            $course->telegram = $request->telegram;
         if ($request->hasFile('image'))
         {
             $extn = '.'.$request->file('image')->guessClientExtension();
@@ -100,5 +105,18 @@ class CoursesController extends Controller
         }
         $course->save();
         return redirect('/insider/courses');
+    }
+    public function invite(Request $request)
+    {
+        $user = User::findOrFail(Auth::User()->id);
+        $course = Course::where('invite', $request->invite)->first();
+        if ($course==null)
+        {
+            $this->make_error_alert('Ошибка!', 'Курс с таким приглашением не найден.');
+            return $this->backException();
+        }
+        $this->make_success_alert('Успех!', 'Вы присоединились к курсу "'.$course->name.'".');
+        $course->students()->attach($user->id);
+        return redirect()->back();
     }
 }

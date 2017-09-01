@@ -5,13 +5,7 @@
 @endsection
 
 @section('tabs')
-    <div class="nav-content">
-        <ul class="tabs tabs-transparent">
-            <li class="tab"><a class="active" href="#test1">Страница курса</a></li>
-            <li class="tab"><a href="#test2">Ведомость</a></li>
-            <li class="tab"><a href="#test3">Достижения</a></li>
-        </ul>
-    </div>
+
 @endsection
 
 @section('content')
@@ -20,20 +14,23 @@
             <h2>{{$course->name}}</h2>
             <p>{{$course->description}}</p>
         </div>
-        <div class="col">
-            <div class="float-right">
-                <a href="{{url('/insider/courses/'.$course->id.'/create')}}" class="btn btn-primary btn-sm">Новая
-                    тема</a>
-                <a href="{{url('/insider/courses/'.$course->id.'/edit')}}" class="btn btn-primary btn-sm">Изменить</a>
-                @if ($course->state=="draft")
-                    <a href="{{url('/insider/courses/'.$course->id.'/start')}}"
-                       class="btn btn-success btn-sm">Запустить</a>
-                @elseif ($course->state=="started")
-                    <a href="{{url('/insider/courses/'.$course->id.'/stop')}}"
-                       class="btn btn-danger btn-sm">Завершить</a>
-                @endif
+        @if ($user->role=='teacher')
+            <div class="col">
+                <div class="float-right">
+                    <a href="{{url('/insider/courses/'.$course->id.'/create')}}" class="btn btn-primary btn-sm">Новая
+                        тема</a>
+                    <a href="{{url('/insider/courses/'.$course->id.'/edit')}}"
+                       class="btn btn-primary btn-sm">Изменить</a>
+                    @if ($course->state=="draft")
+                        <a href="{{url('/insider/courses/'.$course->id.'/start')}}"
+                           class="btn btn-success btn-sm">Запустить</a>
+                    @elseif ($course->state=="started")
+                        <a href="{{url('/insider/courses/'.$course->id.'/stop')}}"
+                           class="btn btn-danger btn-sm">Завершить</a>
+                    @endif
+                </div>
             </div>
-        </div>
+        @endif
     </div>
     <div class="row">
         <div class="col-md-8">
@@ -57,8 +54,29 @@
                 <div class="card-body">
                     <span class="card-title">Информация</span>
                     <p>
-                        <b>Статус:</b> {{$course->state}}<br/>
-                        <b>Инвайт:</b> {{$course->invite}}<br/>
+                        @if ($user->role=='teacher')
+                            <b>Статус:</b> {{$course->state}}<br/>
+                            <b>Инвайт:</b> {{$course->invite}}<br/>
+
+                        @endif
+                        @if ($course->git!=null)
+                            <b>Git репозиторий:</b> <a href="{{$course->git}}">{{$course->git}}</a><br/>
+                        @endif
+                        @if ($course->telegram!=null)
+                            <b>Чат в телеграм:</b> <a href="{{$course->telegram}}">{{$course->telegram}}</a><br/>
+                        @endif
+                        <b>Преподаватели:</b><br/>
+                    <ul>
+                        @foreach($course->teachers as $teacher)
+                            <li>{{$teacher->name}}</li>
+                        @endforeach
+                    </ul>
+                    <b>Участники:</b><br/>
+                    <ul>
+                        @foreach($course->students as $student)
+                            <li>{{$student->name}}</li>
+                        @endforeach
+                    </ul>
                     </p>
                 </div>
             </div>

@@ -9,6 +9,7 @@ use App\Question;
 use App\QuestionVariant;
 use App\Solution;
 use App\Task;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
@@ -35,8 +36,9 @@ class StepsController extends Controller
 
     public function details($id)
     {
+        $user  = User::findOrFail(Auth::User()->id);
         $step = CourseStep::findOrFail($id);
-        return view('steps.details', compact('step'));
+        return view('steps.details', compact('step', 'user'));
     }
 
     public function createView($id)

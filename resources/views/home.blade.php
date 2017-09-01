@@ -46,7 +46,7 @@
         @endforeach
     </div>
     @if ($user->role == 'teacher')
-        <div class="row">
+        <div class="row" style="margin-top: 15px;">
             <div class="col">
                 <h2>Черновики</h2>
             </div>
