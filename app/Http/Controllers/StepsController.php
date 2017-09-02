@@ -53,6 +53,7 @@ class StepsController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
+            'start_date' => 'date'
         ]);
         CourseStep::createStep($course, $request);
         return redirect('/insider/courses/' . $course->id);
@@ -70,6 +71,7 @@ class StepsController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
+            'start_date' => 'date'
         ]);
         CourseStep::editStep($step, $request);
         return redirect('/insider/lessons/' . $step->id);

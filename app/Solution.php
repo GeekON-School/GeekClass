@@ -13,11 +13,21 @@ class Solution extends Model
     ];
 
     protected $dates = [
-        'submitted'
+        'submitted', 'checked'
     ];
 
     public function user()
     {
         return $this->belongsTo('App\User', 'user_id', 'id');
+    }
+
+    public function task()
+    {
+        return $this->belongsTo('App\Task', 'task_id', 'id');
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo('App\User', 'teacher_id', 'id');
     }
 }

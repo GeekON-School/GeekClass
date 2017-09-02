@@ -14,12 +14,13 @@
                 <a class="float-right btn btn-success btn-sm" href="{{url('/insider/courses/create/')}}">Создать</a>
             @else
                 <div class="float-right">
-                <form class="form-inline" method="get" action="{{url('insider/invite')}}">
-                    {{csrf_field()}}
-                    <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0" id="invite" name="invite" placeholder="Инвайт на курс">
+                    <form class="form-inline" method="get" action="{{url('insider/invite')}}">
+                        {{csrf_field()}}
+                        <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0" id="invite"
+                               name="invite" placeholder="Инвайт на курс">
 
-                    <button type="submit" class="btn btn-success btn-sm">Добавить</button>
-                </form>
+                        <button type="submit" class="btn btn-success btn-sm">Добавить</button>
+                    </form>
                 </div>
             @endif
         </div>
@@ -35,9 +36,11 @@
                             <h4 class="card-title">{{$course->name}}</h4>
                             <p class="card-text">{{$course->description}}</p>
                             @if ($user->role=='teacher' || $course->students->contains($user))
-                                <a href="{{url('insider/courses/'.$course->id)}}" class="btn btn-primary">Страница курса</a>
-                                @else
-                                <a href="#" class="btn btn-primary disabled" role="button" aria-disabled="true">Вы не записаны</a>
+                                <a href="{{url('insider/courses/'.$course->id)}}" class="btn btn-primary">Страница
+                                    курса</a>
+                            @else
+                                <a href="#" class="btn btn-primary disabled" role="button" aria-disabled="true">Вы не
+                                    записаны</a>
                             @endif
                         </div>
                     </div>

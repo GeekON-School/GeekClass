@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class CourseStep extends Model
@@ -9,11 +10,11 @@ class CourseStep extends Model
     protected $table = 'course_steps';
 
     protected $fillable = [
-        'name', 'description', 'image', 'activation_date'
+        'name', 'description', 'image', 'start_date'
     ];
 
     protected $dates = [
-        'activation_date'
+        'start_date'
     ];
 
     public function course()
@@ -39,6 +40,7 @@ class CourseStep extends Model
         $step->notes = $data['notes'];
         $step->theory = $data['theory'];
         $step->course_id = $course->id;
+        $step->start_date = Carbon::createFromFormat('Y-m-d', $data['start_date']);
         $step->save();
         return $step;
     }
@@ -48,6 +50,7 @@ class CourseStep extends Model
         $step->description = $data['description'];
         $step->notes = $data['notes'];
         $step->theory = $data['theory'];
+        $step->start_date = Carbon::createFromFormat('Y-m-d', $data['start_date']);
         $step->save();
         return $step;
     }

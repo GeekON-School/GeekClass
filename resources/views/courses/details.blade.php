@@ -34,7 +34,7 @@
     </div>
     <div class="row">
         <div class="col-md-8">
-            @foreach($course->steps as $key => $step)
+            @foreach($steps as $key => $step)
                 <div class="card-group">
                     <div class="card">
                         <div class="card-body">
@@ -42,9 +42,11 @@
                                                href="{{url('/insider/lessons/'.$step->id)}}">{{$step->name}}</a></h5>
                             @parsedown($step->description)
                         </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Доступно с {{$step->start_date}}</small>
-                        </div>
+                        @if ($step->start_date!=null)
+                            <div class="card-footer">
+                                <small class="text-muted">Доступно с {{$step->start_date->format('Y-m-d')}}</small>
+                            </div>
+                        @endif
                     </div>
                 </div>
             @endforeach
@@ -52,7 +54,7 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <span class="card-title">Информация</span>
+                    <h4 class="card-title">Информация</h4>
                     <p>
                         @if ($user->role=='teacher')
                             <b>Статус:</b> {{$course->state}}<br/>
@@ -78,8 +80,43 @@
                         @endforeach
                     </ul>
                     </p>
+                    @if ($user->role=='teacher')
+                        <a href="{{url('insider/courses/'.$course->id.'/assessments')}}" class="btn btn-primary">Успеваемость</a>
+                    @endif
                 </div>
             </div>
+            @if ($user->role=='student')
+                <div class="card" style="margin-top: 15px;">
+                    <div class="card-body">
+                        <h4 class="card-title">Оценки</h4>
+                        <table class="table">
+                            @foreach($steps as $step)
+                                <tr>
+                                    <td colspan="2">{{$step->name}}</td>
+                                </tr>
+                                @foreach($step->tasks as $task)
+                                    @php
+                                        $filtered = $task->solutions->filter(function ($value) use ($user) {
+                                            return $value->user_id == $user->id;
+                                        });
+                                        $mark = $filtered->max('mark');
+                                        $mark = $mark == null?0:$mark;
+                                    @endphp
+                                    <tr>
+                                        <td>{{$task->name}}</td>
+                                        @if ($mark == 0)
+                                            <td><span class="badge badge-light">{{$mark}}</span></td>
+                                        @else
+                                            <td><span class="badge badge-primary">{{$mark}}</span></td>
+                                        @endif
+
+                                    </tr>
+                                @endforeach
+                            @endforeach
+                        </table>
+                    </div>
+                </div>
+            @endif
         </div>
 
     </div>

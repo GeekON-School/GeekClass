@@ -10,7 +10,7 @@
                 <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                     <label for="name">Название</label>
 
-                        <input id="name" type="name" class="form-control" value="{{old('name')}}" name="name"
+                        <input id="name" type="text" class="form-control" value="{{old('name')}}" name="name"
                                required>
 
                         @if ($errors->has('name'))
@@ -18,6 +18,18 @@
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                         @endif
+                </div>
+                <div class="form-group{{ $errors->has("start_date") ? ' has-error' : '' }}">
+                    <label for="start_date">Дата начала</label>
+
+                    <input id="start_date" type="text" class="form-control" value="{{old("start_date")}}" name="start_date"
+                           required>
+
+                    @if ($errors->has("start_date"))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first("start_date") }}</strong>
+                                    </span>
+                    @endif
                 </div>
                 <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                     <label for="description">Описание</label>

@@ -32,3 +32,28 @@
 .markdown img {
     max-width: 80%;
 }
+.assessment-block .table-wrapper {
+    overflow-x:scroll;
+    overflow-y:visible;
+    width: calc(100% - 130px);
+    margin-left: 130px;
+}
+
+
+.assessment-block  td,.assessment-block  th {
+    padding: 5px 20px;
+    width: 130px;
+}
+
+.assessment-block  th:first-child {
+    position: fixed;
+    left: 5px
+}
+.assessment-block .badge {
+    font-size: 16px;
+}
+
+.back-link {
+    display: inline;
+    margin-right: 10px;
+}

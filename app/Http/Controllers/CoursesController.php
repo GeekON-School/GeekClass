@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\CourseStep;
 use App\Http\Controllers\Controller;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -19,7 +21,7 @@ class CoursesController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('course')->only(['details']);
-        $this->middleware('teacher')->only(['createView', 'editView', 'start', 'stop', 'edit', 'create']);
+        $this->middleware('teacher')->only(['createView', 'editView', 'start', 'stop', 'edit', 'create', 'assesments']);
     }
 
     /**
@@ -37,8 +39,21 @@ class CoursesController extends Controller
     {
         $user  = User::findOrFail(Auth::User()->id);
         $course = Course::findOrFail($id);
-        return view('courses.details', compact('course', 'user'));
+        if ($user->role=='student')
+        {
+            $steps = $course->steps()->where('start_date', '>=', Carbon::now())->orWhere('start_date', null)->get();
+        }
+        else{
+            $steps = $course->steps;
+        }
+        return view('courses.details', compact('course', 'user', 'steps'));
     }
+    public function assessments($id)
+    {
+        $course = Course::findOrFail($id);
+        return view('courses.assessments', compact('course'));
+    }
+
     public function createView()
     {
         return view('courses.create');

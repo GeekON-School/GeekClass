@@ -31,4 +31,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Course', 'course_students', 'user_id', 'course_id');
     }
+    public function submissions()
+    {
+        return $this->hasMany('App\Solution', 'user_id', 'id');
+    }
+
+
 }

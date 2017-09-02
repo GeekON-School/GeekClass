@@ -9,6 +9,7 @@ use App\Question;
 use App\QuestionVariant;
 use App\Solution;
 use App\Task;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
@@ -24,7 +25,7 @@ class TasksController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('task')->only(['postSolution']);
-        $this->middleware('teacher')->only(['create', 'delete', 'editForm', 'edit']);
+        $this->middleware('teacher')->only(['create', 'delete', 'editForm', 'edit', 'reviewSolutions', 'estimateSolution']);
     }
 
     /**
@@ -98,5 +99,30 @@ class TasksController extends Controller
         $solution->save();
 
         return redirect('/insider/lessons/' . $step_id. '#task'.$id);
+    }
+    public function reviewSolutions($id, $student_id, Request $request)
+    {
+        $task = Task::findOrFail($id);
+        $student = User::findOrFail($student_id);
+        $solutions = $task->solutions->filter(function ($value) use ($student) {
+            return $value->user_id == $student->id;
+        });
+        return view('steps.review', compact('task', 'student', 'solutions'));
+    }
+    public function estimateSolution($id, Request $request)
+    {
+        $solution = Solution::findOrFail($id);
+        $this->validate($request, [
+            'comment' => 'string',
+            'mark' => 'required|integer|min:0|max:'.$solution->task->max_mark
+        ]);
+        $solution->mark = $request->mark;
+        $solution->comment = $request->comment;
+        $solution->teacher_id = Auth::User()->id;
+        $solution->checked = Carbon::now();
+        $solution->save();
+
+        return redirect()->back();
+
     }
 }

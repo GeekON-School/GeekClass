@@ -37,9 +37,11 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/courses/{id}/start', 'CoursesController@start');
     Route::get('/courses/{id}/stop', 'CoursesController@stop');
     Route::post('/courses/{id}/edit', 'CoursesController@edit');
+    Route::get('/courses/{id}/assessments', 'CoursesController@assessments');
 
     Route::get('/courses/{id}/create', 'StepsController@createView');
     Route::post('/courses/{id}/create', 'StepsController@create');
+
 
     Route::get('/lessons/{id}', 'StepsController@details');
     Route::get('/lessons/{id}/edit', 'StepsController@editView');
@@ -52,6 +54,8 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/tasks/{id}/edit', 'TasksController@editForm');
     Route::post('/tasks/{id}/edit', 'TasksController@edit');
     Route::post('/tasks/{id}/solution', 'TasksController@postSolution');
+    Route::get('/tasks/{id}/student/{student_id}', 'TasksController@reviewSolutions');
+    Route::post('/solution/{id}', 'TasksController@estimateSolution');
     Route::get('/invite', 'CoursesController@invite');
 });
 

@@ -100,7 +100,6 @@
                                         <div class="float-right">
                                             @if ($solution->mark!=null)
                                                 <span class="badge badge-primary">Оценка: {{$solution->mark}}</span><br>
-                                                <span class="badge badge-default">Проверено: {{$solution->checked}}</span>
                                             @else
                                                 <span class="badge badge-secondary">Решение еще не проверено</span>
                                             @endif
@@ -108,12 +107,12 @@
                                     </div>
                                     <div class="card-body">
                                         {{$solution->text}}
+                                        <br><br>
+                                        <span class="badge badge-light">Проверено: {{$solution->checked}}</span>
                                     </div>
                                 </div>
 
                             </div>
-
-
                         </div>
                     @endif
                 @endforeach
