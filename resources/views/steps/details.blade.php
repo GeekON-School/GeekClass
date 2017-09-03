@@ -137,7 +137,7 @@
                                                           name="text">{{old('text')}}</textarea>
 
                                             @if ($errors->has('text'))
-                                                <span class="help-block">
+                                                <span class="help-block error-block">
                                         <strong>{{ $errors->first('text') }}</strong>
                                     </span>
                                             @endif
@@ -183,7 +183,7 @@
                             <div class="col-md-12">
                                 <input type="text" name="name" class="form-control" id="name"/>
                                 @if ($errors->has('name'))
-                                    <span class="help-block">
+                                    <span class="help-block error-block">
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                 @endif
@@ -195,7 +195,7 @@
                             <div class="col-md-12">
                                 <input type="text" name="max_mark" class="form-control" id="max_mark"/>
                                 @if ($errors->has('max_mark'))
-                                    <span class="help-block">
+                                    <span class="help-block error-block">
                                         <strong>{{ $errors->first('max_mark') }}</strong>
                                     </span>
                                 @endif
@@ -209,7 +209,7 @@
                                                           name="text">{{old('text')}}</textarea>
 
                                 @if ($errors->has('text'))
-                                    <span class="help-block">
+                                    <span class="help-block error-block">
                                         <strong>{{ $errors->first('text') }}</strong>
                                     </span>
                                 @endif

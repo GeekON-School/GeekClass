@@ -53,7 +53,7 @@ class ProfileController extends Controller
     public function editView($id)
     {
         $guest  = User::findOrFail(Auth::User()->id);
-        $user = User::findOrFail(Auth::User()->id);
+        $user = User::findOrFail($id);
 
         return view('profile.edit', compact('user', 'guest'));
     }
@@ -108,7 +108,7 @@ class ProfileController extends Controller
     public function edit($id, Request $request)
     {
         $guest  = User::findOrFail(Auth::User()->id);
-        $user = User::findOrFail(Auth::User()->id);
+        $user = User::findOrFail($id);
 
         $this->validate($request, [
             'name' => 'required|string',
@@ -117,7 +117,6 @@ class ProfileController extends Controller
             'birthday' => 'required|date',
             'hobbies' => 'required|string',
             'interests' => 'required|string',
-            'comments' => 'string',
             'image' => 'image|max:1000'
         ]);
 

@@ -155,7 +155,7 @@
                             <div class="col-md-12">
                                 <input type="text" name="name" class="form-control" id="name"/>
                                 @if ($errors->has('name'))
-                                    <span class="help-block">
+                                    <span class="help-block error-block">
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                 @endif
@@ -167,7 +167,7 @@
                             <div class="col-md-12">
                                 <input type="text" name="mark" class="form-control" id="mark"/>
                                 @if ($errors->has('mark'))
-                                    <span class="help-block">
+                                    <span class="help-block error-block">
                                         <strong>{{ $errors->first('mark') }}</strong>
                                     </span>
                                 @endif
@@ -179,7 +179,7 @@
                             <div class="col-md-12">
                                 <input type="text" name="provider" class="form-control" id="provider"/>
                                 @if ($errors->has('provider'))
-                                    <span class="help-block">
+                                    <span class="help-block error-block">
                                         <strong>{{ $errors->first('provider') }}</strong>
                                     </span>
                                 @endif

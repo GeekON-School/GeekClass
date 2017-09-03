@@ -58,7 +58,7 @@
                                                id="mark"
                                                name="mark" placeholder="Оценка">
                                         @if ($errors->has('mark'))
-                                            <span class="help-block"><strong>{{ $errors->first('mark') }}</strong></span>
+                                            <span class="help-block error-block"><strong>{{ $errors->first('mark') }}</strong></span>
                                         @endif
                                     </div>
                                     <div class="form-group">

@@ -21,7 +21,7 @@
                                required>
                     @endif
                     @if ($errors->has('name'))
-                        <span class="help-block">
+                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                     @endif
@@ -37,7 +37,7 @@
                                required>
                     @endif
                     @if ($errors->has('git'))
-                        <span class="help-block">
+                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('git') }}</strong>
                                     </span>
                     @endif
@@ -53,7 +53,7 @@
                                required>
                     @endif
                     @if ($errors->has('telegram'))
-                        <span class="help-block">
+                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('telegram') }}</strong>
                                     </span>
                     @endif
@@ -64,7 +64,7 @@
                     <textarea id="description" class="form-control" name="description"
                               required>@if (old('description')!=""){{old('description')}}@else{{$course->description}}@endif</textarea>
                     @if ($errors->has('description'))
-                        <span class="help-block">
+                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('description') }}</strong>
                                     </span>
                     @endif
@@ -78,7 +78,7 @@
                                 <input id="image" type="file" class="form-control" name="image"/>
 
                                 @if ($errors->has('image'))
-                <span class="help-block">
+                <span class="help-block error-block">
                     <strong>{{ $errors->first('image') }}</strong>
                                     </span>
                                 @endif

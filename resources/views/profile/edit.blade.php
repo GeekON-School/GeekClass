@@ -26,7 +26,7 @@
                             <input id="image" type="file" class="form-control" name="image"/>
 
                             @if ($errors->has('image'))
-                                <span class="help-block"><strong>{{ $errors->first('image') }}</strong></span>
+                                <span class="help-block error-block"><strong>{{ $errors->first('image') }}</strong></span>
                             @endif
                         </div>
                         <h4>Контакты</h4>
@@ -39,7 +39,7 @@
                                 <input id='vk' type="text" class="form-control" name='vk' value="{{$user->vk}}">
                             @endif
                             @if ($errors->has('vk'))
-                                <span class="help-block">
+                                <span class="help-block error-block">
                                         <strong>{{ $errors->first('vk') }}</strong>
                                     </span>
                             @endif
@@ -55,7 +55,7 @@
                                        value="{{$user->telegram}}">
                             @endif
                             @if ($errors->has('telegram'))
-                                <span class="help-block">
+                                <span class="help-block error-block">
                                         <strong>{{ $errors->first('telegram') }}</strong>
                                     </span>
                             @endif
@@ -69,7 +69,7 @@
                                 <input id='git' type="text" class="form-control" name='git' value="{{$user->git}}">
                             @endif
                             @if ($errors->has('git'))
-                                <span class="help-block">
+                                <span class="help-block error-block">
                                         <strong>{{ $errors->first('git') }}</strong>
                                     </span>
                             @endif
@@ -85,7 +85,7 @@
                                        value="{{$user->facebook}}">
                             @endif
                             @if ($errors->has('facebook'))
-                                <span class="help-block">
+                                <span class="help-block error-block">
                                         <strong>{{ $errors->first('facebook') }}</strong>
                                     </span>
                             @endif
@@ -107,7 +107,7 @@
                                        required>
                             @endif
                             @if ($errors->has('name'))
-                                <span class="help-block">
+                                <span class="help-block error-block">
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                             @endif
@@ -118,15 +118,15 @@
                             <label for='birthday'>Дата рождения</label>
 
                             @if (old('birthday')!="" || $user->birthday==null)
-                                <input id='birthday' type="text" class="form-control" name='birthday'
+                                <input id='birthday' type="date" class="form-control" name='birthday'
                                        value="{{old('birthday')}}" required>
                             @else
-                                <input id='birthday' type="text" class="form-control" name='birthday'
+                                <input id='birthday' type="date" class="form-control" name='birthday'
                                        value="{{$user->birthday->format('Y-m-d')}}"
                                        required>
                             @endif
                             @if ($errors->has('birthday'))
-                                <span class="help-block">
+                                <span class="help-block error-block">
                                         <strong>{{ $errors->first('birthday') }}</strong>
                                     </span>
                             @endif
@@ -144,7 +144,7 @@
                                        required>
                             @endif
                             @if ($errors->has('school'))
-                                <span class="help-block">
+                                <span class="help-block error-block">
                                         <strong>{{ $errors->first('school') }}</strong>
                                     </span>
                             @endif
@@ -152,7 +152,7 @@
                         <div class="form-group">
                             <label for='grade'>Класс</label>
 
-                            @if (old('grade')!="")
+                            @if (old('grade')!="" || $user->grade_year==null)
                                 <input id='grade' type="text" class="form-control" name='grade' value="{{old('grade')}}"
                                        required>
                             @else
@@ -161,7 +161,7 @@
                                        required>
                             @endif
                             @if ($errors->has('grade'))
-                                <span class="help-block">
+                                <span class="help-block error-block">
                                         <strong>{{ $errors->first('grade') }}</strong>
                                     </span>
                             @endif
@@ -179,7 +179,7 @@
                                           name="interests">{{$user->interests}}</textarea>
                             @endif
                             @if ($errors->has('interests'))
-                                <span class="help-block">
+                                <span class="help-block error-block">
                                         <strong>{{ $errors->first('interests') }}</strong>
                                     </span>
                             @endif
@@ -193,7 +193,7 @@
                                 <textarea id="hobbies" class="form-control" name="hobbies">{{$user->hobbies}}</textarea>
                             @endif
                             @if ($errors->has('hobbies'))
-                                <span class="help-block">
+                                <span class="help-block error-block">
                                         <strong>{{ $errors->first('hobbies') }}</strong>
                                     </span>
                             @endif
@@ -211,7 +211,7 @@
                                               name="comments">{{$user->comments}}</textarea>
                                 @endif
                                 @if ($errors->has('comments'))
-                                    <span class="help-block">
+                                    <span class="help-block error-block">
                                         <strong>{{ $errors->first('comments') }}</strong>
                                     </span>
                                 @endif

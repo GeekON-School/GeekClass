@@ -14,7 +14,7 @@
                     <label for="name">Название</label>
                     <input id="name" type="text" class="form-control" name="name" value="{{old('name')}}" required>
                     @if ($errors->has('name'))
-                        <span class="help-block">
+                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                     @endif
@@ -24,7 +24,7 @@
                     <label for="description">Описание</label>
                     <textarea id="description"  class="form-control"  name="description" required>{{old('description')}}</textarea>
                     @if ($errors->has('description'))
-                        <span class="help-block">
+                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('description') }}</strong>
                                     </span>
                     @endif
@@ -38,7 +38,7 @@
                                 <input id="image" type="file" class="form-control" name="image"/>
 
                                 @if ($errors->has('image'))
-                <span class="help-block">
+                <span class="help-block error-block">
                     <strong>{{ $errors->first('image') }}</strong>
                                     </span>
                                 @endif

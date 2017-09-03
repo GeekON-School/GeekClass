@@ -17,7 +17,7 @@
                                name="name" required>
                     @endif
                     @if ($errors->has('name'))
-                        <span class="help-block">
+                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                     @endif
@@ -34,7 +34,7 @@
                                required>
                     @endif
                     @if ($errors->has("start_date"))
-                        <span class="help-block">
+                        <span class="help-block error-block">
                                             <strong>{{ $errors->first("start_date") }}</strong>
                                         </span>
                     @endif
@@ -50,7 +50,7 @@
                                   name="description">{{$step->description}}</textarea>
                     @endif
                     @if ($errors->has('description'))
-                        <span class="help-block">
+                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('description') }}</strong>
                                     </span>
                     @endif
@@ -66,7 +66,7 @@
                     @endif
 
                     @if ($errors->has('theory'))
-                        <span class="help-block">
+                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('theory') }}</strong>
                                     </span>
                     @endif

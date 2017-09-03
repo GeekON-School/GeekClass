@@ -68,14 +68,14 @@
         <label for="inputEmail" class="sr-only">Email</label>
         <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
         @if ($errors->has('email'))
-            <span class="help-block">
+            <span class="help-block error-block">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
         @endif
         <label for="inputPassword" class="sr-only">Пароль</label>
         <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
         @if ($errors->has('password'))
-            <span class="help-block">
+            <span class="help-block error-block">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
         @endif
@@ -115,7 +115,7 @@
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
 
                                 @if ($errors->has('email'))
-                                    <span class="help-block">
+                                    <span class="help-block error-block">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
@@ -129,7 +129,7 @@
                                 <input id="password" type="password" class="form-control" name="password" required>
 
                                 @if ($errors->has('password'))
-                                    <span class="help-block">
+                                    <span class="help-block error-block">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
