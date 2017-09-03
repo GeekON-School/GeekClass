@@ -7,12 +7,12 @@
 
             <div class="card">
                 <img class="card-img-top"
-                     src="https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-1/p320x320/21231344_1487205241367705_5426444204422156898_n.jpg?oh=9b13264b13985c85afd6bf254e857e2e&oe=5A27A1E2"
+                     src="{{url('/media/'.$user->image)}}"
                      alt="Card image cap">
                 <div class="card-body">
                     <h4 class="card-title">{{$user->name}}</h4>
 
-                    <p><strong>Дата рождения:</strong> {{$user->birthday}}<br>
+                    <p><strong>Дата рождения:</strong> {{$user->birthday->format('Y-m-d')}}<br>
                     <strong>Место учебы:</strong> {{$user->school}}<br>
                     <strong>Класс:</strong> {{$user->grade()}}</p>
 
@@ -29,27 +29,26 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     @if ($user->telegram!='')
-                        <li class="list-group-item"><img src="https://png.icons8.com/telegram-app/win10/16"
+                        <li class="list-group-item"> <img src="https://png.icons8.com/telegram-app/win10/16"
                                                          title="Telegram App" width="16"
-                                                         height="16"><strong>Telegram: </strong>
+                                                         height="16"><strong> Telegram: </strong>
                             {{$user->telegram}}</li>
                     @endif
                     @if ($user->git!='')
-                        <li class="list-group-item">img src="https://png.icons8.com/git/color/24" title="Git" width="16"
-                            height="16"><strong>Git: </strong>
+                        <li class="list-group-item"> <img src="https://png.icons8.com/git/color/24" title="Git" width="16" height="16"><strong> Git: </strong>
                             {{$user->git}}</li>
                     @endif
                     @if ($user->vk!='')
-                        <li class="list-group-item"><img src="https://png.icons8.com/vkontakte/color/24"
+                        <li class="list-group-item"> <img src="https://png.icons8.com/vkontakte/color/24"
                                                          title="VKontakte" width="16"
                                                          height="16">
-                            <strong>VK: </strong>
+                            <strong> VK: </strong>
                             {{$user->vk}}</li>
                     @endif
                     @if ($user->facebook!='')
-                        <li class="list-group-item"><img src="https://png.icons8.com/facebook/color/24" title="Facebook"
+                        <li class="list-group-item"> <img src="https://png.icons8.com/facebook/color/24" title="Facebook"
                                                          width="16"
-                                                         height="16"><strong>Facebook: </strong>
+                                                         height="16"><strong> Facebook: </strong>
                             {{$user->facebook}}</li>
                     @endif
                 </ul>
@@ -64,7 +63,7 @@
                 <div class="card-body">
                     <h4 class="card-title">О себе<a class="btn btn-sm btn-success float-right" href="{{'/insider/profile/'.$user->id.'/edit'}}">Редактировать</a></h4>
                     <p><strong>Технологические интересы:</strong> {{$user->interests}}</p>
-                    <p><strong>Хобби:</strong> {{$user->hobbies}}</p>
+                    <p><strong>Увлечения:</strong> {{$user->hobbies}}</p>
                 </div>
             </div>
         </div>

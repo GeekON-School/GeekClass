@@ -105,7 +105,7 @@ class CoursesController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
-            'image' => 'image|mimes:jpg,png|max:1000'
+            'image' => 'image|max:1000'
         ]);
         $course = Course::createCourse($request);
         if ($request->hasFile('image'))

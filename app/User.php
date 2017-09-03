@@ -19,7 +19,9 @@ class User extends Authenticatable
         'name', 'email', 'password', 'role', 'school', 'grade_year', 'birthday',
         'hobbies', 'interests', 'git', 'vk', 'telegram', 'facebook', 'comments', 'letter'
     ];
-
+    protected $dates = [
+        'birthday'
+    ];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -48,10 +50,10 @@ class User extends Authenticatable
         $date = Carbon::now();
         if ($date->lt(Carbon::createFromDate($current_year, 6,1 )))
         {
-            $this->grade = $current_year-$grade;
+            $this->grade_year = $current_year-$grade;
         }
         else {
-            $this->grade = $current_year-$grade+1;
+            $this->grade_year = $current_year-$grade+1;
         }
     }
 

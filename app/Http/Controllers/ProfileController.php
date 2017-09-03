@@ -47,4 +47,58 @@ class ProfileController extends Controller
         }
         return view('profile.details', compact('user', 'guest'));
     }
+
+    public function editView($id)
+    {
+        $guest  = User::findOrFail(Auth::User()->id);
+        $user = User::findOrFail(Auth::User()->id);
+
+        return view('profile.edit', compact('user', 'guest'));
+    }
+
+    public function edit($id, Request $request)
+    {
+        $guest  = User::findOrFail(Auth::User()->id);
+        $user = User::findOrFail(Auth::User()->id);
+
+        $this->validate($request, [
+            'name' => 'required|string',
+            'vk' => 'string',
+            'facebook' => 'string',
+            'git' => 'string',
+            'telegram' => 'string',
+            'school' => 'required|string',
+            'grade' => 'required|integer',
+            'birthday' => 'required|date',
+            'hobbies' => 'required|string',
+            'interests' => 'required|string',
+            'comments' => 'string',
+            'image' => 'image|max:1000'
+        ]);
+
+        $user->name = $request->name;
+        $user->vk = $request->vk;
+        $user->git = $request->git;
+        $user->facebook = $request->facebook;
+        $user->telegram = $request->telegram;
+        $user->hobbies = $request->hobbies;
+        $user->interests = $request->interests;
+        $user->school = $request->school;
+        $user->birthday = Carbon::createFromFormat('Y-m-d', $request->birthday);
+        $user->setGrade($request->grade);
+
+        if ($request->hasFile('image'))
+        {
+            $extn = '.'.$request->file('image')->guessClientExtension();
+            $path = $request->file('image')->storeAs('user_avatars', $user->id.$extn);
+            $user->image = $path;
+        }
+
+        if ($guest->role == 'teacher')
+            $user->comments = $request->comments;
+
+        $user->save();
+
+        return redirect('/insider/profile/'.$id);
+    }
 }
