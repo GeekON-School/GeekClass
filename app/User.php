@@ -42,6 +42,11 @@ class User extends Authenticatable
         $current_year = Carbon::now()->year;
         return $current_year - $this->grade_year+1;
     }
+    public function projects()
+    {
+        return $this->belongsToMany('App\Project', 'project_students', 'user_id', 'project_id');
+    }
+
     public function setGrade($grade)
     {
         $current_year = Carbon::now()->year;
@@ -54,6 +59,7 @@ class User extends Authenticatable
             $this->grade = $current_year-$grade+1;
         }
     }
+
 
 
 }

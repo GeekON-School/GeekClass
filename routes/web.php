@@ -59,6 +59,7 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/invite', 'CoursesController@invite');
 
     Route::get('/profile/{id?}', 'ProfileController@details');
+    //Route::get('/progile/{id?}', )
 });
 
 

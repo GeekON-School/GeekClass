@@ -9,6 +9,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
+use phpDocumentor\Reflection\Project;
 
 class ProfileController extends Controller
 {
@@ -45,6 +46,7 @@ class ProfileController extends Controller
         else {
             $user = User::findOrFail(Auth::User()->id);
         }
-        return view('profile.details', compact('user', 'guest'));
+        //$projects = $user->projects;
+        return view('profile.details', compact('user', 'guest'/**, 'projects'*/));
     }
 }

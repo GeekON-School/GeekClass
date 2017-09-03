@@ -12,7 +12,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Projects extends Model
+class Project extends Model
 {
 
     protected $table = "projects";
@@ -28,7 +28,7 @@ class Projects extends Model
 
     public static function createProject($data)
     {
-        $project = Projects::create(['name' => $data['name'], 'description' => $data['description']]);
+        $project = Project::create(['name' => $data['name'], 'description' => $data['description']]);
         return $project;
     }
     public function editProject($data)

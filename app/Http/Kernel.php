@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\HasAccessToCourse;
 use App\Http\Middleware\HasAccessToStep;
 use App\Http\Middleware\HasAccessToTask;
+use App\Http\Middleware\IsCreatorOfProject;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -63,6 +64,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'step' => HasAccessToStep::class,
         'course' => HasAccessToCourse::class,
-        'task' => HasAccessToTask::class
+        'task' => HasAccessToTask::class,
+        'creator' => IsCreatorOfProject::class
     ];
 }
