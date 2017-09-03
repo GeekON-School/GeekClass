@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFieldsToUser extends Migration
+class AddPhotoToProfile extends Migration
 {
     /**
      * Run the migrations.
@@ -14,6 +14,9 @@ class AddFieldsToUser extends Migration
     public function up()
     {
         //
+        Schema::table('users', function (Blueprint $table) {
+            $table->string("image")->nullable();
+        });
     }
 
     /**

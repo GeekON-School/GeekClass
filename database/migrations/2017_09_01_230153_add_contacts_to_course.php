@@ -13,18 +13,9 @@ class AddContactsToCourse extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('school')->nullable();
-            $table->integer('grade_year')->nullable();
-            $table->date('birthday')->nullable();
-            $table->text('hobbies')->nullable();
-            $table->text('interests')->nullable();
+        Schema::table('courses', function (Blueprint $table) {
             $table->string('git')->nullable();
-            $table->string('vk')->nullable();
-            $table->string('facebook')->nullable();
             $table->string('telegram')->nullable();
-            $table->text('comments')->nullable();
-            $table->text('letter')->nullable();
         });
     }
 
@@ -37,5 +28,4 @@ class AddContactsToCourse extends Migration
     {
         //
     }
-
 }
