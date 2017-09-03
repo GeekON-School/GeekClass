@@ -45,7 +45,7 @@ class ProfileController extends Controller
             $user = $guest;
         }
         else {
-            $user = User::findOrFail(Auth::User()->id);
+            $user = User::findOrFail($id);
         }
         return view('profile.details', compact('user', 'guest'));
     }
