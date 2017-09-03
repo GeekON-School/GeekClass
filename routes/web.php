@@ -57,6 +57,8 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/tasks/{id}/student/{student_id}', 'TasksController@reviewSolutions');
     Route::post('/solution/{id}', 'TasksController@estimateSolution');
     Route::get('/invite', 'CoursesController@invite');
+
+    Route::get('/profile/{id?}', 'ProfileController@details');
 });
 
 

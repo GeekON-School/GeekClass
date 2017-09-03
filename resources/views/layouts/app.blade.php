@@ -41,7 +41,7 @@
                 <a class="nav-link" href="{{url('/insider/courses')}}">Курсы <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Профиль</a>
+                <a class="nav-link" href="{{url('insider/profile')}}">Профиль</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Сообщество</a>

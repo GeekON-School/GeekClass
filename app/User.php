@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -15,7 +16,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role'
+        'name', 'email', 'password', 'role', 'school', 'grade_year', 'birthday',
+        'hobbies', 'interests', 'git', 'vk', 'telegram', 'facebook', 'comments', 'letter'
     ];
 
     /**
@@ -34,6 +36,23 @@ class User extends Authenticatable
     public function submissions()
     {
         return $this->hasMany('App\Solution', 'user_id', 'id');
+    }
+    public function grade()
+    {
+        $current_year = Carbon::now()->year;
+        return $current_year - $this->grade_year+1;
+    }
+    public function setGrade($grade)
+    {
+        $current_year = Carbon::now()->year;
+        $date = Carbon::now();
+        if ($date->lt(Carbon::createFromDate($current_year, 6,1 )))
+        {
+            $this->grade = $current_year-$grade;
+        }
+        else {
+            $this->grade = $current_year-$grade+1;
+        }
     }
 
 
