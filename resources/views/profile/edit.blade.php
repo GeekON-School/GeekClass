@@ -34,11 +34,9 @@
                             <label for='vk'>VK</label>
 
                             @if (old('vk')!="")
-                                <input id='vk' type="text" class="form-control" name='vk' value="{{old('vk')}}"
-                                       required>
+                                <input id='vk' type="text" class="form-control" name='vk' value="{{old('vk')}}">
                             @else
-                                <input id='vk' type="text" class="form-control" name='vk' value="{{$user->vk}}"
-                                       required>
+                                <input id='vk' type="text" class="form-control" name='vk' value="{{$user->vk}}">
                             @endif
                             @if ($errors->has('vk'))
                                 <span class="help-block">
@@ -51,12 +49,10 @@
 
                             @if (old('telegram')!="")
                                 <input id='telegram' type="text" class="form-control" name='telegram'
-                                       value="{{old('telegram')}}"
-                                       required>
+                                       value="{{old('telegram')}}">
                             @else
                                 <input id='telegram' type="text" class="form-control" name='telegram'
-                                       value="{{$user->telegram}}"
-                                       required>
+                                       value="{{$user->telegram}}">
                             @endif
                             @if ($errors->has('telegram'))
                                 <span class="help-block">
@@ -68,11 +64,9 @@
                             <label for='git'>Git</label>
 
                             @if (old('git')!="")
-                                <input id='git' type="text" class="form-control" name='git' value="{{old('git')}}"
-                                       required>
+                                <input id='git' type="text" class="form-control" name='git' value="{{old('git')}}">
                             @else
-                                <input id='git' type="text" class="form-control" name='git' value="{{$user->git}}"
-                                       required>
+                                <input id='git' type="text" class="form-control" name='git' value="{{$user->git}}">
                             @endif
                             @if ($errors->has('git'))
                                 <span class="help-block">
@@ -85,12 +79,10 @@
 
                             @if (old('facebook')!="")
                                 <input id='facebook' type="text" class="form-control" name='facebook'
-                                       value="{{old('facebook')}}"
-                                       required>
+                                       value="{{old('facebook')}}">
                             @else
                                 <input id='facebook' type="text" class="form-control" name='facebook'
-                                       value="{{$user->facebook}}"
-                                       required>
+                                       value="{{$user->facebook}}">
                             @endif
                             @if ($errors->has('facebook'))
                                 <span class="help-block">
@@ -125,12 +117,12 @@
                         <div class="form-group">
                             <label for='birthday'>Дата рождения</label>
 
-                            @if (old('birthday')!="")
+                            @if (old('birthday')!="" || $user->birthday==null)
                                 <input id='birthday' type="text" class="form-control" name='birthday'
                                        value="{{old('birthday')}}" required>
                             @else
                                 <input id='birthday' type="text" class="form-control" name='birthday'
-                                       value="{{$user->birthday}}"
+                                       value="{{$user->birthday->format('Y-m-d')}}"
                                        required>
                             @endif
                             @if ($errors->has('birthday'))
@@ -206,6 +198,25 @@
                                     </span>
                             @endif
                         </div>
+                        @if ($guest->role=='teacher')
+                            <h4>Информация</h4>
+                            <div class="form-group">
+                                <label for='comments'>Комментарий</label>
+
+                                @if (old('comments')!="")
+                                    <textarea id="comments" class="form-control"
+                                              name="comments">{{old('comments')}}</textarea>
+                                @else
+                                    <textarea id="comments" class="form-control"
+                                              name="comments">{{$user->comments}}</textarea>
+                                @endif
+                                @if ($errors->has('comments'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('comments') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                 </div>
 
