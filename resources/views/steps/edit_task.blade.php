@@ -21,7 +21,7 @@
                                required>
                     @endif
                     @if ($errors->has('name'))
-                        <span class="help-block">
+                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                     @endif
@@ -37,7 +37,7 @@
                         @endif
 
                         @if ($errors->has('max_mark'))
-                            <span class="help-block">
+                            <span class="help-block error-block">
                                         <strong>{{ $errors->first('max_mark') }}</strong>
                                     </span>
                         @endif
@@ -49,7 +49,7 @@
                     <textarea id="text" class="form-control" name="text"
                               required>@if (old('text')!=""){{old('text')}}@else{{$task->text}}@endif</textarea>
                     @if ($errors->has('text'))
-                        <span class="help-block">
+                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('text') }}</strong>
                                     </span>
                     @endif

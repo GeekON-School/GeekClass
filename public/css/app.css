@@ -57,3 +57,6 @@
     display: inline;
     margin-right: 10px;
 }
+.error-block {
+    color: red;
+}

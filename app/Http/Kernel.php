@@ -5,7 +5,11 @@ namespace App\Http;
 use App\Http\Middleware\HasAccessToCourse;
 use App\Http\Middleware\HasAccessToStep;
 use App\Http\Middleware\HasAccessToTask;
+
 use App\Http\Middleware\IsCreatorOfProject;
+
+use App\Http\Middleware\SelfAccess;
+
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -65,6 +69,8 @@ class Kernel extends HttpKernel
         'step' => HasAccessToStep::class,
         'course' => HasAccessToCourse::class,
         'task' => HasAccessToTask::class,
-        'creator' => IsCreatorOfProject::class
+        'creator' => IsCreatorOfProject::class,
+        'self' => SelfAccess::class
+
     ];
 }

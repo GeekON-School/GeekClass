@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CompletedCourse;
 use App\Course;
 use App\CourseStep;
 use App\Http\Controllers\Controller;
@@ -22,6 +23,8 @@ class ProfileController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('self')->except(['index', 'details']);
+        $this->middleware('teacher')->only(['deleteCourse', 'course']);
     }
 
     /**
@@ -31,9 +34,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $user  = User::findOrFail(Auth::User()->id);
-        $courses = Course::all();
-        return view('home', compact('courses', 'user'));
+        $users = User::all();
+        return view('profile.index', compact('users'));
     }
     public function details($id = null)
     {
@@ -44,9 +46,104 @@ class ProfileController extends Controller
             $user = $guest;
         }
         else {
-            $user = User::findOrFail(Auth::User()->id);
+            $user = User::findOrFail($id);
         }
         //$projects = $user->projects;
         return view('profile.details', compact('user', 'guest'/**, 'projects'*/));
+    }
+
+    public function editView($id)
+    {
+        $guest  = User::findOrFail(Auth::User()->id);
+        $user = User::findOrFail($id);
+
+        return view('profile.edit', compact('user', 'guest'));
+    }
+    public function deleteCourse($id)
+    {
+        $course = CompletedCourse::findOrFail($id);
+        $course->delete();
+        return redirect()->back();
+    }
+    public function course($id, Request $request)
+    {
+        $user = User::findOrFail(Auth::User()->id);
+        $this->validate($request, [
+            'name' => 'required|string',
+            'provider' => 'required|string',
+            'mark' => 'required|string',
+        ]);
+        $course = new CompletedCourse();
+        $course->name = $request->name;
+        $course->mark = $request->mark;
+        $course->user_id = $id;
+        $course->provider = $request->provider;
+        if (str_contains(mb_strtolower($course->provider), 'goto'))
+        {
+            $course->provider = 'GoTo';
+            $course->class = 'danger';
+        }
+        else if (str_contains(mb_strtolower($course->provider), 'geekon'))
+        {
+            $course->provider = 'GeekON-School';
+            $course->class = 'success';
+        }
+        else if (str_contains(mb_strtolower($course->provider), 'геккон'))
+        {
+            $course->provider = 'Геккон-клуб';
+            $course->class = 'info';
+        }
+        else if (str_contains(mb_strtolower($course->provider), 'polymus'))
+        {
+            $course->provider = 'Политехнический музей';
+            $course->class = 'primary';
+        }
+        else if (str_contains(mb_strtolower($course->provider), 'алгоритмика'))
+        {
+            $course->provider = 'Алгоритмика';
+            $course->class = 'warning';
+        }
+        $course->save();
+        return redirect()->back();
+    }
+
+    public function edit($id, Request $request)
+    {
+        $guest  = User::findOrFail(Auth::User()->id);
+        $user = User::findOrFail($id);
+
+        $this->validate($request, [
+            'name' => 'required|string',
+            'school' => 'required|string',
+            'grade' => 'required|integer',
+            'birthday' => 'required|date',
+            'hobbies' => 'required|string',
+            'interests' => 'required|string',
+            'image' => 'image|max:1000'
+        ]);
+
+        $user->name = $request->name;
+        $user->vk = $request->vk;
+        $user->git = $request->git;
+        $user->facebook = $request->facebook;
+        $user->telegram = $request->telegram;
+        $user->hobbies = $request->hobbies;
+        $user->interests = $request->interests;
+        $user->school = $request->school;
+        $user->birthday = Carbon::createFromFormat('Y-m-d', $request->birthday);
+        $user->setGrade($request->grade);
+
+        if ($request->hasFile('image'))
+        {
+            $extn = '.'.$request->file('image')->guessClientExtension();
+            $path = $request->file('image')->storeAs('user_avatars', $user->id.$extn);
+            $user->image = $path;
+        }
+
+        if ($guest->role == 'teacher')
+            $user->comments = $request->comments;
+        $user->save();
+
+        return redirect('/insider/profile/'.$id);
     }
 }

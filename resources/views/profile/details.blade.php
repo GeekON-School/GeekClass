@@ -67,22 +67,8 @@
                     <p><strong>Хобби:</strong> {{$user->hobbies}}</p>
                 </div>
             </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Проекты<a class="btn btn-sm btn-success float-right" href="{{'/insider/profile/'.$user->id.'/edit'}}">Добавить</a></h4>
-                        <h4><a class="btn btn-sm btn-success float-right" href="{{'/insider/profile/'.$user->id.'/edit'}}">Изменить</a></h4>
-                        @foreach($projects as $project)
-                            <div class="col-md-8">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="card-title">{{$project->name}}</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
         </div>
+
     </div>
     <script>
         var simplemde_description = new SimpleMDE({

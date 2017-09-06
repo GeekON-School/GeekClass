@@ -105,7 +105,7 @@ class CoursesController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
-            'image' => 'image|mimes:jpg,png|max:1000'
+            'image' => 'image|max:1000'
         ]);
         $course = Course::createCourse($request);
         if ($request->hasFile('image'))
@@ -123,11 +123,21 @@ class CoursesController extends Controller
     }
     public function invite(Request $request)
     {
+        if ($request->invite==null || $request->invite=="")
+        {
+            $this->make_error_alert('Ошибка!', 'Курс с таким приглашением не найден.');
+            return $this->backException();
+        }
         $user = User::findOrFail(Auth::User()->id);
         $course = Course::where('invite', $request->invite)->first();
         if ($course==null)
         {
             $this->make_error_alert('Ошибка!', 'Курс с таким приглашением не найден.');
+            return $this->backException();
+        }
+        if ($course->students->contains($user))
+        {
+            $this->make_error_alert('Ошибка!', 'Вы уже зачислены на курс "'.$course->name.'".');
             return $this->backException();
         }
         $this->make_success_alert('Успех!', 'Вы присоединились к курсу "'.$course->name.'".');
