@@ -10,7 +10,8 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
-use phpDocumentor\Reflection\Project;
+use App\Project;
+
 
 class ProfileController extends Controller
 {
@@ -23,7 +24,7 @@ class ProfileController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('self')->except(['index', 'details']);
+        $this->middleware('self')->except(['index', 'details', 'project', 'editProject']);
         $this->middleware('teacher')->only(['deleteCourse', 'course']);
     }
 
@@ -48,16 +49,16 @@ class ProfileController extends Controller
         else {
             $user = User::findOrFail($id);
         }
-        //$projects = $user->projects;
-        return view('profile.details', compact('user', 'guest'/**, 'projects'*/));
+        $projects = $user->projects ();
+        return view('profile.details', compact('user', 'guest', 'projects'));
     }
 
     public function editView($id)
     {
         $guest  = User::findOrFail(Auth::User()->id);
         $user = User::findOrFail($id);
-
-        return view('profile.edit', compact('user', 'guest'));
+        $projects = $user->projects ();
+        return view('profile.edit', compact('user', 'guest', 'projects'));
     }
     public function deleteCourse($id)
     {
@@ -146,4 +147,22 @@ class ProfileController extends Controller
 
         return redirect('/insider/profile/'.$id);
     }
+     public function project ($id, Request $request)
+     {
+         $user = User::findOrFail(Auth::User()->id);
+         $this->validate($request, [
+             'name' => 'required|string',
+             'description' => 'required|string',
+             'type' => 'required|string',
+             'url' => 'required|string',
+         ]);
+         $project = new Project();
+         $project->name = $request->name;
+         $project->description = $request->description;
+         $project->type = $request->type;
+         $project->url = $request->url;
+
+         return redirect()->back();
+
+     }
 }

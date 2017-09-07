@@ -24,6 +24,7 @@ Auth::routes();
 
 Route::prefix('insider')->middleware(['auth'])->group(function () {
 
+    #TODO Check
     Route::get('/', function () {
         return redirect('/insider/courses');
     });
@@ -58,7 +59,19 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::post('/solution/{id}', 'TasksController@estimateSolution');
     Route::get('/invite', 'CoursesController@invite');
 
+    Route::get('/community', 'ProfileController@index');
     Route::get('/profile/{id?}', 'ProfileController@details');
+
+
+    Route::get('/profile/{id}/edit', 'ProfileController@editView');
+    Route::post('/profile/{id}/edit', 'ProfileController@edit');
+    Route::post('/profile/{id}/course', 'ProfileController@course');
+    Route::get('/profile/delete-course/{id}', 'ProfileController@deleteCourse');
+
+    Route::get('/projects/create', 'ProjectsController@createView');
+    Route::post('/projects/create', 'ProjectsController@create');
+    Route::get('/projects/{id}/', 'ProjectsController@details');
+
 });
 
 

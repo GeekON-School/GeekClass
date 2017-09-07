@@ -21,7 +21,7 @@ class Project extends Model
         'name', 'description', 'type', 'url'
     ];
 
-    protected function creatorsOfProject()
+    public function students()
     {
         return $this->belongsToMany('App\User', 'project_students', 'project_id', 'user_id');
     }
@@ -29,6 +29,7 @@ class Project extends Model
     public static function createProject($data)
     {
         $project = Project::create(['name' => $data['name'], 'description' => $data['description']]);
+
         return $project;
     }
     public function editProject($data)
