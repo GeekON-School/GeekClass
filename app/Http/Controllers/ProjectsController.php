@@ -31,7 +31,6 @@ class ProjectsController extends Controller
         return view('home', compact('projects', 'user'));
     }
 
-    #TODO change it
     public function details($id)
     {
         $user  = User::findOrFail(Auth::User()->id);
@@ -49,6 +48,7 @@ class ProjectsController extends Controller
     }
     public function edit($id, Request $request)
     {
+
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
@@ -63,20 +63,28 @@ class ProjectsController extends Controller
         $project->url = $request->url;
 
         $project->save();
-        #TODO Change it
-        return redirect()->back();
+
+        #TODO Check how does it work
+        return redirect('/insider/projects/'.$project->id);
     }
     public function create(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string'
+
         ]);
         $user  = User::findOrFail(Auth::User()->id);
         $project = Project::createProject($request);
         $project->save();
         $project->students()->attach($user->id);
-        #TODO Change it
         return redirect()->back();
+    }
+    public function deleteProject($id)
+    {
+        $project = Project::findOrFail($id);
+        $project->delete();
+        #TODO Change it later to /insider/projects
+        return redirect('/insider/profile/');
     }
 }

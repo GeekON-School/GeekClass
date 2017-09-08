@@ -10,8 +10,9 @@ nbkmb
     <div class="row" style="margin-top: 15px;">
         <div class="col">
             <form method="POST" class="form-horizontal" enctype="multipart/form-data">
-                {{ csrf_field() }}
+
                 <div class="form-group">
+                    {{ csrf_field() }}
                     <label for="name">Название</label>
                     <input id="name" type="text" class="form-control" name="name" value="{{old('name')}}" required>
                     @if ($errors->has('name'))
@@ -27,6 +28,15 @@ nbkmb
                     @if ($errors->has('description'))
                         <span class="help-block error-block">
                                         <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+                <div class="form-group">
+                    <label for="projectType">Тип</label>
+                    <textarea id="projectType"  class="form-control"  name="projectType">{{old('projectType')}}</textarea>
+                    @if ($errors->has('projectType'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('projectType') }}</strong>
                                     </span>
                     @endif
                 </div>

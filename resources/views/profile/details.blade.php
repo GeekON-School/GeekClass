@@ -2,9 +2,8 @@
 
 @section('content')
 
-    <div class="row" style="margin-top: 15px;">
+    <div class="row" style="margin-top: 15px;" xmlns="http://www.w3.org/1999/html">
         <div class="col-md-4">
-
             <div class="card">
                 <img class="card-img-top"
                      src="{{url('/media/'.$user->image)}}"/>
@@ -257,7 +256,7 @@
                             <label for="description" class="col-md-4">Описание</label>
 
                             <div class="col-md-12">
-                                <input type="text" name="description" class="form-control" id="description"/>
+                                <textarea name="description" class="form-control" id="description"></textarea>
                                 @if ($errors->has('description'))
                                     <span class="help-block error-block">
                                         <strong>{{ $errors->first('description') }}</strong>
@@ -265,6 +264,23 @@
                                 @endif
                             </div>
                         </div>
+                      <!--  <div class="form-group{{ $errors->has('projectType') ? ' has-error' : '' }}">
+                            <label for="description" class="col-md-4">Тип</label>
+
+                            <div class="col-md-12">
+                                <select name="projectType" class="form-control" id="projectType"/>
+                                    <option value="None selected">Выберите тип проекта</option>
+                                    <option value="Learning">Учебный</option>
+                                    <option value="Working">Рабочий</option>
+                                </select>
+                                @if ($errors->has('description'))
+                                    <span class="help-block error-block">
+                                        <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>-->
+
 
 
                         <div class="form-group">

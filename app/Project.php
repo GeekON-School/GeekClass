@@ -34,6 +34,7 @@ class Project extends Model
     }
     public function editProject($data)
     {
+
         $this->name = $data['name'];
         $this->description = $data['description'];
         $this->type = $data['type'];
