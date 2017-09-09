@@ -21,7 +21,15 @@ nbkmb
                                     </span>
                     @endif
                 </div>
-
+                <div class="form-group">
+                    <label for="short_description">Краткое описание</label>
+                    <input id="short_description"  class="form-control"  name="short_description" required>{{old('short_description')}}</input>
+                    @if ($errors->has('short_description'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('short_description') }}</strong>
+                                    </span>
+                    @endif
+                </div>
                 <div class="form-group">
                     <label for="description">Описание</label>
                     <textarea id="description"  class="form-control"  name="description" required>{{old('description')}}</textarea>

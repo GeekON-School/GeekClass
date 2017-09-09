@@ -51,6 +51,7 @@ class ProjectsController extends Controller
 
         $this->validate($request, [
             'name' => 'required|string',
+            'short_description' => 'required|string',
             'description' => 'required|string',
             'type' => 'required|string',
             'url' => 'required|string',
@@ -71,7 +72,7 @@ class ProjectsController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'description' => 'required|string'
+            'short_description' => 'required|string'
 
         ]);
         $user  = User::findOrFail(Auth::User()->id);

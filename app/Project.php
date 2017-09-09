@@ -18,7 +18,7 @@ class Project extends Model
     protected $table = "projects";
 
     protected $fillable = [
-        'name', 'description', 'type', 'url'
+        'name', 'short_description', 'description', 'type', 'url'
     ];
 
     public function students()
@@ -28,7 +28,7 @@ class Project extends Model
 
     public static function createProject($data)
     {
-        $project = Project::create(['name' => $data['name'], 'description' => $data['description']]);
+        $project = Project::create(['name' => $data['name'], 'short_description' => $data['short_description']]);
 
         return $project;
     }
@@ -36,6 +36,7 @@ class Project extends Model
     {
 
         $this->name = $data['name'];
+        $this->short_description = $data['short_description'];
         $this->description = $data['description'];
         $this->type = $data['type'];
         $this->url = $data['url'];

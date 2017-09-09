@@ -30,8 +30,10 @@
                                     </div>
                                 </div>
                             @endif
+
                             <h2><strong>{{$project->name}}</strong></h2>
-                            <p>{{$project->description}}</p>
+                                <h4><strong>{{$project->short_description}}</strong></h4>
+                            <h6>{{$project->description}}</h6>
 
                         </h5>
 

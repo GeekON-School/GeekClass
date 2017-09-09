@@ -152,7 +152,7 @@
                             <div class="card" style="width: 100%; margin-bottom: 10px;">
                                 <div class="card-body">
                                     <h5 class="card-title">{{$project->name}}</h5>
-                                    <p><span>{{$project->description}}</span></p>
+                                    <p><span>{{$project->short_description}}</span></p>
                                         <a href="{{url('insider/projects/'.$project->id)}}" class="card-link">Страница
                                             проекта</a>
                                 </div>
@@ -252,20 +252,20 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                            <label for="description" class="col-md-4">Описание</label>
+                        <div class="form-group{{ $errors->has('short_description') ? ' has-error' : '' }}">
+                            <label for="short_description" class="col-md-4">Краткое описание</label>
 
                             <div class="col-md-12">
-                                <textarea name="description" class="form-control" id="description"></textarea>
-                                @if ($errors->has('description'))
+                                <textarea name="short_description" class="form-control" id="short_description"></textarea>
+                                @if ($errors->has('short_description'))
                                     <span class="help-block error-block">
-                                        <strong>{{ $errors->first('description') }}</strong>
+                                        <strong>{{ $errors->first('short_description') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
                       <!--  <div class="form-group{{ $errors->has('projectType') ? ' has-error' : '' }}">
-                            <label for="description" class="col-md-4">Тип</label>
+                            <label for="short_description" class="col-md-4">Тип</label>
 
                             <div class="col-md-12">
                                 <select name="projectType" class="form-control" id="projectType"/>
@@ -273,9 +273,9 @@
                                     <option value="Learning">Учебный</option>
                                     <option value="Working">Рабочий</option>
                                 </select>
-                                @if ($errors->has('description'))
+                                @if ($errors->has('short_description'))
                                     <span class="help-block error-block">
-                                        <strong>{{ $errors->first('description') }}</strong>
+                                        <strong>{{ $errors->first('short_description') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -294,11 +294,6 @@
         </div>
     </div>
 
-    <script>
-        var simplemde_description = new SimpleMDE({
-            spellChecker: false,
-            element: document.getElementById("about")
-        });
-        var simplemde_theory = new SimpleMDE({spellChecker: false, element: document.getElementById("theory")});
-    </script>
+
+
 @endsection

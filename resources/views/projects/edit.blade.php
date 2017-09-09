@@ -27,6 +27,16 @@
                     @endif
                 </div>
                 <div class="form-group">
+                    <label for="short_description">Краткое описание</label>
+                    <textarea id="short_description" class="form-control" name="short_description"
+                              required>@if (old('short_description')!=""){{old('short_description')}}@else{{$project->short_description}}@endif</textarea>
+                    @if ($errors->has('short_description'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('short_description') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+                <div class="form-group">
                     <label for="description">Описание</label>
                     <textarea id="description" class="form-control" name="description"
                               required>@if (old('description')!=""){{old('description')}}@else{{$project->description}}@endif</textarea>
