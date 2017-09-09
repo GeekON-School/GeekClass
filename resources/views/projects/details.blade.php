@@ -32,21 +32,23 @@
                             @endif
 
                             <h2><strong>{{$project->name}}</strong></h2>
-                                <h4><strong>{{$project->short_description}}</strong></h4>
+                                <h5>{{$project->short_description}}</h5>
+
                             <h6>{{$project->description}}</h6>
 
                         </h5>
-
-                        @if ($project->type!='')
-                        <span style="font-size: 15px;" class="badge badge-pill badge-success"><i
-                                    class="icon ion-ios-arrow-up"></i> {{$project->type}}</span><br>
-                            @endif
                         <p style="margin-top: 15px;">
                         @if ($project->url!='')
-                            <span style="font-size: 15px;" class="badge badge-pill badge-success"><i
-                                        class="icon ion-ios-arrow-right"></i> {{$project->url}}</span><br>
+                            <h4>
+                                <img src="https://png.icons8.com/git/color/24" title="Git"
+                                     width="16" height="16"> {{$project->url}}
+                            </h4>
                         @endif
-                        </p>
+                        @if ($project->type!='')
+                        <span style="font-size: 15px; margin-top: 15px" class="badge badge-pill badge-success"><i
+                                    class="icon ion-ios-arrow-up"></i> {{$project->type}}</span><br>
+                            @endif
+
                     </div>
                 </div>
         </div>
