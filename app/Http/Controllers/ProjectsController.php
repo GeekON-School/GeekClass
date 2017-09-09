@@ -28,7 +28,7 @@ class ProjectsController extends Controller
     {
         $user  = User::findOrFail(Auth::User()->id);
         $projects = Project::all();
-        return view('home', compact('projects', 'user'));
+        return view('projects.index', compact('projects', 'user'));
     }
 
     public function details($id)

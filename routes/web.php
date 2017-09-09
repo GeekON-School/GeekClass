@@ -76,6 +76,8 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/projects/{id}/edit', 'ProjectsController@editView');
     Route::post('/projects/{id}/edit', 'ProjectsController@edit');
     Route::get('/projects/{id}/delete', 'ProjectsController@deleteProject');
+    Route::get('/projects', 'ProjectsController@index');
+
 });
 
 

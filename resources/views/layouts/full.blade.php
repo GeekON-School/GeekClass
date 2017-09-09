@@ -46,7 +46,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{url('insider/community')}}">Сообщество</a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link" href="{{url('insider/projects')}}">Проекты</a>
+            </li>
         </ul>
         <ul class="navbar-nav" style="width: 220px;">
             <li class="nav-item dropdown">

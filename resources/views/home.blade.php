@@ -82,7 +82,6 @@
                 @if ($course->state == 'ended')
                     <div class="col-md-4">
                         <div class="card" style="width: 100%;">
-                            <!--<img class="card-img-top" src="..." alt="Card image cap">-->
                             <div class="card-body">
                                 <h4 class="card-title">{{$course->name}}</h4>
                                 <p class="card-text">{{$course->description}}</p>

@@ -1,0 +1,25 @@
+@extends('layouts.app')
+
+@section('content')
+    <h3>Проекты</h3>
+    <div class="row" style="margin-top: 15px;">
+        @foreach($projects as $project)
+
+            <div class="col-md-4 col-sm-6 col-lg-3" style="margin-bottom: 15px;">
+                <div class="card bg-dark text-white" style="height: 320px;">
+                    <div class="card-header"><a style="color:white;" href="{{url('/insider/projects/'.$project->id)}}">{{$project->name}}</a></div>
+                    <div class="card-body"><a style="color:white;">{{$project->description}}</a>
+
+                        <p class="card-text">
+                            <span style="font-size: 15px;" class="badge badge-pill badge-success">
+                                <i class ="icon ion-ios-arrow-up"></i>{{$project->type}}</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+        @endforeach
+    </div>
+
+@endsection
