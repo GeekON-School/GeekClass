@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
     <div class="row" style="margin-top: 15px;">
         <div class="col-md-4">
 
@@ -132,40 +131,41 @@
                                         <span class="badge badge-pill badge-success">Оценка: <strong>{{$course->mark}}</strong></span>
                                     </p>
 
+                                </div>
                             </div>
                         </div>
+                    @endforeach
+                </div>
+            @endif
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4 style="margin: 20px;" class="card-title">Проекты</h4>
                     </div>
-                @endforeach
-            </div>
-            <div class="row">
-                <div class="col-md-8">
-                    <h4 style="margin: 20px;" class="card-title">Проекты</h4>
-                </div>
-                <div class="col" style="padding-top: 19px;">
-                    @if ($guest->role=='teacher' || $guest->id==$user->id)
-                        <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
-                                data-toggle="modal" data-target="#createProject">
-                            Добавить
-                        </button>
-                    @endif
+                    <div class="col" style="padding-top: 19px;">
+                        @if ($guest->role=='teacher' || $guest->id==$user->id)
+                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
+                                    data-toggle="modal" data-target="#createProject">
+                                Добавить
+                            </button>
+                        @endif
+                    </div>
+
                 </div>
 
-            </div>
-
-            <div class="row">
-                @foreach($user->projects as $project)
-                    <div class="col-md-6">
+                <div class="row">
+                    @foreach($user->projects as $project)
+                        <div class="col-md-6">
                             <div class="card" style="width: 100%; margin-bottom: 10px;">
                                 <div class="card-body">
                                     <h5 class="card-title">{{$project->name}}</h5>
                                     <p><span>{{$project->short_description}}</span></p>
-                                        <a href="{{url('insider/projects/'.$project->id)}}" class="card-link">Страница
-                                            проекта</a>
+                                    <a href="{{url('insider/projects/'.$project->id)}}" class="card-link">Страница
+                                        проекта</a>
                                 </div>
                             </div>
-                    </div>
-                @endforeach
-            </div>
+                        </div>
+                    @endforeach
+                </div>
 
 
         </div>
@@ -263,7 +263,8 @@
                             <label for="short_description" class="col-md-4">Краткое описание</label>
 
                             <div class="col-md-12">
-                                <textarea name="short_description" class="form-control" id="short_description"></textarea>
+                                <textarea name="short_description" class="form-control"
+                                          id="short_description"></textarea>
                                 @if ($errors->has('short_description'))
                                     <span class="help-block error-block">
                                         <strong>{{ $errors->first('short_description') }}</strong>
@@ -271,7 +272,7 @@
                                 @endif
                             </div>
                         </div>
-                      <!--  <div class="form-group{{ $errors->has('projectType') ? ' has-error' : '' }}">
+                    <!--  <div class="form-group{{ $errors->has('projectType') ? ' has-error' : '' }}">
                             <label for="short_description" class="col-md-4">Тип</label>
 
                             <div class="col-md-12">
@@ -281,13 +282,12 @@
                                     <option value="Working">Рабочий</option>
                                 </select>
                                 @if ($errors->has('short_description'))
-                                    <span class="help-block error-block">
-                                        <strong>{{ $errors->first('short_description') }}</strong>
+                        <span class="help-block error-block">
+                            <strong>{{ $errors->first('short_description') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>-->
-
 
 
                         <div class="form-group">
@@ -300,7 +300,5 @@
             </div>
         </div>
     </div>
-
-
 
 @endsection
