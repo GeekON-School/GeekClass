@@ -122,7 +122,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{$course->name}}
                                         @if ($guest->role=='teacher')
-                                            <a class="float-right"
+                             зрз               <a class="float-right"
                                                href="{{url('/insider/profile/delete-course/'.$course->id)}}"><span
                                                         aria-hidden="true">&times;</span></a>
                                         @endif</h5>

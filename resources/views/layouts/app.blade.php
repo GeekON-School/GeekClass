@@ -36,6 +36,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        @if (Auth::check())
         <ul class="navbar-nav mr-auto">
             <li class="nav-item {{(Request::is('insider/courses*') ? 'active' : '') }}">
                 <a class="nav-link" href="{{url('/insider/courses')}}">Курсы <span class="sr-only">(current)</span></a>
@@ -50,6 +51,7 @@
                 <a class="nav-link" href="{{url('insider/projects')}}">Проекты</a>
             </li>
         </ul>
+
         <ul class="navbar-nav" style="width: 220px;">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
@@ -60,6 +62,7 @@
                 </div>
             </li>
         </ul>
+        @endif
     </div>
 </nav>
 
