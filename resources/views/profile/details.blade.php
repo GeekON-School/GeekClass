@@ -122,7 +122,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{$course->name}}
                                         @if ($guest->role=='teacher')
-                             зрз               <a class="float-right"
+                                            <a class="float-right"
                                                href="{{url('/insider/profile/delete-course/'.$course->id)}}"><span
                                                         aria-hidden="true">&times;</span></a>
                                         @endif</h5>
@@ -137,35 +137,35 @@
                     @endforeach
                 </div>
             @endif
-                <div class="row">
-                    <div class="col-md-8">
-                        <h4 style="margin: 20px;" class="card-title">Проекты</h4>
-                    </div>
-                    <div class="col" style="padding-top: 19px;">
-                        @if ($guest->role=='teacher' || $guest->id==$user->id)
-                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
-                                    data-toggle="modal" data-target="#createProject">
-                                Добавить
-                            </button>
-                        @endif
-                    </div>
-
+            <div class="row">
+                <div class="col-md-8">
+                    <h4 style="margin: 20px;" class="card-title">Проекты</h4>
+                </div>
+                <div class="col" style="padding-top: 19px;">
+                    @if ($guest->role=='teacher' || $guest->id==$user->id)
+                        <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
+                                data-toggle="modal" data-target="#createProject">
+                            Добавить
+                        </button>
+                    @endif
                 </div>
 
-                <div class="row">
-                    @foreach($user->projects as $project)
-                        <div class="col-md-6">
-                            <div class="card" style="width: 100%; margin-bottom: 10px;">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{$project->name}}</h5>
-                                    <p><span>{{$project->short_description}}</span></p>
-                                    <a href="{{url('insider/projects/'.$project->id)}}" class="card-link">Страница
-                                        проекта</a>
-                                </div>
+            </div>
+
+            <div class="row">
+                @foreach($user->projects as $project)
+                    <div class="col-md-6">
+                        <div class="card" style="width: 100%; margin-bottom: 10px;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{$project->name}}</h5>
+                                <p><span>{{$project->short_description}}</span></p>
+                                <a href="{{url('insider/projects/'.$project->id)}}" class="card-link">Страница
+                                    проекта</a>
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
+            </div>
 
 
         </div>

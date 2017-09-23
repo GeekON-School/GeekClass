@@ -57,7 +57,7 @@ class RegisterController extends Controller
             'name' => 'required|string',
             'school' => 'required|string',
             'grade' => 'required|integer',
-            'birthday' => 'required|date',
+            'birthday' => 'required|date|date_format:Y-m-d',
             'hobbies' => 'required|string',
             'interests' => 'required|string',
             'image' => 'image|max:1000'

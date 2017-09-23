@@ -35,7 +35,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy('name')->get();
         return view('profile.index', compact('users'));
     }
     public function details($id = null)
