@@ -34,7 +34,7 @@
                         <input id="git" type="text" class="form-control" name="git" value="{{old('git')}}">
                     @else
                         <input id="git" type="text" class="form-control" name="git" value="{{$course->git}}"
-                               required>
+                        >
                     @endif
                     @if ($errors->has('git'))
                         <span class="help-block error-block">
@@ -49,8 +49,7 @@
                     @if (old('telegram')!="")
                         <input id="telegram" type="text" class="form-control" name="telegram" value="{{old('telegram')}}">
                     @else
-                        <input id="telegram" type="text" class="form-control" name="telegram" value="{{$course->telegram}}"
-                               required>
+                        <input id="telegram" type="text" class="form-control" name="telegram" value="{{$course->telegram}}">
                     @endif
                     @if ($errors->has('telegram'))
                         <span class="help-block error-block">

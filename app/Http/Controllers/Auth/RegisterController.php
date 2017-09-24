@@ -6,6 +6,10 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
+use Carbon\Carbon;
+use App\Course;
 
 class RegisterController extends Controller
 {
@@ -27,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/courses';
+    protected $redirectTo = 'insider/courses';
 
     /**
      * Create a new controller instance.
@@ -48,9 +52,15 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'name' => 'required|string',
+            'school' => 'required|string',
+            'grade' => 'required|integer',
+            'birthday' => 'required|date|date_format:Y-m-d',
+            'hobbies' => 'required|string',
+            'interests' => 'required|string',
+            'image' => 'image|max:1000'
         ]);
     }
 
@@ -60,12 +70,58 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data)
+    protected function create($data)
     {
-        return User::create([
+
+
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+        $user->vk = $data->vk;
+        $user->git = $data->git;
+        $user->facebook = $data->facebook;
+        $user->telegram = $data->telegram;
+        $user->hobbies = $data->hobbies;
+        $user->interests = $data->interests;
+        $user->school = $data->school;
+        $user->birthday = Carbon::createFromFormat('Y-m-d', $data->birthday);
+        $user->setGrade($data->grade);
+
+        if ($data->hasFile('image'))
+        {
+            $extn = '.'.$data->file('image')->guessClientExtension();
+            $path = $data->file('image')->storeAs('user_avatars', $user->id.$extn);
+            $user->image = $path;
+        }
+
+        $user->save();
+        return $user;
+    }
+
+    public function register(Request $request)
+    {
+        if ($request->invite==null || $request->invite=="")
+        {
+            $this->make_error_alert('Ошибка!', 'Курс с таким приглашением не найден.');
+            return $this->backException();
+        }
+        $course = Course::where('invite', $request->invite)->first();
+        if ($course==null)
+        {
+            $this->make_error_alert('Ошибка!', 'Курс с таким приглашением не найден.');
+            return $this->backException();
+        }
+
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request)));
+        $course->students()->attach($user->id);
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
     }
 }

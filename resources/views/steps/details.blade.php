@@ -232,6 +232,8 @@
             spellChecker: false,
             element: document.getElementById("text")
         });
+
+        $('table').addClass('table table-striped');
     </script>
 
 

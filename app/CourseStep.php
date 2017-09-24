@@ -29,7 +29,7 @@ class CourseStep extends Model
 
     public function tasks()
     {
-        return $this->hasMany('App\Task', 'step_id', 'id');
+        return $this->hasMany('App\Task', 'step_id', 'id')->orderBy('id');
     }
 
     public static function createStep($course, $data)

@@ -30,7 +30,7 @@ class Course extends Model
 
     public function steps()
     {
-        return $this->hasMany('App\CourseStep', 'course_id', 'id');
+        return $this->hasMany('App\CourseStep', 'course_id', 'id')->orderBy('id');
     }
 
     public static function createCourse($data)

@@ -32,7 +32,7 @@ class CoursesController extends Controller
     public function index()
     {
         $user  = User::findOrFail(Auth::User()->id);
-        $courses = Course::all();
+        $courses = Course::orderBy('id')->get();
         return view('home', compact('courses', 'user'));
     }
     public function details($id)

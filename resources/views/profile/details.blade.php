@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-
-    <div class="row" style="margin-top: 15px;" xmlns="http://www.w3.org/1999/html">
+    <div class="row" style="margin-top: 15px;">
         <div class="col-md-4">
+
             <div class="card">
                 <img class="card-img-top"
                      src="{{url('/media/'.$user->image)}}"/>
@@ -16,14 +16,20 @@
                         <strong>Класс:</strong> {{$user->grade()}}</p>
 
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50"
-                             aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar"
+                             style="width:{{100*($user->score()-$user->rank()->from)/($user->rank()->to-$user->rank()->from)}}%;"
+                             aria-valuenow="{{$user->score()}}" aria-valuemin="{{$user->rank()->from}}"
+                             aria-valuemax="{{$user->rank()->to}}">{{$user->score()}}</div>
                     </div>
                     <p style="margin-top: 15px;">
                         <span style="font-size: 15px;" class="badge badge-pill badge-success"><i
-                                    class="icon ion-ios-arrow-up"></i> Капитан</span><br><span
-                                class="badge badge-pill badge-primary">Веб-разработка</span><span
-                                class="badge badge-pill badge-primary">Фронтэнд</span>
+                                    class="icon ion-ios-arrow-up"></i> {{$user->rank()->name}}</span><br>
+                        @if ($user->is_trainee)
+                            <span class="badge badge-pill badge-info">Стажер</span>
+                        @endif
+                        @if ($user->is_teacher)
+                            <span class="badge badge-pill badge-info">Преподаватель</span>
+                        @endif
                     </p>
                 </div>
                 <ul class="list-group list-group-flush">
@@ -73,64 +79,64 @@
                     @endif
                 </div>
             </div>
+            @if($user->courses->count()!=0)
+                <h4 style="margin: 20px;" class="card-title">Текущие курсы</h4>
+                <div class="row">
+                    @foreach($user->courses as $course)
+                        @if ($course->state == 'started')
+                            <div class="col-md-6">
+                                <div class="card" style="width: 100%;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{$course->name}}</h5>
+                                        <p><span class="badge badge-pill badge-success">GeekON-School</span></p>
+                                        @if ($guest->role=='teacher' || $course->students->contains($guest))
+                                            <a href="{{url('insider/courses/'.$course->id)}}" class="card-link">Страница
+                                                курса</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            @endif
 
-            <h4 style="margin: 20px;" class="card-title">Текущие курсы</h4>
-            <div class="row">
-                @foreach($user->courses as $course)
-                    @if ($course->state == 'started')
+            @if($user->completedCourses->count()!=0 || $guest->role=='teacher')
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4 style="margin: 20px;" class="card-title">Завершенные курсы</h4>
+                    </div>
+                    <div class="col" style="padding-top: 19px;">
+                        @if ($guest->role=='teacher')
+                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
+                                    data-toggle="modal" data-target="#exampleModal">
+                                Добавить
+                            </button>
+                        @endif
+                    </div>
+                </div>
+                <div class="row">
+                    @foreach($user->completedCourses as $course)
                         <div class="col-md-6">
-                            <div class="card" style="width: 100%;">
+                            <div class="card" style="width: 100%; margin-bottom: 10px;">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{$course->name}}</h5>
-                                    <p><span class="badge badge-pill badge-success">GeekON-School</span></p>
-                                    @if ($guest->role=='teacher' || $course->students->contains($guest))
-                                        <a href="{{url('insider/courses/'.$course->id)}}" class="card-link">Страница
-                                            курса</a>
-                                    @endif
+                                    <h5 class="card-title">{{$course->name}}
+                                        @if ($guest->role=='teacher')
+                                            <a class="float-right"
+                                               href="{{url('/insider/profile/delete-course/'.$course->id)}}"><span
+                                                        aria-hidden="true">&times;</span></a>
+                                        @endif</h5>
+                                    <p>
+                                        <span class="badge badge-pill badge-{{$course->class}}">{{$course->provider}}</span>
+                                        <span class="badge badge-pill badge-success">Оценка: <strong>{{$course->mark}}</strong></span>
+                                    </p>
+
                                 </div>
                             </div>
                         </div>
-                    @endif
-                @endforeach
-            </div>
-
-
-            <div class="row">
-                <div class="col-md-8">
-                    <h4 style="margin: 20px;" class="card-title">Завершенные курсы</h4>
+                    @endforeach
                 </div>
-                <div class="col" style="padding-top: 19px;">
-                    @if ($guest->role=='teacher')
-                        <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
-                                data-toggle="modal" data-target="#exampleModal">
-                            Добавить
-                        </button>
-                    @endif
-                </div>
-            </div>
-
-
-
-            <div class="row">
-                @foreach($user->completedCourses as $course)
-                    <div class="col-md-6">
-                        <div class="card" style="width: 100%; margin-bottom: 10px;">
-                            <div class="card-body">
-                                <h5 class="card-title">{{$course->name}}
-                                    @if ($guest->role=='teacher')
-                                        <a class="float-right"
-                                           href="{{url('/insider/profile/delete-course/'.$course->id)}}"><span
-                                                    aria-hidden="true">&times;</span></a>
-                                    @endif</h5>
-                                <p><span class="badge badge-pill badge-{{$course->class}}">{{$course->provider}}</span>
-                                    <span class="badge badge-pill badge-success">Оценка: <strong>{{$course->mark}}</strong></span>
-                                </p>
-
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
+            @endif
             <div class="row">
                 <div class="col-md-8">
                     <h4 style="margin: 20px;" class="card-title">Проекты</h4>
@@ -149,20 +155,21 @@
             <div class="row">
                 @foreach($user->projects as $project)
                     <div class="col-md-6">
-                            <div class="card" style="width: 100%; margin-bottom: 10px;">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{$project->name}}</h5>
-                                    <p><span>{{$project->short_description}}</span></p>
-                                        <a href="{{url('insider/projects/'.$project->id)}}" class="card-link">Страница
-                                            проекта</a>
-                                </div>
+                        <div class="card" style="width: 100%; margin-bottom: 10px;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{$project->name}}</h5>
+                                <p><span>{{$project->short_description}}</span></p>
+                                <a href="{{url('insider/projects/'.$project->id)}}" class="card-link">Страница
+                                    проекта</a>
                             </div>
+                        </div>
                     </div>
                 @endforeach
             </div>
 
 
         </div>
+
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -256,7 +263,8 @@
                             <label for="short_description" class="col-md-4">Краткое описание</label>
 
                             <div class="col-md-12">
-                                <textarea name="short_description" class="form-control" id="short_description"></textarea>
+                                <textarea name="short_description" class="form-control"
+                                          id="short_description"></textarea>
                                 @if ($errors->has('short_description'))
                                     <span class="help-block error-block">
                                         <strong>{{ $errors->first('short_description') }}</strong>
@@ -264,7 +272,7 @@
                                 @endif
                             </div>
                         </div>
-                      <!--  <div class="form-group{{ $errors->has('projectType') ? ' has-error' : '' }}">
+                    <!--  <div class="form-group{{ $errors->has('projectType') ? ' has-error' : '' }}">
                             <label for="short_description" class="col-md-4">Тип</label>
 
                             <div class="col-md-12">
@@ -274,13 +282,12 @@
                                     <option value="Working">Рабочий</option>
                                 </select>
                                 @if ($errors->has('short_description'))
-                                    <span class="help-block error-block">
-                                        <strong>{{ $errors->first('short_description') }}</strong>
+                        <span class="help-block error-block">
+                            <strong>{{ $errors->first('short_description') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>-->
-
 
 
                         <div class="form-group">
@@ -293,7 +300,5 @@
             </div>
         </div>
     </div>
-
-
 
 @endsection

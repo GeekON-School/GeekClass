@@ -11,7 +11,7 @@
         </div>
         <div class="col">
             @if ($user->role=='teacher')
-                <a class="float-right btn btn-success btn-sm" href="{{url('/insider/courses/create/')}}">Создать</a>
+                <a class="float-right btn btn-success btn-sm" href="{{url('/insider/courses/create/')}}"><i class="icon ion-plus-round"></i>&nbsp;Создать</a>
             @else
                 <div class="float-right">
                     <form class="form-inline" method="get" action="{{url('insider/invite')}}">
@@ -19,7 +19,7 @@
                         <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0" id="invite"
                                name="invite" placeholder="Инвайт на курс">
 
-                        <button type="submit" class="btn btn-success btn-sm">Добавить</button>
+                        <button type="submit" class="btn btn-success btn-sm"><i class="icon ion-plus-round"></i>&nbsp;Добавить</button>
                     </form>
                 </div>
             @endif
@@ -36,7 +36,7 @@
                             <h4 class="card-title">{{$course->name}}</h4>
                             <p class="card-text">{{$course->description}}</p>
                             @if ($user->role=='teacher' || $course->students->contains($user))
-                                <a href="{{url('insider/courses/'.$course->id)}}" class="btn btn-primary">Страница
+                                <a href="{{url('insider/courses/'.$course->id)}}" class="btn btn-primary"><i class="icon ion-ios-list-outline"></i>&nbsp;Страница
                                     курса</a>
                             @else
                                 <a href="#" class="btn btn-primary disabled" role="button" aria-disabled="true">Вы не

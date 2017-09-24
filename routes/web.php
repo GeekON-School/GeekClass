@@ -10,7 +10,13 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/home', function () {
+    if (\Illuminate\Support\Facades\Auth::check() ) {
+        return redirect('/insider');
+    }
+    return redirect('/login');
 
+});
 
 Route::get('/', function () {
     if (\Illuminate\Support\Facades\Auth::check() ) {
