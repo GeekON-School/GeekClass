@@ -45,7 +45,7 @@ class TasksController extends Controller
             'name' => 'required|string',
             'max_mark' => 'required|integer|min:0|max:100'
         ]);
-        $task = Task::create(['text' => $request->text, 'step_id'=>$step->id, 'name'=>$request->name, 'max_mark'=>$request->max_mark]);
+        $task = Task::create(['text' => $request->text, 'step_id'=>$step->id, 'name'=>$request->name, 'max_mark'=>$request->max_mark, 'is_star' => $request->is_star=='on'?true:false]);
 
         return redirect('/insider/lessons/' . $step->id.'#task'.$task->id);
     }
@@ -75,6 +75,14 @@ class TasksController extends Controller
         $task->text = $request->text;
         $task->max_mark = $request->max_mark;
         $task->name = $request->name;
+        if ($request->is_star=='on')
+        {
+            $task->is_star = true;
+        }
+        else
+        {
+            $task->is_star = false;
+        }
         $task->save();
 
         $step_id = $task->step_id;
@@ -113,7 +121,6 @@ class TasksController extends Controller
     {
         $solution = Solution::findOrFail($id);
         $this->validate($request, [
-            'comment' => 'string',
             'mark' => 'required|integer|min:0|max:'.$solution->task->max_mark
         ]);
         $solution->mark = $request->mark;

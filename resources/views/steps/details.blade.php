@@ -39,7 +39,7 @@
                     <li class="nav-item">
                         <a class="nav-link" id="tasks-tab{{$task->id}}" data-toggle="pill" href="#task{{$task->id}}"
                            role="tab"
-                           aria-controls="tasks{{$task->id}}" aria-expanded="true">{{$key+1}}. {{$task->name}}</a>
+                           aria-controls="tasks{{$task->id}}" aria-expanded="true">{{$key+1}}. {{$task->name}} @if($task->is_star) <sup>*</sup> @endif</a>
                     </li>
                 @endforeach
 
@@ -214,6 +214,11 @@
                                     </span>
                                 @endif
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="is_star">Дополнительное</label>
+                            <input type="checkbox" id="is_star" name="is_star" value="on" />
                         </div>
 
                         <div class="form-group">

@@ -55,6 +55,11 @@
                     @endif
                 </div>
 
+                <div class="form-group">
+                    <label for="is_star">Дополнительное</label>
+                    <input type="checkbox" id="is_star" name="is_star" value="on"  @if ($task->is_star) checked @endif/>
+                </div>
+
 
 
                 <button type="submit" class="btn btn-success">Сохранить</button>

@@ -41,7 +41,7 @@ class CoursesController extends Controller
         $course = Course::findOrFail($id);
         if ($user->role=='student')
         {
-            $steps = $course->steps()->where('start_date', '>=', Carbon::now())->orWhere('start_date', null)->get();
+            $steps = $course->steps()->where('start_date', '<=', Carbon::now())->orWhere('start_date', null)->get();
         }
         else{
             $steps = $course->steps;

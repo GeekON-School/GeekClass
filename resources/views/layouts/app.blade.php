@@ -32,6 +32,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
             crossorigin="anonymous"></script>
+    <script src="{{url('/js/linkify.min.js')}}"></script>
+    <script src="{{url('/js/linkify-jquery.min.js')}}"></script>
 
 
 </head>
@@ -106,7 +108,12 @@
     // Change hash for page-reload
     $('.nav-tabs a').on('shown.bs.tab', function (e) {
         window.location.hash = e.target.hash;
-    })</script>
+    })
+
+    $('div').linkify();
+</script>
+
+
 
 </body>
 </html>

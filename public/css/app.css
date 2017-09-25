@@ -134,3 +134,8 @@ img[alt=px50] {
 img[alt=px150] {
     min-width: 150px;
 }
+
+sup {
+    font-size: 130%;
+    top: 0;
+}
