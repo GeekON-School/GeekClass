@@ -34,6 +34,20 @@
     </div>
     <div class="row">
         <div class="col-md-8">
+            @if ($user->role=='student')
+            <div class="progress" style="margin-bottom: 15px;">
+                @if ($percent < 30)
+                    <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0" aria-valuemax="100">Успеваемость: {{$points}} / {{$max_points}}</div>
+
+                @elseif($percent < 50)
+                    <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0" aria-valuemax="100">Успеваемость: {{$points}} / {{$max_points}}</div>
+
+                @else
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0" aria-valuemax="100">Успеваемость: {{$points}} / {{$max_points}}</div>
+
+                @endif
+                </div>
+            @endif
             @foreach($steps as $key => $step)
 
                 <div class="card-group">
@@ -94,11 +108,11 @@
             @if ($user->role=='student')
                 <div class="card" style="margin-top: 15px;">
                     <div class="card-body">
-                        <h4 class="card-title">Оценки</h4>
+                        <h4 class="card-title">Оценки <small class="float-right"> <span class="badge badge-primary">{{$points}} / {{$max_points}}</span></small></h4>
                         <table class="table">
                             @foreach($steps as $step)
                                 <tr>
-                                    <td colspan="2">{{$step->name}}</td>
+                                    <th colspan="2">{{$step->name}}</th>
                                 </tr>
                                 @foreach($step->tasks as $task)
                                     @php
@@ -107,10 +121,16 @@
                                         });
                                         $mark = $filtered->max('mark');
                                         $mark = $mark == null?0:$mark;
+                                        $should_check = false;
+                                        if (count($filtered)!=0 && $filtered->last()->mark==null) $should_check=true;
+
                                     @endphp
                                     <tr>
-                                        <td>{{$task->name}}</td>
-                                        @if ($mark == 0)
+                                        <td><a href="{{url('/insider/lessons/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}}</a></td>
+
+                                        @if ($should_check)
+                                            <td><span class="badge badge-warning">{{$mark}}</span></td>
+                                        @elseif ($mark == 0)
                                             <td><span class="badge badge-light">{{$mark}}</span></td>
                                         @else
                                             <td><span class="badge badge-primary">{{$mark}}</span></td>

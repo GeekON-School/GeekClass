@@ -29,7 +29,8 @@
         <div class="col">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link" role="tab" id="back-link" href="{{url('/insider/courses/'.$step->course_id)}}"><i class="icon ion-chevron-left"></i></a>
+                    <a class="nav-link" role="tab" id="back-link"
+                       href="{{url('/insider/courses/'.$step->course_id)}}"><i class="icon ion-chevron-left"></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" id="theory-tab" data-toggle="pill" href="#theory" role="tab"
@@ -39,7 +40,8 @@
                     <li class="nav-item">
                         <a class="nav-link" id="tasks-tab{{$task->id}}" data-toggle="pill" href="#task{{$task->id}}"
                            role="tab"
-                           aria-controls="tasks{{$task->id}}" aria-expanded="true">{{$key+1}}. {{$task->name}} @if($task->is_star) <sup>*</sup> @endif</a>
+                           aria-controls="tasks{{$task->id}}" aria-expanded="true">{{$key+1}}
+                            . {{$task->name}} @if($task->is_star) <sup>*</sup> @endif</a>
                     </li>
                 @endforeach
 
@@ -108,7 +110,9 @@
                                     <div class="card-body">
                                         {{$solution->text}}
                                         <br><br>
-                                        <span class="badge badge-light">Проверено: {{$solution->checked}}</span>
+                                        @if ($solution->mark!=null)
+                                            <span class="badge badge-light">Проверено: {{$solution->checked}}</span>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -218,7 +222,7 @@
 
                         <div class="form-group">
                             <label for="is_star">Дополнительное</label>
-                            <input type="checkbox" id="is_star" name="is_star" value="on" />
+                            <input type="checkbox" id="is_star" name="is_star" value="on"/>
                         </div>
 
                         <div class="form-group">

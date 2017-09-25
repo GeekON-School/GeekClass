@@ -39,14 +39,30 @@ class CoursesController extends Controller
     {
         $user  = User::findOrFail(Auth::User()->id);
         $course = Course::findOrFail($id);
+        $points = 0;
+        $max_points = 0;
+        $percent = 0;
         if ($user->role=='student')
         {
             $steps = $course->steps()->where('start_date', '<=', Carbon::now())->orWhere('start_date', null)->get();
+            foreach ($steps as $step)
+            {
+                foreach ($step->tasks as $task)
+                {
+                    $max_points += $task->max_mark;
+                    $points += $user->submissions()->where('task_id', $task->id)->max('mark');
+                }
+            }
+            if ($max_points!=0)
+            {
+                $percent = $points * 100 / $max_points;
+            }
+
         }
         else{
             $steps = $course->steps;
         }
-        return view('courses.details', compact('course', 'user', 'steps'));
+        return view('courses.details', compact('course', 'user', 'steps', 'percent', 'points', 'max_points'));
     }
     public function assessments($id)
     {
