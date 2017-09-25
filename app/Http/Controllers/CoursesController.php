@@ -49,13 +49,13 @@ class CoursesController extends Controller
             {
                 foreach ($step->tasks as $task)
                 {
-                    $max_points += $task->max_mark;
+                    if (!$task->is_star) $max_points += $task->max_mark;
                     $points += $user->submissions()->where('task_id', $task->id)->max('mark');
                 }
             }
             if ($max_points!=0)
             {
-                $percent = $points * 100 / $max_points;
+                $percent = min(100,$points * 100 / $max_points);
             }
 
         }

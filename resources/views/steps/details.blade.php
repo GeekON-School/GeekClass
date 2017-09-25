@@ -68,6 +68,11 @@
 
                 <div class="row">
                     <div class="col">
+                        @if ($task->is_star)
+                        <div class="alert alert-success" role="alert">
+                            <strong>Это необязательная задача.</strong> За ее решение вы получите дополнительные баллы.
+                        </div>
+                        @endif
 
                         <div class="card">
                             <div class="card-header">
@@ -140,17 +145,17 @@
                                                 <textarea id="text{{$task->id}}" class="form-control"
                                                           name="text">{{old('text')}}</textarea>
 
+                                            <small class="text-muted">Пожалуйста, не используйте это поле для отправки исходного кода. Выложите код на <a href="https://pastebin.com">pastebin</a>, <a href="https://gist.github.com">gist</a>, <a href="https://codepaste.net">codepaste</a> или <a href="https://paste.ofcode.org/">paste.ofcode</a>, а затем скопируйте ссылку сюда.</small>
                                             @if ($errors->has('text'))
-                                                <span class="help-block error-block">
-                                        <strong>{{ $errors->first('text') }}</strong>
-                                    </span>
+                                                <br><span class="help-block error-block"><strong>{{ $errors->first('text') }}</strong></span>
                                             @endif
+
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <div class="col-md-12">
-                                            <button type="submit" class="btn btn-success">Создать</button>
+                                            <button type="submit" class="btn btn-success">Отправить</button>
                                         </div>
                                     </div>
                                 </form>

@@ -37,7 +37,7 @@
             @if ($user->role=='student')
             <div class="progress" style="margin-bottom: 15px;">
                 @if ($percent < 30)
-                    <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0" aria-valuemax="100">Успеваемость: {{$points}} / {{$max_points}}</div>
+                    <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0" aria-valuemax="100">{{$points}} / {{$max_points}}</div>
 
                 @elseif($percent < 50)
                     <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0" aria-valuemax="100">Успеваемость: {{$points}} / {{$max_points}}</div>
