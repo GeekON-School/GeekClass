@@ -6,6 +6,7 @@ use App\Http\Middleware\HasAccessToCourse;
 use App\Http\Middleware\HasAccessToStep;
 use App\Http\Middleware\HasAccessToTask;
 
+use App\Http\Middleware\HttpsProtocol;
 use App\Http\Middleware\IsCreatorOfProject;
 
 use App\Http\Middleware\SelfAccess;
@@ -26,6 +27,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        HttpsProtocol::class,
     ];
 
     /**

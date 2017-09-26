@@ -66,7 +66,7 @@
 
 <div class="container">
 
-    <form method="POST" action="{{ route('login') }}" class="form-signin">
+    <form method="POST" action="{{ url('/login') }}" class="form-signin">
         {{ csrf_field() }}
 
         <h2 class="form-signin-heading">Вход в систему</h2>
