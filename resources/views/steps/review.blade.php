@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2><a class="back-link" href="{{url('/insider/courses/'.$task->step->course->id.'/assessments')}}"><i class="icon ion-chevron-left"></i></a>&nbsp;{{$student->name}}: "{{$task->name}}"</h2>
+    <h2><a class="back-link" href="{{url('/insider/courses/'.$task->step->course->id.'/assessments')}}"><i
+                    class="icon ion-chevron-left"></i></a>&nbsp;{{$student->name}}: "{{$task->name}}"</h2>
 
     <div class="row" style="margin-top: 15px;">
         <div class="col">
@@ -43,8 +44,15 @@
                                 <br>
                                 <br>
                                 @if ($solution->mark!=null)
-                                    <span class="badge badge-primary">Оценка: {{$solution->mark}}</span><br>
-                                    <span class="badge badge-light">Проверено: {{$solution->checked}}, {{$solution->teacher->name}}</span>
+                                    <p>
+                                        <span class="badge badge-primary">Оценка: {{$solution->mark}}</span><br>
+                                        <span class="badge badge-light">Проверено: {{$solution->checked}}
+                                            , {{$solution->teacher->name}}</span>
+                                    </p>
+
+                                    <p>
+                                        <span class="small">{{$solution->comment}}</span>
+                                    </p>
                                 @else
                                     <span class="badge badge-secondary">Решение еще не проверено</span>
                                 @endif

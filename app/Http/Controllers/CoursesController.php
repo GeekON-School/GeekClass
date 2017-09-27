@@ -47,7 +47,14 @@ class CoursesController extends Controller
             $steps = $course->steps()->where('start_date', '<=', Carbon::now())->orWhere('start_date', null)->get();
             foreach ($steps as $step)
             {
-                foreach ($step->tasks as $task)
+                if ($user->is_remote)
+                {
+                    $tasks = $step->remote_tasks;
+                }
+                else {
+                    $tasks = $step->class_tasks;
+                }
+                foreach ($tasks as $task)
                 {
                     if (!$task->is_star) $max_points += $task->max_mark;
                     $points += $user->submissions()->where('task_id', $task->id)->max('mark');

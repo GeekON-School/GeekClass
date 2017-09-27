@@ -35,17 +35,23 @@
     <div class="row">
         <div class="col-md-8">
             @if ($user->role=='student')
-            <div class="progress" style="margin-bottom: 15px;">
-                @if ($percent < 30)
-                    <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0" aria-valuemax="100">{{$points}} / {{$max_points}}</div>
+                <div class="progress" style="margin-bottom: 15px;">
+                    @if ($percent < 30)
+                        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
+                             style="width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0"
+                             aria-valuemax="100">{{$points}} / {{$max_points}}</div>
 
-                @elseif($percent < 50)
-                    <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0" aria-valuemax="100">Успеваемость: {{$points}} / {{$max_points}}</div>
+                    @elseif($percent < 50)
+                        <div class="progress-bar progress-bar-striped bg-warning" role="progressbar"
+                             style="width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0"
+                             aria-valuemax="100">Успеваемость: {{$points}} / {{$max_points}}</div>
 
-                @else
-                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0" aria-valuemax="100">Успеваемость: {{$points}} / {{$max_points}}</div>
+                    @else
+                        <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                             style="width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0"
+                             aria-valuemax="100">Успеваемость: {{$points}} / {{$max_points}}</div>
 
-                @endif
+                    @endif
                 </div>
             @endif
             @foreach($steps as $key => $step)
@@ -54,9 +60,10 @@
                     <div class="card">
                         <div class="card-body">
                             @if ($user->role=='teacher' || $step->start_date==null || $step->start_date->setTime(0,0,0)->lt(\Carbon\Carbon::now()))
-                            <h5>{{$key+1}}. <a class="collection-item"
-                                               href="{{url('/insider/lessons/'.$step->id)}}">{{$step->name}}</a></h5>
-                                @else
+                                <h5>{{$key+1}}. <a class="collection-item"
+                                                   href="{{url('/insider/lessons/'.$step->id)}}">{{$step->name}}</a>
+                                </h5>
+                            @else
                                 <h5>{{$key+1}}. <a class="collection-item text-muted" disabled
                                                    href="#">{{$step->name}}</a></h5>
                             @endif
@@ -108,13 +115,25 @@
             @if ($user->role=='student')
                 <div class="card" style="margin-top: 15px;">
                     <div class="card-body">
-                        <h4 class="card-title">Оценки <small class="float-right"> <span class="badge badge-primary">{{$points}} / {{$max_points}}</span></small></h4>
+                        <h4 class="card-title">Оценки
+                            <small class="float-right"><span class="badge badge-primary">{{$points}}
+                                    / {{$max_points}}</span></small>
+                        </h4>
                         <table class="table">
                             @foreach($steps as $step)
                                 <tr>
                                     <th colspan="2">{{$step->name}}</th>
                                 </tr>
-                                @foreach($step->tasks as $task)
+                                @php
+                                    if ($user->is_remote)
+                                    {
+                                        $tasks = $step->remote_tasks;
+                                    }
+                                    else {
+                                        $tasks = $step->class_tasks;
+                                    }
+                                @endphp
+                                @foreach($tasks as $task)
                                     @php
                                         $filtered = $task->solutions->filter(function ($value) use ($user) {
                                             return $value->user_id == $user->id;
@@ -126,7 +145,9 @@
 
                                     @endphp
                                     <tr>
-                                        <td><a href="{{url('/insider/lessons/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}}</a></td>
+                                        <td>
+                                            <a href="{{url('/insider/lessons/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}}</a>
+                                        </td>
 
                                         @if ($should_check)
                                             <td><span class="badge badge-warning">{{$mark}}</span></td>

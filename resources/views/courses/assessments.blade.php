@@ -15,7 +15,8 @@
                     <th style="border-bottom: none;"></th>
                     @foreach($course->steps as $step)
                         @if ($step->tasks->count()!=0)
-                            <td colspan="{{$step->tasks->count()}}">{{$step->name}}</td>
+                            <td colspan="{{$step->tasks->count()}}">{{$step->name}}
+                            </td>
                         @endif
                     @endforeach
                     <td class="bg-info"></td>
@@ -31,7 +32,10 @@
 
                         @foreach($step->tasks as $task)
 
-                            <td>{{$task->name}} ({{$task->max_mark}})</td>
+                            <td>{{$task->name}} ({{$task->max_mark}})
+                                @if($task->is_star) <sup>*</sup> @endif
+                                @if($task->only_class) <sup><i class="icon ion-android-contacts"></i></sup> @endif
+                                @if($task->only_remote) <sup><i class="icon ion-at"></i></sup> @endif</td>
                             @php
                                 $sum += $task->max_mark;
                             @endphp

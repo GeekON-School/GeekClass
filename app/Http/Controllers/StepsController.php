@@ -38,7 +38,20 @@ class StepsController extends Controller
     {
         $user  = User::findOrFail(Auth::User()->id);
         $step = CourseStep::findOrFail($id);
-        return view('steps.details', compact('step', 'user'));
+        if ($user->role=='teacher')
+        {
+            $tasks = $step->tasks;
+        }
+        else {
+            if ($user->is_remote)
+            {
+                $tasks = $step->remote_tasks;
+            }
+            else {
+                $tasks = $step->class_tasks;
+            }
+        }
+        return view('steps.details', compact('step', 'user', 'tasks'));
     }
 
     public function createView($id)

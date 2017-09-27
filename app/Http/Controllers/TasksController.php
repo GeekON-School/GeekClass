@@ -45,7 +45,10 @@ class TasksController extends Controller
             'name' => 'required|string',
             'max_mark' => 'required|integer|min:0|max:100'
         ]);
-        $task = Task::create(['text' => $request->text, 'step_id'=>$step->id, 'name'=>$request->name, 'max_mark'=>$request->max_mark, 'is_star' => $request->is_star=='on'?true:false]);
+        $task = Task::create(['text' => $request->text, 'step_id'=>$step->id, 'name'=>$request->name, 'max_mark'=>$request->max_mark,
+            'is_star' => $request->is_star=='on'?true:false,
+            'only_remote' => $request->only_remote=='on'?true:false,
+            'only_class' => $request->only_class=='on'?true:false]);
 
         return redirect('/insider/lessons/' . $step->id.'#task'.$task->id);
     }
@@ -82,6 +85,22 @@ class TasksController extends Controller
         else
         {
             $task->is_star = false;
+        }
+        if ($request->only_class=='on')
+        {
+            $task->only_class = true;
+        }
+        else
+        {
+            $task->only_class = false;
+        }
+        if ($request->only_remote=='on')
+        {
+            $task->only_remote = true;
+        }
+        else
+        {
+            $task->only_remote = false;
         }
         $task->save();
 

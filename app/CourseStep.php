@@ -31,6 +31,14 @@ class CourseStep extends Model
     {
         return $this->hasMany('App\Task', 'step_id', 'id')->orderBy('id');
     }
+    public function class_tasks()
+    {
+        return $this->hasMany('App\Task', 'step_id', 'id')->Where('only_remote', false)->orderBy('id');
+    }
+    public function remote_tasks()
+    {
+        return $this->hasMany('App\Task', 'step_id', 'id')->Where('only_class', false)->orderBy('id');
+    }
 
     public static function createStep($course, $data)
     {

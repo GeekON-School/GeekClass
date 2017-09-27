@@ -59,6 +59,14 @@
                     <label for="is_star">Дополнительное</label>
                     <input type="checkbox" id="is_star" name="is_star" value="on"  @if ($task->is_star) checked @endif/>
                 </div>
+                <div class="form-group">
+                    <label for="only_class">Только для очной формы</label>
+                    <input type="checkbox" id="only_class" name="only_class" value="on"  @if ($task->only_class) checked @endif/>
+                </div>
+                <div class="form-group">
+                    <label for="only_remote">Только для заочной формы</label>
+                    <input type="checkbox" id="only_remote" name="only_remote" value="on"  @if ($task->only_remote) checked @endif/>
+                </div>
 
 
 

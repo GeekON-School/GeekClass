@@ -36,12 +36,14 @@
                     <a class="nav-link active" id="theory-tab" data-toggle="pill" href="#theory" role="tab"
                        aria-controls="theory" aria-expanded="true">0. Теория</a>
                 </li>
-                @foreach ($step->tasks as $key => $task)
+                @foreach ($tasks as $key => $task)
                     <li class="nav-item">
                         <a class="nav-link" id="tasks-tab{{$task->id}}" data-toggle="pill" href="#task{{$task->id}}"
                            role="tab"
-                           aria-controls="tasks{{$task->id}}" aria-expanded="true">{{$key+1}}
-                            . {{$task->name}} @if($task->is_star) <sup>*</sup> @endif</a>
+                           aria-controls="tasks{{$task->id}}" aria-expanded="true">{{$key+1}}. {{$task->name}}
+                            @if($task->is_star) <sup>*</sup> @endif
+                            @if($task->only_class) <sup><i class="icon ion-android-contacts"></i></sup> @endif
+                            @if($task->only_remote) <sup><i class="icon ion-at"></i></sup> @endif</a>
                     </li>
                 @endforeach
 
@@ -62,7 +64,7 @@
                 </div>
             </div>
         </div>
-        @foreach ($step->tasks as $key => $task)
+        @foreach ($tasks as $key => $task)
             <div class="tab-pane fade" id="task{{$task->id}}" role="tabpanel" aria-labelledby="tasks-tab{{$task->id}}">
 
 
@@ -116,7 +118,12 @@
                                         {{$solution->text}}
                                         <br><br>
                                         @if ($solution->mark!=null)
-                                            <span class="badge badge-light">Проверено: {{$solution->checked}}</span>
+                                            <p>
+                                                <span class="badge badge-light">Проверено: {{$solution->checked}}, {{$solution->teacher->name}}</span>
+                                            </p>
+                                            <p>
+                                                <span class="small">{{$solution->comment}}</span>
+                                            </p>
                                         @endif
                                     </div>
                                 </div>
@@ -228,6 +235,14 @@
                         <div class="form-group">
                             <label for="is_star">Дополнительное</label>
                             <input type="checkbox" id="is_star" name="is_star" value="on"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="only_class">Только для очной формы</label>
+                            <input type="checkbox" id="only_class" name="only_class" value="on"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="only_remote">Только для заочной формы</label>
+                            <input type="checkbox" id="only_remote" name="only_remote" value="on"/>
                         </div>
 
                         <div class="form-group">
