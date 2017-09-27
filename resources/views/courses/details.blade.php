@@ -103,7 +103,7 @@
                     <b>Участники:</b><br/>
                     <ul>
                         @foreach($course->students as $student)
-                            <li>{{$student->name}}</li>
+                            <li>{{$student->name}} @if ($user->role=='teacher') <span class="badge badge-primary"> {{ round($student->percent) }} % </span> @endif</li>
                         @endforeach
                     </ul>
                     </p>

@@ -42,6 +42,7 @@ class CoursesController extends Controller
         $points = 0;
         $max_points = 0;
         $percent = 0;
+        $students = $course->students;
         if ($user->role=='student')
         {
             $steps = $course->steps()->where('start_date', '<=', Carbon::now())->orWhere('start_date', null)->get();
@@ -68,6 +69,33 @@ class CoursesController extends Controller
         }
         else{
             $steps = $course->steps;
+            $temp_steps = $course->steps()->where('start_date', '<=', Carbon::now())->orWhere('start_date', null)->get();
+
+            foreach ($students as $key => $value)
+            {
+                $students[$key]->percent = 0;
+                $students[$key]->max_points = 0;
+                $students[$key]->points = 0;
+                foreach ($temp_steps as $step)
+                {
+                    if ($user->is_remote)
+                    {
+                        $tasks = $step->remote_tasks;
+                    }
+                    else {
+                        $tasks = $step->class_tasks;
+                    }
+                    foreach ($tasks as $task)
+                    {
+                        if (!$task->is_star) $students[$key]->max_points += $task->max_mark;
+                        $students[$key]->points += $value->submissions()->where('task_id', $task->id)->max('mark');
+                    }
+                }
+                if ($students[$key]->max_points!=0)
+                {
+                    $students[$key]->percent = min(100,$students[$key]->points * 100 / $students[$key]->max_points);
+                }
+            }
         }
         return view('courses.details', compact('course', 'user', 'steps', 'percent', 'points', 'max_points'));
     }
