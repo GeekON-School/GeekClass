@@ -78,7 +78,7 @@ class CoursesController extends Controller
                 $students[$key]->points = 0;
                 foreach ($temp_steps as $step)
                 {
-                    if ($user->is_remote)
+                    if ($value->is_remote)
                     {
                         $tasks = $step->remote_tasks;
                     }
