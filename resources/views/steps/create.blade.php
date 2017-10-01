@@ -54,6 +54,16 @@
                         @endif
                 </div>
                 <div class="form-group">
+                    <label for="notes" style="padding-bottom: 10px;">Комментарий для преподавателя</label>
+                        <textarea id="notes" class="form-control"
+                                  name="notes">{{old('notes')}}</textarea>
+                    @if ($errors->has('notes'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('notes') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+                <div class="form-group">
                     <div class="col-md-8 col-md-offset-4">
                         <button type="submit" class="btn btn-success">Создать</button>
                     </div>
@@ -65,6 +75,7 @@
                     element: document.getElementById("description")
                 });
                 var simplemde_theory = new SimpleMDE({spellChecker: false, element: document.getElementById("theory")});
+                var simplemde_notes = new SimpleMDE({spellChecker: false, element: document.getElementById("notes")});
             </script>
         </div>
     </div>

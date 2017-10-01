@@ -59,14 +59,10 @@
                 <div class="card-group">
                     <div class="card">
                         <div class="card-body">
-                            @if ($user->role=='teacher' || $step->start_date==null || $step->start_date->setTime(0,0,0)->lt(\Carbon\Carbon::now()))
+
                                 <h5>{{$key+1}}. <a class="collection-item"
                                                    href="{{url('/insider/lessons/'.$step->id)}}">{{$step->name}}</a>
                                 </h5>
-                            @else
-                                <h5>{{$key+1}}. <a class="collection-item text-muted" disabled
-                                                   href="#">{{$step->name}}</a></h5>
-                            @endif
                             @parsedown($step->description)
                         </div>
                         @if ($step->start_date!=null)

@@ -45,7 +45,7 @@ class CoursesController extends Controller
         $students = $course->students;
         if ($user->role=='student')
         {
-            $steps = $course->steps()->where('start_date', '<=', Carbon::now())->orWhere('start_date', null)->get();
+            $steps = $course->steps()->where('start_date', '<=', Carbon::now()->addDay()->setTime(0,0))->orWhere('start_date', null)->get();
             foreach ($steps as $step)
             {
                 if ($user->is_remote)
