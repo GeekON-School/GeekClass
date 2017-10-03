@@ -43,11 +43,17 @@ class CoursesController extends Controller
         $max_points = 0;
         $percent = 0;
         $students = $course->students;
+
+        $step_points = array();
+        $step_max_points = array();
+
         if ($user->role=='student')
         {
             $steps = $course->steps()->where('start_date', '<=', Carbon::now()->addDay()->setTime(0,0))->orWhere('start_date', null)->get();
             foreach ($steps as $step)
             {
+                $step_max_points[$step->id] = 0;
+                $step_points[$step->id] = 0;
                 if ($user->is_remote)
                 {
                     $tasks = $step->remote_tasks;
@@ -57,12 +63,22 @@ class CoursesController extends Controller
                 }
                 foreach ($tasks as $task)
                 {
-                    if (!$task->is_star) $max_points += $task->max_mark;
-                    $points += $user->submissions()->where('task_id', $task->id)->max('mark');
+                    if (!$task->is_star) {
+                        $max_points += $task->max_mark;
+                        $step_max_points[$task->step->id] += $task->max_mark;
+                    }
+                    $task_points = $user->submissions()->where('task_id', $task->id)->max('mark');
+                    $step_points[$task->step->id] += $task_points;
+                    $points += $task_points;
                 }
             }
+            $step_percents = array();
             if ($max_points!=0)
             {
+                foreach ($step_points as $key=>$value)
+                {
+                    $step_percents[$key] = min(100,$value * 100 / $step_max_points[$key]);
+                }
                 $percent = min(100,$points * 100 / $max_points);
             }
 
@@ -97,7 +113,7 @@ class CoursesController extends Controller
                 }
             }
         }
-        return view('courses.details', compact('course', 'user', 'steps', 'percent', 'points', 'max_points'));
+        return view('courses.details', compact('course', 'user', 'steps', 'percent', 'points', 'max_points', 'step_max_points', 'step_points', 'step_percents'));
     }
     public function assessments($id)
     {
