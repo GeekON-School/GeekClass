@@ -94,22 +94,32 @@
                         @if ($course->telegram!=null)
                             <b>Чат в телеграм:</b> <a href="{{$course->telegram}}">{{$course->telegram}}</a><br/>
                         @endif
-                        <b>Преподаватели:</b><br/>
-                    <ul>
-                        @foreach($course->teachers as $teacher)
-                            <li>{{$teacher->name}}</li>
-                        @endforeach
-                    </ul>
-                    <b>Участники:</b><br/>
-                    <ul>
-                        @foreach($course->students as $student)
-                            <li>{{$student->name}} @if ($user->role=='teacher') <span class="badge badge-primary"> {{ round($student->percent) }} % </span> @endif</li>
-                        @endforeach
-                    </ul>
                     </p>
+                    <p>
+                        <b>Преподаватели:</b>
+                    </p>
+                        <ul>
+                            @foreach($course->teachers as $teacher)
+                                <li>{{$teacher->name}}</li>
+                            @endforeach
+                        </ul>
+                    <p>
+                        <b>Участники:</b>
+                    </p>
+                        <ul>
+                            @foreach($course->students->sortByDesc('percent') as $student)
+                                <li>{{$student->name}} @if ($user->role=='teacher') <span
+                                            class="badge badge-primary float-right"> {{ round($student->percent) }}
+                                        % </span> @endif</li>
+                            @endforeach
+                        </ul>
+
                     @if ($user->role=='teacher')
+                        <p>
                         <a href="{{url('insider/courses/'.$course->id.'/assessments')}}" class="btn btn-primary">Успеваемость</a>
+                        </p>
                     @endif
+
                 </div>
             </div>
             @if ($user->role=='student')

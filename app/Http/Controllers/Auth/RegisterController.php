@@ -102,22 +102,39 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        if ($request->invite==null || $request->invite=="")
+        $is_teacher = false;
+        $course = null;
+        if ($request->invite=='T#ach@r')
         {
-            $this->make_error_alert('Ошибка!', 'Курс с таким приглашением не найден.');
-            return $this->backException();
+            $is_teacher = true;
         }
-        $course = Course::where('invite', $request->invite)->first();
-        if ($course==null)
-        {
-            $this->make_error_alert('Ошибка!', 'Курс с таким приглашением не найден.');
-            return $this->backException();
+        else {
+            if ($request->invite==null || $request->invite=="")
+            {
+                $this->make_error_alert('Ошибка!', 'Курс с таким приглашением не найден.');
+                return $this->backException();
+            }
+            $course = Course::where('invite', $request->invite)->first();
+            if ($course==null)
+            {
+                $this->make_error_alert('Ошибка!', 'Курс с таким приглашением не найден.');
+                return $this->backException();
+            }
         }
+
 
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request)));
-        $course->students()->attach($user->id);
+        if ($is_teacher)
+        {
+            $user->role='teacher';
+            $user->save();
+        }
+        else {
+            $course->students()->attach($user->id);
+        }
+
 
         $this->guard()->login($user);
 
