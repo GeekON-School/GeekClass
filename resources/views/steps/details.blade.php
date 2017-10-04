@@ -63,6 +63,18 @@
                     </div>
                 </div>
             </div>
+            @if ($user->role=='teacher' && $step->notes!='')
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body markdown">
+                                <h3>Комментарий для преподавателя</h3>
+                                @parsedown($step->notes)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
         @foreach ($tasks as $key => $task)
             <div class="tab-pane fade" id="task{{$task->id}}" role="tabpanel" aria-labelledby="tasks-tab{{$task->id}}">
@@ -71,9 +83,10 @@
                 <div class="row">
                     <div class="col">
                         @if ($task->is_star)
-                        <div class="alert alert-success" role="alert">
-                            <strong>Это необязательная задача.</strong> За ее решение вы получите дополнительные баллы.
-                        </div>
+                            <div class="alert alert-success" role="alert">
+                                <strong>Это необязательная задача.</strong> За ее решение вы получите дополнительные
+                                баллы.
+                            </div>
                         @endif
 
                         <div class="card">
@@ -119,7 +132,8 @@
                                         <br><br>
                                         @if ($solution->mark!=null)
                                             <p>
-                                                <span class="badge badge-light">Проверено: {{$solution->checked}}, {{$solution->teacher->name}}</span>
+                                                <span class="badge badge-light">Проверено: {{$solution->checked}}
+                                                    , {{$solution->teacher->name}}</span>
                                             </p>
                                             <p>
                                                 <span class="small">{{$solution->comment}}</span>
@@ -152,9 +166,17 @@
                                                 <textarea id="text{{$task->id}}" class="form-control"
                                                           name="text">{{old('text')}}</textarea>
 
-                                            <small class="text-muted">Пожалуйста, не используйте это поле для отправки исходного кода. Выложите код на <a href="https://pastebin.com">pastebin</a>, <a href="https://gist.github.com">gist</a>, <a href="https://codepaste.net">codepaste</a> или <a href="https://paste.ofcode.org/">paste.ofcode</a>, а затем скопируйте ссылку сюда.</small>
+                                            <small class="text-muted">Пожалуйста, не используйте это поле для отправки
+                                                исходного кода. Выложите код на <a
+                                                        href="https://pastebin.com">pastebin</a>, <a
+                                                        href="https://gist.github.com">gist</a>, <a
+                                                        href="https://codepaste.net">codepaste</a> или <a
+                                                        href="https://paste.ofcode.org/">paste.ofcode</a>, а затем
+                                                скопируйте ссылку сюда.
+                                            </small>
                                             @if ($errors->has('text'))
-                                                <br><span class="help-block error-block"><strong>{{ $errors->first('text') }}</strong></span>
+                                                <br><span
+                                                        class="help-block error-block"><strong>{{ $errors->first('text') }}</strong></span>
                                             @endif
 
                                         </div>

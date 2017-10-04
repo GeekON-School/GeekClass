@@ -13,6 +13,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
+use Notification;
 
 class TasksController extends Controller
 {
@@ -125,6 +126,10 @@ class TasksController extends Controller
         $solution->text = $request->text;
         $solution->save();
 
+        $when = \Carbon\Carbon::now()->addSeconds(1);
+
+        Notification::send($task->step->course->teachers, (new \App\Notifications\NewSolution($solution))->delay($when));
+
         return redirect('/insider/lessons/' . $step_id. '#task'.$id);
     }
     public function reviewSolutions($id, $student_id, Request $request)
@@ -147,6 +152,9 @@ class TasksController extends Controller
         $solution->teacher_id = Auth::User()->id;
         $solution->checked = Carbon::now();
         $solution->save();
+
+        $when = \Carbon\Carbon::now()->addSeconds(1);
+        Notification::send($solution->user, (new \App\Notifications\NewMark($solution))->delay($when));
 
         return redirect()->back();
 

@@ -84,6 +84,12 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/projects/{id}/delete', 'ProjectsController@deleteProject');
     Route::get('/projects', 'ProjectsController@index');
 
+    Route::get('/testmail', function () {
+        $user = \App\User::findOrFail(1);
+        $when = \Carbon\Carbon::now()->addSeconds(1);
+        $user->notify((new \App\Notifications\NewSolution())->delay($when));
+    });
+
 });
 
 
