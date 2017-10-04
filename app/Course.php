@@ -20,7 +20,7 @@ class Course extends Model
 
     public function students()
     {
-        return $this->belongsToMany('App\User', 'course_students', 'course_id', 'user_id');
+        return $this->belongsToMany('App\User', 'course_students', 'course_id', 'user_id')->withPivot('is_remote');
     }
 
     public function teachers()
@@ -48,6 +48,7 @@ class Course extends Model
             $invite = str_random(8);
         } while (Course::where('invite', $invite)->count() != 0);
         $this->invite = $invite;
+        $this->remote_invite = $invite.'-R';
         $this->save();
     }
 

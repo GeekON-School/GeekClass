@@ -38,12 +38,16 @@ class StepsController extends Controller
     {
         $user  = User::findOrFail(Auth::User()->id);
         $step = CourseStep::findOrFail($id);
+
         if ($user->role=='teacher')
         {
             $tasks = $step->tasks;
         }
         else {
-            if ($user->is_remote)
+            $student = $step->course->students->filter(function($value, $key) use ($user)  {
+                return $value->id == $user->id;
+            })->first();
+            if ($student->pivot->is_remote)
             {
                 $tasks = $step->remote_tasks;
             }

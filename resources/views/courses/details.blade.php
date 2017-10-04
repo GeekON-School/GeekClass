@@ -53,31 +53,31 @@
                                             с {{$step->start_date->format('Y-m-d')}}</small>
                                     </div>
                                     <div class="col-md-6">
-                                        @if ($user->role=='student' and $step_max_points[$step->id]!=0)
+                                        @if ($user->role=='student' and $step->max_points($cstudent)!=0)
                                             <div class="progress" style="margin: 5px;">
-                                                @if ($percent < 30)
+                                                @if ($step->percent($cstudent) < 30)
                                                     <div class="progress-bar progress-bar-striped bg-danger"
                                                          role="progressbar"
-                                                         style="width: {{$percent}}%"
-                                                         aria-valuenow="{{$step_percents[$step->id]}}" aria-valuemin="0"
-                                                         aria-valuemax="100">{{$step_points[$step->id]}}
-                                                        / {{$step_max_points[$step->id]}}</div>
+                                                         style="width: {{$step->percent($cstudent)}}%"
+                                                         aria-valuenow="{{$step->percent($cstudent)}}" aria-valuemin="0"
+                                                         aria-valuemax="100">{{$step->points($cstudent)}}
+                                                        / {{$step->max_points($cstudent)}}</div>
 
-                                                @elseif($percent < 50)
+                                                @elseif($step->percent($cstudent) < 50)
                                                     <div class="progress-bar progress-bar-striped bg-warning"
                                                          role="progressbar"
-                                                         style="width: {{$percent}}%"
-                                                         aria-valuenow="{{$step_percents[$step->id]}}" aria-valuemin="0"
-                                                         aria-valuemax="100">Успеваемость: {{$step_points[$step->id]}}
-                                                        / {{$step_max_points[$step->id]}}</div>
+                                                         style="width: {{$step->percent($cstudent)}}%"
+                                                         aria-valuenow="{{$step->percent($cstudent)}}" aria-valuemin="0"
+                                                         aria-valuemax="100">Успеваемость: {{$step->points($cstudent)}}
+                                                        / {{$step->max_points($cstudent)}}</div>
 
                                                 @else
                                                     <div class="progress-bar progress-bar-striped bg-success"
                                                          role="progressbar"
-                                                         style="width: {{$percent}}%"
-                                                         aria-valuenow="{{$step_percents[$step->id]}}" aria-valuemin="0"
-                                                         aria-valuemax="100">Успеваемость: {{$step_points[$step->id]}}
-                                                        / {{$step_max_points[$step->id]}}</div>
+                                                         style="width: {{$step->percent($cstudent)}}%"
+                                                         aria-valuenow="{{$step->percent($cstudent)}}" aria-valuemin="0"
+                                                         aria-valuemax="100">Успеваемость: {{$step->points($cstudent)}}
+                                                        / {{$step->max_points($cstudent)}}</div>
 
                                                 @endif
                                             </div>
@@ -98,6 +98,7 @@
                         @if ($user->role=='teacher')
                             <b>Статус:</b> {{$course->state}}<br/>
                             <b>Инвайт:</b> {{$course->invite}}<br/>
+                            <b>Дистанционно:</b> {{$course->remote_invite}}<br/>
 
                         @endif
                         @if ($course->git!=null)
@@ -119,10 +120,10 @@
                         <b>Участники:</b>
                     </p>
                         <ul>
-                            @foreach($course->students->sortByDesc('percent') as $student)
-                                <li>{{$student->name}} @if ($user->role=='teacher') <span
+                            @foreach($students->sortByDesc('percent') as $student)
+                                <li>{{$student->name}}  <span
                                             class="badge badge-primary float-right"> {{ round($student->percent) }}
-                                        % </span> @endif</li>
+                                        % </span></li>
                             @endforeach
                         </ul>
 
@@ -139,23 +140,23 @@
                     <div class="card-body">
 
                         <h4 class="card-title">Оценки
-                            <small class="float-right"><span class="badge badge-primary">{{$points}}
-                                    / {{$max_points}}</span></small>
+                            <small class="float-right"><span class="badge badge-primary">{{$cstudent->points}}
+                                    / {{$cstudent->max_points}}</span></small>
                         </h4>
                         <div class="progress" style="margin-bottom: 15px;">
-                            @if ($percent < 30)
+                            @if ($cstudent->percent < 30)
                                 <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
-                                     style="height: 2px;width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0"
+                                     style="height: 2px;width: {{$cstudent->percent}}%" aria-valuenow="{{$cstudent->percent}}" aria-valuemin="0"
                                      aria-valuemax="100"></div>
 
-                            @elseif($percent < 50)
+                            @elseif($cstudent->percent < 50)
                                 <div class="progress-bar progress-bar-striped bg-warning" role="progressbar"
-                                     style="height: 2px;width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0"
+                                     style="height: 2px;width: {{$cstudent->percent}}%" aria-valuenow="{{$cstudent->percent}}" aria-valuemin="0"
                                      aria-valuemax="100"></div>
 
                             @else
                                 <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
-                                     style="height: 2px;width: {{$percent}}%" aria-valuenow="{{$percent}}" aria-valuemin="0"
+                                     style="height: 2px;width: {{$cstudent->percent}}%" aria-valuenow="{{$cstudent->percent}}" aria-valuemin="0"
                                      aria-valuemax="100"></div>
 
                             @endif

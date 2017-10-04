@@ -7,24 +7,23 @@
 @section('content')
     <h2 style="margin: 20px;"><a class="back-link" href="{{url('/insider/courses/'.$course->id)}}"><i
                     class="icon ion-chevron-left"></i></a>&nbsp;Успеваемость по курсу "{{$course->name}}"</h2>
-    <div class="assessment-block" style="background-color: #212529">
+    <div class="assessment-block">
         <div class="table-wrapper">
-            <table class="table table-inverse table-striped  table-sm">
+            <table class="table table-striped  table-sm">
                 <thead class="thead-inverse">
-                <tr>
+                <tr class="bg-primary">
                     <th style="border-bottom: none;"></th>
                     @foreach($course->steps as $step)
                         @if ($step->tasks->count()!=0)
-                            <td colspan="{{$step->tasks->count()}}">{{$step->name}}
-                            </td>
+                            <th colspan="{{$step->tasks->count()}}">{{$step->name}}
+                            </th>
                         @endif
                     @endforeach
                     <td class="bg-info"></td>
                 </tr>
-                </thead>
-                <tbody>
-                <tr class="bg-primary">
-                    <th></th>
+
+                <tr>
+                    <th class="bg-primary"></th>
                     @php
                         $sum = 0;
                     @endphp
@@ -32,10 +31,10 @@
 
                         @foreach($step->tasks as $task)
 
-                            <td>{{$task->name}} ({{$task->max_mark}})
+                            <th class="bg-primary">{{$task->name}} ({{$task->max_mark}})
                                 @if($task->is_star) <sup>*</sup> @endif
                                 @if($task->only_class) <sup><i class="icon ion-android-contacts"></i></sup> @endif
-                                @if($task->only_remote) <sup><i class="icon ion-at"></i></sup> @endif</td>
+                                @if($task->only_remote) <sup><i class="icon ion-at"></i></sup> @endif</th>
                             @php
                                 $sum += $task->max_mark;
                             @endphp
@@ -43,6 +42,8 @@
                     @endforeach
                     <td class="bg-info">Сумма ({{$sum}})</td>
                 </tr>
+                </thead>
+                <tbody>
                 @foreach($course->students as $student)
                     <tr>
                         <th scope="row">{{$student->name}}</th>
@@ -65,16 +66,25 @@
                                         $need_check = true;
                                     }
                                     $sum += $mark;
+                                    $class = 'badge-light';
+                                    if ($mark >= $task->max_mark * 0.5)
+                                    {
+                                        $class = 'badge-primary';
+                                    }
+                                    if ($mark >= $task->max_mark * 0.7)
+                                    {
+                                        $class = 'badge-success';
+                                    }
+                                    if ($need_check)
+                                    {
+                                        $class = 'badge-warning';
+                                    }
 
 
                                 @endphp
                                 <td>
                                     <a href="{{url('/insider/tasks/'.$task->id.'/student/'.$student->id)}}">
-                                        @if ($need_check)
-                                            <span class="badge badge-warning">{{$mark}}</span>
-                                        @else
-                                            <span class="badge badge-light">{{$mark}}</span>
-                                        @endif
+                                            <span class="badge {{$class}}">{{$mark}}</span>
                                     </a>
                                 </td>
                             @endforeach
