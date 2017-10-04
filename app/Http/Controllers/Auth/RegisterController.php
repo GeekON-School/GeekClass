@@ -104,7 +104,7 @@ class RegisterController extends Controller
     {
         $is_teacher = false;
         $course = null;
-        if ($request->invite=='T#ach@r')
+        if ($request->invite == 'T#ach@r')
         {
             $is_teacher = true;
         }
