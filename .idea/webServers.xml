@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="5be1105e-124c-4e4b-8e6f-0a79d98c432b" name="Zeon" url="http://geekclass.ru">
+        <fileTransfer host="roctbb.net" port="22" rootFolder="/home/roctbb/GeekClass/" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

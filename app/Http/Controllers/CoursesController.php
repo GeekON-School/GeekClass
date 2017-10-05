@@ -66,6 +66,7 @@ class CoursesController extends Controller
             }
         }
         if ($user->role == 'student') {
+            $steps = $temp_steps;
             $cstudent =  $students->filter(function($value, $key) use ($user)  {
                 return $value->id == $user->id;
             })->first();
