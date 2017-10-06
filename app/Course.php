@@ -23,6 +23,11 @@ class Course extends Model
         return $this->belongsToMany('App\User', 'course_students', 'course_id', 'user_id')->withPivot('is_remote');
     }
 
+    public function provider()
+    {
+        return $this->hasOne('App\Provider',  'id', 'provider_id');
+    }
+
     public function teachers()
     {
         return $this->belongsToMany('App\User', 'course_teachers', 'course_id', 'user_id');

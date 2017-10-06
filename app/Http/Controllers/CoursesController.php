@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\CourseStep;
 use App\Http\Controllers\Controller;
+use App\Provider;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -33,7 +34,8 @@ class CoursesController extends Controller
     {
         $user = User::findOrFail(Auth::User()->id);
         $courses = Course::orderBy('id')->get();
-        return view('home', compact('courses', 'user'));
+        $providers = Provider::orderBy('id')->get();
+        return view('home', compact('courses', 'user', 'providers'));
     }
 
     public function details($id)
