@@ -83,7 +83,7 @@
 
                                 @endphp
                                 <td>
-                                    <a href="{{url('/insider/tasks/'.$task->id.'/student/'.$student->id)}}">
+                                    <a target="_blank" href="{{url('/insider/tasks/'.$task->id.'/student/'.$student->id)}}">
                                             <span class="badge {{$class}}">{{$mark}}</span>
                                     </a>
                                 </td>
