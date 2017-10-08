@@ -174,7 +174,7 @@
                                                         href="https://gist.github.com">gist</a>, <a
                                                         href="https://codepaste.net">codepaste</a> или <a
                                                         href="https://paste.ofcode.org/">paste.ofcode</a>, а затем
-                                                скопируйте ссылку сюда.
+                                                скопируйте ссылку сюда.<br>Для загрузки картинок и небольших файлов можно использовать <a href="https://storage.geekclass.ru/" target="_blank">storage.geekclass.ru</a>.
                                             </small>
                                             @if ($errors->has('text'))
                                                 <br><span
