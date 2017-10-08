@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Provider;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -104,7 +105,8 @@ class RegisterController extends Controller
     {
         $is_teacher = false;
         $course = null;
-        if ($request->invite == 'T#ach@r')
+        $provider = Provider::where('invite', $request->invite)->first();
+        if ($provider!=null)
         {
             $is_teacher = true;
         }
@@ -129,6 +131,7 @@ class RegisterController extends Controller
         if ($is_teacher)
         {
             $user->role='teacher';
+            $user->provider_id = $provider->id;
             $user->save();
         }
         else {

@@ -69,7 +69,7 @@ class CoursesController extends Controller
         }
         if ($user->role == 'student') {
             $steps = $temp_steps;
-            $cstudent =  $students->filter(function($value, $key) use ($user)  {
+            $cstudent = $students->filter(function ($value, $key) use ($user) {
                 return $value->id == $user->id;
             })->first();
         }
@@ -114,28 +114,28 @@ class CoursesController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
-            'image' => 'image|mimes:jpg,png|max:1000'
         ]);
 
         $course = Course::findOrFail($id);
         $course->name = $request->name;
         $course->description = $request->description;
-        if ($request->has('git'))
-            $course->git = $request->git;
-        if ($request->has('telegram'))
-            $course->telegram = $request->telegram;
-        if ($request->hasFile('image')) {
+        $course->git = $request->git;
+        $course->site = $request->site;
+        $course->image = $request->image;
+        $course->telegram = $request->telegram;
+        /*if ($request->hasFile('image')) {
             $extn = '.' . $request->file('image')->guessClientExtension();
             $path = $request->file('image')->storeAs('course_avatars', $course->id . $extn);
             $course->image = $path;
 
-        }
+        }*/
         $course->save();
         return redirect('/insider/courses/' . $course->id);
     }
 
     public function create(Request $request)
     {
+        $user = User::findOrFail(Auth::User()->id);
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
@@ -150,6 +150,7 @@ class CoursesController extends Controller
         } else {
             $course->image = 'course_avatars/blank.png';
         }
+        $course->provider_id = $user->provider_id;
         $course->save();
         return redirect('/insider/courses');
     }
