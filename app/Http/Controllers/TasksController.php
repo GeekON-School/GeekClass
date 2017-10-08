@@ -26,7 +26,7 @@ class TasksController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('task')->only(['postSolution']);
-        $this->middleware('teacher')->only(['create', 'delete', 'editForm', 'edit', 'reviewSolutions', 'estimateSolution']);
+        $this->middleware('teacher')->only(['create', 'delete', 'editForm', 'edit', 'reviewSolutions', 'estimateSolution', 'phantomSolution']);
     }
 
     /**
@@ -107,6 +107,22 @@ class TasksController extends Controller
 
         $step_id = $task->step_id;
         return redirect('/insider/lessons/' . $step_id. '#task'.$id);
+    }
+
+    public function phantomSolution($id, Request $request)
+    {
+        $task = Task::findOrFail($id);
+        foreach ($task->step->course->students as $user)
+        {
+            $solution = new Solution();
+            $solution->task_id = $id;
+            $solution->user_id=$user->id;
+            $solution->submitted = Carbon::now();
+            $solution->text = " ";
+            $solution->save();
+        }
+
+        return redirect('/insider/lessons/' . $task->step->id. '#task'.$id);
     }
 
 

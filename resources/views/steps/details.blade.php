@@ -97,6 +97,8 @@
                                        href="{{url('/insider/tasks/'.$task->id.'/delete')}}">Удалить</a>
                                     <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm"
                                        href="{{url('/insider/tasks/'.$task->id.'/edit')}}">Редактировать</a>
+                                    <a style="margin-right: 5px;" class="float-right btn btn-primary btn-sm"
+                                       href="{{url('/insider/tasks/'.$task->id.'/phantom')}}">Фантомное решение</a>
                                 @endif
 
                             </div>
