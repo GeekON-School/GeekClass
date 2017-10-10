@@ -47,7 +47,7 @@
                             <!--<img class="card-img-top" src="..." alt="Card image cap">-->
                             <div class="card-body" style="background-color: rgba(255,255,255,0.9);">
                                 @if ($course->provider->logo != null)
-                                    <img src="{{$course->provider->logo}}" style="height: 100px"  />
+                                    <img src="{{$course->Provider->logo}}" style="height: 100px"  />
                                 @endif
                                 <h4 class="card-title">{{$course->name}}</h4>
                                 <p class="card-text">{{$course->description}}</p>

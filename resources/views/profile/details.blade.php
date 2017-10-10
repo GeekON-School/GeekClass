@@ -79,6 +79,27 @@
                     @endif
                 </div>
             </div>
+            @if($user->managed_courses->count()!=0)
+                <h4 style="margin: 20px;" class="card-title">Преподаватель в курсах</h4>
+                <div class="row">
+                    @foreach($user->managed_courses as $course)
+                        @if ($course->state == 'started')
+                            <div class="col-md-6">
+                                <div class="card" style="width: 100%;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{$course->name}}</h5>
+                                        <p><span class="badge badge-pill badge-{{$course->provider->color}}">{{$course->provider->short_name}}</span></p>
+                                        @if ($guest->role=='teacher' || $course->students->contains($guest))
+                                            <a href="{{url('insider/courses/'.$course->id)}}" class="card-link">Страница
+                                                курса</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            @endif
             @if($user->courses->count()!=0)
                 <h4 style="margin: 20px;" class="card-title">Текущие курсы</h4>
                 <div class="row">
@@ -88,7 +109,7 @@
                                 <div class="card" style="width: 100%;">
                                     <div class="card-body">
                                         <h5 class="card-title">{{$course->name}}</h5>
-                                        <p><span class="badge badge-pill badge-success">GeekON-School</span></p>
+                                        <p><span class="badge badge-pill badge-{{$course->provider->color}}">{{$course->provider->short_name}}</span></p>
                                         @if ($guest->role=='teacher' || $course->students->contains($guest))
                                             <a href="{{url('insider/courses/'.$course->id)}}" class="card-link">Страница
                                                 курса</a>
