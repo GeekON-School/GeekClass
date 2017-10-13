@@ -170,7 +170,7 @@
 
                                             <small class="text-muted">Пожалуйста, не используйте это поле для отправки
                                                 исходного кода. Выложите код на <a target="_blank"
-                                                        href="https://paste.geekclass.ru">GeekPaste</a>,<a target="_blank"
+                                                        href="https://paste.geekclass.ru">GeekPaste</a>, <a target="_blank"
                                                         href="https://pastebin.com">pastebin</a>, <a target="_blank"
                                                         href="https://gist.github.com">gist</a> или <a target="_blank"
                                                         href="https://paste.ofcode.org/">paste.ofcode</a>, а затем
