@@ -59,6 +59,38 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="site">Ссылка на описание курса</label>
+
+                    @if (old('site')!="")
+                        <input id="site" type="text" class="form-control" name="site" value="{{old('site')}}">
+                    @else
+                        <input id="site" type="text" class="form-control" name="site" value="{{$course->site}}"
+                        >
+                    @endif
+                    @if ($errors->has('site'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('site') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Ссылка на обложку</label>
+
+                    @if (old('image')!="")
+                        <input id="image" type="text" class="form-control" name="image" value="{{old('image')}}">
+                    @else
+                        <input id="image" type="text" class="form-control" name="image" value="{{$course->image}}"
+                        >
+                    @endif
+                    @if ($errors->has('image'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('image') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+
+                <div class="form-group">
                     <label for="description">Описание</label>
                     <textarea id="description" class="form-control" name="description"
                               required>@if (old('description')!=""){{old('description')}}@else{{$course->description}}@endif</textarea>

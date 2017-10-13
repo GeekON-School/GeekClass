@@ -61,6 +61,7 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/tasks/{id}/edit', 'TasksController@editForm');
     Route::post('/tasks/{id}/edit', 'TasksController@edit');
     Route::post('/tasks/{id}/solution', 'TasksController@postSolution');
+    Route::get('/tasks/{id}/phantom', 'TasksController@phantomSolution');
     Route::get('/tasks/{id}/student/{student_id}', 'TasksController@reviewSolutions');
     Route::post('/solution/{id}', 'TasksController@estimateSolution');
     Route::get('/invite', 'CoursesController@invite');
@@ -83,6 +84,12 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::post('/projects/{id}/edit', 'ProjectsController@edit');
     Route::get('/projects/{id}/delete', 'ProjectsController@deleteProject');
     Route::get('/projects', 'ProjectsController@index');
+
+    Route::get('/testmail', function () {
+        $user = \App\User::findOrFail(1);
+        $when = \Carbon\Carbon::now()->addSeconds(1);
+        $user->notify((new \App\Notifications\NewSolution())->delay($when));
+    });
 
 });
 

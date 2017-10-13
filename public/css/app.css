@@ -3,7 +3,7 @@
     overflow: auto;
     font-size: 85%;
     line-height: 1.45;
-    background-color: #f6f8fa;
+    background-color: #fafafa;
 }
 
 .markdown {
@@ -34,6 +34,17 @@
 }
 .assessment-block .table-wrapper {
     overflow-x:scroll;
+}
+.assessment-block table {
+    overflow-x:scroll;
+}
+.assessment-block td {
+    min-width: 150px;
+}
+
+/*
+.assessment-block .table-wrapper {
+    overflow-x:scroll;
     overflow-y:visible;
     width: calc(100% - 130px);
     margin-left: 130px;
@@ -48,7 +59,7 @@
 .assessment-block  th:first-child {
     position: fixed;
     left: 5px
-}
+}*/
 .assessment-block .badge {
     font-size: 16px;
 }
@@ -133,4 +144,12 @@ img[alt=px50] {
 }
 img[alt=px150] {
     min-width: 150px;
+}
+
+sup {
+    font-size: 130%;
+    top: 0;
+}
+sup > i {
+    font-size: 75%;
 }

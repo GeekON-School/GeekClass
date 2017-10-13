@@ -17,6 +17,8 @@ class CourseStep extends Model
         'start_date'
     ];
 
+    protected $results_cache = array();
+
     public function course()
     {
         return $this->belongsTo('App\Course', 'course_id', 'id');
@@ -30,6 +32,14 @@ class CourseStep extends Model
     public function tasks()
     {
         return $this->hasMany('App\Task', 'step_id', 'id')->orderBy('id');
+    }
+    public function class_tasks()
+    {
+        return $this->hasMany('App\Task', 'step_id', 'id')->Where('only_remote', false)->orderBy('id');
+    }
+    public function remote_tasks()
+    {
+        return $this->hasMany('App\Task', 'step_id', 'id')->Where('only_class', false)->orderBy('id');
     }
 
     public static function createStep($course, $data)
@@ -54,4 +64,46 @@ class CourseStep extends Model
         $step->save();
         return $step;
     }
+
+    public function stats(User $student)
+    {
+        if (isset($this->results_cache[$student->id]))
+        {
+            return $this->results_cache[$student->id];
+        }
+        $results = ['percent'=>0, 'points'=>0, 'max_points'=>0];
+        if ($this->course->students->contains($student))
+        {
+            if ($student->pivot->is_remote)
+            {
+                $tasks = $this->remote_tasks;
+            }
+            else {
+                $tasks = $this->class_tasks;
+            }
+            foreach ($tasks as $task)
+            {
+                if (!$task->is_star) $results['max_points'] += $task->max_mark;
+                $results['points'] += $student->submissions()->where('task_id', $task->id)->max('mark');
+            }
+            if ($results['max_points'] != 0)
+            {
+                $results['percent'] = $results['points'] * 100 / $results['max_points'];
+            }
+        }
+        return $results;
+    }
+    public function percent(User $student)
+    {
+        return ($this->stats($student))['percent'];
+    }
+    public function points(User $student)
+    {
+        return ($this->stats($student))['points'];
+    }
+    public function max_points(User $student)
+    {
+        return ($this->stats($student))['max_points'];
+    }
+
 }

@@ -13,6 +13,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
+use Notification;
 
 class TasksController extends Controller
 {
@@ -25,7 +26,7 @@ class TasksController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('task')->only(['postSolution']);
-        $this->middleware('teacher')->only(['create', 'delete', 'editForm', 'edit', 'reviewSolutions', 'estimateSolution']);
+        $this->middleware('teacher')->only(['create', 'delete', 'editForm', 'edit', 'reviewSolutions', 'estimateSolution', 'phantomSolution']);
     }
 
     /**
@@ -45,7 +46,10 @@ class TasksController extends Controller
             'name' => 'required|string',
             'max_mark' => 'required|integer|min:0|max:100'
         ]);
-        $task = Task::create(['text' => $request->text, 'step_id'=>$step->id, 'name'=>$request->name, 'max_mark'=>$request->max_mark]);
+        $task = Task::create(['text' => $request->text, 'step_id'=>$step->id, 'name'=>$request->name, 'max_mark'=>$request->max_mark,
+            'is_star' => $request->is_star=='on'?true:false,
+            'only_remote' => $request->only_remote=='on'?true:false,
+            'only_class' => $request->only_class=='on'?true:false]);
 
         return redirect('/insider/lessons/' . $step->id.'#task'.$task->id);
     }
@@ -75,10 +79,50 @@ class TasksController extends Controller
         $task->text = $request->text;
         $task->max_mark = $request->max_mark;
         $task->name = $request->name;
+        if ($request->is_star=='on')
+        {
+            $task->is_star = true;
+        }
+        else
+        {
+            $task->is_star = false;
+        }
+        if ($request->only_class=='on')
+        {
+            $task->only_class = true;
+        }
+        else
+        {
+            $task->only_class = false;
+        }
+        if ($request->only_remote=='on')
+        {
+            $task->only_remote = true;
+        }
+        else
+        {
+            $task->only_remote = false;
+        }
         $task->save();
 
         $step_id = $task->step_id;
         return redirect('/insider/lessons/' . $step_id. '#task'.$id);
+    }
+
+    public function phantomSolution($id, Request $request)
+    {
+        $task = Task::findOrFail($id);
+        foreach ($task->step->course->students as $user)
+        {
+            $solution = new Solution();
+            $solution->task_id = $id;
+            $solution->user_id=$user->id;
+            $solution->submitted = Carbon::now();
+            $solution->text = " ";
+            $solution->save();
+        }
+
+        return redirect('/insider/lessons/' . $task->step->id. '#task'.$id);
     }
 
 
@@ -98,6 +142,10 @@ class TasksController extends Controller
         $solution->text = $request->text;
         $solution->save();
 
+        $when = \Carbon\Carbon::now()->addSeconds(1);
+
+        Notification::send($task->step->course->teachers, (new \App\Notifications\NewSolution($solution))->delay($when));
+
         return redirect('/insider/lessons/' . $step_id. '#task'.$id);
     }
     public function reviewSolutions($id, $student_id, Request $request)
@@ -113,7 +161,6 @@ class TasksController extends Controller
     {
         $solution = Solution::findOrFail($id);
         $this->validate($request, [
-            'comment' => 'string',
             'mark' => 'required|integer|min:0|max:'.$solution->task->max_mark
         ]);
         $solution->mark = $request->mark;
@@ -121,6 +168,9 @@ class TasksController extends Controller
         $solution->teacher_id = Auth::User()->id;
         $solution->checked = Carbon::now();
         $solution->save();
+
+        $when = \Carbon\Carbon::now()->addSeconds(1);
+        Notification::send($solution->user, (new \App\Notifications\NewMark($solution))->delay($when));
 
         return redirect()->back();
 

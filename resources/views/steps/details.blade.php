@@ -29,17 +29,21 @@
         <div class="col">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link" role="tab" id="back-link" href="{{url('/insider/courses/'.$step->course_id)}}"><i class="icon ion-chevron-left"></i></a>
+                    <a class="nav-link" role="tab" id="back-link"
+                       href="{{url('/insider/courses/'.$step->course_id)}}"><i class="icon ion-chevron-left"></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" id="theory-tab" data-toggle="pill" href="#theory" role="tab"
                        aria-controls="theory" aria-expanded="true">0. Теория</a>
                 </li>
-                @foreach ($step->tasks as $key => $task)
+                @foreach ($tasks as $key => $task)
                     <li class="nav-item">
                         <a class="nav-link" id="tasks-tab{{$task->id}}" data-toggle="pill" href="#task{{$task->id}}"
                            role="tab"
-                           aria-controls="tasks{{$task->id}}" aria-expanded="true">{{$key+1}}. {{$task->name}}</a>
+                           aria-controls="tasks{{$task->id}}" aria-expanded="true">{{$key+1}}. {{$task->name}}
+                            @if($task->is_star) <sup>*</sup> @endif
+                            @if($task->only_class) <sup><i class="icon ion-android-contacts"></i></sup> @endif
+                            @if($task->only_remote) <sup><i class="icon ion-at"></i></sup> @endif</a>
                     </li>
                 @endforeach
 
@@ -59,13 +63,31 @@
                     </div>
                 </div>
             </div>
+            @if ($user->role=='teacher' && $step->notes!='')
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body markdown">
+                                <h3>Комментарий для преподавателя</h3>
+                                @parsedown($step->notes)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
-        @foreach ($step->tasks as $key => $task)
+        @foreach ($tasks as $key => $task)
             <div class="tab-pane fade" id="task{{$task->id}}" role="tabpanel" aria-labelledby="tasks-tab{{$task->id}}">
 
 
                 <div class="row">
                     <div class="col">
+                        @if ($task->is_star)
+                            <div class="alert alert-success" role="alert">
+                                <strong>Это необязательная задача.</strong> За ее решение вы получите дополнительные
+                                баллы.
+                            </div>
+                        @endif
 
                         <div class="card">
                             <div class="card-header">
@@ -75,6 +97,8 @@
                                        href="{{url('/insider/tasks/'.$task->id.'/delete')}}">Удалить</a>
                                     <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm"
                                        href="{{url('/insider/tasks/'.$task->id.'/edit')}}">Редактировать</a>
+                                    <a style="margin-right: 5px;" class="float-right btn btn-primary btn-sm"
+                                       href="{{url('/insider/tasks/'.$task->id.'/phantom')}}">Фантомное решение</a>
                                 @endif
 
                             </div>
@@ -108,7 +132,15 @@
                                     <div class="card-body">
                                         {{$solution->text}}
                                         <br><br>
-                                        <span class="badge badge-light">Проверено: {{$solution->checked}}</span>
+                                        @if ($solution->mark!=null)
+                                            <p>
+                                                <span class="badge badge-light">Проверено: {{$solution->checked}}
+                                                    , {{$solution->teacher->name}}</span>
+                                            </p>
+                                            <p>
+                                                <span class="small">{{$solution->comment}}</span>
+                                            </p>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -136,17 +168,25 @@
                                                 <textarea id="text{{$task->id}}" class="form-control"
                                                           name="text">{{old('text')}}</textarea>
 
+                                            <small class="text-muted">Пожалуйста, не используйте это поле для отправки
+                                                исходного кода. Выложите код на <a target="_blank"
+                                                        href="https://paste.geekclass.ru">GeekPaste</a>, <a target="_blank"
+                                                        href="https://pastebin.com">pastebin</a>, <a target="_blank"
+                                                        href="https://gist.github.com">gist</a> или <a target="_blank"
+                                                        href="https://paste.ofcode.org/">paste.ofcode</a>, а затем
+                                                скопируйте ссылку сюда.<br>Для загрузки картинок и небольших файлов можно использовать <a href="https://storage.geekclass.ru/" target="_blank">storage.geekclass.ru</a>.
+                                            </small>
                                             @if ($errors->has('text'))
-                                                <span class="help-block error-block">
-                                        <strong>{{ $errors->first('text') }}</strong>
-                                    </span>
+                                                <br><span
+                                                        class="help-block error-block"><strong>{{ $errors->first('text') }}</strong></span>
                                             @endif
+
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <div class="col-md-12">
-                                            <button type="submit" class="btn btn-success">Создать</button>
+                                            <button type="submit" class="btn btn-success">Отправить</button>
                                         </div>
                                     </div>
                                 </form>
@@ -214,6 +254,19 @@
                                     </span>
                                 @endif
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="is_star">Дополнительное</label>
+                            <input type="checkbox" id="is_star" name="is_star" value="on"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="only_class">Только для очной формы</label>
+                            <input type="checkbox" id="only_class" name="only_class" value="on"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="only_remote">Только для заочной формы</label>
+                            <input type="checkbox" id="only_remote" name="only_remote" value="on"/>
                         </div>
 
                         <div class="form-group">

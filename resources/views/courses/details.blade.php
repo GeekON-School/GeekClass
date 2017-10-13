@@ -39,18 +39,51 @@
                 <div class="card-group">
                     <div class="card">
                         <div class="card-body">
-                            @if ($user->role=='teacher' || $step->start_date==null || $step->start_date->setTime(0,0,0)->lt(\Carbon\Carbon::now()))
+
                             <h5>{{$key+1}}. <a class="collection-item"
-                                               href="{{url('/insider/lessons/'.$step->id)}}">{{$step->name}}</a></h5>
-                                @else
-                                <h5>{{$key+1}}. <a class="collection-item text-muted" disabled
-                                                   href="#">{{$step->name}}</a></h5>
-                            @endif
+                                               href="{{url('/insider/lessons/'.$step->id)}}">{{$step->name}}</a>
+                            </h5>
                             @parsedown($step->description)
                         </div>
                         @if ($step->start_date!=null)
                             <div class="card-footer">
-                                <small class="text-muted">Доступно с {{$step->start_date->format('Y-m-d')}}</small>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <small class="text-muted">Доступно
+                                            с {{$step->start_date->format('Y-m-d')}}</small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        @if ($user->role=='student' and $step->max_points($cstudent)!=0)
+                                            <div class="progress" style="margin: 5px;">
+                                                @if ($step->percent($cstudent) < 30)
+                                                    <div class="progress-bar progress-bar-striped bg-danger"
+                                                         role="progressbar"
+                                                         style="width: {{$step->percent($cstudent)}}%"
+                                                         aria-valuenow="{{$step->percent($cstudent)}}" aria-valuemin="0"
+                                                         aria-valuemax="100">{{$step->points($cstudent)}}
+                                                        / {{$step->max_points($cstudent)}}</div>
+
+                                                @elseif($step->percent($cstudent) < 50)
+                                                    <div class="progress-bar progress-bar-striped bg-warning"
+                                                         role="progressbar"
+                                                         style="width: {{$step->percent($cstudent)}}%"
+                                                         aria-valuenow="{{$step->percent($cstudent)}}" aria-valuemin="0"
+                                                         aria-valuemax="100">Успеваемость: {{$step->points($cstudent)}}
+                                                        / {{$step->max_points($cstudent)}}</div>
+
+                                                @else
+                                                    <div class="progress-bar progress-bar-striped bg-success"
+                                                         role="progressbar"
+                                                         style="width: {{$step->percent($cstudent)}}%"
+                                                         aria-valuenow="{{$step->percent($cstudent)}}" aria-valuemin="0"
+                                                         aria-valuemax="100">Успеваемость: {{$step->points($cstudent)}}
+                                                        / {{$step->max_points($cstudent)}}</div>
+
+                                                @endif
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         @endif
                     </div>
@@ -65,6 +98,7 @@
                         @if ($user->role=='teacher')
                             <b>Статус:</b> {{$course->state}}<br/>
                             <b>Инвайт:</b> {{$course->invite}}<br/>
+                            <b>Дистанционно:</b> {{$course->remote_invite}}<br/>
 
                         @endif
                         @if ($course->git!=null)
@@ -73,44 +107,93 @@
                         @if ($course->telegram!=null)
                             <b>Чат в телеграм:</b> <a href="{{$course->telegram}}">{{$course->telegram}}</a><br/>
                         @endif
-                        <b>Преподаватели:</b><br/>
-                    <ul>
-                        @foreach($course->teachers as $teacher)
-                            <li>{{$teacher->name}}</li>
-                        @endforeach
-                    </ul>
-                    <b>Участники:</b><br/>
-                    <ul>
-                        @foreach($course->students as $student)
-                            <li>{{$student->name}}</li>
-                        @endforeach
-                    </ul>
                     </p>
+                    <p>
+                        <b>Преподаватели:</b>
+                    </p>
+                        <ul>
+                            @foreach($course->teachers as $teacher)
+                                <li>{{$teacher->name}}</li>
+                            @endforeach
+                        </ul>
+                    <p>
+                        <b>Участники:</b>
+                    </p>
+                        <ul>
+                            @foreach($students->sortByDesc('percent') as $student)
+                                <li>{{$student->name}}  <span
+                                            class="badge badge-primary float-right"> {{ round($student->percent) }}
+                                        % </span></li>
+                            @endforeach
+                        </ul>
+
                     @if ($user->role=='teacher')
+                        <p>
                         <a href="{{url('insider/courses/'.$course->id.'/assessments')}}" class="btn btn-primary">Успеваемость</a>
+                        </p>
                     @endif
+
                 </div>
             </div>
             @if ($user->role=='student')
                 <div class="card" style="margin-top: 15px;">
                     <div class="card-body">
-                        <h4 class="card-title">Оценки</h4>
+
+                        <h4 class="card-title">Оценки
+                            <small class="float-right"><span class="badge badge-primary">{{$cstudent->points}}
+                                    / {{$cstudent->max_points}}</span></small>
+                        </h4>
+                        <div class="progress" style="margin-bottom: 15px;">
+                            @if ($cstudent->percent < 30)
+                                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
+                                     style="height: 2px;width: {{$cstudent->percent}}%" aria-valuenow="{{$cstudent->percent}}" aria-valuemin="0"
+                                     aria-valuemax="100"></div>
+
+                            @elseif($cstudent->percent < 50)
+                                <div class="progress-bar progress-bar-striped bg-warning" role="progressbar"
+                                     style="height: 2px;width: {{$cstudent->percent}}%" aria-valuenow="{{$cstudent->percent}}" aria-valuemin="0"
+                                     aria-valuemax="100"></div>
+
+                            @else
+                                <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                                     style="height: 2px;width: {{$cstudent->percent}}%" aria-valuenow="{{$cstudent->percent}}" aria-valuemin="0"
+                                     aria-valuemax="100"></div>
+
+                            @endif
+                        </div>
                         <table class="table">
                             @foreach($steps as $step)
                                 <tr>
-                                    <td colspan="2">{{$step->name}}</td>
+                                    <th colspan="2">{{$step->name}}</th>
                                 </tr>
-                                @foreach($step->tasks as $task)
+                                @php
+                                    if ($user->is_remote)
+                                    {
+                                        $tasks = $step->remote_tasks;
+                                    }
+                                    else {
+                                        $tasks = $step->class_tasks;
+                                    }
+                                @endphp
+                                @foreach($tasks as $task)
                                     @php
                                         $filtered = $task->solutions->filter(function ($value) use ($user) {
                                             return $value->user_id == $user->id;
                                         });
                                         $mark = $filtered->max('mark');
                                         $mark = $mark == null?0:$mark;
+                                        $should_check = false;
+                                        if (count($filtered)!=0 && $filtered->last()->mark==null) $should_check=true;
+
                                     @endphp
                                     <tr>
-                                        <td>{{$task->name}}</td>
-                                        @if ($mark == 0)
+                                        <td>
+                                            <a href="{{url('/insider/lessons/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}}</a>
+                                        </td>
+
+                                        @if ($should_check)
+                                            <td><span class="badge badge-warning">{{$mark}}</span></td>
+                                        @elseif ($mark == 0)
                                             <td><span class="badge badge-light">{{$mark}}</span></td>
                                         @else
                                             <td><span class="badge badge-primary">{{$mark}}</span></td>

@@ -71,14 +71,32 @@
                                     </span>
                     @endif
                 </div>
-                <button type="submit" class="btn btn-success">Создать</button>
+                <div class="form-group">
+                    <label for="notes" style="padding-bottom: 10px;">Комментарий для преподавателя</label>
+                    @if (old('notes')!="")
+                        <textarea id="notes" class="form-control"
+                                  name="notes">{{old('notes')}}</textarea>
+                    @else
+                        <textarea id="notes" class="form-control"
+                                  name="notes">{{$step->notes}}</textarea>
+                    @endif
+
+                    @if ($errors->has('notes'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('notes') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+                <button type="submit" class="btn btn-success">Сохранить</button>
             </form>
             <script>
                 var simplemde_description = new SimpleMDE({
                     spellChecker: false,
+                    autosave: true,
                     element: document.getElementById("description")
                 });
-                var simplemde_theory = new SimpleMDE({spellChecker: false, element: document.getElementById("theory")});
+                var simplemde_theory = new SimpleMDE({spellChecker: false,autosave: true, element: document.getElementById("theory")});
+                var simplemde_notes = new SimpleMDE({spellChecker: false,autosave: true, element: document.getElementById("notes")});
             </script>
         </div>
     </div>

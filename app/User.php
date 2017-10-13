@@ -34,6 +34,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function managed_courses()
+    {
+        return $this->belongsToMany('App\Course', 'course_teachers', 'user_id', 'course_id');
+    }
+
     public function courses()
     {
         return $this->belongsToMany('App\Course', 'course_students', 'user_id', 'course_id');
