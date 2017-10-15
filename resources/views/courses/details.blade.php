@@ -167,7 +167,7 @@
                                     <th colspan="2">{{$step->name}}</th>
                                 </tr>
                                 @php
-                                    if ($user->is_remote)
+                                    if ($cstudent->pivot->is_remote)
                                     {
                                         $tasks = $step->remote_tasks;
                                     }
