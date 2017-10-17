@@ -46,8 +46,8 @@ class ProjectsController extends Controller
                 $is_in_project = true;
                 break;
             }
-
-        return view('projects.details', compact('project', 'user', 'is_in_project', 'is_author'));
+        $tags = explode(" ", $project->tags);
+        return view('projects.details', compact('project', 'user', 'is_in_project', 'is_author', 'tags'));
     }
     public function createView()
     {
@@ -64,10 +64,10 @@ class ProjectsController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'short_description' => 'required|string',
-            'description' => 'required|string',
-            'type' => 'required|string',
-            'url' => 'required|string',
-            //'tags' => 'required|string',
+            'description' => 'nullable|string',
+            'type' => 'nullable|string',
+            'url' => 'nullable|string',
+            'tags' => 'nullable|string',
             'image' => 'image|max:3000',
         ]);
 
@@ -76,7 +76,7 @@ class ProjectsController extends Controller
         $project->description = $request->description;
         $project->short_description = $request->short_description;
         $project->type = $request->type;
-        //$project->tags = $request->tags;
+        $project->tags = $request->tags;
         $project->url = $request->url;
         if ($request->hasFile('image')) {
             $extn = '.' . $request->file('image')->guessClientExtension();

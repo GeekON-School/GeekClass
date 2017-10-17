@@ -47,6 +47,7 @@ class Project extends Model
         $this->type = $data['type'];
         $this->url = $data['url'];
         $this->image = $data['image'];
+        $this->tags = $data['tags'];
         $this->save();
         return $this;
     }

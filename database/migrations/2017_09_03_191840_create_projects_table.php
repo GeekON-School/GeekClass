@@ -19,6 +19,7 @@ class CreateProjectsTable extends Migration
             $table->string ("short_description");
             $table->integer("author_id");
             $table->string("description")->nullable();
+            $table->string("tags")->nullable();
             $table->string("type")->nullable();
             $table->string("url")->nullable();
             $table->timestamps();

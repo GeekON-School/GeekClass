@@ -29,6 +29,12 @@
                                  width="16" height="16"> {{$project->url}}
                         </p>
                     @endif
+                    @if ($project->tags!='')
+                        @foreach($tags as $tag)
+                            <span style="font-size: 15px; margin-top: 15px" class="badge badge-pill badge-info"><i
+                                        class="icon ion-ios-arrow-right"></i> {{$tag}}</span><br>
+                        @endforeach
+                    @endif
                     @if ($project->type!='')
                         <span style="font-size: 15px; margin-top: 15px" class="badge badge-pill badge-success"><i
                                     class="icon ion-ios-arrow-up"></i> {{$project->type}}</span><br>
@@ -93,9 +99,9 @@
                             </div>
                         @endforeach
                     </div>
-
+                    @if ($project->description != "")
                     <p><strong>Описание:</strong> {{$project->description}}<br></p>
-
+                    @endif
                 </div>
             </div>
 

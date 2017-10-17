@@ -18,6 +18,14 @@
                                 <i class ="icon ion-ios-arrow-up"> </i>{{$project->type}}</span>
                         </div>
                             @endif
+                        @if ($project->tags != "")
+                            @php($tags = explode(" ",$project->tags))
+
+                            @foreach($tags as $tag)
+                                <span style="font-size: 15px; margin-top: 15px" class="badge badge-pill badge-info"><i
+                                            class="icon ion-ios-arrow-right"></i> {{$tag}}</span><br>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
 
