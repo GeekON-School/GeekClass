@@ -77,7 +77,7 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
 
     Route::get('/projects/create', 'ProjectsController@createView');
     Route::post('/projects/create', 'ProjectsController@create');
-    Route::get('/projects/{id}/', 'ProjectsController@details');
+    Route::get('/projects/{id}', 'ProjectsController@details');
     Route::post('/project/{id}/edit', 'ProjectsController@edit');
 
     Route::get('/projects/{id}/edit', 'ProjectsController@editView');

@@ -18,7 +18,7 @@ class Project extends Model
     protected $table = "projects";
 
     protected $fillable = [
-        'name', 'short_description', 'description', 'type', 'url'
+        'name', 'short_description', 'description', 'type', 'url', 'author_id', 'image'
     ];
 
     public function students()
@@ -32,6 +32,12 @@ class Project extends Model
 
         return $project;
     }
+
+    public function author()
+    {
+        return $this->author_id;
+    }
+
     public function editProject($data)
     {
 
@@ -40,6 +46,7 @@ class Project extends Model
         $this->description = $data['description'];
         $this->type = $data['type'];
         $this->url = $data['url'];
+        $this->image = $data['image'];
         $this->save();
         return $this;
     }

@@ -17,6 +17,7 @@ class MediaController extends Controller
     public function index($dir, $name)
     {
         $name = $dir.'/'.$name;
+
         if (!Storage::exists($name)) {
             return Response::make('File no found.', 404);
         }

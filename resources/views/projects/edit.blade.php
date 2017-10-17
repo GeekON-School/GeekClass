@@ -26,6 +26,15 @@
                                     </span>
                     @endif
                 </div>
+                <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+                    <label for="image">Логотип проекта</label>
+
+                    <input id="image" type="file" class="form-control" name="image"/>
+
+                    @if ($errors->has('image'))
+                        <span class="help-block error-block"><strong>{{ $errors->first('image') }}</strong></span>
+                    @endif
+                </div>
                 <div class="form-group">
                     <label for="short_description">Краткое описание</label>
                     <textarea id="short_description" class="form-control" name="short_description"
