@@ -35,7 +35,19 @@ class ProjectsController extends Controller
     {
         $user  = User::findOrFail(Auth::User()->id);
         $project = Project::findOrFail($id);
-        return view('projects.details', compact('project', 'user'));
+        $author = $project->author();
+        $guest_projects = $user->projects;
+        $is_in_project = false;
+        $is_author = false;
+        if ($author == $user->id)
+            $is_author = true;
+        foreach ($guest_projects as $arr)
+            if ($id == $arr->id) {
+                $is_in_project = true;
+                break;
+            }
+        $tags = explode(" ", $project->tags);
+        return view('projects.details', compact('project', 'user', 'is_in_project', 'is_author', 'tags'));
     }
     public function createView()
     {
@@ -52,20 +64,27 @@ class ProjectsController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'short_description' => 'required|string',
-            'description' => 'required|string',
-            'type' => 'required|string',
-            'url' => 'required|string',
+            'description' => 'nullable|string',
+            'type' => 'nullable|string',
+            'url' => 'nullable|string',
+            'tags' => 'nullable|string',
+            'image' => 'image|max:3000',
         ]);
 
         $project = Project::findOrFail($id);
         $project->name = $request->name;
         $project->description = $request->description;
+        $project->short_description = $request->short_description;
         $project->type = $request->type;
+        $project->tags = $request->tags;
         $project->url = $request->url;
-
+        if ($request->hasFile('image')) {
+            $extn = '.' . $request->file('image')->guessClientExtension();
+            $path = $request->file('image')->storeAs('project_avatars', $project->id . $extn);
+            $project->image = $path;
+        }
         $project->save();
 
-        #TODO Check how does it work
         return redirect('/insider/projects/'.$project->id);
     }
     public function create(Request $request)
@@ -79,13 +98,12 @@ class ProjectsController extends Controller
         $project = Project::createProject($request);
         $project->save();
         $project->students()->attach($user->id);
-        return redirect()->back();
+        return redirect('/insider/projects/' . $project->id);
     }
     public function deleteProject($id)
     {
         $project = Project::findOrFail($id);
         $project->delete();
-        #TODO Change it later to /insider/projects
         return redirect('/insider/profile/');
     }
 }

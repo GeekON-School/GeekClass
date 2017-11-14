@@ -7,7 +7,7 @@
 @section('content')
     <div class="row" style="margin-top: 15px;">
         <div class="col">
-            <h2>Курсы</h2>
+            <h2> Курсы</h2>
         </div>
         <div class="col">
             @if ($user->role=='teacher')
@@ -80,7 +80,7 @@
     @if ($user->role == 'teacher')
         <div class="row" style="margin-top: 15px;">
             <div class="col">
-                <h2>Черновики</h2>
+                <h2> Черновики</h2>
             </div>
         </div>
         <div class="row" style="margin-top: 15px;">
@@ -105,7 +105,7 @@
 
         <div class="row" style="margin-top: 15px;">
             <div class="col">
-                <h2>Архив</h2>
+                <h2> Архив</h2>
             </div>
         </div>
         <div class="row" style="margin-top: 15px;">

@@ -147,22 +147,23 @@ class ProfileController extends Controller
 
         return redirect('/insider/profile/'.$id);
     }
-     public function project ($id, Request $request)
-     {
-         $user = User::findOrFail(Auth::User()->id);
-         $this->validate($request, [
-             'name' => 'required|string',
-             'description' => 'required|string',
-             'type' => 'required|string',
-             'url' => 'required|string',
-         ]);
-         $project = new Project();
-         $project->name = $request->name;
-         $project->description = $request->description;
-         $project->type = $request->type;
-         $project->url = $request->url;
+    #TODO do i need this?
+    /*public function project ($id, Request $request)
+    {
+        $user = User::findOrFail(Auth::User()->id);
+        $this->validate($request, [
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'type' => 'required|string',
+            'url' => 'required|string',
+        ]);
+        $project = new Project();
+        $project->name = $request->name;
+        $project->description = $request->description;
+        $project->type = $request->type;
+        $project->url = $request->url;
 
-         return redirect()->back();
+        return redirect()->back();
 
-     }
+    }*/
 }

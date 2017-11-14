@@ -21,25 +21,5 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
-      <library name="PHP" type="php">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/doctrine/annotations" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/cache" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/collections" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/common" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/dbal" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/lexer" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/doctrine/annotations" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/cache" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/collections" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/common" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/dbal" />
-          <root url="file://$MODULE_DIR$/vendor/doctrine/lexer" />
-        </SOURCES>
-      </library>
-    </orderEntry>
   </component>
 </module>
