@@ -38,6 +38,11 @@ class Course extends Model
         return $this->hasMany('App\CourseStep', 'course_id', 'id')->orderBy('id');
     }
 
+    public function lessons()
+    {
+        return $this->hasMany('App\Lesson', 'course_id', 'id')->orderBy('id');
+    }
+
     public static function createCourse($data)
     {
         $course = Course::create(['name' => $data['name'], 'description' => $data['description']]);

@@ -51,7 +51,7 @@ class TasksController extends Controller
             'only_remote' => $request->only_remote=='on'?true:false,
             'only_class' => $request->only_class=='on'?true:false]);
 
-        return redirect('/insider/lessons/' . $step->id.'#task'.$task->id);
+        return redirect('/insider/steps/' . $step->id.'#task'.$task->id);
     }
 
     public function delete($id)
@@ -59,7 +59,7 @@ class TasksController extends Controller
         $task = Task::findOrFail($id);
         $step_id = $task->step_id;
         $task->delete();
-        return redirect('/insider/lessons/' . $step_id);
+        return redirect('/insider/steps/' . $step_id);
     }
 
     public function editForm($id)
@@ -106,7 +106,7 @@ class TasksController extends Controller
         $task->save();
 
         $step_id = $task->step_id;
-        return redirect('/insider/lessons/' . $step_id. '#task'.$id);
+        return redirect('/insider/steps/' . $step_id. '#task'.$id);
     }
 
     public function phantomSolution($id, Request $request)
@@ -122,7 +122,7 @@ class TasksController extends Controller
             $solution->save();
         }
 
-        return redirect('/insider/lessons/' . $task->step->id. '#task'.$id);
+        return redirect('/insider/steps/' . $task->step->id. '#task'.$id);
     }
 
 
@@ -146,7 +146,7 @@ class TasksController extends Controller
 
         Notification::send($task->step->course->teachers, (new \App\Notifications\NewSolution($solution))->delay($when));
 
-        return redirect('/insider/lessons/' . $step_id. '#task'.$id);
+        return redirect('/insider/steps/' . $step_id. '#task'.$id);
     }
     public function reviewSolutions($id, $student_id, Request $request)
     {

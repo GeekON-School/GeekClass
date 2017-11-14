@@ -46,15 +46,17 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::post('/courses/{id}/edit', 'CoursesController@edit');
     Route::get('/courses/{id}/assessments', 'CoursesController@assessments');
 
-    Route::get('/courses/{id}/create', 'StepsController@createView');
-    Route::post('/courses/{id}/create', 'StepsController@create');
+    Route::get('/lessons/{id}/create', 'StepsController@createView');
+    Route::get('/courses/{id}/create', 'StepsController@createLessonView');
+    Route::post('/lessons/{id}/create', 'StepsController@create');
+    Route::post('/courses/{id}/create', 'StepsController@createLesson');
 
 
-    Route::get('/lessons/{id}', 'StepsController@details');
-    Route::get('/lessons/{id}/edit', 'StepsController@editView');
-    Route::post('/lessons/{id}/edit', 'StepsController@edit');
-    Route::post('/lessons/{id}/question', 'StepsController@question');
-    Route::post('/lessons/{id}/task', 'TasksController@create');
+    Route::get('/steps/{id}', 'StepsController@details');
+    Route::get('/steps/{id}/edit', 'StepsController@editView');
+    Route::post('/steps/{id}/edit', 'StepsController@edit');
+    Route::post('/steps/{id}/question', 'StepsController@question');
+    Route::post('/steps/{id}/task', 'TasksController@create');
 
     Route::get('/questions/{id}/delete', 'StepsController@deleteQuestion');
     Route::get('/tasks/{id}/delete', 'TasksController@delete');
@@ -89,6 +91,26 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
         $user = \App\User::findOrFail(1);
         $when = \Carbon\Carbon::now()->addSeconds(1);
         $user->notify((new \App\Notifications\NewSolution())->delay($when));
+    });
+
+    Route::get('/migrate_to_lessons', function () {
+        $courses = \App\Course::all();
+        foreach ($courses as $course)
+        {
+            foreach ($course->steps as $step)
+            {
+                $lesson = new \App\Lesson();
+                $lesson->name = $step->name;
+                $lesson->start_date = $step->start_date;
+                $lesson->description = $step->description;
+                $lesson->course_id = $step->course_id;
+                $lesson->save();
+
+                $step->lesson_id = $lesson->id;
+                $step->save();
+            }
+        }
+
     });
 
 });

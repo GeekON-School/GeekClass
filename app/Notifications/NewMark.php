@@ -47,7 +47,7 @@ class NewMark extends Notification implements ShouldQueue
                      " . $this->solution->task->name . " (курс " . $this->solution->task->step->course->name . ").")
             ->line('Оценка: '.$this->solution->mark." / ".$this->solution->task->max_mark)
             ->line('Комментарий: '.$this->solution->comment)
-            ->action('Подробнее', url("/insider/lessons/".$this->solution->task->step->id."#task".$this->solution->task->id));
+            ->action('Подробнее', url("/insider/steps/".$this->solution->task->step->id."#task".$this->solution->task->id));
     }
 
     /**

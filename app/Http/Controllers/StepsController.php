@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\CourseStep;
 use App\Http\Controllers\Controller;
+use App\Lesson;
 use App\Question;
 use App\QuestionVariant;
 use App\Solution;
@@ -60,20 +61,47 @@ class StepsController extends Controller
 
     public function createView($id)
     {
-        $course = Course::findOrFail($id);
-        return view('steps.create', compact($course));
+        $is_lesson = false;
+        $lesson = Lesson::findOrFail($id);
+        return view('steps.create', compact('is_lesson', 'lesson'));
+    }
+    public function createLessonView($id)
+    {
+        $is_lesson = true;
+        return view('steps.create', compact('is_lesson'));
     }
 
     public function create($id, Request $request)
     {
+        $lesson = Lesson::findOrFail($id);
+        $this->validate($request, [
+            'name' => 'required|string',
+        ]);
+        $step = CourseStep::createStep($lesson, $request);
+
+        return redirect('/insider/steps/' . $step->id);
+    }
+
+    public function createLesson($id, Request $request)
+    {
         $course = Course::findOrFail($id);
         $this->validate($request, [
             'name' => 'required|string',
+            'lesson_name' => 'required|string',
             'description' => 'required|string',
-            'start_date' => 'date'
+            'start_date' => 'required|date|date_format:Y-m-d'
         ]);
-        CourseStep::createStep($course, $request);
-        return redirect('/insider/courses/' . $course->id);
+
+        $lesson = new Lesson();
+        $lesson->start_date = Carbon::createFromFormat('Y-m-d', $request['start_date']);
+        $lesson->name = $request->lesson_name;
+        $lesson->course_id = $course->id;
+        $lesson->description = $request->descrition;
+        $lesson->save();
+
+        $step = CourseStep::createStep($lesson, $request);
+
+        return redirect('/insider/steps/' . $step->id);
     }
 
     public function editView($id)
@@ -91,7 +119,7 @@ class StepsController extends Controller
             'start_date' => 'date'
         ]);
         CourseStep::editStep($step, $request);
-        return redirect('/insider/lessons/' . $step->id);
+        return redirect('/insider/steps/' . $step->id);
     }
 
 

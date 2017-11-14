@@ -34,50 +34,50 @@
     </div>
     <div class="row">
         <div class="col-md-8">
-            @foreach($steps as $key => $step)
-
+            @foreach($lessons as $key => $lesson)
+                @if ($lesson->steps->count()!=0)
                 <div class="card-group">
                     <div class="card">
                         <div class="card-body">
 
                             <h5>{{$key+1}}. <a class="collection-item"
-                                               href="{{url('/insider/lessons/'.$step->id)}}">{{$step->name}}</a>
+                                               href="{{url('/insider/steps/'.$lesson->steps->first()->id)}}">{{$lesson->name}}</a>
                             </h5>
-                            @parsedown($step->description)
+                            @parsedown($lesson->description)
                         </div>
-                        @if ($step->start_date!=null)
+                        @if ($lesson->start_date!=null)
                             <div class="card-footer">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <small class="text-muted">Доступно
-                                            с {{$step->start_date->format('Y-m-d')}}</small>
+                                            с {{$lesson->start_date->format('Y-m-d')}}</small>
                                     </div>
                                     <div class="col-md-6">
-                                        @if ($user->role=='student' and $step->max_points($cstudent)!=0)
+                                        @if ($user->role=='student' and $lesson->max_points($cstudent)!=0)
                                             <div class="progress" style="margin: 5px;">
-                                                @if ($step->percent($cstudent) < 30)
+                                                @if ($lesson->percent($cstudent) < 30)
                                                     <div class="progress-bar progress-bar-striped bg-danger"
                                                          role="progressbar"
-                                                         style="width: {{$step->percent($cstudent)}}%"
-                                                         aria-valuenow="{{$step->percent($cstudent)}}" aria-valuemin="0"
-                                                         aria-valuemax="100">{{$step->points($cstudent)}}
-                                                        / {{$step->max_points($cstudent)}}</div>
+                                                         style="width: {{$lesson->percent($cstudent)}}%"
+                                                         aria-valuenow="{{$lesson->percent($cstudent)}}" aria-valuemin="0"
+                                                         aria-valuemax="100">{{$lesson->points($cstudent)}}
+                                                        / {{$lesson->max_points($cstudent)}}</div>
 
-                                                @elseif($step->percent($cstudent) < 50)
+                                                @elseif($lesson->percent($cstudent) < 50)
                                                     <div class="progress-bar progress-bar-striped bg-warning"
                                                          role="progressbar"
-                                                         style="width: {{$step->percent($cstudent)}}%"
-                                                         aria-valuenow="{{$step->percent($cstudent)}}" aria-valuemin="0"
-                                                         aria-valuemax="100">Успеваемость: {{$step->points($cstudent)}}
-                                                        / {{$step->max_points($cstudent)}}</div>
+                                                         style="width: {{$lesson->percent($cstudent)}}%"
+                                                         aria-valuenow="{{$lesson->percent($cstudent)}}" aria-valuemin="0"
+                                                         aria-valuemax="100">Успеваемость: {{$lesson->points($cstudent)}}
+                                                        / {{$lesson->max_points($cstudent)}}</div>
 
                                                 @else
                                                     <div class="progress-bar progress-bar-striped bg-success"
                                                          role="progressbar"
-                                                         style="width: {{$step->percent($cstudent)}}%"
-                                                         aria-valuenow="{{$step->percent($cstudent)}}" aria-valuemin="0"
-                                                         aria-valuemax="100">Успеваемость: {{$step->points($cstudent)}}
-                                                        / {{$step->max_points($cstudent)}}</div>
+                                                         style="width: {{$lesson->percent($cstudent)}}%"
+                                                         aria-valuenow="{{$lesson->percent($cstudent)}}" aria-valuemin="0"
+                                                         aria-valuemax="100">Успеваемость: {{$lesson->points($cstudent)}}
+                                                        / {{$lesson->max_points($cstudent)}}</div>
 
                                                 @endif
                                             </div>
@@ -88,6 +88,7 @@
                         @endif
                     </div>
                 </div>
+                @endif
             @endforeach
         </div>
         <div class="col-md-4">
@@ -188,7 +189,7 @@
                                     @endphp
                                     <tr>
                                         <td>
-                                            <a href="{{url('/insider/lessons/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}}</a>
+                                            <a href="{{url('/insider/steps/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}}</a>
                                         </td>
 
                                         @if ($should_check)

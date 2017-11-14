@@ -1,14 +1,55 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Создание темы</h2>
+    <h2>Создание ступени</h2>
 
     <div class="row" style="margin-top: 15px;">
         <div class="col">
             <form method="POST" class="form-horizontal">
                 {{ csrf_field() }}
+
+                @if ($is_lesson)
+                    <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                        <label for="lesson_name">Название урока</label>
+
+                        <input id="lesson_name" type="text" class="form-control" value="{{old('lesson_name')}}" name="lesson_name"
+                               required>
+
+                        @if ($errors->has('lesson_name'))
+                            <span class="help-block error-block">
+                                        <strong>{{ $errors->first('lesson_name') }}</strong>
+                                    </span>
+                        @endif
+                    </div>
+                    <div class="form-group">
+                        <label for="description" style="padding-bottom: 10px;">Описание урока</label>
+
+                            <textarea id="description" class="materialize-textarea"
+                                      name="description">{{old('description')}}</textarea>
+
+                        @if ($errors->has('description'))
+                            <span class="help-block error-block">
+                                        <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                        @endif
+                    </div>
+                    <div class="form-group{{ $errors->has("start_date") ? ' has-error' : '' }}">
+                        <label for="start_date">Дата начала</label>
+
+                        <input id="start_date" type="text" class="form-control" value="{{old("start_date")}}" name="start_date"
+                               required>
+
+                        @if ($errors->has("start_date"))
+                            <span class="help-block error-block">
+                                        <strong>{{ $errors->first("start_date") }}</strong>
+                                    </span>
+                        @endif
+                    </div>
+
+                @endif
+
                 <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                    <label for="name">Название</label>
+                    <label for="name">Название этапа</label>
 
                         <input id="name" type="text" class="form-control" value="{{old('name')}}" name="name"
                                required>
@@ -19,29 +60,7 @@
                                     </span>
                         @endif
                 </div>
-                <div class="form-group{{ $errors->has("start_date") ? ' has-error' : '' }}">
-                    <label for="start_date">Дата начала</label>
 
-                    <input id="start_date" type="text" class="form-control" value="{{old("start_date")}}" name="start_date"
-                           required>
-
-                    @if ($errors->has("start_date"))
-                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first("start_date") }}</strong>
-                                    </span>
-                    @endif
-                </div>
-                <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                    <label for="description">Описание</label>
-                                <textarea id="description" class="form-control"
-                                          name="description">{{old('description')}}</textarea>
-
-                        @if ($errors->has('description'))
-                            <span class="help-block error-block">
-                                        <strong>{{ $errors->first('description') }}</strong>
-                                    </span>
-                        @endif
-                    </div>
                 <div class="form-group{{ $errors->has('theory') ? ' has-error' : '' }}">
                     <label for="theory">Теоретический материал</label>
                                 <textarea id="theory" class="form-control" name="theory"

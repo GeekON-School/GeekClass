@@ -24,6 +24,11 @@ class CourseStep extends Model
         return $this->belongsTo('App\Course', 'course_id', 'id');
     }
 
+    public function lesson()
+    {
+        return $this->belongsTo('App\Lesson', 'lesson_id', 'id');
+    }
+
     public function questions()
     {
         return $this->hasMany('App\Question', 'step_id', 'id');
@@ -42,15 +47,18 @@ class CourseStep extends Model
         return $this->hasMany('App\Task', 'step_id', 'id')->Where('only_class', false)->orderBy('id');
     }
 
-    public static function createStep($course, $data)
+    public static function createStep($lesson, $data)
     {
         $step = new CourseStep();
         $step->name = $data['name'];
-        $step->description = $data['description'];
         $step->notes = $data['notes'];
         $step->theory = $data['theory'];
-        $step->course_id = $course->id;
-        $step->start_date = Carbon::createFromFormat('Y-m-d', $data['start_date']);
+        $step->course_id = $lesson->course->id;
+        $step->lesson_id = $lesson->id;
+        if ($data['start_date']!='')
+        {
+            $step->start_date = Carbon::createFromFormat('Y-m-d', $data['start_date']);
+        }
         $step->save();
         return $step;
     }

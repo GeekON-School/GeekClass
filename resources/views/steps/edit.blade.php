@@ -39,22 +39,7 @@
                                         </span>
                     @endif
                 </div>
-                <div class="form-group">
-                    <label for="description" style="padding-bottom: 10px;">Описание</label>
 
-                    @if (old('description')!="")
-                        <textarea id="description" class="materialize-textarea"
-                                  name="description">{{old('description')}}</textarea>
-                    @else
-                        <textarea id="description" class="materialize-textarea"
-                                  name="description">{{$step->description}}</textarea>
-                    @endif
-                    @if ($errors->has('description'))
-                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first('description') }}</strong>
-                                    </span>
-                    @endif
-                </div>
                 <div class="form-group">
                     <label for="theory" style="padding-bottom: 10px;">Теоретический материал</label>
                     @if (old('theory')!="")

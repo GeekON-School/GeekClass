@@ -74,8 +74,9 @@ class CoursesController extends Controller
             })->first();
         }
 
+        $lessons = $course->lessons;
 
-        return view('courses.details', compact('course', 'user', 'steps', 'students', 'cstudent'));
+        return view('courses.details', compact('course', 'user', 'steps', 'students', 'cstudent', 'lessons'));
     }
 
     public function assessments($id)
