@@ -115,7 +115,6 @@ class StepsController extends Controller
         $step = CourseStep::findOrFail($id);
         $this->validate($request, [
             'name' => 'required|string',
-            'description' => 'required|string',
             'start_date' => 'date'
         ]);
         CourseStep::editStep($step, $request);
