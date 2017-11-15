@@ -29,4 +29,28 @@ class Lesson extends Model
         return $this->hasMany('App\CourseStep', 'lesson_id', 'id')->orderBy('id');
     }
 
+    public function percent(User $student)
+    {
+        $sum = 0;
+        foreach ($this->steps as $step)
+            $sum += $step->percent($student);
+        return $sum / count($this->steps());
+    }
+
+    public function points(User $student)
+    {
+        $sum = 0;
+        foreach ($this->steps as $step)
+            $sum += $step->points($student);
+        return $sum;
+    }
+
+    public function max_points(User $student)
+    {
+        $sum = 0;
+        foreach ($this->steps as $step)
+            $sum += $step->max_points($student);
+        return $sum;
+    }
+
 }
