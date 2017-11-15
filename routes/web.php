@@ -54,6 +54,8 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
 
     Route::get('/steps/{id}', 'StepsController@details');
     Route::get('/steps/{id}/edit', 'StepsController@editView');
+    Route::get('/steps/{id}/lower', 'StepsController@makeLower');
+    Route::get('/steps/{id}/upper', 'StepsController@makeUpper');
     Route::post('/steps/{id}/edit', 'StepsController@edit');
     Route::post('/steps/{id}/question', 'StepsController@question');
     Route::post('/steps/{id}/task', 'TasksController@create');

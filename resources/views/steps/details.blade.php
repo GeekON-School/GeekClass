@@ -14,7 +14,8 @@
 
             <h2><span style="font-weight: 200;"><a style="display: inline;" class="nav-link" role="tab" id="back-link"
                                                    href="{{url('/insider/courses/'.$step->course_id)}}"><i
-                                class="icon ion-chevron-left"></i></a>{{$step->course->name}} - </span>{{$step->lesson->name}}</h2>
+                                class="icon ion-chevron-left"></i></a>{{$step->course->name}}
+                    - </span>{{$step->lesson->name}}</h2>
         </div>
         @if ($user->role=='teacher')
             <div class="col-md-4">
@@ -30,10 +31,24 @@
     </div>
 
     <div class="row" style="margin-top: 15px;">
-        <div class="col-md-3" >
+        <div class="col-md-3">
             <div class="list-group">
                 @foreach($step->lesson->steps as $lesson_step)
-                    <a href="{{url('/insider/steps/'.$lesson_step->id)}}" style="line-height: 1.5; padding: 7px 16px;" class="list-group-item @if ($lesson_step->id==$step->id) active @else list-group-item-action @endif">{{$lesson_step->name}}</a>
+                    <div style="line-height: 1.5; padding: 7px 16px;"
+                         class="list-group-item @if ($lesson_step->id==$step->id) active @else list-group-item-action @endif">
+
+                        <a style="@if ($lesson_step->id==$step->id)color:white;@endif"
+                           href="{{url('/insider/steps/'.$lesson_step->id)}}">{{$lesson_step->name}}</a>
+                        @if ($user->role=='teacher')
+                            <a class="pull-right" style="@if ($lesson_step->id==$step->id)color:white;@endif"
+                               href="{{url('/insider/steps/'.$lesson_step->id.'/lower')}}"><i
+                                        class="ion-arrow-up-c"></i></a>
+                            <a class="pull-right" style="@if ($lesson_step->id==$step->id)color:white;@endif"
+                               href="{{url('/insider/steps/'.$lesson_step->id.'/upper')}}"><i
+                                        class="ion-arrow-down-c"></i></a>
+                        @endif
+
+                    </div>
                 @endforeach
             </div>
 

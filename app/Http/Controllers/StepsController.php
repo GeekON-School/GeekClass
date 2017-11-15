@@ -26,7 +26,7 @@ class StepsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('step')->only(['details']);
-        $this->middleware('teacher')->only(['createView', 'create', 'editView', 'edit']);
+        $this->middleware('teacher')->only(['createView', 'create', 'editView', 'edit', 'makeLower', 'makeUpper']);
     }
 
     /**
@@ -118,6 +118,21 @@ class StepsController extends Controller
             'start_date' => 'date'
         ]);
         CourseStep::editStep($step, $request);
+        return redirect('/insider/steps/' . $step->id);
+    }
+
+    public function makeLower($id, Request $request)
+    {
+        $step = CourseStep::findOrFail($id);
+        $step->sort_index -= 1;
+        $step->save();
+        return redirect('/insider/steps/' . $step->id);
+    }
+    public function makeUpper($id, Request $request)
+    {
+        $step = CourseStep::findOrFail($id);
+        $step->sort_index += 1;
+        $step->save();
         return redirect('/insider/steps/' . $step->id);
     }
 

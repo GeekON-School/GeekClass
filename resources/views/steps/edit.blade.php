@@ -23,24 +23,6 @@
                     @endif
                 </div>
                 <div class="form-group">
-                    <label for="start_date">Дата начала</label>
-                    @if (old('start_date')!="")
-                        <input id="start_date" type="text" class="form-control" value="{{old("start_date")}}"
-                               name="start_date"
-                               required>
-                    @else
-                        <input id="start_date" type="text" class="form-control" value="@if ($step->start_date!=null){{$step->start_date->format('Y-m-d')}}@endif"
-                               name="start_date"
-                               required>
-                    @endif
-                    @if ($errors->has("start_date"))
-                        <span class="help-block error-block">
-                                            <strong>{{ $errors->first("start_date") }}</strong>
-                                        </span>
-                    @endif
-                </div>
-
-                <div class="form-group">
                     <label for="theory" style="padding-bottom: 10px;">Теоретический материал</label>
                     @if (old('theory')!="")
                         <textarea id="theory" class="form-control"

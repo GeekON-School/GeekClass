@@ -49,16 +49,18 @@ class CourseStep extends Model
 
     public static function createStep($lesson, $data)
     {
+        $order = 100;
+        if ($lesson->steps->count()!=0)
+            $order = $lesson->steps->last()->sort_index + 1;
+
         $step = new CourseStep();
         $step->name = $data['name'];
         $step->notes = $data['notes'];
         $step->theory = $data['theory'];
         $step->course_id = $lesson->course->id;
         $step->lesson_id = $lesson->id;
-        if ($data['start_date']!='')
-        {
-            $step->start_date = Carbon::createFromFormat('Y-m-d', $data['start_date']);
-        }
+        $step->sort_index = $order;
+        $step->start_date = $lesson->start_date;
         $step->save();
         return $step;
     }
@@ -68,7 +70,6 @@ class CourseStep extends Model
         $step->description = $data['description'];
         $step->notes = $data['notes'];
         $step->theory = $data['theory'];
-        $step->start_date = Carbon::createFromFormat('Y-m-d', $data['start_date']);
         $step->save();
         return $step;
     }
