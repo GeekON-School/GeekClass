@@ -17,6 +17,23 @@ class CourseStep extends Model
         'start_date'
     ];
 
+
+    protected $next = null;
+    protected $previous = null;
+
+    public function load_positions()
+    {
+        $steps = $this->lesson->steps;
+        $i = $steps->pluck('id')->search($this->id);
+        $this->previous = null;
+        $this->next = null;
+        if ($i > 0)
+            $this->previous = $steps[$i-1];
+        if ($i < count($steps)-1)
+            $this->next = $steps[$i + 1];
+    }
+
+
     protected $results_cache = array();
 
     public function course()
@@ -36,15 +53,29 @@ class CourseStep extends Model
 
     public function tasks()
     {
-        return $this->hasMany('App\Task', 'step_id', 'id')->orderBy('id');
+        return $this->hasMany('App\Task', 'step_id', 'id')->orderBy('sort_index')->orderBy('id');
     }
     public function class_tasks()
     {
-        return $this->hasMany('App\Task', 'step_id', 'id')->Where('only_remote', false)->orderBy('id');
+        return $this->hasMany('App\Task', 'step_id', 'id')->Where('only_remote', false)->orderBy('sort_index')->orderBy('id');
     }
     public function remote_tasks()
     {
-        return $this->hasMany('App\Task', 'step_id', 'id')->Where('only_class', false)->orderBy('id');
+        return $this->hasMany('App\Task', 'step_id', 'id')->Where('only_class', false)->orderBy('sort_index')->orderBy('id');
+    }
+
+    public function nextStep()
+    {
+        if ($this->next == null)
+            $this->load_positions();
+
+        return $this->next;
+    }
+    public function previousStep()
+    {
+        if ($this->previous == null)
+            $this->load_positions();
+        return $this->previous;
     }
 
     public static function createStep($lesson, $data)
@@ -64,6 +95,7 @@ class CourseStep extends Model
         $step->save();
         return $step;
     }
+
     public static function editStep($step, $data)
     {
         $step->name = $data['name'];

@@ -35,7 +35,7 @@ class Course extends Model
 
     public function steps()
     {
-        return $this->hasMany('App\CourseStep', 'course_id', 'id')->orderBy('id');
+        return $this->hasMany('App\CourseStep', 'course_id', 'id')->orderBy('sort_index')->orderBy('id');
     }
 
     public function lessons()

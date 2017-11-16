@@ -46,7 +46,11 @@ class TasksController extends Controller
             'name' => 'required|string',
             'max_mark' => 'required|integer|min:0|max:100'
         ]);
-        $task = Task::create(['text' => $request->text, 'step_id'=>$step->id, 'name'=>$request->name, 'max_mark'=>$request->max_mark,
+        $order = 100;
+        if ($step->lesson->steps->count()!=0)
+            $order = $step->lesson->steps->last()->sort_index + 1;
+
+        $task = Task::create(['text' => $request->text, 'step_id'=>$step->id, 'name'=>$request->name, 'max_mark'=>$request->max_mark, 'sort_index'=>$order,
             'is_star' => $request->is_star=='on'?true:false,
             'only_remote' => $request->only_remote=='on'?true:false,
             'only_class' => $request->only_class=='on'?true:false]);
@@ -174,5 +178,46 @@ class TasksController extends Controller
 
         return redirect()->back();
 
+    }
+
+    public function makeLower($id, Request $request)
+    {
+        $task = Task::findOrFail($id);
+        $task->sort_index -= 1;
+        $task->save();
+        return redirect('/insider/steps/' . $task->step->id. '#task'.$id);
+    }
+    public function makeUpper($id, Request $request)
+    {
+        $task = Task::findOrFail($id);
+        $task->sort_index += 1;
+        $task->save();
+        return redirect('/insider/steps/' . $task->step->id. '#task'.$id);
+    }
+    public function toNextTask($id, Request $request)
+    {
+        $task = Task::findOrFail($id);
+        $next = $task->step->nextStep();
+        if ($next!=null)
+        {
+            $task->step_id = $next->id;
+            $task->save();
+            return redirect('/insider/steps/' . $next->id. '#task'.$id);
+        }
+
+        return redirect('/insider/steps/' . $task->step->id. '#task'.$id);
+    }
+    public function toPreviousTask($id, Request $request)
+    {
+        $task = Task::findOrFail($id);
+        $previous = $task->step->previousStep();
+        if ($previous!=null)
+        {
+            $task->step_id = $previous->id;
+            $task->save();
+            return redirect('/insider/steps/' . $previous->id. '#task'.$id);
+        }
+
+        return redirect('/insider/steps/' . $task->step->id. '#task'.$id);
     }
 }

@@ -22,11 +22,13 @@ class StepsController extends Controller
      *
      * @return void
      */
+
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('step')->only(['details']);
         $this->middleware('teacher')->only(['createView', 'create', 'editView', 'edit', 'makeLower', 'makeUpper']);
+
     }
 
     /**

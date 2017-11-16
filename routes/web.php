@@ -63,6 +63,12 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/questions/{id}/delete', 'StepsController@deleteQuestion');
     Route::get('/tasks/{id}/delete', 'TasksController@delete');
     Route::get('/tasks/{id}/edit', 'TasksController@editForm');
+
+    Route::get('/tasks/{id}/up', 'TasksController@toPreviousTask');
+    Route::get('/tasks/{id}/down', 'TasksController@toNextTask');
+    Route::get('/tasks/{id}/left', 'TasksController@makeLower');
+    Route::get('/tasks/{id}/right', 'TasksController@makeUpper');
+
     Route::post('/tasks/{id}/edit', 'TasksController@edit');
     Route::post('/tasks/{id}/solution', 'TasksController@postSolution');
     Route::get('/tasks/{id}/phantom', 'TasksController@phantomSolution');

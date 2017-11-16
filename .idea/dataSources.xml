@@ -10,11 +10,11 @@
         <property name="enable_load_extension" value="true" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="geekclass@roctbb.net" uuid="5c12ecae-951f-42d7-b8df-9a49a4175c3c">
+    <data-source source="LOCAL" name="geekclass@localhost" uuid="5c12ecae-951f-42d7-b8df-9a49a4175c3c">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://roctbb.net:5432/geekclass</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/geekclass</jdbc-url>
     </data-source>
   </component>
 </project>
