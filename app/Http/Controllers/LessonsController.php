@@ -57,7 +57,7 @@ class LessonsController extends Controller
 
         $lesson->save();
 
-        $data = ['name'=>'Введение', 'text'=>'', 'notes'=>''];
+        $data = ['name'=>'Введение', 'theory'=>'', 'notes'=>''];
 
         $step = CourseStep::createStep($lesson, $data);
 
