@@ -46,13 +46,15 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::post('/courses/{id}/edit', 'CoursesController@edit');
     Route::get('/courses/{id}/assessments', 'CoursesController@assessments');
 
+    Route::get('/courses/{id}/create', 'LessonsController@createView');
+    Route::post('/courses/{id}/create', 'LessonsController@create');
+    Route::get('/lessons/{id}/edit', 'LessonsController@editView');
+    Route::post('/lessons/{id}/edit', 'LessonsController@edit');
+
     Route::get('/lessons/{id}/create', 'StepsController@createView');
-    Route::get('/courses/{id}/create', 'StepsController@createLessonView');
     Route::post('/lessons/{id}/create', 'StepsController@create');
-    Route::post('/courses/{id}/create', 'StepsController@createLesson');
-
-
     Route::get('/steps/{id}', 'StepsController@details');
+    Route::get('/perform/{id}', 'StepsController@perform');
     Route::get('/steps/{id}/edit', 'StepsController@editView');
     Route::get('/steps/{id}/lower', 'StepsController@makeLower');
     Route::get('/steps/{id}/upper', 'StepsController@makeUpper');

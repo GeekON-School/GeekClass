@@ -27,7 +27,7 @@ class StepsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('step')->only(['details']);
-        $this->middleware('teacher')->only(['createView', 'create', 'editView', 'edit', 'makeLower', 'makeUpper']);
+        $this->middleware('teacher')->only(['createView', 'create', 'editView', 'edit', 'makeLower', 'makeUpper', 'perform']);
 
     }
 
@@ -61,16 +61,19 @@ class StepsController extends Controller
         return view('steps.details', compact('step', 'user', 'tasks'));
     }
 
+    public function perform($id)
+    {
+        $user  = User::findOrFail(Auth::User()->id);
+        $step = CourseStep::findOrFail($id);
+        $tasks = $step->tasks;
+        return view('perform.details', compact('step', 'user', 'tasks'));
+    }
+
     public function createView($id)
     {
         $is_lesson = false;
         $lesson = Lesson::findOrFail($id);
         return view('steps.create', compact('is_lesson', 'lesson'));
-    }
-    public function createLessonView($id)
-    {
-        $is_lesson = true;
-        return view('steps.create', compact('is_lesson'));
     }
 
     public function create($id, Request $request)
@@ -84,33 +87,14 @@ class StepsController extends Controller
         return redirect('/insider/steps/' . $step->id);
     }
 
-    public function createLesson($id, Request $request)
-    {
-        $course = Course::findOrFail($id);
-        $this->validate($request, [
-            'name' => 'required|string',
-            'lesson_name' => 'required|string',
-            'description' => 'required|string',
-            'start_date' => 'required|date|date_format:Y-m-d'
-        ]);
 
-        $lesson = new Lesson();
-        $lesson->start_date = Carbon::createFromFormat('Y-m-d', $request['start_date']);
-        $lesson->name = $request->lesson_name;
-        $lesson->course_id = $course->id;
-        $lesson->description = $request->descrition;
-        $lesson->save();
-
-        $step = CourseStep::createStep($lesson, $request);
-
-        return redirect('/insider/steps/' . $step->id);
-    }
 
     public function editView($id)
     {
         $step = CourseStep::findOrFail($id);
         return view('steps.edit', compact('step'));
     }
+
 
     public function edit($id, Request $request)
     {

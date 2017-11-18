@@ -46,8 +46,7 @@ class CoursesController extends Controller
 
 
         $steps = $course->steps;
-        $temp_steps = $course->steps()->where('start_date', '<=', Carbon::now()->addDay())->orWhere('start_date', null)->get();
-
+        $temp_steps = $course->steps()->where('start_date', '<=', Carbon::now()->addDay())->get();
         foreach ($students as $key => $value) {
             $students[$key]->percent = 0;
             $students[$key]->max_points = 0;

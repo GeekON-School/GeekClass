@@ -20,12 +20,15 @@
         @if ($user->role=='teacher')
             <div class="col-md-4">
 
-                <a href="{{url('/insider/steps/'.$step->id.'/edit')}}"
-                   class="float-right btn btn-sm btn-success">Редактировать</a>
+                <a style="margin-right: 5px;" href="{{url('/insider/steps/'.$step->id.'/edit')}}"
+                   class="float-right btn btn-sm btn-primary"><i class="icon ion-android-create"></i></a>
                 <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
                         data-toggle="modal" data-target="#exampleModal">
-                    Добавить задачу
+                    <i class="icon ion-android-add-circle"></i>
                 </button>
+                <a style="margin-right: 5px;" href="{{url('/insider/perform/'.$step->id)}}"
+                   class="float-right btn btn-sm btn-primary"><i
+                            class="icon ion-android-desktop"></i></a>
             </div>
         @endif
     </div>
@@ -40,10 +43,10 @@
                         <a style="@if ($lesson_step->id==$step->id)color:white;@endif"
                            href="{{url('/insider/steps/'.$lesson_step->id)}}">{{$lesson_step->name}}</a>
                         @if ($user->role=='teacher')
-                            <a class="pull-right" style="@if ($lesson_step->id==$step->id)color:white;@endif"
+                            <a class="float-right" style="@if ($lesson_step->id==$step->id)color:white;@endif"
                                href="{{url('/insider/steps/'.$lesson_step->id.'/lower')}}"><i
                                         class="ion-arrow-up-c"></i></a>
-                            <a class="pull-right" style="@if ($lesson_step->id==$step->id)color:white;@endif"
+                            <a class="float-right" style="@if ($lesson_step->id==$step->id)color:white;@endif"
                                href="{{url('/insider/steps/'.$lesson_step->id.'/upper')}}"><i
                                         class="ion-arrow-down-c"></i></a>
                         @endif
@@ -104,7 +107,7 @@
                                         @endif
                                         @if ($step->nextStep() != null)
                                             <a href="{{url('/insider/steps/'.$step->nextStep()->id)}}"
-                                               class="btn btn-success btn-sm pull-right">Вперед</a>
+                                               class="btn btn-success btn-sm float-right">Вперед</a>
                                         @endif
                                     </p>
                                 </div>
@@ -144,9 +147,9 @@
                                         {{$task->name}}
                                         @if ($user->role=='teacher')
                                             <a class="float-right btn btn-danger btn-sm"
-                                               href="{{url('/insider/tasks/'.$task->id.'/delete')}}">Удалить</a>
+                                               href="{{url('/insider/tasks/'.$task->id.'/delete')}}"><i class="icon ion-android-close"></i></a>
                                             <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm"
-                                               href="{{url('/insider/tasks/'.$task->id.'/edit')}}">Редактировать</a>
+                                               href="{{url('/insider/tasks/'.$task->id.'/edit')}}"><i class="icon ion-android-create"></i></a>
                                             <a class="float-right btn btn-default btn-sm"
                                                href="{{url('/insider/tasks/'.$task->id.'/phantom')}}"><i
                                                         class="icon ion-ios-color-wand"></i></a>

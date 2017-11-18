@@ -11,6 +11,10 @@
     line-height: 1.45;
 }
 
+.perform{
+    font-size: 120%;
+}
+
 .markdown h3 {
     font-size: 1.45rem;
     margin: 25px 0;
