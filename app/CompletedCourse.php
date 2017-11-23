@@ -14,6 +14,11 @@ class CompletedCourse extends Model
         'mark', 'name', 'provider', 'class'
     ];
 
+    public function course()
+    {
+        return $this->belongsTo('App\Course', 'course_id', 'id');
+    }
+
 
 
 }

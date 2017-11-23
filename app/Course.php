@@ -62,10 +62,38 @@ class Course extends Model
         $this->save();
     }
 
+    public function points(User $student)
+    {
+        $sum = 0;
+        foreach ($this->lessons as $step)
+            $sum += $step->points($student);
+        return $sum;
+    }
+
+    public function max_points(User $student)
+    {
+        $sum = 0;
+        foreach ($this->steps as $step)
+            $sum += $step->max_points($student);
+        return $sum;
+    }
+
     public function end()
     {
         $this->state = 'ended';
         $this->end_date = Carbon::now();
+
+        foreach ($this->students as $student)
+        {
+            $completed_course = new CompletedCourse();
+            $completed_course->name = $this->name;
+            $completed_course->provider = $this->provider->short_name;
+            $completed_course->user_id = $student->id;
+            $completed_course->course_id = $this->id;
+            $completed_course->mark = Mark::getMark($this->points($student), $this->max_points($student));
+            $completed_course->save();
+        }
+
         $this->save();
     }
 }

@@ -148,8 +148,12 @@
                                                         aria-hidden="true">&times;</span></a>
                                         @endif</h5>
                                     <p>
-                                        <span class="badge badge-pill badge-{{$course->class}}">{{$course->provider}}</span>
+                                        <span class="badge badge-pill badge-{{\App\CourseLabel::get($course)}}">{{$course->provider}}</span>
                                         <span class="badge badge-pill badge-success">Оценка: <strong>{{$course->mark}}</strong></span>
+                                        @if ($course->course_id!=null && ($guest->role=='teacher' || $course->students->contains($guest)))
+                                            <p><a href="{{url('insider/courses/'.$course->course_id)}}" class="btn btn-sm btn-primary">Страница
+                                                    курса</a></p>
+                                        @endif
                                     </p>
 
                                 </div>
