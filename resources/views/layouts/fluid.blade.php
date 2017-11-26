@@ -43,44 +43,6 @@
 </head>
 <body style="min-height: 100%; height: 100%;">
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a href="{{url('/')}}" class="navbar-brand" href="#">GeekClass</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        @if (Auth::check())
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item {{(Request::is('insider/courses*') ? 'active' : '') }}">
-                <a class="nav-link" href="{{url('/insider/courses')}}">Курсы <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item {{(Request::is('insider/profile*') ? 'active' : '') }}">
-                <a class="nav-link" href="{{url('insider/profile')}}">Профиль</a>
-            </li>
-            <li class="nav-item {{(Request::is('insider/community*') ? 'active' : '') }}">
-                <a class="nav-link" href="{{url('insider/community')}}">Сообщество</a>
-            </li>
-            <li class="nav-item {{(Request::is('insider/projects*') ? 'active' : '') }}">
-                <a class="nav-link" href="{{url('insider/projects')}}">Проекты</a>
-            </li>
-        </ul>
-
-        <ul class="navbar-nav" style="width: 220px;">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="{{ route('logout') }}"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выход</a>
-                </div>
-            </li>
-        </ul>
-        @endif
-    </div>
-</nav>
-
 <div class="container-fluid" style="min-height: calc(100% - 56px);">
     @if(Session::has('alert-class') and Session::get('alert-destination')=='head')
         <div class="alert {{ Session::get('alert-class') }} alert-dismissible" role="alert">

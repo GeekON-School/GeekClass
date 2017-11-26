@@ -11,7 +11,7 @@
 @section('content')
     <div class="row">
         <div class="col">
-            <h2>{{$course->name}}</h2>
+            <h2 style="font-weight: 300;">{{$course->name}}</h2>
             <p>{{$course->description}}</p>
         </div>
         @if ($user->role=='teacher')
@@ -176,9 +176,6 @@
                         </div>
                         <table class="table">
                             @foreach($steps as $step)
-                                <tr>
-                                    <th colspan="2">{{$step->name}}</th>
-                                </tr>
                                 @php
                                     if ($cstudent->pivot->is_remote)
                                     {

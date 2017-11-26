@@ -118,6 +118,7 @@ a[disabled] {
 .markdown img {
     text-align: center;
 }
+/*
 blockquote{
     display:block;
     background: #fff;
@@ -125,40 +126,39 @@ blockquote{
     margin: 0 0 20px;
     position: relative;
 
-    /*Font*/
+
     font-family: Georgia, serif;
     font-size: 16px;
     line-height: 1.2;
     color: #666;
     text-align: justify;
 
-    /*Borders - (Optional)*/
+
     border-left: 15px solid #c76c0c;
     border-right: 2px solid #c76c0c;
 
-    /*Box Shadow - (Optional)*/
+
     -moz-box-shadow: 2px 2px 15px #ccc;
     -webkit-box-shadow: 2px 2px 15px #ccc;
     box-shadow: 2px 2px 15px #ccc;
 }
 
 blockquote::before{
-    content: "\201C"; /*Unicode for Left Double Quote*/
+    content: "\201C";
 
-    /*Font*/
+
     font-family: Georgia, serif;
     font-size: 60px;
     font-weight: bold;
     color: #999;
 
-    /*Positioning*/
+
     position: absolute;
     left: 10px;
     top:5px;
 }
 
 blockquote::after{
-    /*Reset to make sure*/
     content: "";
 }
 
@@ -176,7 +176,7 @@ blockquote a:hover{
 
 blockquote em{
     font-style: italic;
-}
+}*/
 img[alt=px50] {
     min-width: 50px;
 }
@@ -195,10 +195,33 @@ sup > i {
     padding: 0;
     padding-top: 10px;
     min-height: 100%;
+    background-color: #304269;
 }
+
+.nav-pills .nav-link.active {
+    background-color: #D9E8F5;
+    color: #304269;
+}
+
 #stepsSidebar .nav-link.active {
-    border-radius: 0px;
+    border-radius: 0;
+    background-color: #D9E8F5;
+    color: #304269;
+
 }
+
+#stepsSidebar a {
+    color: white;
+}
+
+.bg-dark {
+    background-color: #304269 !important;
+}
+
+.card {
+    border-radius: 0;
+}
+
 body {
     position: absolute;
     width: 100%;
@@ -253,4 +276,15 @@ body {
 
 .bd-callout-danger h4 {
     color: #d9534f
+}
+
+.card-footer {
+    padding: 5px;
+    padding-left: 20px;
+}
+.progress {
+    border-radius: 0;
+}
+h4 {
+    font-weight: 300;
 }

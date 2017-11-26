@@ -34,7 +34,7 @@ class Lesson extends Model
         $sum = 0;
         foreach ($this->steps as $step)
             $sum += $step->percent($student);
-        return $sum / count($this->steps());
+        return $sum / count($this->steps);
     }
 
     public function points(User $student)

@@ -31,7 +31,7 @@
         @if ($provider->courses()->where('state', 'started')->count()!=0)
             <div class="row">
                 <div class="col">
-                    <h4><a target="_blank" href="{{$provider->site}}">{{$provider->name}}</a></h4>
+                    <h4 style="font-weight: 300;"><a target="_blank" href="{{$provider->site}}">{{$provider->name}}</a></h4>
                 </div>
             </div>
             <div class="row" style="margin-top: 15px;">

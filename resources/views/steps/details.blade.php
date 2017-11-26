@@ -10,29 +10,17 @@
 
 @section('content')
     <div class="row" style="min-height: 100%; position: absolute; width: 100%;">
-        <nav class="col-sm-4 col-md-3 d-none d-sm-block bg-light sidebar" id="stepsSidebar">
-            <div class="bd-callout bd-callout-info">
-                <p>
-                    <small>{{$step->course->name}}:</small>
-                </p>
-                <h4>
-                    <div class="row">
-                        <div class="col-auto" style="padding-right: 0;">
-                            <a class="nav-link" role="tab"
-                               id="back-link" style="padding: 3px;"
-                               href="{{url('/insider/courses/'.$step->course_id)}}"><i
-                                        class="icon ion-chevron-left"></i></a>
-                        </div>
-                        <div class="col" style="padding-left: 7px;">
-                            {{$step->lesson->name}}
-                        </div>
-                    </div>
-
-                </h4>
-
-            </div>
+        <nav class="col-sm-4 col-md-3 sidebar" id="stepsSidebar">
 
             <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" style="padding-top: 10px; padding-bottom: 10px; font-size: 150%;"
+                       href="{{url('/insider/courses/'.$step->course->id)}}">
+                        GeekClass </a>
+                </li>
+            </ul>
+            <ul class="nav nav-pills flex-column">
+
                 @foreach($step->lesson->steps as $lesson_step)
                     <li class="nav-item">
                         <a class="nav-link @if ($lesson_step->id==$step->id) active @endif"
@@ -49,10 +37,16 @@
         </nav>
 
         <main role="main" class="col-sm-8 ml-sm-auto col-md-9 pt-3">
-            <h2 style="font-weight: 300;">{{$step->name}}</h2>
-            <div class="row" style="margin-top: 15px;">
+            <div style="padding: 15px;">
+                <small><a href="{{url('/insider/courses/'.$step->course->id)}}"
+                          style="font-weight: 300;">{{$step->course->name}}</a> &raquo;
+                    <strong>{{$step->lesson->name}}</strong></small>
+                <h2 style="font-weight: 300;">{{$step->name}}</h2>
+            </div>
+            <div class="row">
                 <div class="col">
-                    <ul class="nav nav-pills nav-fill @if (count($tasks)==0 || $zero_theory) float-right @endif" id="pills-tab"
+                    <ul class="nav nav-pills nav-fill @if (count($tasks)==0 || $zero_theory) float-right @endif"
+                        id="pills-tab"
                         role="tablist">
                         @if (count($tasks)!=0 && !$zero_theory)
                             <li class="nav-item">
@@ -79,12 +73,12 @@
                         @if ($user->role=='teacher')
                             <li class="nav-item" style="max-width: 45px;">
                                 <a href="{{url('/insider/steps/'.$step->id.'/edit')}}"
-                                   class="nav-link btn btn-primary"
+                                   class="nav-link btn btn-success"
                                    style="padding: 8px 9px; height: 40px; margin: 0 0; margin-left: 5px; width: 40px;;"><i
                                             class="icon ion-android-create"></i></a>
                             </li>
                             <li class="nav-item" style="max-width: 45px;">
-                                <button type="button" class="nav-link btn btn-primary"
+                                <button type="button" class="nav-link btn btn-success"
                                         data-toggle="modal" data-target="#exampleModal"
                                         style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;;">
                                     <i class="icon ion-android-add-circle"></i>
@@ -92,19 +86,19 @@
                             </li>
                             <li class="nav-item" style="max-width: 45px;">
                                 <a href="{{url('/insider/perform/'.$step->id)}}"
-                                   class="nav-link btn btn-primary"
+                                   class="nav-link btn btn-success"
                                    style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"><i
                                             class="icon ion-android-desktop"></i></a>
                             </li>
                             <li class="nav-item" style="max-width: 45px;">
 
-                                <a class="nav-link btn btn-primary"
+                                <a class="nav-link btn btn-success"
                                    style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
                                    href="{{url('/insider/steps/'.$step->id.'/lower')}}"><i
                                             class="ion-arrow-up-c"></i></a>
                             </li>
                             <li class="nav-item" style="max-width: 45px;">
-                                <a class="nav-link btn btn-primary"
+                                <a class="nav-link btn btn-success"
                                    style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
                                    href="{{url('/insider/steps/'.$step->id.'/upper')}}"><i
                                             class="ion-arrow-down-c"></i></a>
@@ -120,36 +114,37 @@
             <div class="tab-content" id="pills-tabContent" style="padding: 15px;">
 
                 @if ($empty || !$zero_theory)
-                <div class="tab-pane fade show active" id="theory" role="tabpanel" aria-labelledby="v-theory-tab">
-
-                    <div class="markdown">
-                        @parsedown($step->theory)
-
-                        <p>&nbsp;</p>
-                        <p>
-                            @if ($step->previousStep() != null)
-                                <a href="{{url('/insider/steps/'.$step->previousStep()->id)}}"
-                                   class="btn btn-success btn-sm">Назад</a>
-                            @endif
-                            @if ($step->nextStep() != null)
-                                <a href="{{url('/insider/steps/'.$step->nextStep()->id)}}"
-                                   class="btn btn-success btn-sm float-right">Вперед</a>
-                            @endif
-                        </p>
-
-                    </div>
-                    @if ($user->role=='teacher' && $step->notes!='')
+                    <div class="tab-pane fade show active" id="theory" role="tabpanel" aria-labelledby="v-theory-tab">
 
                         <div class="markdown">
-                            <h3>Комментарий для преподавателя</h3>
-                            @parsedown($step->notes)
-                        </div>
+                            @parsedown($step->theory)
 
-                    @endif
-                </div>
+                            <p>&nbsp;</p>
+                            <p>
+                                @if ($step->previousStep() != null)
+                                    <a href="{{url('/insider/steps/'.$step->previousStep()->id)}}"
+                                       class="btn btn-success btn-sm">Назад</a>
+                                @endif
+                                @if ($step->nextStep() != null)
+                                    <a href="{{url('/insider/steps/'.$step->nextStep()->id)}}"
+                                       class="btn btn-success btn-sm float-right">Вперед</a>
+                                @endif
+                            </p>
+
+                        </div>
+                        @if ($user->role=='teacher' && $step->notes!='')
+
+                            <div class="markdown">
+                                <h3>Комментарий для преподавателя</h3>
+                                @parsedown($step->notes)
+                            </div>
+
+                        @endif
+                    </div>
                 @endif
                 @foreach ($tasks as $key => $task)
-                    <div class="tab-pane fade @if (!$empty && $zero_theory) show active @endif" id="task{{$task->id}}" role="tabpanel"
+                    <div class="tab-pane fade @if (!$empty && $zero_theory) show active @endif" id="task{{$task->id}}"
+                         role="tabpanel"
                          aria-labelledby="tasks-tab{{$task->id}}">
 
 
@@ -392,6 +387,9 @@
     </div>
 
     <script>
+
+        $('blockquote').addClass('bd-callout bd-callout-info')
+
         var simplemde_task = new SimpleMDE({
             spellChecker: false,
             element: document.getElementById("text")
