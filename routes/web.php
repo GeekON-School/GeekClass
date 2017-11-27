@@ -28,6 +28,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::prefix('open')->group(function () {
+    Route::get('/steps/{id}', 'OpenStepsController@details');
+});
+
 Route::prefix('insider')->middleware(['auth'])->group(function () {
 
     #TODO Check
