@@ -71,7 +71,10 @@ class StepsController extends Controller
         $user  = User::findOrFail(Auth::User()->id);
         $step = CourseStep::findOrFail($id);
         $tasks = $step->tasks;
-        return view('perform.details', compact('step', 'user', 'tasks'));
+        $zero_theory = $step->theory == null || $step->theory == "";
+        $one_tasker = $step->tasks->count() == 1;
+        $empty = $zero_theory && $step->tasks->count() == 0;
+        return view('perform.details', compact('step', 'user', 'tasks','zero_theory', 'one_tasker', 'empty'));
     }
 
     public function createView($id)

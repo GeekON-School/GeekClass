@@ -70,7 +70,7 @@
             @if (\Request::is('insider/*'))
                 <div class="row">
                     <div class="col">
-                        <ul class="nav nav-pills nav-fill @if (count($tasks)==0 || $zero_theory) float-right @endif"
+                        <ul class="nav nav-pills nav-fill @if (count($tasks)==0 || $one_tasker) float-right @endif"
                             id="pills-tab"
                             role="tablist">
                             @if (count($tasks)!=0 && !$zero_theory)
@@ -80,7 +80,7 @@
                                        aria-controls="theory" aria-expanded="true">0. Теория</a>
                                 </li>
                             @endif
-                            @if (!$step->lesson->is_open && !$one_tasker || !$zero_theory)
+                            @if (!$one_tasker || !$zero_theory)
                                 @foreach ($tasks as $key => $task)
                                     <li class="nav-item">
                                         <a class="nav-link " data-toggle="pill" id="tasks-tab{{$task->id}}"
@@ -144,30 +144,6 @@
 
                         <div class="markdown">
                             @parsedown($step->theory)
-
-                            <p>&nbsp;</p>
-                            <p>
-                                @if (\Request::is('insider/*'))
-                                    @if ($step->previousStep() != null)
-                                        <a href="{{url('/insider/steps/'.$step->previousStep()->id)}}"
-                                           class="btn btn-success btn-sm">Назад</a>
-                                    @endif
-                                    @if ($step->nextStep() != null)
-                                        <a href="{{url('/insider/steps/'.$step->nextStep()->id)}}"
-                                           class="btn btn-success btn-sm float-right">Вперед</a>
-                                    @endif
-                                @endif
-                                    @if (\Request::is('open/*'))
-                                        @if ($step->previousStep() != null)
-                                            <a href="{{url('/open/steps/'.$step->previousStep()->id)}}"
-                                               class="btn btn-success btn-sm">Назад</a>
-                                        @endif
-                                        @if ($step->nextStep() != null)
-                                            <a href="{{url('/open/steps/'.$step->nextStep()->id)}}"
-                                               class="btn btn-success btn-sm float-right">Вперед</a>
-                                        @endif
-                                    @endif
-                            </p>
 
                         </div>
                         @if (!$step->lesson->is_open && $user->role=='teacher' && $step->notes!='')
@@ -345,6 +321,28 @@
 
 
             </div>
+            <p>
+                @if (\Request::is('insider/*'))
+                    @if ($step->previousStep() != null)
+                        <a href="{{url('/insider/steps/'.$step->previousStep()->id)}}"
+                           class="btn btn-success btn-sm">Назад</a>
+                    @endif
+                    @if ($step->nextStep() != null)
+                        <a href="{{url('/insider/steps/'.$step->nextStep()->id)}}"
+                           class="btn btn-success btn-sm float-right">Вперед</a>
+                    @endif
+                @endif
+                @if (\Request::is('open/*'))
+                    @if ($step->previousStep() != null)
+                        <a href="{{url('/open/steps/'.$step->previousStep()->id)}}"
+                           class="btn btn-success btn-sm">Назад</a>
+                    @endif
+                    @if ($step->nextStep() != null)
+                        <a href="{{url('/open/steps/'.$step->nextStep()->id)}}"
+                           class="btn btn-success btn-sm float-right">Вперед</a>
+                    @endif
+                @endif
+            </p>
 
         </main>
 
