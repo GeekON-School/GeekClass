@@ -95,9 +95,9 @@ class LessonsController extends Controller
                 $new_step = new CourseStep();
                 foreach($step as $property => $value)
                     $new_step->$property = $value;
-                $new_step->id = null;
-                $new_step->created_at = null;
-                $new_step->updated_at = null;
+                unset($new_step->id);
+                unset($new_step->created_at);
+                unset($new_step->updated_at);
                 $new_step->lesson_id = $lesson->id;
                 $new_step->course_id = $lesson->course_id;
                 $new_step->save();
@@ -107,9 +107,9 @@ class LessonsController extends Controller
                     $new_task = new Task();
                     foreach($task as $property => $value)
                         $new_task->$property = $value;
-                    $new_task->id = null;
-                    $new_task->created_at = null;
-                    $new_task->updated_at = null;
+                    unset($new_task->id);
+                    unset($new_task->created_at);
+                    unset($new_task->updated_at);
                     $new_task->step_id = $new_step->id;
                     $new_task->save();
                 }

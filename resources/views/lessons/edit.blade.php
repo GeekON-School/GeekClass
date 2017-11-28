@@ -42,18 +42,7 @@
                                     </span>
                     @endif
                 </div>
-                <div class="form-group{{ $errors->has("import") ? ' has-error' : '' }}">
-                    <label for="import">Импорт</label>
-                    <input id="import" type="file" class="form-control"
-                           name="import"
-                           required>
 
-                    @if ($errors->has("import"))
-                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first("import") }}</strong>
-                                    </span>
-                    @endif
-                </div>
                 <div class="form-group">
                     <label for="description" style="padding-bottom: 10px;">Описание</label>
                     @if (old('description')!="")
@@ -67,6 +56,21 @@
                     @if ($errors->has('description'))
                         <span class="help-block error-block">
                                         <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+
+                <hr>
+
+                <div class="form-group{{ $errors->has("import") ? ' has-error' : '' }}">
+                    <label for="import">Импорт</label>
+                    <input id="import" type="file" class="form-control"
+                           name="import"
+                           required>
+
+                    @if ($errors->has("import"))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first("import") }}</strong>
                                     </span>
                     @endif
                 </div>
