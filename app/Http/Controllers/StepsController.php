@@ -60,7 +60,7 @@ class StepsController extends Controller
         }
 
         $zero_theory = $step->theory == null || $step->theory == "";
-        $one_tasker = $step->tasks->count() == 1;
+        $one_tasker = $step->tasks->count() == 1 && $zero_theory;
         $empty = $zero_theory && $step->tasks->count() == 0;
 
         return view('steps.details', compact('step', 'user', 'tasks', 'zero_theory', 'one_tasker', 'empty'));
