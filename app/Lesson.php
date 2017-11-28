@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Lesson extends Model
 {
@@ -51,6 +52,16 @@ class Lesson extends Model
         foreach ($this->steps as $step)
             $sum += $step->max_points($student);
         return $sum;
+    }
+
+    public function tasks()
+    {
+        $tasks = new \Illuminate\Database\Eloquent\Collection;;
+        foreach ($this->steps as $step)
+        {
+            $tasks = $tasks->merge($step->tasks);
+        }
+        return $tasks;
     }
 
 }
