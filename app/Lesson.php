@@ -26,15 +26,16 @@ class Lesson extends Model
 
     public function steps()
     {
-        return $this->hasMany('App\CourseStep', 'lesson_id', 'id')->orderBy('sort_index')->orderBy('id');
+        return $this->hasMany('App\CourseStep', 'lesson_id', 'id')->with('tasks')->orderBy('sort_index')->orderBy('id');
     }
 
     public function percent(User $student)
     {
-        $sum = 0;
-        foreach ($this->steps as $step)
-            $sum += $step->percent($student);
-        return $sum / count($this->steps);
+        $points = $this->points($student);
+        $max_points = $this->max_points($student);
+        if ($max_points == 0) return 100;
+        return $points * 100 / $max_points;
+
     }
 
     public function points(User $student)
@@ -52,5 +53,6 @@ class Lesson extends Model
             $sum += $step->max_points($student);
         return $sum;
     }
+
 
 }

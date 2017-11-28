@@ -43,7 +43,8 @@
                                 <h5>{{$key+1}}. <a class="collection-item"
                                                    href="{{url('/insider/steps/'.$lesson->steps->first()->id)}}">{{$lesson->name}}</a>
                                     @if ($user->role=='teacher')
-                                        <a href="{{url('insider/lessons/'.$lesson->id.'/edit')}}" class="btn btn-success btn-sm float-right"><i class="icon ion-android-create"></i></a>
+                                        <a href="{{url('insider/lessons/'.$lesson->id.'/export')}}" class="btn btn-success btn-sm float-right" style="margin-left: 5px;"><i class="icon ion-ios-cloud-download"></i></a>
+                                        <a href="{{url('insider/lessons/'.$lesson->id.'/edit')}}" class="btn btn-success btn-sm float-right" style="margin-left: 5px;"><i class="icon ion-android-create"></i></a>
 
                                     @endif
                                 </h5>

@@ -128,6 +128,12 @@
                                        href="{{url('/insider/steps/'.$step->id.'/upper')}}"><i
                                                 class="ion-arrow-down-c"></i></a>
                                 </li>
+                                    <li class="nav-item" style="max-width: 45px;">
+                                        <a class="nav-link btn btn-danger"
+                                           style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
+                                           href="{{url('/insider/steps/'.$step->id.'/delete')}}"><i
+                                                    class="ion-close-round"></i></a>
+                                    </li>
                             @endif
                         </ul>
 

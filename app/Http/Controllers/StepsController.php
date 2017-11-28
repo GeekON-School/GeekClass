@@ -27,7 +27,7 @@ class StepsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('step')->only(['details']);
-        $this->middleware('teacher')->only(['createView', 'create', 'editView', 'edit', 'makeLower', 'makeUpper', 'perform']);
+        $this->middleware('teacher')->only(['createView', 'create', 'editView', 'edit', 'makeLower', 'makeUpper', 'perform', 'delete']);
 
     }
 
@@ -125,6 +125,20 @@ class StepsController extends Controller
         $step->sort_index += 1;
         $step->save();
         return redirect('/insider/steps/' . $step->id);
+    }
+    public function delete($id)
+    {
+        $step = CourseStep::findOrFail($id);
+        $next = $step->nextStep();
+        $pr = $step->previousStep();
+        $course_id = $step->course_id;
+        $lesson = $step->lesson;
+
+        CourseStep::where('id', $id)->delete();
+        if ($pr != null) return redirect('/insider/steps/'.$pr->id);
+        if ($next != null) return redirect('/insider/steps/'.$next->id);
+        Lesson::where('id', $lesson->id)->delete();
+        return redirect('/insider/courses/'.$course_id);
     }
 
 
