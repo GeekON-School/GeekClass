@@ -13,11 +13,11 @@
                 <thead class="thead-inverse">
                 <tr class="bg-primary">
                     <th style="border-bottom: none;"></th>
-                    @foreach($course->steps as $step)
-                        @if ($step->tasks->count()!=0)
-                            <th colspan="{{$step->tasks->count()}}">{{$step->name}}
-                            </th>
-                        @endif
+                    @foreach($course->lessons as $lesson)
+                            @if ($lesson->tasks()->count()!=0)
+                                <th colspan="{{$lesson->tasks()->count()}}">{{$lesson->name}}
+                                </th>
+                            @endif
                     @endforeach
                     <td class="bg-info"></td>
                 </tr>
@@ -27,17 +27,19 @@
                     @php
                         $sum = 0;
                     @endphp
-                    @foreach($course->steps as $step)
+                    @foreach($course->lessons as $lesson)
+                        @foreach($lesson->steps as $step)
 
-                        @foreach($step->tasks as $task)
+                            @foreach($step->tasks as $task)
 
-                            <th class="bg-primary">{{$task->name}} ({{$task->max_mark}})
-                                @if($task->is_star) <sup>*</sup> @endif
-                                @if($task->only_class) <sup><i class="icon ion-android-contacts"></i></sup> @endif
-                                @if($task->only_remote) <sup><i class="icon ion-at"></i></sup> @endif</th>
-                            @php
-                                $sum += $task->max_mark;
-                            @endphp
+                                <th class="bg-primary">{{$task->name}} ({{$task->max_mark}})
+                                    @if($task->is_star) <sup>*</sup> @endif
+                                    @if($task->only_class) <sup><i class="icon ion-android-contacts"></i></sup> @endif
+                                    @if($task->only_remote) <sup><i class="icon ion-at"></i></sup> @endif</th>
+                                @php
+                                    $sum += $task->max_mark;
+                                @endphp
+                            @endforeach
                         @endforeach
                     @endforeach
                     <td class="bg-info">Сумма ({{$sum}})</td>
@@ -50,43 +52,46 @@
                         @php
                             $sum = 0;
                         @endphp
-                        @foreach($course->steps as $step)
 
-                            @foreach($step->tasks as $task)
-                                @php
+                        @foreach($course->lessons as $lesson)
+                            @foreach($lesson->steps as $step)
+                                @foreach($step->tasks as $task)
+                                    @php
 
-                                    $filtered = $student->submissions->filter(function ($value) use ($task) {
-                                        return $value->task_id == $task->id;
-                                    });
-                                    $mark = $filtered->max('mark');
-                                    $mark = $mark == null?0:$mark;
-                                    $need_check = false;
-                                    if ($filtered->count()!=0 && $filtered->last()->mark==null)
-                                    {
-                                        $need_check = true;
-                                    }
-                                    $sum += $mark;
-                                    $class = 'badge-light';
-                                    if ($mark >= $task->max_mark * 0.5)
-                                    {
-                                        $class = 'badge-primary';
-                                    }
-                                    if ($mark >= $task->max_mark * 0.7)
-                                    {
-                                        $class = 'badge-success';
-                                    }
-                                    if ($need_check)
-                                    {
-                                        $class = 'badge-warning';
-                                    }
+                                        $filtered = $student->submissions->filter(function ($value) use ($task) {
+                                            return $value->task_id == $task->id;
+                                        });
+                                        $mark = $filtered->max('mark');
+                                        $mark = $mark == null?0:$mark;
+                                        $need_check = false;
+                                        if ($filtered->count()!=0 && $filtered->last()->mark==null)
+                                        {
+                                            $need_check = true;
+                                        }
+                                        $sum += $mark;
+                                        $class = 'badge-light';
+                                        if ($mark >= $task->max_mark * 0.5)
+                                        {
+                                            $class = 'badge-primary';
+                                        }
+                                        if ($mark >= $task->max_mark * 0.7)
+                                        {
+                                            $class = 'badge-success';
+                                        }
+                                        if ($need_check)
+                                        {
+                                            $class = 'badge-warning';
+                                        }
 
 
-                                @endphp
-                                <td>
-                                    <a target="_blank" href="{{url('/insider/tasks/'.$task->id.'/student/'.$student->id)}}">
+                                    @endphp
+                                    <td>
+                                        <a target="_blank"
+                                           href="{{url('/insider/tasks/'.$task->id.'/student/'.$student->id)}}">
                                             <span class="badge {{$class}}">{{$mark}}</span>
-                                    </a>
-                                </td>
+                                        </a>
+                                    </td>
+                                @endforeach
                             @endforeach
 
                         @endforeach

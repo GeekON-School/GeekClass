@@ -25,23 +25,29 @@
                 <div class="row" style=" margin-bottom: 15px;">
                     <div class="col">
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="theory-tab" data-toggle="pill" href="#theory" role="tab"
-                                   aria-controls="theory" aria-expanded="true">0. Теория</a>
-                            </li>
-                            @foreach ($tasks as $key => $task)
+                            @if (count($tasks)!=0 && !$zero_theory)
                                 <li class="nav-item">
-                                    <a class="nav-link" id="tasks-tab{{$task->id}}" data-toggle="pill"
-                                       href="#task{{$task->id}}"
+                                    <a class="nav-link active" id="theory-tab" data-toggle="pill" href="#theory"
                                        role="tab"
-                                       aria-controls="tasks{{$task->id}}" aria-expanded="true">{{$key+1}}
-                                        . {{$task->name}}
-                                        @if($task->is_star) <sup>*</sup> @endif
-                                        @if($task->only_class) <sup><i
-                                                    class="icon ion-android-contacts"></i></sup> @endif
-                                        @if($task->only_remote) <sup><i class="icon ion-at"></i></sup> @endif</a>
+                                       aria-controls="theory" aria-expanded="true">0. Теория</a>
                                 </li>
-                            @endforeach
+                            @endif
+                            @if (!$one_tasker || !$zero_theory)
+                                @foreach ($tasks as $key => $task)
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tasks-tab{{$task->id}}"
+                                           data-toggle="pill"
+                                           href="#task{{$task->id}}"
+                                           role="tab"
+                                           aria-controls="tasks{{$task->id}}" aria-expanded="true">{{$key+1}}
+                                            . {{$task->name}}
+                                            @if($task->is_star) <sup>*</sup> @endif
+                                            @if($task->only_class) <sup><i
+                                                        class="icon ion-android-contacts"></i></sup> @endif
+                                            @if($task->only_remote) <sup><i class="icon ion-at"></i></sup> @endif</a>
+                                    </li>
+                                @endforeach
+                            @endif
 
                         </ul>
                     </div>
@@ -50,29 +56,20 @@
                 </div>
             @endif
             <div class="tab-content" id="pills-tabContent" style="margin-bottom: 15px;">
-                <div class="tab-pane fade show active" id="theory" role="tabpanel" aria-labelledby="v-theory-tab">
-                    <div class="row">
-                        <div class="col">
-                            <div class="card">
-                                <div class="card-body markdown perform">
-                                    @parsedown($step->theory)
-
-                                    <p>&nbsp;</p>
-                                    <p>
-                                        @if ($step->previousStep() != null)
-                                            <a href="{{url('/insider/perform/'.$step->previousStep()->id)}}"
-                                               class="btn btn-success btn-sm">Назад</a>
-                                        @endif
-                                        @if ($step->nextStep() != null)
-                                            <a href="{{url('/insider/perform/'.$step->nextStep()->id)}}"
-                                               class="btn btn-success btn-sm float-right">Вперед</a>
-                                        @endif
-                                    </p>
+                @if ($empty || !$zero_theory)
+                    <div class="tab-pane fade show active" id="theory" role="tabpanel" aria-labelledby="v-theory-tab">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body markdown perform">
+                                        <h4 class="lead">{{$step->name}}</h4>
+                                        @parsedown($step->theory)
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
                 @foreach ($tasks as $key => $task)
                     <div class="tab-pane fade" id="task{{$task->id}}" role="tabpanel"
                          aria-labelledby="tasks-tab{{$task->id}}">
@@ -104,7 +101,21 @@
                     </div>
                 @endforeach
 
+                <script>
+                    $('.tab-pane').first().removeClass('fade');
+                    $('.tab-pane').first().addClass('show active');
+                </script>
 
+                    <p>
+                        @if ($step->previousStep() != null)
+                            <a href="{{url('/insider/perform/'.$step->previousStep()->id)}}"
+                               class="btn btn-success btn-sm">Назад</a>
+                        @endif
+                        @if ($step->nextStep() != null)
+                            <a href="{{url('/insider/perform/'.$step->nextStep()->id)}}"
+                               class="btn btn-success btn-sm float-right">Вперед</a>
+                        @endif
+                    </p>
             </div>
         </div>
     </div>

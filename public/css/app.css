@@ -29,7 +29,21 @@
     margin-right: -30px;
 }
 
-.markdown p {
+.perform pre {
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #fafafa;
+    margin-left: -30px;
+    margin-right: -30px;
+}
+
+p {
+    max-width: 840px;
+}
+
+li {
     max-width: 840px;
 }
 
@@ -47,6 +61,7 @@
 .perform{
     font-size: 120%;
 }
+
 
 .markdown h3 {
     font-size: 1.45rem;
