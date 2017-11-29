@@ -69,14 +69,27 @@
                                     @endif
                                 </div>
 
+                                <div class="row">
+                                    <div class="col">
+                                        @parsedown($lesson->description)
+                                    </div>
+                                    @if ($user->role=='teacher' || $lesson->percent($cstudent) > 90)
+                                    <div class="col-sm-auto">
+                                        <img src="{{url($lesson->sticker)}}" style="max-width: 200px;"/>
+                                    </div>
+                                    @endif
 
-                                @parsedown($lesson->description)
+
+                                </div>
+
+
+
                             </div>
                             @if ($lesson->start_date!=null)
                                 <div class="card-footer">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <small class="text-muted">Доступно
+                                             <small class="text-muted"><i class="ion ion-clock"></i> Доступно
                                                 с {{$lesson->start_date->format('Y-m-d')}}</small>
                                         </div>
                                         <div class="col-md-6">
@@ -126,7 +139,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Информация</h4>
+                    <h4 class="card-title">Информация <img src="https://png.icons8.com/info/color/30/000000"></h4>
                     <p>
                         @if ($user->role=='teacher')
                             <b>Статус:</b> {{$course->state}}<br/>
@@ -135,10 +148,10 @@
 
                         @endif
                         @if ($course->git!=null)
-                            <b>Git репозиторий:</b> <a href="{{$course->git}}">{{$course->git}}</a><br/>
+                            <b><img src="https://png.icons8.com/git/color/24" title="Git" width="16" height="16"> Git репозиторий:</b> <a href="{{$course->git}}">{{$course->git}}</a><br/>
                         @endif
                         @if ($course->telegram!=null)
-                            <b>Чат в телеграм:</b> <a href="{{$course->telegram}}">{{$course->telegram}}</a><br/>
+                            <b><img src="https://png.icons8.com/telegram-app/win10/16" title="Telegram App" width="16" height="16"> Чат в телеграм:</b> <a href="{{$course->telegram}}">{{$course->telegram}}</a><br/>
                         @endif
                     </p>
                     <p>
@@ -146,7 +159,7 @@
                     </p>
                     <ul>
                         @foreach($course->teachers as $teacher)
-                            <li>{{$teacher->name}}</li>
+                            <li><a class="black-link" href="{{url('/insider/profile/'.$teacher->id)}}">{{$teacher->name}}</a></li>
                         @endforeach
                     </ul>
                     <p>
@@ -154,7 +167,7 @@
                     </p>
                     <ul>
                         @foreach($students->sortByDesc('percent') as $student)
-                            <li>{{$student->name}} <span
+                            <li><a class="black-link" href="{{url('/insider/profile/'.$student->id)}}">{{$student->name}}</a> <span
                                         class="badge badge-primary float-right"> {{ round($student->percent) }}
                                     % </span></li>
                         @endforeach
@@ -172,7 +185,7 @@
                 <div class="card" style="margin-top: 15px;">
                     <div class="card-body">
 
-                        <h4 class="card-title">Оценки
+                        <h4 class="card-title">Оценки <img src="https://png.icons8.com/medal/color/30/000000">
                             <small class="float-right"><span class="badge badge-primary">{{$cstudent->points}}
                                     / {{$cstudent->max_points}}</span></small>
                         </h4>

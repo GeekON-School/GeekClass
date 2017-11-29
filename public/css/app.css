@@ -133,6 +133,7 @@ a[disabled] {
 .markdown img {
     text-align: center;
 }
+
 /*
 blockquote{
     display:block;
@@ -309,4 +310,16 @@ body {
 }
 h4 {
     font-weight: 300;
+}
+.black-link {
+    color: #212529;
+}
+.black-link:visited {
+    color: #212529;
+}
+.black-link:active {
+    color: #212529;
+}
+.black-link:hover {
+    color: #212529;
 }

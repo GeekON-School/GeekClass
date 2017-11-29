@@ -34,7 +34,12 @@
                     <li class="nav-item">
                         @if (\Request::is('insider/*'))
                             <a class="nav-link @if ($lesson_step->id==$step->id) active @endif"
-                               href="{{url('/insider/steps/'.$lesson_step->id)}}">{{$lesson_step->name}}</a>
+                               href="{{url('/insider/steps/'.$lesson_step->id)}}">{{$lesson_step->name}}
+                                @if ($lesson_step->tasks->count()!=0)
+                                    <i class="ion ion-trophy"></i>
+                                @endif
+                            </a>
+
                         @endif
                         @if (\Request::is('open/*'))
                             <a class="nav-link @if ($lesson_step->id==$step->id) active @endif"

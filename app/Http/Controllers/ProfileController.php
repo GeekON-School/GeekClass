@@ -134,6 +134,12 @@ class ProfileController extends Controller
         $user->birthday = Carbon::createFromFormat('Y-m-d', $request->birthday);
         $user->setGrade($request->grade);
 
+        if ($request->password!="")
+        {
+            $this->validate($request, ['password' => 'required|string|min:6|confirmed']);
+            $user->password = bcrypt($request->password);
+        }
+
         if ($request->hasFile('image'))
         {
             $extn = '.'.$request->file('image')->guessClientExtension();

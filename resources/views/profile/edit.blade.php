@@ -96,6 +96,29 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
+
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                            <label for="password" class="control-label">Новый пароль</label>
+
+
+                            <input id="password" type="password" class="form-control" name="password">
+
+                            @if ($errors->has('password'))
+                                <span class="help-block error-block"><strong>{{ $errors->first('password') }}</strong></span>
+                            @endif
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password-confirm" class="control-label">Повторите
+                                пароль</label>
+
+
+                            <input id="password-confirm" type="password" class="form-control"
+                                   name="password_confirmation">
+
+                        </div>
+
                         <div class="form-group">
                             <label for='name'>Имя</label>
 

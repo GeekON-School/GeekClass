@@ -59,6 +59,12 @@
             border-top-left-radius: 0;
             border-top-right-radius: 0;
         }
+        .logo {
+            max-width: 250px;
+            position: relative;
+            margin: 0 auto;
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -67,9 +73,9 @@
 <div class="container">
 
     <form method="POST" action="{{ url('/login') }}" class="form-signin">
+        <p align="center"><img class="logo" src="https://storage.geekclass.ru/images/75746a91-66e5-4bdc-8625-eacab77ba5f2.png"/></p>
         {{ csrf_field() }}
 
-        <h2 class="form-signin-heading">Вход в систему</h2>
         <label for="inputEmail" class="sr-only">Email</label>
         <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required
                autofocus>
@@ -86,9 +92,9 @@
                                     </span>
         @endif
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Вход</button>
+        <button class="btn btn btn-primary btn-block" style="background-color: #0A6187; border: none;" type="submit">Вход</button>
         <p style="margin-top: 15px;">
-            <a href="{{url('/register')}}"><i class="icon ion-person-add"></i>&nbsp;Регистрация</a>
+            <a style="color: #0A6187;" href="{{url('/register')}}"><i class="icon ion-person-add"></i>&nbsp;Регистрация</a>
         </p>
     </form>
 

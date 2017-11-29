@@ -69,7 +69,7 @@
                     <h4 class="card-title">О себе
                         @if ($guest->role=='teacher' || $guest->id==$user->id)
                             <a class="btn btn-sm btn-success float-right"
-                               href="{{'/insider/profile/'.$user->id.'/edit'}}">Редактировать</a>
+                               href="{{'/insider/profile/'.$user->id.'/edit'}}"><i class="icon ion-android-create"></i> Редактировать</a>
                         @endif
                     </h4>
                     <p><strong>Технологические интересы:</strong><br>{{$user->interests}}</p>
@@ -80,7 +80,7 @@
                 </div>
             </div>
             @if($user->managed_courses->count()!=0)
-                <h4 style="margin: 20px;" class="card-title">Преподаватель в курсах</h4>
+                <h4 style="margin: 20px;" class="card-title">Преподаватель в курсах <img src="https://png.icons8.com/school-director/color/30/000000"></h4>
                 <div class="row">
                     @foreach($user->managed_courses as $course)
                         @if ($course->state == 'started')
@@ -88,7 +88,9 @@
                                 <div class="card" style="width: 100%;">
                                     <div class="card-body">
                                         <h5 class="card-title">{{$course->name}}</h5>
-                                        <p><span class="badge badge-pill badge-{{$course->provider->color}}">{{$course->provider->short_name}}</span></p>
+                                        <p>
+                                            <span class="badge badge-pill badge-{{$course->provider->color}}">{{$course->provider->short_name}}</span>
+                                        </p>
                                         @if ($guest->role=='teacher' || $course->students->contains($guest))
                                             <a href="{{url('insider/courses/'.$course->id)}}" class="card-link">Страница
                                                 курса</a>
@@ -100,8 +102,9 @@
                     @endforeach
                 </div>
             @endif
-            @if($user->courses->count()!=0)
-                <h4 style="margin: 20px;" class="card-title">Текущие курсы</h4>
+            @if($user->courses()->where('state', 'started')->count()!=0)
+                <h4 style="margin: 20px;" class="card-title"> Текущие курсы <img
+                            src="https://png.icons8.com/graduation-cap/color/30/000000"></h4>
                 <div class="row">
                     @foreach($user->courses as $course)
                         @if ($course->state == 'started')
@@ -109,7 +112,9 @@
                                 <div class="card" style="width: 100%;">
                                     <div class="card-body">
                                         <h5 class="card-title">{{$course->name}}</h5>
-                                        <p><span class="badge badge-pill badge-{{$course->provider->color}}">{{$course->provider->short_name}}</span></p>
+                                        <p>
+                                            <span class="badge badge-pill badge-{{$course->provider->color}}">{{$course->provider->short_name}}</span>
+                                        </p>
                                         @if ($guest->role=='teacher' || $course->students->contains($guest))
                                             <a href="{{url('insider/courses/'.$course->id)}}" class="card-link">Страница
                                                 курса</a>
@@ -125,13 +130,14 @@
             @if($user->completedCourses->count()!=0 || $guest->role=='teacher')
                 <div class="row">
                     <div class="col-md-8">
-                        <h4 style="margin: 20px;" class="card-title">Завершенные курсы</h4>
+                        <h4 style="margin: 20px;" class="card-title">Завершенные курсы <img
+                                    src="https://png.icons8.com/gold-medal/color/30/000000"></h4>
                     </div>
                     <div class="col" style="padding-top: 19px;">
                         @if ($guest->role=='teacher')
                             <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
                                     data-toggle="modal" data-target="#exampleModal">
-                                Добавить
+                                <i class="icon ion-plus-round"></i> Добавить
                             </button>
                         @endif
                     </div>
@@ -151,8 +157,13 @@
                                         <span class="badge badge-pill badge-{{\App\CourseLabel::get($course)}}">{{$course->provider}}</span>
                                         <span class="badge badge-pill badge-success">Оценка: <strong>{{$course->mark}}</strong></span>
                                         @if ($course->course_id!=null && ($guest->role=='teacher' || $course->students->contains($guest)))
-                                            <p><a href="{{url('insider/courses/'.$course->course_id)}}" class="btn btn-sm btn-primary">Страница
-                                                    курса</a></p>
+                                            <br>
+                                            <br>
+
+                                            <a href="{{url('insider/courses/'.$course->course_id)}}"
+                                               class="btn btn-sm btn-primary">Страница
+                                                курса</a>
+
                                         @endif
                                     </p>
 
@@ -162,35 +173,39 @@
                     @endforeach
                 </div>
             @endif
-            <div class="row">
-                <div class="col-md-8">
-                    <h4 style="margin: 20px;" class="card-title">Проекты</h4>
-                </div>
-                <div class="col" style="padding-top: 19px;">
-                    @if ($guest->role=='teacher' || $guest->id==$user->id)
-                        <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
-                                data-toggle="modal" data-target="#createProject">
-                            Добавить
-                        </button>
-                    @endif
+
+            @if ($user->projects->count()!=0 || $guest->role=='teacher')
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4 style="margin: 20px;" class="card-title">Проекты <img
+                                    src="https://png.icons8.com/microsoft-project/color/30/000000"></h4>
+                    </div>
+                    <div class="col" style="padding-top: 19px;">
+                        @if ($guest->role=='teacher' || $guest->id==$user->id)
+                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
+                                    data-toggle="modal" data-target="#createProject">
+                                <i class="icon ion-plus-round"></i> Добавить
+                            </button>
+                        @endif
+                    </div>
+
                 </div>
 
-            </div>
-
-            <div class="row">
-                @foreach($user->projects as $project)
-                    <div class="col-md-6">
-                        <div class="card" style="width: 100%; margin-bottom: 10px;">
-                            <div class="card-body">
-                                <h5 class="card-title">{{$project->name}}</h5>
-                                <p><span>{{$project->short_description}}</span></p>
-                                <a href="{{url('insider/projects/'.$project->id)}}" class="card-link">Страница
-                                    проекта</a>
+                <div class="row">
+                    @foreach($user->projects as $project)
+                        <div class="col-md-6">
+                            <div class="card" style="width: 100%; margin-bottom: 10px;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{$project->name}}</h5>
+                                    <p><span>{{$project->short_description}}</span></p>
+                                    <a href="{{url('insider/projects/'.$project->id)}}" class="card-link">Страница
+                                        проекта</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
+            @endif
 
 
         </div>

@@ -61,6 +61,7 @@ class LessonsController extends Controller
         $lesson->course_id = $course->id;
         $lesson->sort_index = $order;
         $lesson->description = $request->description;
+        $lesson->sticker = "/stickers/".random_int(1, 40).".png";
 
         $lesson->save();
 
