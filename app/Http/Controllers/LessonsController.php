@@ -50,10 +50,16 @@ class LessonsController extends Controller
             'description' => 'required|string',
             'start_date' => 'required|date|date_format:Y-m-d'
         ]);
+
+        $order = 100;
+        if ($course->lessons->count()!=0)
+            $order = $course->lessons->last()->sort_index + 1;
+
         $lesson = new Lesson();
         $lesson->start_date = Carbon::createFromFormat('Y-m-d', $request['start_date']);
         $lesson->name = $request->name;
         $lesson->course_id = $course->id;
+        $lesson->sort_index = $order;
         $lesson->description = $request->description;
 
         $lesson->save();
@@ -83,49 +89,41 @@ class LessonsController extends Controller
         $lesson->name = $request->name;
         $lesson->start_date = $request->start_date;
         $lesson->description = $request->description;
+        if ($request->open == "yes")
+            $lesson->is_open = true;
+        else
+            $lesson->is_open = false;
+        $lesson->save();
 
         if ($request->hasFile('import') && $request->file('import')->getClientMimeType() == 'application/json')
         {
             $json = file_get_contents($request->file('import')->getRealPath());
-            $new_lesson = json_decode($json)[0];
-            foreach ($new_lesson->steps as $step)
-            {
-                $tasks = $step->tasks;
-                unset($step->tasks);
-                $new_step = new CourseStep();
-                foreach($step as $property => $value)
-                    $new_step->$property = $value;
-                unset($new_step->id);
-                unset($new_step->created_at);
-                unset($new_step->updated_at);
-                $new_step->lesson_id = $lesson->id;
-                $new_step->course_id = $lesson->course_id;
-                $new_step->save();
-                
-                foreach ($tasks as $task)
-                {
-                    $new_task = new Task();
-                    foreach($task as $property => $value)
-                        $new_task->$property = $value;
-                    unset($new_task->id);
-                    unset($new_task->created_at);
-                    unset($new_task->updated_at);
-                    $new_task->step_id = $new_step->id;
-                    $new_task->save();
-                }
-            }
+            $lesson->import($json);
         }
 
+        return redirect('/insider/courses/' . $lesson->course->id);
+    }
+
+    public function makeLower($id, Request $request)
+    {
+        $lesson = Lesson::findOrFail($id);
+        $lesson->sort_index -= 1;
+        $lesson->save();
+        return redirect('/insider/courses/' . $lesson->course->id);
+    }
+    public function makeUpper($id, Request $request)
+    {
+        $lesson = Lesson::findOrFail($id);
+        $lesson->sort_index += 1;
         $lesson->save();
         return redirect('/insider/courses/' . $lesson->course->id);
     }
 
     public function export($id)
     {
-        $lesson = Lesson::where('id', $id)->with('steps')->get();
-        if ($lesson == null) abort(404);
+        $lesson = Lesson::findOrFail($id);
 
-        $json = $lesson->toJson();
+        $json = $lesson->export();
 
         $response = \Response::make($json);
         $response->header('Content-Type', 'application/json');

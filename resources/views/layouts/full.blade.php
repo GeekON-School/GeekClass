@@ -37,16 +37,16 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item {{(Request::is('insider/courses*') ? 'active' : '') }}">
                 <a class="nav-link" href="{{url('/insider/courses')}}">Курсы <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{(Request::is('insider/profile*') ? 'active' : '') }}">
                 <a class="nav-link" href="{{url('insider/profile')}}">Профиль</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{(Request::is('insider/community*') ? 'active' : '') }}">
                 <a class="nav-link" href="{{url('insider/community')}}">Сообщество</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{(Request::is('insider/projects*') ? 'active' : '') }}">
                 <a class="nav-link" href="{{url('insider/projects')}}">Проекты</a>
             </li>
         </ul>

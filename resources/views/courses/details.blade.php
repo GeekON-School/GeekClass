@@ -17,16 +17,22 @@
         @if ($user->role=='teacher')
             <div class="col">
                 <div class="float-right">
-                    <a href="{{url('/insider/courses/'.$course->id.'/create')}}" class="btn btn-primary btn-sm">Новая
-                        тема</a>
+                    <a href="{{url('/insider/courses/'.$course->id.'/create')}}" class="btn btn-primary btn-sm"><i
+                                class="icon ion-compose"></i></a>
                     <a href="{{url('/insider/courses/'.$course->id.'/edit')}}"
-                       class="btn btn-primary btn-sm">Изменить</a>
+                       class="btn btn-primary btn-sm"><i
+                                class="icon ion-android-create"></i></a>
+                    <a href="{{url('/insider/courses/'.$course->id.'/export')}}"
+                       class="btn btn-primary btn-sm"><i
+                                class="icon ion-ios-cloud-download"></i></a>
                     @if ($course->state=="draft")
                         <a href="{{url('/insider/courses/'.$course->id.'/start')}}"
-                           class="btn btn-success btn-sm">Запустить</a>
+                           class="btn btn-success btn-sm"><i
+                                    class="icon ion-power"></i></a>
                     @elseif ($course->state=="started")
                         <a href="{{url('/insider/courses/'.$course->id.'/stop')}}"
-                           class="btn btn-danger btn-sm">Завершить</a>
+                           class="btn btn-danger btn-sm"><i
+                                    class="icon ion-stop"></i></a>
                     @endif
                 </div>
             </div>
@@ -39,15 +45,31 @@
                     <div class="card-group">
                         <div class="card">
                             <div class="card-body">
-
-                                <h5>{{$key+1}}. <a class="collection-item"
-                                                   href="{{url('/insider/steps/'.$lesson->steps->first()->id)}}">{{$lesson->name}}</a>
+                                <div class="row">
+                                    <div class="col">
+                                        <h5>{{$key+1}}. <a class="collection-item"
+                                                           href="{{url('/insider/steps/'.$lesson->steps->first()->id)}}">{{$lesson->name}}</a>
+                                        </h5>
+                                    </div>
                                     @if ($user->role=='teacher')
-                                        <a href="{{url('insider/lessons/'.$lesson->id.'/export')}}" class="btn btn-success btn-sm float-right" style="margin-left: 5px;"><i class="icon ion-ios-cloud-download"></i></a>
-                                        <a href="{{url('insider/lessons/'.$lesson->id.'/edit')}}" class="btn btn-success btn-sm float-right" style="margin-left: 5px;"><i class="icon ion-android-create"></i></a>
-
+                                        <div class="col-sm-auto">
+                                            <a href="{{url('insider/lessons/'.$lesson->id.'/edit')}}"
+                                               class="btn btn-success btn-sm"><i
+                                                        class="icon ion-android-create"></i></a>
+                                            <a href="{{url('insider/lessons/'.$lesson->id.'/export')}}"
+                                               class="btn btn-success btn-sm"><i
+                                                        class="icon ion-ios-cloud-download"></i></a>
+                                            <a href="{{url('insider/lessons/'.$lesson->id.'/lower')}}"
+                                               class="btn btn-success btn-sm"><i
+                                                        class="icon ion-arrow-up-c"></i></a>
+                                            <a href="{{url('insider/lessons/'.$lesson->id.'/upper')}}"
+                                               class="btn btn-success btn-sm"><i
+                                                        class="icon ion-arrow-down-c"></i></a>
+                                        </div>
                                     @endif
-                                </h5>
+                                </div>
+
+
                                 @parsedown($lesson->description)
                             </div>
                             @if ($lesson->start_date!=null)

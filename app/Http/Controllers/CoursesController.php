@@ -7,6 +7,7 @@ use App\CourseStep;
 use App\Http\Controllers\Controller;
 use App\Provider;
 use App\User;
+use App\Lesson;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
@@ -129,6 +130,13 @@ class CoursesController extends Controller
             $course->image = $path;
 
         }*/
+
+        if ($request->hasFile('import') && $request->file('import')->getClientMimeType() == 'application/json')
+        {
+            $json = file_get_contents($request->file('import')->getRealPath());
+            $course->import($json);
+        }
+
         $course->save();
         return redirect('/insider/courses/' . $course->id);
     }
@@ -183,5 +191,20 @@ class CoursesController extends Controller
 
 
         return redirect()->back();
+    }
+
+    public function export($id)
+    {
+        $course = Course::findOrFail($id);
+
+        $json = $course->export();
+
+        $response = \Response::make($json);
+        $response->header('Content-Type', 'application/json');
+        $response->header('Content-length', strlen($json));
+        $response->header('Content-Disposition', 'attachment; filename=course-' . $id.'.json');
+
+        return $response;
+
     }
 }

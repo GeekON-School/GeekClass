@@ -49,12 +49,18 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/courses/{id}/stop', 'CoursesController@stop');
     Route::post('/courses/{id}/edit', 'CoursesController@edit');
     Route::get('/courses/{id}/assessments', 'CoursesController@assessments');
+    Route::get('/courses/{id}/export', 'CoursesController@export');
+
 
     Route::get('/courses/{id}/create', 'LessonsController@createView');
     Route::post('/courses/{id}/create', 'LessonsController@create');
     Route::get('/lessons/{id}/edit', 'LessonsController@editView');
     Route::post('/lessons/{id}/edit', 'LessonsController@edit');
     Route::get('/lessons/{id}/export', 'LessonsController@export');
+    Route::get('/lessons/{id}/lower', 'LessonsController@makeLower');
+    Route::get('/lessons/{id}/upper', 'LessonsController@makeUpper');
+    Route::get('/lessons/{id}/delete', 'LessonsController@delete');
+
 
     Route::get('/lessons/{id}/create', 'StepsController@createView');
     Route::post('/lessons/{id}/create', 'StepsController@create');

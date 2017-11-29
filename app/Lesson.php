@@ -65,4 +65,53 @@ class Lesson extends Model
         return $tasks;
     }
 
+    public function export()
+    {
+        $lesson = Lesson::where('id', $this->id)->with('steps')->first();
+        unset($lesson->id);
+        unset($lesson->updated_at);
+        foreach ($lesson->steps as $key => $step)
+        {
+            unset($lesson->steps[$key]->id);
+            unset($lesson->steps[$key]->updated_at);
+            unset($lesson->steps[$key]->lesson_id);
+            unset($lesson->steps[$key]->course_id);
+
+            foreach ($lesson->steps[$key]->tasks as $tkey => $task)
+            {
+                unset($lesson->steps[$key]->tasks[$tkey]->id);
+                unset($lesson->steps[$key]->tasks[$tkey]->step_id);
+                unset($lesson->steps[$key]->tasks[$tkey]->updated_at);
+            }
+        }
+        return $lesson->toJson();
+    }
+
+    public function import($lesson_json)
+    {
+        $new_lesson = json_decode($lesson_json);
+        foreach ($new_lesson->steps as $step)
+        {
+            $tasks = $step->tasks;
+            unset($step->tasks);
+            $new_step = new CourseStep();
+            foreach($step as $property => $value)
+                $new_step->$property = $value;
+            $new_step->lesson_id = $this->id;
+            $new_step->course_id = $this->course_id;
+            $new_step->save();
+
+            foreach ($tasks as $task)
+            {
+                $new_task = new Task();
+                foreach($task as $property => $value)
+                    $new_task->$property = $value;
+                $new_task->step_id = $new_step->id;
+                $new_task->save();
+            }
+        }
+        $this->save();
+    }
+
+
 }

@@ -62,11 +62,17 @@
 
                 <hr>
 
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="open" value="yes" @if ($lesson->is_open) checked @endif>
+                        Сделать занятие открытым
+                    </label>
+                </div>
+
                 <div class="form-group{{ $errors->has("import") ? ' has-error' : '' }}">
                     <label for="import">Импорт</label>
                     <input id="import" type="file" class="form-control"
-                           name="import"
-                           required>
+                           name="import">
 
                     @if ($errors->has("import"))
                         <span class="help-block error-block">

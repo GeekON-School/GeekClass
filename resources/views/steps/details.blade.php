@@ -17,7 +17,7 @@
                     <li class="nav-item">
                         <a class="nav-link" style="padding-top: 10px; padding-bottom: 10px; font-size: 150%;"
                            href="{{url('/insider/courses/'.$step->course->id)}}">
-                            GeekClass </a>
+                            <i class="icon ion-chevron-left"></i> GeekClass </a>
                     </li>
                 @endif
                 @if (\Request::is('open/*'))
@@ -53,13 +53,13 @@
 
         <main role="main" class="col-sm-8 ml-sm-auto col-md-9 pt-3">
             <div style="padding: 15px;">
-                @if (!$step->lesson->is_open)
+                @if (\Request::is('insider/*'))
                     <small><a href="{{url('/insider/courses/'.$step->course->id)}}"
                               style="font-weight: 300;">{{$step->course->name}}</a> &raquo;
                         <strong>{{$step->lesson->name}}</strong></small>
                     <h2 style="font-weight: 300;">{{$step->name}}</h2>
                 @endif
-                @if ($step->lesson->is_open)
+                @if (\Request::is('open/*'))
                     <small>{{$step->course->name}} &raquo;
                         <strong>{{$step->lesson->name}}</strong></small>
                     <h2 style="font-weight: 300;">{{$step->name}}</h2>
@@ -128,12 +128,12 @@
                                        href="{{url('/insider/steps/'.$step->id.'/upper')}}"><i
                                                 class="ion-arrow-down-c"></i></a>
                                 </li>
-                                    <li class="nav-item" style="max-width: 45px;">
-                                        <a class="nav-link btn btn-danger"
-                                           style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
-                                           href="{{url('/insider/steps/'.$step->id.'/delete')}}"><i
-                                                    class="ion-close-round"></i></a>
-                                    </li>
+                                <li class="nav-item" style="max-width: 45px;">
+                                    <a class="nav-link btn btn-danger"
+                                       style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
+                                       href="{{url('/insider/steps/'.$step->id.'/delete')}}"><i
+                                                class="ion-close-round"></i></a>
+                                </li>
                             @endif
                         </ul>
 
@@ -162,7 +162,7 @@
                         @endif
                     </div>
                 @endif
-                @if (!$step->lesson->is_open)
+                @if (\Request::is('insider/*'))
                     @foreach ($tasks as $key => $task)
                         <div class="tab-pane fade @if (!$empty && $zero_theory) show active @endif"
                              id="task{{$task->id}}"
@@ -183,7 +183,7 @@
                                     <div class="card">
                                         <div class="card-header">
                                             {{$task->name}}
-                                            @if (!$step->lesson->is_open && $user->role=='teacher')
+                                            @if (\Request::is('insider/*') && $user->role=='teacher')
                                                 <a class="float-right btn btn-danger btn-sm"
                                                    href="{{url('/insider/tasks/'.$task->id.'/delete')}}"><i
                                                             class="icon ion-android-close"></i></a>
