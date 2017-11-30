@@ -135,11 +135,11 @@
                                     @endif
 
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col-sm-auto">
                                             <small class="text-muted"><i class="ion ion-clock"></i> Доступно
                                                 с {{$lesson->start_date->format('Y-m-d')}}</small>
                                         </div>
-                                        <div class="col-sm-auto">
+                                        <div class="col">
                                             @if ($user->role=='student' and $lesson->max_points($cstudent)!=0)
                                                 <div class="progress" style="margin: 5px;">
                                                     @if ($lesson->percent($cstudent) < 30)
