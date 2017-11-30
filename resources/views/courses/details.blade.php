@@ -8,6 +8,8 @@
 
 @endsection
 
+
+
 @section('content')
     <div class="row">
         <div class="col">
@@ -74,25 +76,70 @@
                                         @parsedown($lesson->description)
                                     </div>
                                     @if ($user->role=='teacher' || $lesson->percent($cstudent) > 90)
-                                    <div class="col-sm-auto">
-                                        <img src="{{url($lesson->sticker)}}" style="max-width: 200px;"/>
-                                    </div>
+                                        <div class="col-sm-auto">
+                                            <img src="{{url($lesson->sticker)}}" style="max-width: 200px;"/>
+                                        </div>
                                     @endif
 
 
                                 </div>
 
 
-
                             </div>
                             @if ($lesson->start_date!=null)
                                 <div class="card-footer">
+                                    @if ($user->role=='teacher')
+                                        <div class="collapse" id="marks{{$lesson->id}}">
+                                            @foreach($students as $student)
+                                                <div class="row">
+                                                    <div class="col">
+                                                        {{$student->name}}
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="progress" style="margin: 5px;">
+                                                            @if ($lesson->percent($student) < 30)
+                                                                <div class="progress-bar progress-bar-striped bg-danger"
+                                                                     role="progressbar"
+                                                                     style="width: {{$lesson->percent($student)}}%"
+                                                                     aria-valuenow="{{$lesson->percent($student)}}"
+                                                                     aria-valuemin="0"
+                                                                     aria-valuemax="100">{{$lesson->points($student)}}
+                                                                    / {{$lesson->max_points($student)}}</div>
+
+                                                            @elseif($lesson->percent($student) < 50)
+                                                                <div class="progress-bar progress-bar-striped bg-warning"
+                                                                     role="progressbar"
+                                                                     style="width: {{$lesson->percent($student)}}%"
+                                                                     aria-valuenow="{{$lesson->percent($student)}}"
+                                                                     aria-valuemin="0"
+                                                                     aria-valuemax="100">
+                                                                    Успеваемость: {{$lesson->points($student)}}
+                                                                    / {{$lesson->max_points($student)}}</div>
+
+                                                            @else
+                                                                <div class="progress-bar progress-bar-striped bg-success"
+                                                                     role="progressbar"
+                                                                     style="width: {{$lesson->percent($student)}}%"
+                                                                     aria-valuenow="{{$lesson->percent($student)}}"
+                                                                     aria-valuemin="0"
+                                                                     aria-valuemax="100">
+                                                                    Успеваемость: {{$lesson->points($student)}}
+                                                                    / {{$lesson->max_points($student)}}</div>
+
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+
                                     <div class="row">
-                                        <div class="col-md-6">
-                                             <small class="text-muted"><i class="ion ion-clock"></i> Доступно
+                                        <div class="col">
+                                            <small class="text-muted"><i class="ion ion-clock"></i> Доступно
                                                 с {{$lesson->start_date->format('Y-m-d')}}</small>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-sm-auto">
                                             @if ($user->role=='student' and $lesson->max_points($cstudent)!=0)
                                                 <div class="progress" style="margin: 5px;">
                                                     @if ($lesson->percent($cstudent) < 30)
@@ -127,6 +174,25 @@
                                                     @endif
                                                 </div>
                                             @endif
+                                            @if ($user->role=='teacher')
+                                                <small class="text-muted" style="margin-right: 15px;">
+                                                    @foreach($students as $student)
+                                                        @if ($lesson->percent($student) < 30)
+                                                            <span class="badge badge-danger">&nbsp;</span>
+                                                        @elseif($lesson->percent($student) < 50)
+                                                            <span class="badge badge-warning">&nbsp;</span>
+                                                        @else
+                                                            <span class="badge badge-success">&nbsp;</span>
+                                                        @endif
+                                                    @endforeach
+
+                                                    <a style="margin-left: 10px;" data-toggle="collapse"
+                                                       href="#marks{{$lesson->id}}" aria-expanded="false"
+                                                       aria-controls="marks{{$lesson->id}}"><i
+                                                                class="ion ion-stats-bars"></i> Статистика
+                                                    </a>
+                                                </small>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -148,10 +214,13 @@
 
                         @endif
                         @if ($course->git!=null)
-                            <b><img src="https://png.icons8.com/git/color/24" title="Git" width="16" height="16"> Git репозиторий:</b> <a href="{{$course->git}}">{{$course->git}}</a><br/>
+                            <b><img src="https://png.icons8.com/git/color/24" title="Git" width="16" height="16"> Git
+                                репозиторий:</b> <a href="{{$course->git}}">{{$course->git}}</a><br/>
                         @endif
                         @if ($course->telegram!=null)
-                            <b><img src="https://png.icons8.com/telegram-app/win10/16" title="Telegram App" width="16" height="16"> Чат в телеграм:</b> <a href="{{$course->telegram}}">{{$course->telegram}}</a><br/>
+                            <b><img src="https://png.icons8.com/telegram-app/win10/16" title="Telegram App" width="16"
+                                    height="16"> Чат в телеграм:</b> <a
+                                    href="{{$course->telegram}}">{{$course->telegram}}</a><br/>
                         @endif
                     </p>
                     <p>
@@ -159,7 +228,8 @@
                     </p>
                     <ul>
                         @foreach($course->teachers as $teacher)
-                            <li><a class="black-link" href="{{url('/insider/profile/'.$teacher->id)}}">{{$teacher->name}}</a></li>
+                            <li><a class="black-link"
+                                   href="{{url('/insider/profile/'.$teacher->id)}}">{{$teacher->name}}</a></li>
                         @endforeach
                     </ul>
                     <p>
@@ -167,7 +237,8 @@
                     </p>
                     <ul>
                         @foreach($students->sortByDesc('percent') as $student)
-                            <li><a class="black-link" href="{{url('/insider/profile/'.$student->id)}}">{{$student->name}}</a> <span
+                            <li><a class="black-link"
+                                   href="{{url('/insider/profile/'.$student->id)}}">{{$student->name}}</a> <span
                                         class="badge badge-primary float-right"> {{ round($student->percent) }}
                                     % </span></li>
                         @endforeach
@@ -215,10 +286,10 @@
                                 @php
                                     if ($cstudent->pivot->is_remote)
                                     {
-                                        $tasks = $step->remote_tasks;
+                                    $tasks = $step->remote_tasks;
                                     }
                                     else {
-                                        $tasks = $step->class_tasks;
+                                    $tasks = $step->class_tasks;
                                     }
                                 @endphp
                                 @foreach($tasks as $task)
