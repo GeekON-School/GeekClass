@@ -656,6 +656,36 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('code_input') ? ' has-error' : '' }}">
+                            <label for="code_input" class="col-md-4">Входные данные</label>
+
+                            <div class="col-md-12">
+                                                <textarea id="code_input" class="form-control"
+                                                          name="code_input">{{old('code_input')}}</textarea>
+
+                                @if ($errors->has('code_input'))
+                                    <span class="help-block error-block">
+                                        <strong>{{ $errors->first('code_input') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('code_answer') ? ' has-error' : '' }}">
+                            <label for="code_answer" class="col-md-4">Результат</label>
+
+                            <div class="col-md-12">
+                                                <textarea id="code_answer" class="form-control"
+                                                          name="code_answer">{{old('code_answer')}}</textarea>
+
+                                @if ($errors->has('code_answer'))
+                                    <span class="help-block error-block">
+                                        <strong>{{ $errors->first('code_answer') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-success">Создать</button>

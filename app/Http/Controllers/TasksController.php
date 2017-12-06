@@ -59,11 +59,13 @@ class TasksController extends Controller
             $task->is_quiz = true;
             $task->answer = $request->answer;
         }
-        else if ($request->has('checker')) {
+        else if ($request->has('code_answer')) {
             $task->is_code = true;
             $task->checker = $request->checker;
+            $task->code_answer = $request->code_answer;
+            $task->code_input = $request->code_input;
+            $task->template = $request->template;
         }
-        $task->template = $request->template;
         $task->save();
 
         return redirect('/insider/steps/' . $step->id.'#task'.$task->id);
@@ -126,16 +128,19 @@ class TasksController extends Controller
         else {
             $task->is_quiz = false;
         }
-        if ($request->has('checker')) {
+        if ($request->has('code_answer')) {
             $task->is_quiz = false;
             $task->is_code = true;
             $task->checker = $request->checker;
+            $task->code_answer = $request->code_answer;
+            $task->code_input = $request->code_input;
+            $task->template = $request->template;
         }
         else {
             $task->is_code = false;
         }
 
-        $task->template = $request->template;
+
         $task->save();
 
         $step_id = $task->step_id;
@@ -194,7 +199,7 @@ class TasksController extends Controller
             $solution->text = $request->text;
 
             $client = new Client();
-            $res = $client->post('https://checker.geekclass.ru', ['form_params' =>  ['pswd'=>'', 'code'=>$solution->text, 'checker'=>$task->checker]]);
+            $res = $client->post('https://checker.geekclass.ru', ['form_params' =>  ['pswd'=>'', 'input'=>$task->code_input, 'code'=>$solution->text, 'checker'=>$task->checker]]);
             if ($res->getStatusCode()!=200)
             {
                 $solution->mark = 0;
@@ -213,7 +218,7 @@ class TasksController extends Controller
             }
             if ($data->state=='success')
             {
-                if (str_contains($data->result, "$$$%%%OK%%%$$$"))
+                if (str_contains($data->result, $task->code_answer))
                 {
                     $solution->mark = $task->max_mark;
                     $solution->comment = "Правильно.";
