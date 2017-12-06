@@ -9,7 +9,7 @@ class Task extends Model
     protected $table = 'tasks';
 
     protected $fillable = [
-        'text', 'step_id', 'deadline', 'name', 'max_mark', 'is_star', 'only_class', 'only_remote', 'sort_index'
+        'text', 'step_id', 'deadline', 'name', 'max_mark', 'is_star', 'only_class', 'only_remote', 'sort_index', 'is_quiz', 'is_code'
     ];
 
     protected $dates = [
@@ -24,6 +24,11 @@ class Task extends Model
     public function solutions()
     {
         return $this->hasMany('App\Solution', 'task_id', 'id');
+    }
+
+    public function questions()
+    {
+        return $this->hasMany('App\Question', 'task_id', 'id');
     }
 
 

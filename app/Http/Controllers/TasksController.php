@@ -14,6 +14,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
 use Notification;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 
 class TasksController extends Controller
 {
@@ -35,9 +37,6 @@ class TasksController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
-
-
     public function create($id, Request $request)
     {
         $step = CourseStep::findOrFail($id);
@@ -54,6 +53,18 @@ class TasksController extends Controller
             'is_star' => $request->is_star=='on'?true:false,
             'only_remote' => $request->only_remote=='on'?true:false,
             'only_class' => $request->only_class=='on'?true:false]);
+
+        if ($request->has('answer'))
+        {
+            $task->is_quiz = true;
+            $task->answer = $request->answer;
+        }
+        else if ($request->has('checker')) {
+            $task->is_code = true;
+            $task->checker = $request->checker;
+        }
+        $task->template = $request->template;
+        $task->save();
 
         return redirect('/insider/steps/' . $step->id.'#task'.$task->id);
     }
@@ -107,6 +118,24 @@ class TasksController extends Controller
         {
             $task->only_remote = false;
         }
+        if ($request->has('answer'))
+        {
+            $task->is_quiz = true;
+            $task->answer = $request->answer;
+        }
+        else {
+            $task->is_quiz = false;
+        }
+        if ($request->has('checker')) {
+            $task->is_quiz = false;
+            $task->is_code = true;
+            $task->checker = $request->checker;
+        }
+        else {
+            $task->is_code = false;
+        }
+
+        $task->template = $request->template;
         $task->save();
 
         $step_id = $task->step_id;
@@ -144,11 +173,68 @@ class TasksController extends Controller
         $solution->user_id=Auth::User()->id;
         $solution->submitted = Carbon::now();
         $solution->text = $request->text;
+
+        if ($task->is_quiz)
+        {
+            if ($task->answer==$request->text)
+            {
+                $solution->mark = $task->max_mark;
+                $solution->comment = "Правильно.";
+
+            }
+            else {
+                $solution->mark = 0;
+                $solution->comment = "Неверный ответ.";
+            }
+            $solution->teacher_id = $task->Step->Course->Teachers->first()->id;
+            $solution->checked = Carbon::now();
+        }
+        if ($task->is_code)
+        {
+            $solution->text = $request->text;
+
+            $client = new Client();
+            $res = $client->post('https://checker.geekclass.ru', ['form_params' =>  ['pswd'=>'', 'code'=>$solution->text, 'checker'=>$task->checker]]);
+            if ($res->getStatusCode()!=200)
+            {
+                $solution->mark = 0;
+                $solution->comment = "Ошибка проверки, попробуйте еще раз чуть позже..";
+            }
+            $data = \GuzzleHttp\json_decode($res->getBody());
+            if ($data->state=='general error')
+            {
+                $solution->mark = 0;
+                $solution->comment = "Ошибка проверки, попробуйте еще раз чуть позже.";
+            }
+            if ($data->state=='error')
+            {
+                $solution->mark = 0;
+                $solution->comment = "Ошибка в программе:<br><br>".nl2br($data->error);
+            }
+            if ($data->state=='success')
+            {
+                if (str_contains($data->result, "$$$%%%OK%%%$$$"))
+                {
+                    $solution->mark = $task->max_mark;
+                    $solution->comment = "Правильно.";
+                }
+                else{
+                    $solution->mark = 0;
+                    $solution->comment = "Неверное решение.";
+                }
+            }
+            $solution->teacher_id = $task->Step->Course->Teachers->first()->id;
+            $solution->checked = Carbon::now();
+
+        }
+
         $solution->save();
 
-        $when = \Carbon\Carbon::now()->addSeconds(1);
-
-        Notification::send($task->step->course->teachers, (new \App\Notifications\NewSolution($solution))->delay($when));
+        if (!$task->is_quiz && !$task->is_code)
+        {
+            $when = \Carbon\Carbon::now()->addSeconds(1);
+            Notification::send($task->step->course->teachers, (new \App\Notifications\NewSolution($solution))->delay($when));
+        }
 
         return redirect('/insider/steps/' . $step_id. '#task'.$id);
     }

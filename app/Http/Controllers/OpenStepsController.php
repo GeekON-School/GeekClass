@@ -42,8 +42,9 @@ class OpenStepsController extends Controller
         $zero_theory = $step->theory == null || $step->theory == "";
         $one_tasker = $step->tasks->count() == 1;
         $empty = $zero_theory && $step->tasks->count() == 0;
+        $quizer = false;
 
-        return view('steps.details', compact('step', 'user', 'tasks', 'zero_theory', 'one_tasker', 'empty'));
+        return view('steps.details', compact('step', 'user', 'tasks', 'zero_theory', 'one_tasker', 'empty', 'quizer'));
     }
 
 

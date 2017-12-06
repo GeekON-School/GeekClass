@@ -97,7 +97,7 @@
                                                     </div>
                                                     <div class="col">
                                                         <div class="progress" style="margin: 5px;">
-                                                            @if ($lesson->percent($student) < 30)
+                                                            @if ($lesson->percent($student) < 40)
                                                                 <div class="progress-bar progress-bar-striped bg-danger"
                                                                      role="progressbar"
                                                                      style="width: {{$lesson->percent($student)}}%"
@@ -106,7 +106,7 @@
                                                                      aria-valuemax="100">{{$lesson->points($student)}}
                                                                     / {{$lesson->max_points($student)}}</div>
 
-                                                            @elseif($lesson->percent($student) < 50)
+                                                            @elseif($lesson->percent($student) < 60)
                                                                 <div class="progress-bar progress-bar-striped bg-warning"
                                                                      role="progressbar"
                                                                      style="width: {{$lesson->percent($student)}}%"
@@ -135,14 +135,14 @@
                                     @endif
 
                                     <div class="row">
-                                        <div class="col-sm-auto">
+                                        <div class="col">
                                             <small class="text-muted"><i class="ion ion-clock"></i> Доступно
                                                 с {{$lesson->start_date->format('Y-m-d')}}</small>
                                         </div>
                                         <div class="col">
                                             @if ($user->role=='student' and $lesson->max_points($cstudent)!=0)
                                                 <div class="progress" style="margin: 5px;">
-                                                    @if ($lesson->percent($cstudent) < 30)
+                                                    @if ($lesson->percent($cstudent) < 40)
                                                         <div class="progress-bar progress-bar-striped bg-danger"
                                                              role="progressbar"
                                                              style="width: {{$lesson->percent($cstudent)}}%"
@@ -151,7 +151,7 @@
                                                              aria-valuemax="100">{{$lesson->points($cstudent)}}
                                                             / {{$lesson->max_points($cstudent)}}</div>
 
-                                                    @elseif($lesson->percent($cstudent) < 50)
+                                                    @elseif($lesson->percent($cstudent) < 60)
                                                         <div class="progress-bar progress-bar-striped bg-warning"
                                                              role="progressbar"
                                                              style="width: {{$lesson->percent($cstudent)}}%"
@@ -175,11 +175,11 @@
                                                 </div>
                                             @endif
                                             @if ($user->role=='teacher')
-                                                <small class="text-muted" style="margin-right: 15px;">
+                                                <small class="text-muted float-right" style="margin-right: 15px;">
                                                     @foreach($students as $student)
-                                                        @if ($lesson->percent($student) < 30)
+                                                        @if ($lesson->percent($student) < 40)
                                                             <span class="badge badge-danger">&nbsp;</span>
-                                                        @elseif($lesson->percent($student) < 50)
+                                                        @elseif($lesson->percent($student) < 60)
                                                             <span class="badge badge-warning">&nbsp;</span>
                                                         @else
                                                             <span class="badge badge-success">&nbsp;</span>
@@ -261,13 +261,13 @@
                                     / {{$cstudent->max_points}}</span></small>
                         </h4>
                         <div class="progress" style="margin-bottom: 15px;">
-                            @if ($cstudent->percent < 30)
+                            @if ($cstudent->percent < 40)
                                 <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
                                      style="height: 2px;width: {{$cstudent->percent}}%"
                                      aria-valuenow="{{$cstudent->percent}}" aria-valuemin="0"
                                      aria-valuemax="100"></div>
 
-                            @elseif($cstudent->percent < 50)
+                            @elseif($cstudent->percent < 60)
                                 <div class="progress-bar progress-bar-striped bg-warning" role="progressbar"
                                      style="height: 2px;width: {{$cstudent->percent}}%"
                                      aria-valuenow="{{$cstudent->percent}}" aria-valuemin="0"
@@ -295,7 +295,7 @@
                                 @foreach($tasks as $task)
                                     @php
                                         $filtered = $task->solutions->filter(function ($value) use ($user) {
-                                            return $value->user_id == $user->id;
+                                            return $value->user_id == $user->id && !$value->is_quiz;
                                         });
                                         $mark = $filtered->max('mark');
                                         $mark = $mark == null?0:$mark;
