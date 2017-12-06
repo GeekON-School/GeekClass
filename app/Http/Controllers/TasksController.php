@@ -199,7 +199,7 @@ class TasksController extends Controller
             $solution->text = $request->text;
 
             $client = new Client();
-            $res = $client->post('https://checker.geekclass.ru', ['form_params' =>  ['pswd'=>'', 'input'=>$task->code_input, 'code'=>$solution->text, 'checker'=>$task->checker]]);
+            $res = $client->post('https://checker.geekclass.ru', ['form_params' =>  ['pswd'=>'GEEK_PSWD_{{}}', 'input'=>$task->code_input, 'code'=>$solution->text, 'checker'=>$task->checker]]);
             if ($res->getStatusCode()!=200)
             {
                 $solution->mark = 0;

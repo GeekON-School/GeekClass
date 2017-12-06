@@ -130,10 +130,10 @@ class CoursesController extends Controller
             $course->image = $path;
 
         }*/
-
-        if ($request->hasFile('import') && $request->file('import')->getClientMimeType() == 'application/json')
+        if ($request->hasFile('import'))
         {
             $json = file_get_contents($request->file('import')->getRealPath());
+
             $course->import($json);
         }
 
