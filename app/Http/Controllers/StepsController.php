@@ -63,7 +63,12 @@ class StepsController extends Controller
         $one_tasker = $step->tasks->count() == 1 && $zero_theory;
         $empty = $zero_theory && $step->tasks->count() == 0;
 
-        return view('steps.details', compact('step', 'user', 'tasks', 'zero_theory', 'one_tasker', 'empty'));
+        $quizer = true;
+        foreach ($tasks as $task)
+            if (!$task->is_quiz) $quizer = false;
+        $quizer = $quizer && $zero_theory && !$empty;
+
+        return view('steps.details', compact('step', 'user', 'tasks', 'zero_theory', 'one_tasker', 'empty', 'quizer'));
     }
 
     public function perform($id)

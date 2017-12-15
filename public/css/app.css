@@ -323,3 +323,11 @@ h4 {
 .black-link:hover {
     color: #212529;
 }
+.ace_editor {
+    height: 350px;
+    width: 100%;
+}
+.editor {
+    margin-left: -15px;
+    margin-right: -15px;
+}
