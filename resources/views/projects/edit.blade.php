@@ -26,13 +26,19 @@
                                     </span>
                     @endif
                 </div>
-                <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-                    <label for="image">Логотип проекта</label>
+                <div class="form-group">
+                    <label for="url">URL Обложки</label>
 
-                    <input id="image" type="file" class="form-control" name="image"/>
-
-                    @if ($errors->has('image'))
-                        <span class="help-block error-block"><strong>{{ $errors->first('image') }}</strong></span>
+                    @if (old('url')!="")
+                        <input id="url" type="text" class="form-control" name="url" value="{{old('url')}}" required>
+                    @else
+                        <input id="url" type="text" class="form-control" name="url" value="{{$project->url}}"
+                               required>
+                    @endif
+                    @if ($errors->has('url'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('url') }}</strong>
+                                    </span>
                     @endif
                 </div>
                 <div class="form-group">
@@ -43,20 +49,6 @@
                         <span class="help-block error-block">
                                         <strong>{{ $errors->first('short_description') }}</strong>
                                     </span>
-                    @endif
-                </div>
-                <div class="form-group{{ $errors->has('tags') ? ' has-error' : '' }}">
-                    <label for="image">Тэги:</label>
-                    @if (old('tags')!="")
-                        <input id="name" type="text" placeholder="Вводите теги через пробел" class="form-control"
-                               name="tags" value="{{old('tags')}}">
-                    @else
-                        <input id="name" type="text" placeholder="Вводите теги через пробел" class="form-control"
-                               name="tags" value="{{$project->tags}}">
-                    @endif
-                    @if ($errors->has('tags'))
-
-                        <span class="help-block error-block"><strong>{{ $errors->first('tags') }}</strong></span>
                     @endif
                 </div>
                 <div class="form-group">
@@ -70,39 +62,18 @@
                     @endif
                 </div>
 
-                <div class="form-group">
-                    <label for="type">Тип проекта</label>
-
-                    @if (old('type')!="")
-                        <input id="type" type="text" class="form-control" name="type" value="{{old('type')}}">
-                    @else
-                        <input id="type" type="text" class="form-control" name="type" value="{{$project->type}}">
-                    @endif
-                    @if ($errors->has('type'))
-                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first('type') }}</strong>
-                                    </span>
-                    @endif
-                </div>
-                <div class="form-group">
-                    <label for="url">Ссылка на проект</label>
-
-                    @if (old('')!="")
-                        <input id="url" type="text" class="form-control" name="url" value="{{old('url')}}">
-                    @else
-                        <input id="url" type="text" class="form-control" name="url" value="{{$project->url}}">
-                    @endif
-                    @if ($errors->has('url'))
-                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first('url') }}</strong>
-                                    </span>
-                    @endif
-                </div>
 
 
                 <button type="submit" class="btn btn-success">Сохранить</button>
             </form>
         </div>
+        <script>
+            var simplemde_description = new SimpleMDE({
+                spellChecker: false,
+                autosave: true,
+                element: document.getElementById("description")
+            });
+        </script>
     </div>
 @endsection
 

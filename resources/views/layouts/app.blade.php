@@ -113,9 +113,12 @@
     // Change hash for page-reload
     $('.nav-tabs a').on('shown.bs.tab', function (e) {
         window.location.hash = e.target.hash;
-    })
+    });
 
-    $('div').linkify();
+    $('div').linkify({
+        target: "_blank"
+    });
+    $('div.markdown a').attr('target', 'blank');
 </script>
 
 

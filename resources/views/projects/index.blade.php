@@ -1,7 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3>Проекты</h3>
+    <div class="row" style="margin-top: 15px;">
+        <div class="col">
+            <h2>Проекты</h2>
+        </div>
+        <div class="col">
+            <a class="float-right btn btn-success btn-sm" href="{{url('/insider/projects/create/')}}"><i
+                        class="icon ion-plus-round"></i>&nbsp;Создать</a>
+        </div>
+    </div>
     <div class="row" style="margin-top: 15px;">
         @foreach($projects as $project)
 
@@ -9,7 +17,7 @@
                 <div class="card bg-dark text-white" style="height: 320px;">
                     <div class="card-header"><a style="color:white;" href="{{url('/insider/projects/'.$project->id)}}">{{$project->name}}</a></div>
                     <div class="card-body"
-                         style=" @if ($project->image!=null) background-image: url({{url('/media/'.$project->image)}}); @else background-image: url({{url('/media/project_avatars/test.jpg')}}); @endif background-size: cover; ">
+                         style=" @if ($project->url!=null) background-image: url({{$project->url}}); @else background-image: url({{url('/media/project_avatars/test.jpg')}}); @endif background-size: cover; ">
 
                         @if($project->type != "")
                         <p class="card-text">

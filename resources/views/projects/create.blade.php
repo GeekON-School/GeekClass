@@ -1,6 +1,6 @@
 
 @extends('layouts.app')
-nbkmb
+
 @section('title')
     GeekClass: Добавление проекта
 @endsection
@@ -32,29 +32,28 @@ nbkmb
                 </div>
                 <div class="form-group">
                     <label for="description">Описание</label>
-                    <textarea id="description"  class="form-control"  name="description" required>{{old('description')}}</textarea>
+                    <textarea id="description"  class="form-control"  name="description">{{old('description')}}</textarea>
                     @if ($errors->has('description'))
                         <span class="help-block error-block">
                                         <strong>{{ $errors->first('description') }}</strong>
                                     </span>
                     @endif
                 </div>
-                <div class="form-group">
-                    <label for="projectType">Тип</label>
-                    <textarea id="projectType"  class="form-control"  name="projectType">{{old('projectType')}}</textarea>
-                    @if ($errors->has('projectType'))
-                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first('projectType') }}</strong>
-                                    </span>
-                    @endif
-                </div>
 
 
 
 
 
-                <button type="submit" class="btn btn-success">Создать</button>
+
+                <input type="submit" class="btn btn-success" value="Создать"/>
             </form>
         </div>
+        <script>
+            var simplemde_description = new SimpleMDE({
+                spellChecker: false,
+                autosave: true,
+                element: document.getElementById("description")
+            });
+        </script>
     </div>
 @endsection

@@ -132,6 +132,7 @@ class CourseStep extends Model
                 $results['percent'] = $results['points'] * 100 / $results['max_points'];
             }
         }
+        $this->results_cache[$student->id] = $results;
         return $results;
     }
     public function percent(User $student)

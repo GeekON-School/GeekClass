@@ -76,7 +76,9 @@
         window.location.hash = e.target.hash;
     })
 
-    $('div').linkify();
+    $('div').linkify({
+        target: "_blank"
+    });
 </script>
 
 

@@ -156,7 +156,7 @@
                                     <p>
                                         <span class="badge badge-pill badge-{{\App\CourseLabel::get($course)}}">{{$course->provider}}</span>
                                         <span class="badge badge-pill badge-success">Оценка: <strong>{{$course->mark}}</strong></span>
-                                        @if ($course->course_id!=null && ($guest->role=='teacher' || $course->students->contains($guest)))
+                                        @if ($course->course_id!=null && ($guest->role=='teacher' || $course->course->students->contains($guest)))
                                             <br>
                                             <br>
 

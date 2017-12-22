@@ -21,7 +21,7 @@ class ProjectsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('self')->only(['createProject, editProject']);
+        $this->middleware('project')->only(['editView', 'editProject', 'delete']);
     }
 
     public function index()
@@ -39,13 +39,9 @@ class ProjectsController extends Controller
         $guest_projects = $user->projects;
         $is_in_project = false;
         $is_author = false;
-        if ($author == $user->id)
+        if ($author == $user->id )
             $is_author = true;
-        foreach ($guest_projects as $arr)
-            if ($id == $arr->id) {
-                $is_in_project = true;
-                break;
-            }
+        $is_in_project = $project->Students->contains($user);
         $tags = explode(" ", $project->tags);
         return view('projects.details', compact('project', 'user', 'is_in_project', 'is_author', 'tags'));
     }
@@ -71,19 +67,10 @@ class ProjectsController extends Controller
             'image' => 'image|max:3000',
         ]);
 
+
         $project = Project::findOrFail($id);
-        $project->name = $request->name;
-        $project->description = $request->description;
-        $project->short_description = $request->short_description;
-        $project->type = $request->type;
-        $project->tags = $request->tags;
-        $project->url = $request->url;
-        if ($request->hasFile('image')) {
-            $extn = '.' . $request->file('image')->guessClientExtension();
-            $path = $request->file('image')->storeAs('project_avatars', $project->id . $extn);
-            $project->image = $path;
-        }
-        $project->save();
+        $project->editProject($request);
+
 
         return redirect('/insider/projects/'.$project->id);
     }
@@ -96,7 +83,6 @@ class ProjectsController extends Controller
         ]);
         $user  = User::findOrFail(Auth::User()->id);
         $project = Project::createProject($request);
-        $project->save();
         $project->students()->attach($user->id);
         return redirect('/insider/projects/' . $project->id);
     }
