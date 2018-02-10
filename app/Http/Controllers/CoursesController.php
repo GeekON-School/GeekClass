@@ -47,7 +47,7 @@ class CoursesController extends Controller
 
 
         $temp_steps = collect([]);
-        $lessons = $course->lessons()->where('start_date', '<=', Carbon::now()->setTime(0,0))->get();
+        $lessons = $course->lessons()->where('start_date', '<=', Carbon::now()->setTime(23,59))->get();
         foreach ($lessons as $lesson)
         {
 
@@ -73,7 +73,7 @@ class CoursesController extends Controller
             }
         }
         if ($user->role == 'student') {
-            $lessons = $course->lessons()->where('start_date', '<=', Carbon::now()->setTime(0,0))->get();
+            $lessons = $course->lessons()->where('start_date', '<=', Carbon::now()->setTime(23,59))->get();
 
             $steps = $temp_steps;
             $cstudent = $students->filter(function ($value, $key) use ($user) {
