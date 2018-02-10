@@ -117,8 +117,8 @@
                 @foreach($courses as $course)
                     @if ($course->state == 'ended')
 
-                        <div class="card" style="width: 100%;">
-                            <div class="card-body">
+                        <div class="card" style="width: 100%; min-width: 280px; background-image: url({{$course->image}}); background-size: cover;">
+                            <div class="card-body" style="background-color: rgba(255,255,255,0.9);">
                                 <h4 class="card-title">{{$course->name}}</h4>
                                 <p class="card-text">{{$course->description}}</p>
                                 <a href="{{url('insider/courses/'.$course->id)}}" class="btn btn-primary">Страница

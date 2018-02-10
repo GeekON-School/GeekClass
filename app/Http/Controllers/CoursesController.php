@@ -46,8 +46,13 @@ class CoursesController extends Controller
         $students = $course->students;
 
 
-        $steps = $course->steps;
-        $temp_steps = $course->steps()->where('start_date', '<=', Carbon::now()->addDay())->get();
+        $temp_steps = collect([]);
+        $lessons = $course->lessons()->where('start_date', '<=', Carbon::now()->setTime(0,0))->get();
+        foreach ($lessons as $lesson)
+        {
+
+            $temp_steps = $temp_steps->merge($lesson->steps);
+        }
         foreach ($students as $key => $value) {
             $students[$key]->percent = 0;
             $students[$key]->max_points = 0;
@@ -68,13 +73,20 @@ class CoursesController extends Controller
             }
         }
         if ($user->role == 'student') {
+            $lessons = $course->lessons()->where('start_date', '<=', Carbon::now()->setTime(0,0))->get();
+
             $steps = $temp_steps;
             $cstudent = $students->filter(function ($value, $key) use ($user) {
                 return $value->id == $user->id;
             })->first();
         }
+        else {
+            $steps = $temp_steps;
+            $lessons = $course->lessons;
+        }
 
-        $lessons = $course->lessons;
+
+
 
         return view('courses.details', compact('course', 'user', 'steps', 'students', 'cstudent', 'lessons'));
     }
