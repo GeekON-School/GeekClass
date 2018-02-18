@@ -524,7 +524,9 @@
                     @endforeach
                     <script>
                         $('.tab-pane').first().addClass('active show');
-                        $('.task-pill').first().addClass('active');
+                        @if ($zero_theory)
+                            $('.task-pill').first().addClass('active');
+                        @endif
                     </script>
                 @endif
 
