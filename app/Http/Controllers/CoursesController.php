@@ -67,6 +67,8 @@ class CoursesController extends Controller
                     if (!$task->is_star) $students[$key]->max_points += $task->max_mark;
                     $students[$key]->points += $value->submissions()->where('task_id', $task->id)->max('mark');
                 }
+
+
             }
             if ($students[$key]->max_points != 0) {
                 $students[$key]->percent = min(100, $students[$key]->points * 100 / $students[$key]->max_points);

@@ -70,8 +70,6 @@
                     <h2 style="font-weight: 300;">{{$step->name}}</h2>
                 @endif
             </div>
-            @php
-                    @endphp
             <div class="row">
                 <div class="col">
                     <ul class="nav nav-pills nav-fill @if (count($tasks)==0 || $one_tasker || $quizer) float-right @endif"
@@ -87,7 +85,7 @@
                         @if (!$quizer && (!$one_tasker || !$zero_theory))
                             @foreach ($tasks as $key => $task)
                                 <li class="nav-item">
-                                    <a class="nav-link " data-toggle="pill" id="tasks-tab{{$task->id}}"
+                                    <a class="nav-link task-pill" data-toggle="pill" id="tasks-tab{{$task->id}}"
                                        href="#task{{$task->id}}"
                                        aria-controls="tasks{{$task->id}}" aria-expanded="true">{{$key+1}}
                                         . {{$task->name}}
@@ -239,7 +237,7 @@
                 @endif
                 @if (!$quizer)
                     @foreach ($tasks as $key => $task)
-                        <div class="tab-pane fade @if (!$empty && $zero_theory) show active @endif"
+                        <div class="tab-pane fade @if (!$empty && $zero_theory && $one_tasker) show active @endif"
                              id="task{{$task->id}}"
                              role="tabpanel"
                              aria-labelledby="tasks-tab{{$task->id}}">
@@ -524,6 +522,10 @@
                             @endif
                         </div>
                     @endforeach
+                    <script>
+                        $('.tab-pane').first().addClass('active show');
+                        $('.task-pill').first().addClass('active');
+                    </script>
                 @endif
 
 
