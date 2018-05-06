@@ -13,6 +13,17 @@
                     <label>Описание события</label>
                     <input type="text" name="text" class="form-control" value="{{old('job')}}">
                 </div>
+
+                <div class = "form-group required">
+                    <label>Тип события</label>
+                    <div class="radio">
+                        <input type="radio" name="out">Внешнее
+                    </div>
+                    <div class="radio">
+                        <input type="radio" name="in">Внутреннее
+                    </div>
+                </div>
+
                 <div class = "form-group required">
                     <label>Дата проведения мероприятия</label>
                     <input type="text" name="date" class="form-control" value="{{old('email')}}">
