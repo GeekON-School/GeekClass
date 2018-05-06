@@ -26,6 +26,14 @@ Route::get('/', function () {
 
 });
 
+Route::get('/insider/events', function () {
+    if (\Illuminate\Support\Facades\Auth::check() ) {
+        return view('/events/add_event_view');
+    }
+    return view('/add_event_view');
+
+});
+
 Auth::routes();
 
 Route::prefix('open')->group(function () {
@@ -107,6 +115,11 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/projects/{id}/edit', 'ProjectsController@editView');
     Route::post('/projects/{id}/edit', 'ProjectsController@edit');
     Route::get('/projects/{id}/delete', 'ProjectsController@deleteProject');
+    Route::get('/projects', 'ProjectsController@index');
+
+    Route::get('/projects/events', 'EventController@editView');
+    Route::post('/projects/{id}/edit', 'ProjectsController@edit');
+    Route::get('/projects/add_events', 'EventController@editView');
     Route::get('/projects', 'ProjectsController@index');
 
     Route::get('/testmail', function () {

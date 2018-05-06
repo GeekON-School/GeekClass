@@ -331,3 +331,7 @@ h4 {
     margin-left: -15px;
     margin-right: -15px;
 }
+
+
+/* Events */
+.required label:after { content:" *"; color: red; }
