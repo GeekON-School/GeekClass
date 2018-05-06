@@ -6,15 +6,6 @@
             <form method="POST">
                 {{ csrf_field() }}
                 <div class = "form-group required">
-                    <label>Название события</label>
-                    <input type="text" name="name" class="form-control" required value="{{old('name')}}">
-                </div>
-                <div class = "form-group required">
-                    <label>Описание события</label>
-                    <input type="text" name="text" class="form-control" value="{{old('job')}}">
-                </div>
-
-                <div class = "form-group required">
                     <label>Тип события</label>
                     <div class="radio">
                         <input type="radio" name="out">Внешнее
@@ -22,6 +13,15 @@
                     <div class="radio">
                         <input type="radio" name="in">Внутреннее
                     </div>
+                </div>
+
+                <div class = "form-group required">
+                    <label>Название события</label>
+                    <input type="text" name="name" class="form-control" required value="{{old('name')}}">
+                </div>
+                <div class = "form-group required">
+                    <label>Описание события</label>
+                    <input type="text" name="text" class="form-control" value="{{old('job')}}">
                 </div>
 
                 <div class = "form-group required">

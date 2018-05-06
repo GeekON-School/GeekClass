@@ -28,9 +28,17 @@ Route::get('/', function () {
 
 Route::get('/insider/events', function () {
     if (\Illuminate\Support\Facades\Auth::check() ) {
+        return view('/events/events_view');
+    }
+    return view('events/events_view');
+
+});
+
+Route::get('/insider/events/add_event', function () {
+    if (\Illuminate\Support\Facades\Auth::check() ) {
         return view('/events/add_event_view');
     }
-    return view('/add_event_view');
+    return view('/events/add_event_view');
 
 });
 
