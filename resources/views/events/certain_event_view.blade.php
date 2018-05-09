@@ -4,30 +4,20 @@
     <br>
     <form method="POST">
         {{ csrf_field() }}
-        <div class="row" style = "margin-top: -40px">
+        <div class="row" style = "margin-top: -30px">
             <div class="col">
                 <div class="float-left">
-                    <h2 style="margin-top: -25px">Название события</h2>
+                    <h2>Название события</h2>
                 </div>
                 <div class="float-right">
-                    <a href="{{url('/insider/courses/create')}}" class="btn btn-primary btn-sm"><i
-                                class="icon ion-compose"></i></a>
-                    <a href="{{url('/insider/courses/edit')}}"
-                       class="btn btn-primary btn-sm"><i
-                                class="icon ion-android-create"></i></a>
-                    <a href="{{url('/insider/courses/export')}}"
-                       class="btn btn-primary btn-sm"><i
-                                class="icon ion-ios-cloud-download"></i></a>
-                    <a href="{{url('/insider/courses/start')}}"
-                       class="btn btn-success btn-sm"><i
-                                class="icon ion-power"></i></a>
-                    <a href="{{url('/insider/courses/stop')}}"
-                       class="btn btn-danger btn-sm"><i
-                                class="icon ion-stop"></i></a>
+                    <div>
+                        //ToDo
+                        <img src="https://png.icons8.com/ios/50/000000/add-administrator.png" width="40px">
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row" style = "margin-top: 30px">
+        <div class="row" style = "margin-top: 10px">
             <div class="col-md-8">
                 <div class="card-group">
                     <div class="card">
@@ -35,87 +25,41 @@
                             <div class="row">
                                 <div class="col">
                                     <h5>
+                                        *Описание события*
                                     </h5>
                                 </div>
-                                <div class="col-sm-auto">
-                                    <a href="{{url('insider/lessons/edit')}}"
-                                       class="btn btn-success btn-sm"><i
-                                                class="icon ion-android-create"></i></a>
-                                    <a href="{{url('insider/lessons/export')}}"
-                                       class="btn btn-success btn-sm"><i
-                                                class="icon ion-ios-cloud-download"></i></a>
-                                    <a href="{{url('insider/lessons/lower')}}"
-                                       class="btn btn-success btn-sm"><i
-                                                class="icon ion-arrow-up-c"></i></a>
-                                    <a href="{{url('insider/lessons/upper')}}"
-                                       class="btn btn-success btn-sm"><i
-                                                class="icon ion-arrow-down-c"></i></a>
-                                </div>
                             </div>
-
-                            <div class="row">
-
-
-                            </div>
-
-
                         </div>
                         <div class="card-footer">
                             <div class="row">
                                 <div class="col">
-                                    <div class="progress" style="margin: 5px;">
-                                        <div class="progress-bar progress-bar-striped bg-danger"
-                                             role="progressbar"
-                                             aria-valuenow=""
-                                             aria-valuemin="0"
-                                             aria-valuemax="100"></div>
-
-                                        <div class="progress-bar progress-bar-striped bg-warning"
-                                             role="progressbar"
-                                             aria-valuenow=""
-                                             aria-valuemin="0"
-                                             aria-valuemax="100">
-                                            Успеваемость: </div>
-
-                                        <div class="progress-bar progress-bar-striped bg-success"
-                                             role="progressbar"
-                                             aria-valuenow=""
-                                             aria-valuemin="0"
-                                             aria-valuemax="100">
-                                            Успеваемость: </div>
-
+                                    <div style="margin: 5px;">
+                                        <div tupe="button" class="btn btn-primary">Я иду!</div>
+                                        <div class="float-right">
+                                            <div tupe="button" class="btn btn-success">Мне нравиться</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <div class="progress" style="margin: 5px;">
-                                    <div class="progress-bar progress-bar-striped bg-danger"
-                                         role="progressbar"
-                                         aria-valuenow=""
-                                         aria-valuemin="0"
-                                         aria-valuemax="100"></div>
-
-                                    <div class="progress-bar progress-bar-striped bg-warning"
-                                         role="progressbar"
-                                         aria-valuenow=""
-                                         aria-valuemin="0"
-                                         aria-valuemax="100">
-                                        Успеваемость: </div>
-
-                                    <div class="progress-bar progress-bar-striped bg-success"
-                                         role="progressbar"
-                                         aria-valuenow=""
-                                         aria-valuemin="0"
-                                         aria-valuemax="100">
-                                        Успеваемость: </div>
-
+                    </div>
+                </div>
+                <div style = "margin-top: 50px">
+                    <h2>Комментарии:</h2>
+                </div>
+                <div class="card-group" style = "margin-top: 30px">
+                    <div class="card">
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col">
+                                    <div style="margin: 5px;">
+                                        <div>*Дата*, *Имя пользователя*</div><br>
+                                        <div>*Текст*</div><br>
+                                        <div class="float-right">
+                                            <div tupe="button" class="btn btn-info">Ответить</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <small class="text-muted float-right" style="margin-right: 15px;">
-
-                                </small>
                             </div>
                         </div>
                     </div>
@@ -148,6 +92,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
 @endsection

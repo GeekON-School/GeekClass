@@ -42,6 +42,14 @@ Route::get('/insider/events/add_event', function () {
 
 });
 
+Route::get('/insider/events/certain_event', function () {
+    if (\Illuminate\Support\Facades\Auth::check() ) {
+        return view('/events/certain_event_view');
+    }
+    return view('/events/certain_event_view');
+
+});
+
 Auth::routes();
 
 Route::prefix('open')->group(function () {

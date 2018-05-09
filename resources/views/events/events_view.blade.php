@@ -7,7 +7,9 @@
             <div class="row" style = "margin-top: -30px">
                     <div class="col">
                         <div class="float-left">
-                            <h2>События<a href="{{url('/insider/events/add_event')}}" style = "margin-left: 50px" class = "btn btn-success">Добавить событие</a></h2>
+                            <h2>События<a href="{{url('/insider/events/add_event')}}" style = "margin-left: 50px" class = "btn btn-success">Добавить событие</a>
+                                <a href="{{url('/insider/events/certain_event')}}" style = "margin-left: 50px" class = "btn btn-success">Перейти к событию</a>
+                            </h2>
                         </div>
                         <div class="float-right">
                             <a href="{{url('/insider/courses/create')}}" class="btn btn-primary btn-sm"><i
