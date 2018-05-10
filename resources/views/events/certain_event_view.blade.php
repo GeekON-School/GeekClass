@@ -56,7 +56,7 @@
                                         <div>*Дата*, *Имя пользователя*</div><br>
                                         <div>*Текст*</div><br>
                                         <div class="float-right">
-                                            <div tupe="button" class="btn btn-info">Ответить</div>
+                                            <div class="btn btn-info">Ответить</div>
                                         </div>
                                     </div>
                                 </div>

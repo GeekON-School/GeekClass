@@ -7,61 +7,18 @@
             <div class="row" style = "margin-top: -30px">
                     <div class="col">
                         <div class="float-left">
-                            <h2>События<a href="{{url('/insider/events/add_event')}}" style = "margin-left: 50px" class = "btn btn-success">Добавить событие</a>
-                                <a href="{{url('/insider/events/certain_event')}}" style = "margin-left: 50px" class = "btn btn-success">Перейти к событию</a>
-                            </h2>
+                            <h2>События</h2>
                         </div>
                         <div class="float-right">
-                            <a href="{{url('/insider/courses/create')}}" class="btn btn-primary btn-sm"><i
-                                        class="icon ion-compose"></i></a>
-                            <a href="{{url('/insider/courses/edit')}}"
-                               class="btn btn-primary btn-sm"><i
-                                        class="icon ion-android-create"></i></a>
-                            <a href="{{url('/insider/courses/export')}}"
-                               class="btn btn-primary btn-sm"><i
-                                        class="icon ion-ios-cloud-download"></i></a>
-                                <a href="{{url('/insider/courses/start')}}"
-                                   class="btn btn-success btn-sm"><i
-                                            class="icon ion-power"></i></a>
-                                <a href="{{url('/insider/courses/stop')}}"
-                                   class="btn btn-danger btn-sm"><i
-                                            class="icon ion-stop"></i></a>
+                            <a href="{{url('/insider/events/add_event')}}" style = "margin-left: 50px" class = "btn btn-success">Добавить событие</a>
                         </div>
+                        <a href="{{url('/insider/events/certain_event')}}" style = "margin-left: 50px" class = "btn btn-success">Перейти к событию</a>
                     </div>
             </div>
             <div class="row" style = "margin-top: 10px">
                 <div class="col-md-8">
                             <div class="card-group">
                                 <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col">
-                                                <h5>
-                                                </h5>
-                                            </div>
-                                                <div class="col-sm-auto">
-                                                    <a href="{{url('insider/lessons/edit')}}"
-                                                       class="btn btn-success btn-sm"><i
-                                                                class="icon ion-android-create"></i></a>
-                                                    <a href="{{url('insider/lessons/export')}}"
-                                                       class="btn btn-success btn-sm"><i
-                                                                class="icon ion-ios-cloud-download"></i></a>
-                                                    <a href="{{url('insider/lessons/lower')}}"
-                                                       class="btn btn-success btn-sm"><i
-                                                                class="icon ion-arrow-up-c"></i></a>
-                                                    <a href="{{url('insider/lessons/upper')}}"
-                                                       class="btn btn-success btn-sm"><i
-                                                                class="icon ion-arrow-down-c"></i></a>
-                                                </div>
-                                        </div>
-
-                                        <div class="row">
-
-
-                                        </div>
-
-
-                                    </div>
                                         <div class="card-footer">
                                                         <div class="row">
                                                             <div class="col">
@@ -126,26 +83,29 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                            <h2 class="card-title">Фильтры:</h2>
+                            <h2 class="card-title">Теги:</h2>
                             <br>
-                                <b>Когда:</b> 12.12.2018<br><br>
-                                <b>Где:</b> Хорошевская гимназия<br><br>
-                                <b>Сайт:</b><a href="https://geekclass.ru "> https://geekclass.ru</a> <br><br>
-                                <b>Теги:</b><br> "Анекдоты"<br>"JavaScript"<br/>
-                            </p>
-                            <p>
-                                <b>Организаторы:</b><ul>
-                                    <li>GeekEvent</li>
-                                </ul>
-                            </p>
-                            <ul>
-                            </ul>
-                            <p>
-                                <b>Участники:</b><ul>
-                                    <li>Вупсень</li>
-                                    <li>Пупсень</li>
-                                </ul>
-                            </p>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="">Web</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="">Python</label>
+                    </div>
+                    <div class="checkbox disabled">
+                        <label><input type="checkbox" value="">Security</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="">Machine learning</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="">Blockchain</label>
+                    </div>
+                    <div class="checkbox disabled">
+                        <label><input type="checkbox" value="">Анекдоты</label>
+                    </div>
+                    <br><div class="float-left">
+                        <input type="submit" value="Применить" class = "btn btn-success">
+                    </div>
 
                 </div>
             </div>
