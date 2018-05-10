@@ -20,61 +20,10 @@
                             <div class="card-group">
                                 <div class="card">
                                         <div class="card-footer">
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <div class="progress" style="margin: 5px;">
-                                                                        <div class="progress-bar progress-bar-striped bg-danger"
-                                                                             role="progressbar"
-                                                                             aria-valuenow=""
-                                                                             aria-valuemin="0"
-                                                                             aria-valuemax="100"></div>
-
-                                                                        <div class="progress-bar progress-bar-striped bg-warning"
-                                                                             role="progressbar"
-                                                                             aria-valuenow=""
-                                                                             aria-valuemin="0"
-                                                                             aria-valuemax="100">
-                                                                            Успеваемость: </div>
-
-                                                                        <div class="progress-bar progress-bar-striped bg-success"
-                                                                             role="progressbar"
-                                                                             aria-valuenow=""
-                                                                             aria-valuemin="0"
-                                                                             aria-valuemax="100">
-                                                                            Успеваемость: </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                 </div>
 
                                             <div class="row">
                                                 <div class="col">
-                                                        <div class="progress" style="margin: 5px;">
-                                                                <div class="progress-bar progress-bar-striped bg-danger"
-                                                                     role="progressbar"
-                                                                     aria-valuenow=""
-                                                                     aria-valuemin="0"
-                                                                     aria-valuemax="100"></div>
-
-                                                                <div class="progress-bar progress-bar-striped bg-warning"
-                                                                     role="progressbar"
-                                                                     aria-valuenow=""
-                                                                     aria-valuemin="0"
-                                                                     aria-valuemax="100">
-                                                                    Успеваемость: </div>
-
-                                                                <div class="progress-bar progress-bar-striped bg-success"
-                                                                     role="progressbar"
-                                                                     aria-valuenow=""
-                                                                     aria-valuemin="0"
-                                                                     aria-valuemax="100">
-                                                                    Успеваемость: </div>
-
-                                                        </div>
-                                                        <small class="text-muted float-right" style="margin-right: 15px;">
-
-                                                        </small>
                                                 </div>
                                             </div>
                                         </div>
