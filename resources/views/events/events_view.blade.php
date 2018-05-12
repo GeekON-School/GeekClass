@@ -10,9 +10,9 @@
                             <h2>События</h2>
                         </div>
                         <div class="float-right">
-                            <a href="{{url('/insider/events/add_event')}}" style = "margin-left: 50px" class = "btn btn-success">Добавить событие</a>
+                            <a href="{{url('/insider/events/add_event')}}" style = "margin-left: 50px" class = "btn btn-success">Провести событие</a>
                         </div>
-                        <a href="{{url('/insider/events/certain_event')}}" style = "margin-left: 50px" class = "btn btn-success">Перейти к событию</a>
+
                     </div>
             </div>
             <div class="row" style = "margin-top: 10px">
@@ -20,15 +20,27 @@
                             <div class="card-group">
                                 <div class="card">
                                         <div class="card-footer">
-                                                </div>
-
-                                            <div class="row">
-                                                <div class="col">
-                                                </div>
+                                            <div class="float-left">
+                                                *Название события*
                                             </div>
+                                            <div class="float-right">
+                                                *Дата*
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                                <div class="col">
+                                                    <div class="card-body">
+                                                        *Краткое или сокращенное полное описание события*
+                                                        <div class="float-right">
+                                                            <br><a href="{{url('/insider/events/certain_event')}}" style = "margin-bottom: 20px" class = "btn btn-primary">Перейти к событию</a><br>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </div>
                                 </div>
                             </div>
+                </div>
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
@@ -50,7 +62,7 @@
                         <label><input type="checkbox" value="">Blockchain</label>
                     </div>
                     <div class="checkbox disabled">
-                        <label><input type="checkbox" value="">Анекдоты</label>
+                        <label><input type="checkbox" value="">Анеки</label>
                     </div>
                     <br><div class="float-left">
                         <input type="submit" value="Применить" class = "btn btn-success">

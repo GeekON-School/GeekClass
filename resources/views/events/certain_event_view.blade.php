@@ -25,7 +25,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5>
-                                        *Описание события*
+                                        *Полное описание события*
                                     </h5>
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
                 </div>
                 <div class="card-group" style = "margin-top: 30px">
                     <div class="card">
-                        <div class="card-footer">
+                        <div class="card-body">
                             <div class="row">
                                 <div class="col">
                                     <div style="margin: 5px;">
