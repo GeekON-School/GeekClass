@@ -65,6 +65,9 @@
             <li class="nav-item {{(Request::is('insider/projects*') ? 'active' : '') }}">
                 <a class="nav-link" href="{{url('insider/projects')}}">Проекты</a>
             </li>
+            <li class="nav-item {{(Request::is('insider/events*') ? 'active' : '') }}">
+                <a class="nav-link" href="{{url('insider/events')}}">События</a>
+            </li>
         </ul>
 
         <ul class="navbar-nav" style="width: 220px;">
