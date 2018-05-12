@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Event
+use App\Event;
 
 class EventController extends Controller
 {
@@ -34,7 +34,7 @@ class EventController extends Controller
     	$event->short_text = $request->short_text;
     	$event->max_people = $request->max_people;
     	$event->skills = $request->skills;
-    	$events->site = $request->site;
+    	$event->site = $request->site;
     	$event->save();
     	return redirect('/home');
     }
@@ -68,10 +68,5 @@ class EventController extends Controller
     	$event->orgs()->deattach($request->org_id);
     	$event->save();
     	return redirect('/event/'.$id);
-    }
-
-    public function like_event($value='')
-    {
-    	//
     }
 }
