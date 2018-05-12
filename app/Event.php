@@ -8,8 +8,23 @@ class Event extends Model
 {
     protected $table = 'Events';
 
-    public function users()
+    public function userOrgs()
     {
-        return $this->belongsToMany('App\User', 'tasks_users');
+        return $this->belongsToMany('App\User', 'EventOrgs');
+    }
+
+    public function userPartis()
+    {
+        return $this->belongsToMany('App\User', 'EventPartis');
+    }
+
+    public function userLikes()
+    {
+        return $this->belongsToMany('App\User', 'EventLikes');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany('App\EventTags', 'EventTags');
     }
 }
