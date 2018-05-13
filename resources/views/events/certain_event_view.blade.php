@@ -34,9 +34,9 @@
                             <div class="row">
                                 <div class="col">
                                     <div style="margin: 5px;">
-                                        <div tupe="button" class="btn btn-primary">Я иду!</div>
+                                        <a role="button" class="btn btn-primary" href={{"/insider/events/$event->id/go"}}>Я иду!</a>
                                         <div class="float-right">
-                                            <div tupe="button" class="btn btn-success">Мне нравиться</div>
+                                            <div role="button" class="btn btn-success">Мне нравиться</div>
                                         </div>
                                     </div>
                                 </div>
@@ -72,8 +72,8 @@
                         <br>
                         <b>Когда:</b> {{$event->date}}<br><br>
                         <b>Где:</b> {{$event->location}}<br><br>
-                        @if($event->site != 0)
-                            <b>Сайт:</b><a href="https://geekclass.ru ">{{$event->site}}</a> <br><br>
+                        @if($event->site != null)
+                            <b>Сайт: </b><a href="https://geekclass.ru ">{{$event->site}}</a> <br><br>
                         @endif
                         <b>Теги:</b><br> "Анекдоты"<br>"JavaScript"<br/>
                         </p>

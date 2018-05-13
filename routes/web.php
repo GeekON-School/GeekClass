@@ -113,6 +113,7 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/events/add_event', 'EventController@add_event_view');
     Route::post('/events/add_event', 'EventController@add_event');
     Route::get('/events/{id}', 'EventController@current_event');
+    Route::get('/events/{id}/go', 'EventController@go_event');
 
     Route::get('/testmail', function () {
         $user = \App\User::findOrFail(1);

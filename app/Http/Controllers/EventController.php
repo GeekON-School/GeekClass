@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Event;
+use App\User;
 
 class EventController extends Controller
 {
@@ -56,9 +57,8 @@ class EventController extends Controller
     public function go_event($id)
     {
     	$event = Event::findOrFail($id);
-    	$event->participants()->attach(Auth::User()->id);
-    	$event->save();
-    	return redirect('/event/'.$id);
+    	$event->userPartis()->attach(Auth::User()->id);
+    	return redirect('/insider/events/'.$id);
     }
 
     public function add_org(Request $request)
