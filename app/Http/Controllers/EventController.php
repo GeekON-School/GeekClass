@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Event;
 use App\User;
+use App\EventTags;
 
 class EventController extends Controller
 {
@@ -17,7 +18,8 @@ class EventController extends Controller
 
     public function add_event_view()
     {
-    	return view('/events/add_event_view');
+        $tags = EventTags::all();
+    	return view('/events/add_event_view', ['tags' => $tags]);
     }
 
     public function add_org_view()
@@ -28,7 +30,8 @@ class EventController extends Controller
     public function event_view()
     {
         $events = Event::all()->sortBy('date');
-    	return view('/events/event_view', ['events' => $events]);
+        $tags = EventTags::all();
+    	return view('/events/event_view', ['events' => $events, 'tags' => $tags]);
     }
 
     public function add_event(Request $request)
@@ -63,7 +66,7 @@ class EventController extends Controller
 
     public function add_org(Request $request)
     {
-    	$event = Event::findOrFail($request->$id);
+    	$event = Event::findOrFail($request->id);
     	$event->orgs()->attach($request->org_id);
     	$event->save();
     	return redirect('/event/'.$id);

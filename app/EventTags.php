@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class EventTags extends Model
 {
-    protected $table = 'EventsTags';
+    protected $table = 'Tags';
 
     public function events()
     {

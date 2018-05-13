@@ -48,28 +48,14 @@
                     <div class="card-body">
                         <h2 class="card-title">Теги:</h2>
                         <br>
+                        @foreach($tags as $tag)
                         <div class="checkbox">
-                            <label><input type="checkbox" value="">Web</label>
+                            <label><input type="checkbox" value="{{$tag->id}}">{{$tag->name}}</label>
                         </div>
-                        <div class="checkbox">
-                            <label><input type="checkbox" value="">Python</label>
-                        </div>
-                        <div class="checkbox disabled">
-                            <label><input type="checkbox" value="">Security</label>
-                        </div>
-                        <div class="checkbox">
-                            <label><input type="checkbox" value="">Machine learning</label>
-                        </div>
-                        <div class="checkbox">
-                            <label><input type="checkbox" value="">Blockchain</label>
-                        </div>
-                        <div class="checkbox disabled">
-                            <label><input type="checkbox" value="">Анеки</label>
-                        </div>
+                        @endforeach
                         <br><div class="float-left">
                             <input type="submit" value="Применить" class = "btn btn-success">
                         </div>
-
                     </div>
                 </div>
             </div>
