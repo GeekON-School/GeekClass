@@ -8,6 +8,11 @@ use App\Event;
 
 class EventController extends Controller
 {
+    public function current_event($id)
+    {
+        # code...
+    }
+
     public function add_event_view()
     {
     	return view('/events/add_event_view');

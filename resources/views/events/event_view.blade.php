@@ -16,8 +16,8 @@
             </div>
         </div>
         <div class="row" style = "margin-top: 10px">
+            <div class="col-md-8">
             @foreach($events as $event)
-                <div class="col-md-8">
                     <div class="card-group">
                         <div class="card">
                             <div class="card-footer">
@@ -41,8 +41,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
             @endforeach
+            </div>
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
