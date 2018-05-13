@@ -10,7 +10,8 @@ class EventController extends Controller
 {
     public function current_event($id)
     {
-        # code...
+        $event = Event::findOrFail($id);
+        return view('/events/certain_event_view', ['event' => $event]);
     }
 
     public function add_event_view()
