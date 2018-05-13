@@ -22,7 +22,7 @@
                         <div class="card">
                             <div class="card-footer">
                                 <div class="float-left">
-                                    {{$event->name}}
+                                    {{$event->name}}, ({{$event->type}})
                                 </div>
                                 <div class="float-right">
                                     {{$event->date}}
@@ -34,7 +34,7 @@
                                     <div class="card-body">
                                         {{$event->text}}
                                         <div class="float-right">
-                                            <br><a href="{{url('/insider/events/certain_event')}}" style = "margin-bottom: 20px" class = "btn btn-primary">Перейти к событию</a><br>
+                                            <br><a href="{{url('/insider/events/'.$event->id)}}" style = "margin-bottom: 20px" class = "btn btn-primary">Перейти к событию</a><br>
                                         </div>
                                     </div>
                                 </div>
