@@ -26,7 +26,7 @@ class EventController extends Controller
 
     public function event_view()
     {
-        $events = Event::all();
+        $events = Event::all()->sortBy('date');
     	return view('/events/event_view', ['events' => $events]);
     }
 
