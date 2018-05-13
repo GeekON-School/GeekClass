@@ -26,21 +26,6 @@ Route::get('/', function () {
 
 });
 
-Route::get('/insider/events/add_event', function () {
-    if (\Illuminate\Support\Facades\Auth::check() ) {
-        return view('/events/add_event_view');
-    }
-    return view('/events/add_event_view');
-});
-
-Route::get('/insider/events/{id}', function () {
-    if (\Illuminate\Support\Facades\Auth::check() ) {
-        return view('/events/{id}');
-    }
-    return view('/events/{id}');
-
-});
-
 Auth::routes();
 
 Route::prefix('open')->group(function () {
@@ -125,7 +110,6 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/projects', 'ProjectsController@index');
 
     Route::get('/events', 'EventController@event_view');
-    Route::post('/projects/{id}/edit', 'ProjectsController@edit');
     Route::get('/events/add_event', 'EventController@add_event_view');
     Route::post('/events/add_event', 'EventController@add_event');
     Route::get('/events/{id}', 'EventController@index');
