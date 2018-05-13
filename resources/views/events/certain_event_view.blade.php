@@ -7,7 +7,7 @@
         <div class="row" style = "margin-top: -30px">
             <div class="col">
                 <div class="float-left">
-                    <h2>Название события</h2>
+                        <h2>{{$event->name}}</h2>
                 </div>
                 <div class="float-right">
                     <div>
@@ -19,14 +19,13 @@
         </div>
         <div class="row" style = "margin-top: 10px">
             <div class="col-md-8">
-                @foreach($events as $event)
                 <div class="card-group">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
                                     <h5>
-                                        *Полное описание события*
+                                        {{$event->text}}
                                     </h5>
                                 </div>
                             </div>
@@ -45,7 +44,6 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
                 <div style = "margin-top: 50px">
                     <h2>Комментарии:</h2>
                 </div>
@@ -72,9 +70,11 @@
                     <div class="card-body">
                         <h5 class="card-title">Дополнительная информация <img src="https://png.icons8.com/info/color/30/000000" width="15px"></h5>
                         <br>
-                        <b>Когда:</b> 12.12.2018<br><br>
-                        <b>Где:</b> Хорошевская гимназия<br><br>
-                        <b>Сайт:</b><a href="https://geekclass.ru "> https://geekclass.ru</a> <br><br>
+                        <b>Когда:</b> {{$event->date}}<br><br>
+                        <b>Где:</b> {{$event->location}}<br><br>
+                        @if($event->site != 0)
+                            <b>Сайт:</b><a href="https://geekclass.ru ">{{$event->site}}</a> <br><br>
+                        @endif
                         <b>Теги:</b><br> "Анекдоты"<br>"JavaScript"<br/>
                         </p>
                         <p>
