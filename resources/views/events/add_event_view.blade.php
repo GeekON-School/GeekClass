@@ -19,12 +19,12 @@
                 </div>
                 <div class = "form-group required">
                     <label>Описание события</label>
-                    <input type="text" name="text" class="form-control" value="{{old('job')}}">
+                    <input type="text" name="text" class="form-control" value="{{old('text')}}">
                 </div>
 
                 <div class = "form-group required">
                     <label>Дата проведения мероприятия</label>
-                    <input type="text" name="date" class="form-control" value="{{old('email')}}">
+                    <input type="text" name="date" class="form-control" value="{{old('date')}}">
                 </div>
 
                 <div class = "form-group required">

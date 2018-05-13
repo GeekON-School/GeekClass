@@ -32,7 +32,7 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="card-body">
-                                        {{$event->text}}
+                                            {{$event->short_text}}
                                         <div class="float-right">
                                             <br><a href="{{url('/insider/events/'.$event->id)}}" style = "margin-bottom: 20px" class = "btn btn-primary">Перейти к событию</a><br>
                                         </div>
