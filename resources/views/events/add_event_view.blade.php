@@ -8,8 +8,8 @@
                 <div class = "form-group required">
                     <label>Тип события</label>
                     <div class="radio">
-                        <div><input type="radio" name="in">Внешнее</div>
-                        <div><input type="radio" name="in">Внутреннее</div>
+                        <div><input type="radio" name="type" value="open" checked>Внешнее</div>
+                        <div><input type="radio" name="type" value="closed">Внутреннее</div>
                     </div>
                 </div>
 

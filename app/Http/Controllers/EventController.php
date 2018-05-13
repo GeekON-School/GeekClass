@@ -37,7 +37,7 @@ class EventController extends Controller
     	$event->skills = $request->skills;
     	$event->site = $request->site;
     	$event->save();
-    	return redirect('/home');
+    	return redirect('/insider/events');
     }
 
     public function del_event($id)

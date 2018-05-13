@@ -126,7 +126,8 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
 
     Route::get('/events', 'EventController@event_view');
     Route::post('/projects/{id}/edit', 'ProjectsController@edit');
-    Route::get('/events/add_events', 'EventController@editView');
+    Route::get('/events/add_event', 'EventController@add_event_view');
+    Route::post('/events/add_event', 'EventController@add_event');
     Route::get('/events/{id}', 'EventController@index');
 
     Route::get('/testmail', function () {
