@@ -34,7 +34,11 @@
                             <div class="row">
                                 <div class="col">
                                     <div style="margin: 5px;">
-                                        <a role="button" class="btn btn-primary" href={{"/insider/events/$event->id/go"}}>Я иду!</a>
+                                        @if($event->userPartis->contains(Auth::User()->id))
+                                            <a role="button" class="btn btn-danger" href={{"/insider/events/$event->id/left"}}>Я не иду</a>
+                                        @else
+                                            <a role="button" class="btn btn-primary" href={{"/insider/events/$event->id/go"}}>Я иду!</a>
+                                        @endif
                                         <div class="float-right">
                                             <div role="button" class="btn btn-success">Мне нравиться</div>
                                         </div>
@@ -86,8 +90,11 @@
                         </ul>
                         <p>
                             <b>Участники:</b><ul>
-                            <li>Вупсень</li>
-                            <li>Пупсень</li>
+                            @foreach($users as $user)
+                                @if($event->userPartis->contains($user->id))
+                                    <li>{{$user->name}}</li>
+                                @endif
+                            @endforeach
                         </ul>
                         </p>
 

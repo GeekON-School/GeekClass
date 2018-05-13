@@ -114,6 +114,7 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::post('/events/add_event', 'EventController@add_event');
     Route::get('/events/{id}', 'EventController@current_event');
     Route::get('/events/{id}/go', 'EventController@go_event');
+    Route::get('/events/{id}/left', 'EventController@left_event');
 
     Route::get('/testmail', function () {
         $user = \App\User::findOrFail(1);

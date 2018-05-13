@@ -7,13 +7,15 @@ use Illuminate\Support\Facades\Auth;
 use App\Event;
 use App\User;
 use App\EventTags;
+use App\EventPartis;
 
 class EventController extends Controller
 {
     public function current_event($id)
     {
         $event = Event::findOrFail($id);
-        return view('/events/certain_event_view', ['event' => $event]);
+        $user = User::all();
+        return view('/events/certain_event_view', ['event' => $event, 'users'=>$user]);
     }
 
     public function add_event_view()
@@ -62,6 +64,13 @@ class EventController extends Controller
     	$event = Event::findOrFail($id);
     	$event->userPartis()->attach(Auth::User()->id);
     	return redirect('/insider/events/'.$id);
+    }
+
+    public function left_event($id)
+    {
+        $event = Event::findOrFail($id);
+        $event->userPartis()->detach(Auth::User()->id);
+        return redirect('/insider/events/'.$id);
     }
 
     public function add_org(Request $request)
