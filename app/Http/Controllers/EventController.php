@@ -20,7 +20,8 @@ class EventController extends Controller
 
     public function event_view()
     {
-    	return view('/events/event_view');
+        $events = Event::all();
+    	return view('/events/event_view', ['events' => $events]);
     }
 
     public function add_event(Request $request)
