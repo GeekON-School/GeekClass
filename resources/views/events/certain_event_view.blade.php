@@ -19,6 +19,7 @@
         </div>
         <div class="row" style = "margin-top: 10px">
             <div class="col-md-8">
+                @foreach($events as $event)
                 <div class="card-group">
                     <div class="card">
                         <div class="card-body">
@@ -44,6 +45,7 @@
                         </div>
                     </div>
                 </div>
+                @endforeach
                 <div style = "margin-top: 50px">
                     <h2>Комментарии:</h2>
                 </div>

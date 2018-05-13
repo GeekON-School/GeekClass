@@ -31,14 +31,13 @@ Route::get('/insider/events/add_event', function () {
         return view('/events/add_event_view');
     }
     return view('/events/add_event_view');
-
 });
 
-Route::get('/insider/events/certain_event', function () {
+Route::get('/insider/events/{id}', function () {
     if (\Illuminate\Support\Facades\Auth::check() ) {
-        return view('/events/certain_event_view');
+        return view('/events/{id}');
     }
-    return view('/events/certain_event_view');
+    return view('/events/{id}');
 
 });
 
@@ -128,7 +127,7 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/events', 'EventController@event_view');
     Route::post('/projects/{id}/edit', 'ProjectsController@edit');
     Route::get('/events/add_events', 'EventController@editView');
-    Route::get('/events/{id}', 'ProjectsController@index');
+    Route::get('/events/{id}', 'EventController@index');
 
     Route::get('/testmail', function () {
         $user = \App\User::findOrFail(1);
