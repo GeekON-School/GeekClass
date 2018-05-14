@@ -52,7 +52,7 @@
                                                 <a role="button" class="btn btn-success" href={{"/insider/events/$event->id/like"}}>Мне нравиться</a>
                                             @endif
                                         <div class="float-right">
-                                            <h3 style="margin-right: 15px"><img src="https://png.icons8.com/ultraviolet/50/000000/good-quality.png" width="35px">
+                                            <h3 style="margin-right: 20px"><img src="https://png.icons8.com/ultraviolet/50/000000/good-quality.png" width="35px">
                                             {{count($event->userLikes)}}</h3>
                                         </div>
 
