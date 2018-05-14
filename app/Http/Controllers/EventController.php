@@ -88,4 +88,18 @@ class EventController extends Controller
     	$event->save();
     	return redirect('/event/'.$id);
     }
+
+    public function like_event($id)
+    {
+        $event = Event::findOrFail($id);
+        $event->userLikes()->attach(Auth::User()->id);
+        return redirect('/insider/events/'.$id);
+    }
+
+    public function dislike_event($id)
+    {
+        $event = Event::findOrFail($id);
+        $event->userLikes()->detach(Auth::User()->id);
+        return redirect('/insider/events/'.$id);
+    }
 }

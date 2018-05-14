@@ -21,8 +21,12 @@
                     <div class="card-group">
                         <div class="card">
                             <div class="card-footer">
+                                <div class="text-center">
+                                    <b>{{$event->name}}, ({{$event->type}})</b>
+                                </div>
                                 <div class="float-left">
-                                    {{$event->name}}, ({{$event->type}})
+                                    <img src="https://png.icons8.com/ultraviolet/50/000000/good-quality.png" width="30px">
+                                    {{count($event->userLikes)}}
                                 </div>
                                 <div class="float-right">
                                     {{$event->date}}
@@ -34,7 +38,8 @@
                                     <div class="card-body">
                                             {{$event->short_text}}
                                         <div class="float-right">
-                                            <br><a href="{{url('/insider/events/'.$event->id)}}" style = "margin-bottom: 20px" class = "btn btn-primary">Перейти к событию</a><br>
+                                            <a href="{{url('/insider/events/'.$event->id)}}" style="margin-top: -5px" class = "btn btn-primary">Перейти к событию</a>
+                                            <br>
                                         </div>
                                     </div>
                                 </div>

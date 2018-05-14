@@ -7,8 +7,14 @@
         <div class="row" style = "margin-top: -30px">
             <div class="col">
                 <div class="float-left">
-                        <h2>{{$event->name}}</h2>
+                        <h2>
+                            <div class="float-left">
+                                {{$event->name}}
+                            </div>
+
+                        </h2>
                 </div>
+
                 <div class="float-right">
                     <div>
                         //ToDo
@@ -39,9 +45,17 @@
                                         @else
                                             <a role="button" class="btn btn-primary" href={{"/insider/events/$event->id/go"}}>Я иду!</a>
                                         @endif
+
+                                            @if($event->userLikes->contains(Auth::User()->id))
+                                                <a role="button" class="btn btn-warning" href={{"/insider/events/$event->id/dislike"}}>Мне не нравиться</a>
+                                            @else
+                                                <a role="button" class="btn btn-success" href={{"/insider/events/$event->id/like"}}>Мне нравиться</a>
+                                            @endif
                                         <div class="float-right">
-                                            <div role="button" class="btn btn-success">Мне нравиться</div>
+                                            <h3 style="margin-right: 15px"><img src="https://png.icons8.com/ultraviolet/50/000000/good-quality.png" width="35px">
+                                            {{count($event->userLikes)}}</h3>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
