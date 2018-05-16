@@ -17,8 +17,7 @@
 
                 <div class="float-right">
                     <div>
-                        //ToDo
-                        <img src="https://png.icons8.com/ios/50/000000/add-administrator.png" width="40px">
+                        <img role="button" src="https://png.icons8.com/ultraviolet/50/000000/businessman.png" width="35px">
                     </div>
                 </div>
             </div>
