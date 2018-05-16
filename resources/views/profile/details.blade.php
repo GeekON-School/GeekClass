@@ -223,7 +223,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">{{$event->name}}</h5>
                                         <p><span>{{$event->short_text}}</span></p>
-                                        <a href="{{url('insider/projects/'.$event->id)}}" class="btn btn-sm btn-primary">Страница
+                                        <a href="{{url('insider/events/'.$event->id)}}" class="btn btn-sm btn-primary">Страница
                                             события</a>
                                     </div>
                                 </div>
