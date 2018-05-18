@@ -206,38 +206,37 @@
                     @endforeach
                 </div>
             @endif
-
-            <div class="row">
-                <div class="col-md-8">
-                    <h4 style="margin: 20px;" class="card-title">События <img
+            
+            @foreach($events as $event)
+                @if($event->userPartis->contains($user->id))
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 style="margin: 20px;" class="card-title">События <img
                                 src="https://png.icons8.com/ultraviolet/50/000000/today.png" width="25px">
-                    </h4>
-                </div>
-            </div>
+                            </h4>
+                        </div>
+                    </div>
+                    @break
+                @endif
+            @endforeach
+
             <div class="row">
                 @foreach($events as $event)
-                    @foreach($event->userPartis as $partis)
-                        @if($partis.contains(Auth::User()->id))
-                            <div class="col-md-6">
-                                <div class="card" style="width: 100%; margin-bottom: 10px;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{$event->name}}</h5>
-                                        <p><span>{{$event->short_text}}</span></p>
-                                        <a href="{{url('insider/events/'.$event->id)}}" class="btn btn-sm btn-primary">Страница
-                                            события</a>
-                                    </div>
+                    @if($event->userPartis->contains($user->id))
+                        <div class="col-md-6">
+                            <div class="card" style="width: 100%; margin-bottom: 10px;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{$event->name}}</h5>
+                                    <p><span>{{$event->short_text}}</span></p>
+                                    <a href="{{url('insider/events/'.$event->id)}}" class="btn btn-sm btn-primary">Страница
+                                        события</a>
                                 </div>
                             </div>
-                        @endif
-                    @endforeach
+                        </div>
+                    @endif
                 @endforeach
             </div>
-
-
-
-
         </div>
-
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
