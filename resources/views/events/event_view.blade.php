@@ -59,8 +59,8 @@
                             <div class="form-group form-check">
                                 @foreach($tags as $tag)
                                 <div class="form-check ">
-                                    <input type="checkbox" name="tags" class="form-check-input" value="{{$tag->id}}" id="{{$tag->id}}">
-                                    <label for="{{$tag->id}}" class="form-check-label">{{$tag->name}}</label>
+                                    <input type="checkbox" style="margin-left:5px" name="tags" class="form-check-input" value="{{$tag->id}}" id="{{$tag->id}}">
+                                    <label for="{{$tag->id}}" class="form-check-label" style="margin-left:2px" >{{$tag->name}}</label>
                                 </div>
                                 @endforeach
                                 <br>

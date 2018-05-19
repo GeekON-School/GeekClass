@@ -25,11 +25,6 @@ class EventController extends Controller
     	return view('/events/add_event_view', ['tags' => $tags]);
     }
 
-    public function add_org_view()
-    {
-    	return view('/events/add_org_view');
-    }
-
     public function event_view()
     {
         $events = Event::all()->sortBy('date');
@@ -82,16 +77,22 @@ class EventController extends Controller
         return redirect('/insider/events/'.$id);
     }
 
-    public function add_org($id)
+    public function add_org(Request $request)
     {
-    	$event = Event::findOrFail($id);
-    	$event->userOrgs()->attach(Auth::User()->id);
-    	return redirect('/events');
+    	$event = Event::findOrFail($request->id);
+    	$users = User::all();
+    	foreach($users as $user) {
+    	    if($user->name == $request->name) {
+    	        $event->userOrgs()->attach($user->id);
+    	        break;
+            }
+        }
+    	return redirect('/insider/events/'.$event->id);
     }
 
     public function del_org(Request $request)
     {
-    	$event = Event::findOrFail($request->$id);
+    	$event = Event::findOrFail($request->id);
     	$event->orgs()->deattach($request->org_id);
     	$event->save();
     	return redirect('/event/'.$id);
