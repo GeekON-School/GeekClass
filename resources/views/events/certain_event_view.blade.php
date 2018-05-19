@@ -96,7 +96,11 @@
                         </p>
                         <p>
                             <b>Организаторы:</b><ul>
-                            <li>GeekEvent</li>
+                            @foreach($users as $user)
+                                @if($event->userOrgs->contains($user->id))
+                                    <li>{{$user->name}}</li>
+                                @endif
+                            @endforeach
                         </ul>
                         </p>
                         <ul>
