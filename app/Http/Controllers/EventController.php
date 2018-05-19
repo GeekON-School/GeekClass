@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\EventComments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Event;
@@ -92,11 +91,17 @@ class EventController extends Controller
         return redirect('/insider/events/'.$id);
     }
 
-    public function add_org($id)
+    public function add_org(Request $request)
     {
-    	$event = Event::findOrFail($id);
-    	$event->userOrgs()->attach(Auth::User()->id);
-    	return redirect('/events');
+    	$event = Event::findOrFail($request->id);
+    	$users = User::all();
+    	foreach($users as $user) {
+    	    if($user->name == $request->name) {
+    	        $event->userOrgs()->attach($user->id);
+    	        break;
+            }
+        }
+    	return redirect('/insider/events/'.$event->id);
     }
 
     public function del_org(Request $request)
@@ -104,7 +109,7 @@ class EventController extends Controller
     	$event = Event::findOrFail($request->id);
     	$event->orgs()->deattach($request->org_id);
     	$event->save();
-    	return redirect('/event/'.$request->id);
+        return redirect('/event/'.$request->id);
     }
 
     public function like_event($id)
