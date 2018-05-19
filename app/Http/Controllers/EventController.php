@@ -51,13 +51,13 @@ class EventController extends Controller
     	$event->site = $request->site;
         $event->save();
         $event->userOrgs()->attach(Auth::User()->id);
-    	$event->save();
-
-        foreach ($request->tags as $tag)
+        if(isset($request->tags))
         {
-            $event->tags()->attach($tag);
+            foreach ($request->tags as $tag)
+            {
+                $event->tags()->attach($tag);
+            }
         }
-
         return redirect('/insider/events/'.$event->id);
     }
 
