@@ -54,6 +54,7 @@
 
                 <div class="form-group row">
                     @foreach($tags as $tag)
+                        @if($tag->id !=1)
                         <div class="col-md-3">
                              <div class="card" style="width: 100%; margin-bottom: 10px;">
                                  <div class="card-body">
@@ -64,6 +65,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                     @endforeach
                 </div>
 

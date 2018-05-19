@@ -61,7 +61,9 @@ class EventController extends Controller
         $event->userOrgs()->attach(Auth::User()->id);
         if(isset($request->tags))
         {
-            foreach ($request->tags as $tag)
+            $tags = $request->tags;
+            array_push($tags, 1);
+            foreach ($tags as $tag)
             {
                 $event->tags()->attach($tag);
             }

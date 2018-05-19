@@ -63,10 +63,12 @@
                             {{ csrf_field() }}
                             <div class="form-group form-check">
                                 @foreach($tags as $tag)
+                                    @if($tag->id !=1)
                                 <div class="form-check ">
                                     <input type="checkbox" style="margin-left:5px" name="sel_tags[]" class="form-check-input" value="{{$tag->id}}" id="{{$tag->id}}">
                                     <label for="{{$tag->id}}" class="form-check-label" style="margin-left:2px" >{{$tag->name}}</label>
                                 </div>
+                                    @endif
                                 @endforeach
                                 <br>
                                 <div class="float-left">
