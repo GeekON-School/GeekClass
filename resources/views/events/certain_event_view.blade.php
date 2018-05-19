@@ -75,7 +75,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <div style="margin: 5px;">
-                                            <div>{{$comment->created_at}} <h2>{{User::findOrFail($comment->user_id)->name}}</h2></div><br>
+                                            <div>{{$comment->created_at}} <h2>{{$comment->user->name}}</h2></div><br>
                                             <div>{{$comment->text}}</div><br>
                                             {{--<div class="float-right">--}}
                                                 {{--<div class="btn btn-info">Ответить</div>--}}
@@ -90,7 +90,7 @@
                 <div>
                     <form method="POST">
                         {{csrf_field()}}
-                        <textarea class="form-control" rows="5" style="margin-bottom:10px"></textarea>
+                        <textarea class="form-control" rows="5" style="margin-bottom:10px" name="text"></textarea>
                         <input role="button" class="btn btn-success" type="submit"/>
                     </form>
                 </div>
