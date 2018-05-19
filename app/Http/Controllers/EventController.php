@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Event;
 use App\User;
 use App\EventTags;
-use App\EventPartis;
 use App\EventComments;
 
 class EventController extends Controller
