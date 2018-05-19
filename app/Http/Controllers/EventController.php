@@ -50,7 +50,7 @@ class EventController extends Controller
     	$event->site = $request->site;
         $event->save();
         $event->userOrgs()->attach(Auth::User()->id);
-        return redirect('/insider/events');
+        return redirect('/insider/events/'.$event->id);
     }
 
     public function del_event($id)
