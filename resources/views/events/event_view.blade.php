@@ -18,9 +18,6 @@
         <div class="row" style = "margin-top: 10px">
             <div class="col-md-8">
             @foreach($events as $event)
-
-            @endforeach
-            @foreach($events as $event)
                 @foreach($event->tags as $tag)
                     @if(in_array($tag->id, $s_tags))
                     <div class="card-group">

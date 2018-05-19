@@ -2,6 +2,8 @@
 
 @section('content')
     <br>
+    <form method="POST">
+        {{ csrf_field() }}
         <div class="row" style = "margin-top: -30px">
             <div class="col">
                 <div class="float-left">
@@ -9,16 +11,18 @@
                             <div class="float-left">
                                 {{$event->name}}
                             </div>
+
                         </h2>
                 </div>
 
                 <div class="float-right">
-                    <form class="form-inline" method="GET" action="{{url('insider/events/'.$event->id.'/add_org')}}">
+                    <form class="form-inline">
                         {{csrf_field()}}
-                        <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0"
-                               name="name" placeholder="Имя организатора">
+                        <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0" id="invite"
+                               name="invite" placeholder="Инвайт на курс">
 
-                        <input type="submit" value="Добавить" class="btn btn-success btn-sm">
+                        <button type="submit" class="btn btn-success btn-sm"><i class="icon ion-plus-round"></i>&nbsp;Добавить
+                        </button>
                     </form>
                 </div>
             </div>
@@ -46,13 +50,16 @@
                                             <a role="button" class="btn btn-primary" href={{"/insider/events/$event->id/go"}}>Я иду!</a>
                                         @endif
 
-                                            @if($event->userLikes->contains(Auth::User()->id))
-                                                <a role="button" class="btn btn-warning" href={{"/insider/events/$event->id/dislike"}}>Мне не нравиться</a>
-                                            @else
-                                                <a role="button" class="btn btn-success" href={{"/insider/events/$event->id/like"}}>Мне нравиться</a>
-                                            @endif
+
                                         <div class="float-right">
-                                            <h3 style="margin-right: 20px"><img src="https://png.icons8.com/ultraviolet/50/000000/good-quality.png" width="35px">
+                                            <h3>
+                                            @if($event->userLikes->contains(Auth::User()->id))
+                                                <a href={{"/insider/events/$event->id/dislike"}}>
+                                                    <img src="https://png.icons8.com/color/50/000000/hearts.png" width="35px"></a>
+                                            @else
+                                                <a href={{"/insider/events/$event->id/like"}}>
+                                                    <img src="https://png.icons8.com/ios/50/000000/hearts.png" width="35px"></a>
+                                            @endif
                                             {{count($event->userLikes)}}</h3>
                                         </div>
 
@@ -72,7 +79,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <div style="margin: 5px;">
-                                            <div>{{$comment->created_at}} <h2>aa</h2></div><br>
+                                            <div>{{$comment->created_at}} <h2>{{$comment->user->name}}</h2></div><br>
                                             <div>{{$comment->text}}</div><br>
                                             {{--<div class="float-right">--}}
                                                 {{--<div class="btn btn-info">Ответить</div>--}}
@@ -87,8 +94,8 @@
                 <div>
                     <form method="POST">
                         {{csrf_field()}}
-                        <input type="text" name="text"/>
-                        <input type="submit"/>
+                        <textarea class="form-control" rows="5" style="margin-bottom:10px"></textarea>
+                        <input role="button" class="btn btn-success" type="submit"/>
                     </form>
                 </div>
             </div>
@@ -105,11 +112,9 @@
                         <b>Теги:</b>
                         <ul>
                         @foreach($tags as $tag)
-                             @if($tag->id !=1)
                                 @if($event->tags->contains($tag->id))
                                     <li>{{$tag->name}}</li>
                                 @endif
-                             @endif
                         @endforeach
                         </ul>
                         <p>
@@ -132,8 +137,11 @@
                             @endforeach
                         </ul>
                         </p>
+
                     </div>
                 </div>
             </div>
+
         </div>
+
 @endsection
