@@ -46,13 +46,16 @@
                                             <a role="button" class="btn btn-primary" href={{"/insider/events/$event->id/go"}}>Я иду!</a>
                                         @endif
 
-                                            @if($event->userLikes->contains(Auth::User()->id))
-                                                <a role="button" class="btn btn-warning" href={{"/insider/events/$event->id/dislike"}}>Мне не нравиться</a>
-                                            @else
-                                                <a role="button" class="btn btn-success" href={{"/insider/events/$event->id/like"}}>Мне нравиться</a>
-                                            @endif
+
                                         <div class="float-right">
-                                            <h3 style="margin-right: 20px"><img src="https://png.icons8.com/ultraviolet/50/000000/good-quality.png" width="35px">
+                                            <h3>
+                                            @if($event->userLikes->contains(Auth::User()->id))
+                                                <a href={{"/insider/events/$event->id/dislike"}}>
+                                                    <img src="https://png.icons8.com/color/50/000000/hearts.png" width="35px"></a>
+                                            @else
+                                                <a href={{"/insider/events/$event->id/like"}}>
+                                                    <img src="https://png.icons8.com/ios/50/000000/hearts.png" width="35px"></a>
+                                            @endif
                                             {{count($event->userLikes)}}</h3>
                                         </div>
 
@@ -87,8 +90,8 @@
                 <div>
                     <form method="POST">
                         {{csrf_field()}}
-                        <input type="text" name="text"/>
-                        <input type="submit"/>
+                        <textarea class="form-control" rows="5" style="margin-bottom:10px"></textarea>
+                        <input role="button" class="btn btn-success" type="submit"/>
                     </form>
                 </div>
             </div>
