@@ -15,7 +15,8 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
         $user = User::all();
-        return view('/events/certain_event_view', ['event' => $event, 'users'=>$user]);
+        $tags = EventTags::all();
+        return view('/events/certain_event_view', ['event' => $event, 'users'=>$user, 'tags' => $tags]);
     }
 
     public function add_event_view()
@@ -49,14 +50,20 @@ class EventController extends Controller
     	$event->skills = $request->skills;
     	$event->site = $request->site;
     	$event->save();
-    	return redirect('/insider/events');
+
+        foreach ($request->tags as $tag)
+        {
+            $event->tags()->attach($tag);
+        }
+
+    	return redirect('/insider/events/');
     }
 
     public function del_event($id)
     {
     	$event = Event::findOrFail($id);
 		$event->delete();
-		return redirect('/home');
+		return redirect('/insider/events');
     }
 
     public function go_event($id)

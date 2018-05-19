@@ -92,8 +92,14 @@
                         @if($event->site != null)
                             <b>Сайт: </b><a href="https://geekclass.ru ">{{$event->site}}</a> <br><br>
                         @endif
-                        <b>Теги:</b><br> "Анекдоты"<br>"JavaScript"<br/>
-                        </p>
+                        <b>Теги:</b>
+                        <ul>
+                        @foreach($tags as $tag)
+                                @if($event->tags->contains($tag->id))
+                                    <li>{{$tag->name}}</li>
+                                @endif
+                        @endforeach
+                        </ul>
                         <p>
                             <b>Организаторы:</b><ul>
                             <li>GeekEvent</li>

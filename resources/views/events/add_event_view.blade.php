@@ -52,6 +52,21 @@
                     <input name="skills" class="form-control" >
                 </div>
 
+                <div class="form-group row">
+                    @foreach($tags as $tag)
+                        <div class="col-md-3">
+                             <div class="card" style="width: 100%; margin-bottom: 10px;">
+                                 <div class="card-body">
+                                     <div class="form-check " style="margin-left: 10px;">
+                                         <input type="checkbox" name="tags[]" class="form-check-input" value="{{$tag->id}}" id="{{$tag->id}}">
+                                         <label for="{{$tag->id}}" class="form-check-label">{{$tag->name}}</label>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
                     <input type="submit" value="Добавить" class = "btn btn-success">
             </form>
     <br>

@@ -118,6 +118,8 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/events/{id}/like', 'EventController@like_event');
     Route::get('/events/{id}/dislike', 'EventController@dislike_event');
 
+    Route::post('/events/settags', 'EventTagsController@settags');
+
     Route::get('/testmail', function () {
         $user = \App\User::findOrFail(1);
         $when = \Carbon\Carbon::now()->addSeconds(1);

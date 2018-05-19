@@ -50,17 +50,25 @@
             </div>
             <div class="col-md-4">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-header">
                         <h2 class="card-title">Теги:</h2>
-                        <br>
-                        @foreach($tags as $tag)
-                        <div class="checkbox">
-                            <label><input type="checkbox" value="{{$tag->id}}">{{$tag->name}}</label>
-                        </div>
-                        @endforeach
-                        <br><div class="float-left">
-                            <input type="submit" value="Применить" class = "btn btn-success">
-                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{url('/insider/events/settags')}}">
+                            {{ csrf_field() }}
+                            <div class="form-group form-check">
+                                @foreach($tags as $tag)
+                                <div class="form-check ">
+                                    <input type="checkbox" name="tags" class="form-check-input" value="{{$tag->id}}" id="{{$tag->id}}">
+                                    <label for="{{$tag->id}}" class="form-check-label">{{$tag->name}}</label>
+                                </div>
+                                @endforeach
+                                <br>
+                                <div class="float-left">
+                                    <input type="submit" value="Применить" class = "btn btn-success">
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
