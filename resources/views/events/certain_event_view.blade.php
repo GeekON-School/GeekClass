@@ -2,8 +2,6 @@
 
 @section('content')
     <br>
-    <form method="POST">
-        {{ csrf_field() }}
         <div class="row" style = "margin-top: -30px">
             <div class="col">
                 <div class="float-left">
@@ -11,18 +9,16 @@
                             <div class="float-left">
                                 {{$event->name}}
                             </div>
-
                         </h2>
                 </div>
 
                 <div class="float-right">
-                    <form class="form-inline">
+                    <form class="form-inline" method="GET" action="{{url('insider/events/'.$event->id.'/add_org')}}">
                         {{csrf_field()}}
-                        <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0" id="invite"
-                               name="invite" placeholder="Инвайт на курс">
+                        <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0"
+                               name="name" placeholder="Имя организатора">
 
-                        <button type="submit" class="btn btn-success btn-sm"><i class="icon ion-plus-round"></i>&nbsp;Добавить
-                        </button>
+                        <input type="submit" value="Добавить" class="btn btn-success btn-sm">
                     </form>
                 </div>
             </div>
@@ -79,7 +75,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <div style="margin: 5px;">
-                                            <div>{{$comment->created_at}} <h2>{{$comment->user->name}}</h2></div><br>
+                                            <div>{{$comment->created_at}} <h2>{{User::findOrFail($comment->user_id)->name}}</h2></div><br>
                                             <div>{{$comment->text}}</div><br>
                                             {{--<div class="float-right">--}}
                                                 {{--<div class="btn btn-info">Ответить</div>--}}
@@ -111,11 +107,11 @@
                         @endif
                         <b>Теги:</b>
                         <ul>
-                        @foreach($tags as $tag)
+                            @foreach($tags as $tag)
                                 @if($event->tags->contains($tag->id))
                                     <li>{{$tag->name}}</li>
                                 @endif
-                        @endforeach
+                            @endforeach
                         </ul>
                         <p>
                             <b>Организаторы:</b><ul>
@@ -137,11 +133,8 @@
                             @endforeach
                         </ul>
                         </p>
-
                     </div>
                 </div>
             </div>
-
         </div>
-
 @endsection
