@@ -16,7 +16,8 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $user = User::all();
         $tags = EventTags::all();
-        return view('/events/certain_event_view', ['event' => $event, 'users'=>$user, 'tags' => $tags]);
+        $comments = EventComments::all();
+        return view('/events/certain_event_view', ['event' => $event, 'users'=>$user, 'tags' => $tags, 'comments' => $comments]);
     }
 
     public function add_event_view()
@@ -25,11 +26,22 @@ class EventController extends Controller
     	return view('/events/add_event_view', ['tags' => $tags]);
     }
 
-    public function event_view()
+    public function event_view(Request $request)
     {
         $events = Event::all()->sortBy('date');
         $tags = EventTags::all();
-    	return view('/events/event_view', ['events' => $events, 'tags' => $tags]);
+        $s_tags = [];
+        if(isset($request->sel_tags))
+        {
+            $s_tags = $request->sel_tags;
+        }
+        else{
+            foreach ($tags as $tag){
+                array_push($s_tags, $tag->id);
+            }
+        }
+
+    	return view('/events/event_view', ['events' => $events, 'tags' => $tags, 's_tags' => $s_tags]);
     }
 
     public function add_event(Request $request)
@@ -95,7 +107,7 @@ class EventController extends Controller
     	$event = Event::findOrFail($request->id);
     	$event->orgs()->deattach($request->org_id);
     	$event->save();
-    	return redirect('/event/'.$id);
+        return redirect('/event/'.$request->id);
     }
 
     public function like_event($id)
@@ -110,5 +122,14 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $event->userLikes()->detach(Auth::User()->id);
         return redirect('/insider/events/'.$id);
+    }
+    public function add_comment(Request $request, $id)
+    {
+        $comment = new EventComments;
+        $comment->user_id = Auth::User()->id;
+        $comment->event_id = $id;
+        $comment->text = $request->text;
+        $comment->save();
+        return redirect('/insider/events/'.$comment->event_id);
     }
 }

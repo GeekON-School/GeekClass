@@ -118,8 +118,9 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/events/{id}/like', 'EventController@like_event');
     Route::get('/events/{id}/dislike', 'EventController@dislike_event');
     Route::get('/events/{id}/add_org', 'EventController@add_org');
+    Route::post('/events', 'EventController@event_view');
 
-    Route::post('/events/settags', 'EventTagsController@settags');
+    Route::post('/events/{id}', 'EventController@add_comment');
 
     Route::get('/testmail', function () {
         $user = \App\User::findOrFail(1);

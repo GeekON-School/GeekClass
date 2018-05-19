@@ -65,22 +65,31 @@
                 <div style = "margin-top: 50px">
                     <h2>Комментарии:</h2>
                 </div>
-                <div class="card-group" style = "margin-top: 30px">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <div style="margin: 5px;">
-                                        <div>*Дата*, *Имя пользователя*</div><br>
-                                        <div>*Текст*</div><br>
-                                        <div class="float-right">
-                                            <div class="btn btn-info">Ответить</div>
+                @foreach($comments as $comment)
+                    <div class="card-group" style = "margin-top: 30px">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div style="margin: 5px;">
+                                            <div>{{$comment->created_at}} <h2>{{User::findOrFail($comment->user_id)->name}}</h2></div><br>
+                                            <div>{{$comment->text}}</div><br>
+                                            {{--<div class="float-right">--}}
+                                                {{--<div class="btn btn-info">Ответить</div>--}}
+                                            {{--</div>--}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                @endforeach
+                <div>
+                    <form method="POST">
+                        {{csrf_field()}}
+                        <input type="text" name="text"/>
+                        <input type="submit"/>
+                    </form>
                 </div>
             </div>
             <div class="col-md-4">
