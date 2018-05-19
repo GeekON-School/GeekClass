@@ -48,8 +48,9 @@ class EventController extends Controller
     	$event->max_people = $request->max_people;
     	$event->skills = $request->skills;
     	$event->site = $request->site;
-    	$event->save();
-    	return redirect('/insider/events');
+        $event->save();
+        $event->userOrgs()->attach(Auth::User()->id);
+        return redirect('/insider/events/'.$event->id);
     }
 
     public function del_event($id)
@@ -73,12 +74,11 @@ class EventController extends Controller
         return redirect('/insider/events/'.$id);
     }
 
-    public function add_org(Request $request)
+    public function add_org($id)
     {
-    	$event = Event::findOrFail($request->id);
-    	$event->orgs()->attach($request->org_id);
-    	$event->save();
-    	return redirect('/event/'.$id);
+    	$event = Event::findOrFail($id);
+    	$event->userOrgs()->attach(Auth::User()->id);
+    	return redirect('/events');
     }
 
     public function del_org(Request $request)

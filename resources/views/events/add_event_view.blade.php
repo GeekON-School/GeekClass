@@ -51,8 +51,7 @@
                     <label>Что должны знать участники</label>
                     <input name="skills" class="form-control" >
                 </div>
-
-                    <input type="submit" value="Добавить" class = "btn btn-success">
+                <input type="submit" role="button" class = "btn btn-success">
             </form>
     <br>
 @endsection
