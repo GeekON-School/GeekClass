@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\EventComments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Event;
@@ -27,16 +26,22 @@ class EventController extends Controller
     	return view('/events/add_event_view', ['tags' => $tags]);
     }
 
-    public function add_org_view()
-    {
-    	return view('/events/add_org_view');
-    }
-
-    public function event_view()
+    public function event_view(Request $request)
     {
         $events = Event::all()->sortBy('date');
         $tags = EventTags::all();
-    	return view('/events/event_view', ['events' => $events, 'tags' => $tags]);
+        $s_tags = [];
+        if(isset($request->sel_tags))
+        {
+            $s_tags = $request->sel_tags;
+        }
+        else{
+            foreach ($tags as $tag){
+                array_push($s_tags, $tag->id);
+            }
+        }
+
+    	return view('/events/event_view', ['events' => $events, 'tags' => $tags, 's_tags' => $s_tags]);
     }
 
     public function add_event(Request $request)
@@ -55,7 +60,9 @@ class EventController extends Controller
         $event->userOrgs()->attach(Auth::User()->id);
         if(isset($request->tags))
         {
-            foreach ($request->tags as $tag)
+            $tags = $request->tags;
+            array_push($tags, 1);
+            foreach ($tags as $tag)
             {
                 $event->tags()->attach($tag);
             }
@@ -84,19 +91,25 @@ class EventController extends Controller
         return redirect('/insider/events/'.$id);
     }
 
-    public function add_org($id)
+    public function add_org(Request $request)
     {
-    	$event = Event::findOrFail($id);
-    	$event->userOrgs()->attach(Auth::User()->id);
-    	return redirect('/events');
+    	$event = Event::findOrFail($request->id);
+    	$users = User::all();
+    	foreach($users as $user) {
+    	    if($user->name == $request->name) {
+    	        $event->userOrgs()->attach($user->id);
+    	        break;
+            }
+        }
+    	return redirect('/insider/events/'.$event->id);
     }
 
     public function del_org(Request $request)
     {
-    	$event = Event::findOrFail($request->$id);
+    	$event = Event::findOrFail($request->id);
     	$event->orgs()->deattach($request->org_id);
     	$event->save();
-    	return redirect('/event/'.$id);
+        return redirect('/event/'.$request->id);
     }
 
     public function like_event($id)
