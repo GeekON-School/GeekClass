@@ -171,4 +171,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Event', 'EventLikes');
     }
+
+    public function eventComments()
+    {
+        return $this->hasMany('App\EventComments');
+    }
 }

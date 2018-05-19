@@ -76,7 +76,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <div style="margin: 5px;">
-                                            <div>{{$comment->created_at}} <h2>{{User::findOrFail($comment->user_id)->name}}</h2></div><br>
+                                            <div>{{$comment->created_at}} <h2>{{$comment->user->name}}</h2></div><br>
                                             <div>{{$comment->text}}</div><br>
                                             {{--<div class="float-right">--}}
                                                 {{--<div class="btn btn-info">Ответить</div>--}}
