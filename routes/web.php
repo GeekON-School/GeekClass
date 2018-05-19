@@ -120,6 +120,7 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/events/{id}/add_org', 'EventController@add_org');
     Route::post('/events', 'EventController@event_view');
 
+    Route::post('/events/{id}', 'EventController@add_comment');
 
     Route::get('/testmail', function () {
         $user = \App\User::findOrFail(1);
