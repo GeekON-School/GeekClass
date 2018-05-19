@@ -16,9 +16,14 @@
                 </div>
 
                 <div class="float-right">
-                    <div>
-                        <img role="button" src="https://png.icons8.com/ultraviolet/50/000000/businessman.png" width="35px">
-                    </div>
+                    <form class="form-inline">
+                        {{csrf_field()}}
+                        <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0" id="invite"
+                               name="invite" placeholder="Инвайт на курс">
+
+                        <button type="submit" class="btn btn-success btn-sm"><i class="icon ion-plus-round"></i>&nbsp;Добавить
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
