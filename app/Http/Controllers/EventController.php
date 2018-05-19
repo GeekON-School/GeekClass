@@ -25,16 +25,22 @@ class EventController extends Controller
     	return view('/events/add_event_view', ['tags' => $tags]);
     }
 
-    public function add_org_view()
-    {
-    	return view('/events/add_org_view');
-    }
-
-    public function event_view()
+    public function event_view(Request $request)
     {
         $events = Event::all()->sortBy('date');
         $tags = EventTags::all();
-    	return view('/events/event_view', ['events' => $events, 'tags' => $tags]);
+        $s_tags = [];
+        if(isset($request->sel_tags))
+        {
+            $s_tags = $request->sel_tags;
+        }
+        else{
+            foreach ($tags as $tag){
+                array_push($s_tags, $tag->id);
+            }
+        }
+
+    	return view('/events/event_view', ['events' => $events, 'tags' => $tags, 's_tags' => $s_tags]);
     }
 
     public function add_event(Request $request)
@@ -91,10 +97,10 @@ class EventController extends Controller
 
     public function del_org(Request $request)
     {
-    	$event = Event::findOrFail($request->$id);
+    	$event = Event::findOrFail($request->id);
     	$event->orgs()->deattach($request->org_id);
     	$event->save();
-    	return redirect('/event/'.$id);
+    	return redirect('/event/'.$request->id);
     }
 
     public function like_event($id)

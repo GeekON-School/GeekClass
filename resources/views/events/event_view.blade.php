@@ -18,6 +18,11 @@
         <div class="row" style = "margin-top: 10px">
             <div class="col-md-8">
             @foreach($events as $event)
+
+            @endforeach
+            @foreach($events as $event)
+                @foreach($event->tags as $tag)
+                    @if(in_array($tag->id, $s_tags))
                     <div class="card-group">
                         <div class="card">
                             <div class="card-footer">
@@ -46,7 +51,10 @@
                             </div>
                         </div>
                     </div>
-            @endforeach
+                    @break
+                    @endif
+                   @endforeach
+                @endforeach
             </div>
             <div class="col-md-4">
                 <div class="card">
@@ -54,12 +62,12 @@
                         <h2 class="card-title">Теги:</h2>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{url('/insider/events/settags')}}">
+                        <form method="POST">
                             {{ csrf_field() }}
                             <div class="form-group form-check">
                                 @foreach($tags as $tag)
                                 <div class="form-check ">
-                                    <input type="checkbox" name="tags" class="form-check-input" value="{{$tag->id}}" id="{{$tag->id}}">
+                                    <input type="checkbox" name="sel_tags[]" class="form-check-input" value="{{$tag->id}}" id="{{$tag->id}}">
                                     <label for="{{$tag->id}}" class="form-check-label">{{$tag->name}}</label>
                                 </div>
                                 @endforeach
