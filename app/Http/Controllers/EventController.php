@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\EventComments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Event;
@@ -16,7 +17,8 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $user = User::all();
         $tags = EventTags::all();
-        return view('/events/certain_event_view', ['event' => $event, 'users'=>$user, 'tags' => $tags]);
+        $comments = EventComments::all();
+        return view('/events/certain_event_view', ['event' => $event, 'users'=>$user, 'tags' => $tags, 'comments' => $comments]);
     }
 
     public function add_event_view()
@@ -109,5 +111,14 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         $event->userLikes()->detach(Auth::User()->id);
         return redirect('/insider/events/'.$id);
+    }
+    public function add_comment(Request $request, $id)
+    {
+        $comment = new EventComments;
+        $comment->user_id = Auth::User()->id;
+        $comment->event_id = $id;
+        $comment->text = $request->text;
+        $comment->save();
+        return redirect('/insider/events/'.$comment->event_id);
     }
 }
