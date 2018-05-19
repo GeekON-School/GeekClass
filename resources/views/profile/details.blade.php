@@ -206,7 +206,7 @@
                     @endforeach
                 </div>
             @endif
-            
+
             @foreach($events as $event)
                 @if($event->userPartis->contains($user->id))
                     <div class="row">
