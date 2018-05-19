@@ -76,7 +76,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <div style="margin: 5px;">
-                                            <div>{{$comment->created_at}} <h2>{{User::findOrFail($comment->user_id)->name}}</h2></div><br>
+                                            <div>{{$comment->created_at}} <h2>aa</h2></div><br>
                                             <div>{{$comment->text}}</div><br>
                                             {{--<div class="float-right">--}}
                                                 {{--<div class="btn btn-info">Ответить</div>--}}
@@ -109,9 +109,11 @@
                         <b>Теги:</b>
                         <ul>
                         @foreach($tags as $tag)
+                             @if($tag->id !=1)
                                 @if($event->tags->contains($tag->id))
                                     <li>{{$tag->name}}</li>
                                 @endif
+                             @endif
                         @endforeach
                         </ul>
                         <p>
