@@ -137,4 +137,44 @@ class EventController extends Controller
         $comment->save();
         return redirect('/insider/events/'.$comment->event_id);
     }
+
+    public function edit_event_view($id)
+    {
+        $event = Event::findOrFail($id);
+        foreach ($event->tags as $tag)
+        {
+            $event->tags()->detach($tag->id);
+        }
+        $tags = EventTags::all();
+        return view('events/edit_event_view', ['event' => $event, 'tags'=>$tags]);
+    }
+
+    public function edit_event(Request $request)
+    {
+        $event = Event::findOrFail($request->id);
+        $event->name = $request->name;
+        $event->text = $request->text;
+        $event->date = $request->date;
+        $event->location = $request->location;
+        $event->type = $request->type;
+        $event->short_text = $request->short_text;
+        $event->max_people = $request->max_people;
+        $event->skills = $request->skills;
+        $event->site = $request->site;
+        $event->save();
+        $event->userOrgs()->attach(Auth::User()->id);
+        if(isset($request->tags))
+        {
+            $tags = $request->tags;
+            foreach ($tags as $tag)
+            {
+                $event->tags()->attach($tag);
+            }
+        }
+        else
+        {
+            $event->tags()->attach(1);
+        }
+        return redirect('/insider/events/'.$event->id);
+    }
 }

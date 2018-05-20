@@ -119,6 +119,9 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/events/{id}/dislike', 'EventController@dislike_event');
     Route::get('/events/{id}/add_org', 'EventController@add_org');
     Route::post('/events', 'EventController@event_view');
+    Route::get('/events/{id}/edit', 'EventController@edit_event_view');
+    Route::post('/events/{id}/edit', 'EventController@edit_event');
+    Route::get('/events/{id}/delete', 'EventController@del_event');
 
     Route::post('/events/{id}', 'EventController@add_comment');
 

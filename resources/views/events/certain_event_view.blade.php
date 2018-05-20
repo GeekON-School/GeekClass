@@ -129,6 +129,10 @@
                         </p>
                     </div>
                 </div>
+                @if($event->userOrgs->contains(Auth::User()->id))
+                <a role = "buttton" class="btn btn-success" href="{{url('insider/events/'.$event->id.'/edit')}}">Редактировать</a>
+                @endif
             </div>
+
         </div>
 @endsection

@@ -17,24 +17,25 @@
                     <label>Название события</label>
                     <input type="text" name="name" class="form-control" required>
                 </div>
+
+                <div class = "form-group required">
+                    <label>Краткое описание проекта</label>
+                    <input name="short_text" class="form-control" required>
+                </div>
+
                 <div class = "form-group required">
                     <label>Описание события</label>
-                    <input type="text" name="text" class="form-control" required>
+                    <textarea name="text" class="form-control" required></textarea>
                 </div>
 
                 <div class = "form-group required">
                     <label>Дата проведения мероприятия</label>
-                    <input type="text" name="date" class="form-control" required>
+                    <input type="date" name="date" class="form-control" required>
                 </div>
 
                 <div class = "form-group required">
                     <label>Место проведения мероприятия</label>
                     <input name="location" class="form-control" required>
-                </div>
-
-                <div class = "form-group required">
-                    <label>Краткое описание проекта</label>
-                    <input name="short_text" class="form-control" required>
                 </div>
 
                 <div class = "form-group">
