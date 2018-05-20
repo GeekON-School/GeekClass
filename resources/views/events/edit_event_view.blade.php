@@ -69,7 +69,7 @@
                 @endif
             @endforeach
         </div>
-        <div class="row">
+        <div class="row" style="margin-left:0px">
             <input type="submit" value="Изменить" class = "btn btn-success">
             <a href="{{url('insider/events/'.$event->id.'/delete')}}" role="button" class="btn btn-danger" style="margin-left: 10px;">Удалить</a>
         </div>
