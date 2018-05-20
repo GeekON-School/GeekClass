@@ -66,26 +66,25 @@
                     <h2>Комментарии:</h2>
                 </div>
                 @foreach($comments as $comment)
-                    <div class="card-group" style = "margin-top: 30px">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <div style="margin: 5px;">
-                                            <div>{{$comment->created_at}} <h2>{{$comment->user->name}}</h2></div><br>
-                                            <div>{{$comment->text}}</div><br>
-                                            {{--<div class="float-right">--}}
-                                                {{--<div class="btn btn-info">Ответить</div>--}}
-                                            {{--</div>--}}
+                    @if($comment->event_id == $event->id)
+                        <div class="card-group" style = "margin-top: 30px">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div style="margin: 5px;">
+                                                <div>{{$comment->created_at}} <h2>{{$comment->user->name}}</h2></div><br>
+                                                <div>{{$comment->text}}</div><br>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 @endforeach
                 <div>
-                    <form method="POST">
+                    <form method="POST" action="{{url('insider/events/'.$event->id)}}">
                         {{csrf_field()}}
                         <textarea class="form-control" rows="5" style="margin-bottom:10px" name="text"></textarea>
                         <input role="button" class="btn btn-success" type="submit"/>
