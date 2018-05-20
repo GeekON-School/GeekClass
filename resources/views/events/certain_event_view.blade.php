@@ -26,7 +26,7 @@
         <div class="row" style = "margin-top: 10px">
             <div class="col-md-8">
                 <div class="card-group">
-                    <div class="card">
+                    <div class="card" style="border: 1px solid grey">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
@@ -42,6 +42,8 @@
                                     <div style="margin: 5px;">
                                         @if($event->userPartis->contains(Auth::User()->id))
                                             <a role="button" class="btn btn-danger" href={{"/insider/events/$event->id/left"}}>Я не иду</a>
+                                        @elseif($event->max_people == count($event->userPartis) && ($event->max_people != null))
+                                            <button role="button" class="btn btn-secondary">Я иду!</button>
                                         @else
                                             <a role="button" class="btn btn-primary" href={{"/insider/events/$event->id/go"}}>Я иду!</a>
                                         @endif
@@ -119,7 +121,14 @@
                         <ul>
                         </ul>
                         <p>
-                            <b>Участники:</b><ul>
+                            @if($event->max_people != null)
+                                <b>Участники:
+                                    {{count($event->userPartis)}}/{{$event->max_people}}
+                                </b>
+                            @else
+                                <b>Участники:</b>
+                            @endif
+                                    <ul>
                             @foreach($users as $user)
                                 @if($event->userPartis->contains($user->id))
                                     <li>{{$user->name}}</li>

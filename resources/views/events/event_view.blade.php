@@ -21,13 +21,19 @@
                 @foreach($event->tags as $tag)
                         @if(in_array($tag->id, $s_tags))
                     <div class="card-group">
-                        <div class="card" style="border: 3px solid slategrey">
+                        <div class="card" style="border: 1px solid grey">
                             <div class="card-footer">
                                 <div class="text-center" style="margin-bottom: -33px">
                                     <h4><b>{{$event->name}}, ({{$event->type}})</b></h4>
                                 </div>
                                 <div class="float-left">
-                                    <img src="https://png.icons8.com/color/50/000000/hearts.png" width="30px">
+                                    @if($event->userLikes->contains(Auth::User()->id))
+                                        <a href={{"/insider/events/$event->id/dislike_from_events"}}>
+                                            <img src="https://png.icons8.com/color/50/000000/hearts.png" width="35px"></a>
+                                    @else
+                                        <a href={{"/insider/events/$event->id/like_from_events"}}>
+                                            <img src="https://png.icons8.com/ios/50/000000/hearts.png" width="35px"></a>
+                                    @endif
                                     {{count($event->userLikes)}}
                                 </div>
                                 <div class="float-right" style="margin-right:15px">

@@ -122,12 +122,27 @@ class EventController extends Controller
         return redirect('/insider/events/'.$id);
     }
 
+    public function like_event_from_events($id)
+    {
+        $event = Event::findOrFail($id);
+        $event->userLikes()->attach(Auth::User()->id);
+        return redirect('/insider/events');
+    }
+
     public function dislike_event($id)
     {
         $event = Event::findOrFail($id);
         $event->userLikes()->detach(Auth::User()->id);
         return redirect('/insider/events/'.$id);
     }
+
+    public function dislike_event_from_events($id)
+    {
+        $event = Event::findOrFail($id);
+        $event->userLikes()->detach(Auth::User()->id);
+        return redirect('/insider/events');
+    }
+
     public function add_comment(Request $request, $id)
     {
         $comment = new EventComments;
