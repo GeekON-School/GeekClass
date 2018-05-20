@@ -15,7 +15,7 @@
 
         <div class = "form-group required">
             <label>Название события</label>
-            <input type="text" name="name" class="form-control" value="{{$event->name}}}"required>
+            <input type="text" name="name" class="form-control" value="{{$event->name}}"required>
         </div>
 
         <div class = "form-group required">
@@ -40,7 +40,7 @@
 
         <div class = "form-group">
             <label>Ограничение на кол-во участников</label>
-            <input name="max_people" class="form-control"value="{{$event->max_people}}">
+            <input name="max_people" class="form-control" type="number" value="{{$event->max_people}}">
         </div>
 
         <div class = "form-group">
