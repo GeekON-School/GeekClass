@@ -26,7 +26,7 @@
         <div class="row" style = "margin-top: 10px">
             <div class="col-md-8">
                 <div class="card-group">
-                    <div class="card">
+                    <div class="card" style="border: 1px solid grey">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
