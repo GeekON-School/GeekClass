@@ -72,7 +72,13 @@
                         <div class="card-group" style = "margin-top: 30px">
                             <div class="card" style="border: 1px solid grey">
                                 <div class="card-footer">
-                                    <div style="margin-left:5px">{{$comment->created_at}}, <b>{{$comment->user->name}}</b></div>
+                                    <div class="float-left" style="margin-left:5px">
+                                        {{$comment->created_at}}, <b>{{$comment->user->name}}</b>
+                                    </div>
+                                    <div class="float-right">
+                                        <a href={{"/insider/events/$comment->id/delete_comm"}}></a>
+                                        <img src="https://png.icons8.com/windows/50/000000/cancel.png" width="25px">
+                                    </div>
                                 </div>
                                 <div class="card-body" style="margin-left: 5px;">
                                     {{$comment->text}}

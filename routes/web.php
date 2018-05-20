@@ -124,8 +124,10 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/events/{id}/edit', 'EventController@edit_event_view');
     Route::post('/events/{id}/edit', 'EventController@edit_event');
     Route::get('/events/{id}/delete', 'EventController@del_event');
+    Route::get('/events/{id}/delete_comm', 'EventController@del_comment');
 
     Route::post('/events/{id}', 'EventController@add_comment');
+
 
     Route::get('/testmail', function () {
         $user = \App\User::findOrFail(1);

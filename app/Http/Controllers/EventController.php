@@ -107,12 +107,11 @@ class EventController extends Controller
     	return redirect('/insider/events/'.$event->id);
     }
 
-    public function del_org(Request $request)
+    public function del_comment($id)
     {
-    	$event = Event::findOrFail($request->id);
-    	$event->orgs()->deattach($request->org_id);
-    	$event->save();
-        return redirect('/event/'.$request->id);
+    	$comment = EventComments::findOrFail($id);
+    	$comment->delete();
+        return redirect('/event/'.$id);
     }
 
     public function like_event($id)
