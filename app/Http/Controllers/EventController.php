@@ -76,11 +76,14 @@ class EventController extends Controller
     public function del_event($id)
     {
     	$event = Event::findOrFail($id);
-		$event->delete();
+    	if($event->userOrgs->contains(Auth::User()->id))
+        {
+            $event->delete();
+        }
 		return redirect('/insider/events');
     }
-
     public function go_event($id)
+
     {
     	$event = Event::findOrFail($id);
     	$event->userPartis()->attach(Auth::User()->id);
