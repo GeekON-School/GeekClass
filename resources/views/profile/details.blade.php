@@ -208,11 +208,11 @@
             @endif
 
             @foreach($events as $event)
-                @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now())))
+                @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->lt(\Carbon\Carbon::now())))
                     <div class="row">
                         <div class="col-md-8">
-                            <h4 style="margin: 20px;" class="card-title">События <img
-                                        src="https://png.icons8.com/ultraviolet/50/000000/today.png" width="25px">
+                            <h4 style="margin: 20px;" class="card-title">Прошедшие события
+                                <img src="https://png.icons8.com/ultraviolet/50/000000/overtime.png" width="25px">
                             </h4>
                         </div>
                     </div>
@@ -220,8 +220,30 @@
                 @endif
             @endforeach
 
+            <div class="row">
+                @foreach($events as $event)
+                    @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->lt(\Carbon\Carbon::now())))
+                        <div class="col-md-6">
+                            <div class="card" style="width: 100%; margin-bottom: 10px;">
+                                <div class="card-footer">
+                                    <div class="float-left">
+                                        <h5 class="card-title">{{$event->name}}</h5>
+                                    </div>
+                                    <div class="float-right" style="margin-right:5px">
+                                        {{$event->date}}
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <span>{{$event->short_text}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+
             @foreach($events as $event)
-                @if($event->userPartis->contains($user->id))
+                @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now())))
                     <div class="row">
                         <div class="col-md-8">
                             <h4 style="margin: 20px;" class="card-title">События <img
@@ -235,15 +257,24 @@
 
             <div class="row">
                 @foreach($events as $event)
-                    @if($event->userPartis->contains($user->id))
+                    @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now())))
                         <div class="col-md-6">
                             <div class="card" style="width: 100%; margin-bottom: 10px;">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{$event->name}}</h5>
-                                    <p><span>{{$event->short_text}}</span></p>
-                                    <a href="{{url('insider/events/'.$event->id)}}" class="btn btn-sm btn-primary">Страница
-                                        события</a>
-                                </div>
+                                    <div class="card-footer">
+                                        <div class="float-left">
+                                            <h5 class="card-title">{{$event->name}}</h5>
+                                        </div>
+                                        <div class="float-right" style="margin-right:5px">
+                                            {{$event->date}}
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="float-left"><span>{{$event->short_text}}</span></div>
+                                        <div class="float-right">
+                                            <a href="{{url('insider/events/'.$event->id)}}" class="btn btn-sm btn-primary">Страница
+                                                события</a>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
                     @endif
