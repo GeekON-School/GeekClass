@@ -19,7 +19,7 @@
                 </div>
 
                 <div class = "form-group required">
-                    <label>Краткое описание проекта</label>
+                    <label>Краткое описание события</label>
                     <input name="short_text" class="form-control" required>
                 </div>
 
