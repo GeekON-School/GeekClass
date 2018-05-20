@@ -2,8 +2,6 @@
 
 @section('content')
     <br>
-    <form method="POST">
-        {{ csrf_field() }}
         <div class="row" style = "margin-top: -30px">
             <div class="col">
                 <div class="float-left">
@@ -18,6 +16,7 @@
         <div class="row" style = "margin-top: 10px">
             <div class="col-md-8">
             @foreach($events as $event)
+                @if(\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now()))
                 @foreach($event->tags as $tag)
                         @if(in_array($tag->id, $s_tags))
                     <div class="card-group">
@@ -40,7 +39,6 @@
                                     <b>{{$event->date}}</b>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col">
                                     <div class="card-body">
@@ -57,6 +55,7 @@
                     @break
                         @endif
                    @endforeach
+                    @endif
                 @endforeach
             </div>
             <div class="col-md-4">
@@ -86,5 +85,4 @@
                 </div>
             </div>
         </div>
-
 @endsection
