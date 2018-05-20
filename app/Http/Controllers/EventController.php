@@ -61,11 +61,14 @@ class EventController extends Controller
         if(isset($request->tags))
         {
             $tags = $request->tags;
-            array_push($tags, 1);
             foreach ($tags as $tag)
             {
                 $event->tags()->attach($tag);
             }
+        }
+        else
+        {
+            $event->tags()->attach(1);
         }
         return redirect('/insider/events/'.$event->id);
     }
