@@ -68,16 +68,12 @@
                 @foreach($comments as $comment)
                     @if($comment->event_id == $event->id)
                         <div class="card-group" style = "margin-top: 30px">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div style="margin: 5px;">
-                                                <div>{{$comment->created_at}} <h2>{{$comment->user->name}}</h2></div><br>
-                                                <div>{{$comment->text}}</div><br>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="card" style="border: 1px solid grey">
+                                <div class="card-footer">
+                                    <div style="margin-left:5px">{{$comment->created_at}}, <b>{{$comment->user->name}}</b></div>
+                                </div>
+                                <div class="card-body" style="margin-left: 5px;">
+                                    {{$comment->text}}
                                 </div>
                             </div>
                         </div>

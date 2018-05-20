@@ -21,17 +21,17 @@
                 @foreach($event->tags as $tag)
                     @if(in_array($tag->id, $s_tags))
                     <div class="card-group">
-                        <div class="card">
+                        <div class="card" style="border: 3px solid slategrey">
                             <div class="card-footer">
-                                <div class="text-center">
-                                    <b>{{$event->name}}, ({{$event->type}})</b>
+                                <div class="text-center" style="margin-bottom: -33px">
+                                    <h4><b>{{$event->name}}, ({{$event->type}})</b></h4>
                                 </div>
                                 <div class="float-left">
-                                    <img src="https://png.icons8.com/ultraviolet/50/000000/good-quality.png" width="30px">
+                                    <img src="https://png.icons8.com/color/50/000000/hearts.png" width="30px">
                                     {{count($event->userLikes)}}
                                 </div>
-                                <div class="float-right">
-                                    {{$event->date}}
+                                <div class="float-right" style="margin-right:15px">
+                                    <b>{{$event->date}}</b>
                                 </div>
                             </div>
 
@@ -40,8 +40,8 @@
                                     <div class="card-body">
                                             {{$event->short_text}}
                                         <div class="float-right">
-                                            <a href="{{url('/insider/events/'.$event->id)}}" style="margin-top: -5px" class = "btn btn-primary">Перейти к событию</a>
-                                            <br>
+                                            <a href="{{url('/insider/events/'.$event->id)}}" style="margin-top: -5px"
+                                               class = "btn btn-primary">Перейти к событию</a>
                                         </div>
                                     </div>
                                 </div>
@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     @break
-                    @endif
+                        @endif
                    @endforeach
                 @endforeach
             </div>
@@ -64,10 +64,10 @@
                             <div class="form-group form-check">
                                 @foreach($tags as $tag)
                                     @if($tag->id !=1)
-                                <div class="form-check ">
-                                    <input type="checkbox" style="margin-left:5px" name="sel_tags[]" class="form-check-input" value="{{$tag->id}}" id="{{$tag->id}}">
-                                    <label for="{{$tag->id}}" class="form-check-label" style="margin-left:2px" >{{$tag->name}}</label>
-                                </div>
+                                        <div class="form-check">
+                                            <input type="checkbox" style="margin-left:5px" name="sel_tags[]" class="form-check-input" value="{{$tag->id}}" id="{{$tag->id}}">
+                                            <label for="{{$tag->id}}" class="form-check-label" style="margin-left:2px" >{{$tag->name}}</label>
+                                        </div>
                                     @endif
                                 @endforeach
                                 <br>
