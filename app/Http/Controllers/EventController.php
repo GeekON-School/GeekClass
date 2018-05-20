@@ -113,7 +113,10 @@ class EventController extends Controller
     public function del_comment($id, $id2)
     {
         $comment = EventComments::findOrFail($id2);
-    	$comment->delete();
+        if($comment->user_id == Auth::User()->id)
+        {
+            $comment->delete();
+        }
         return redirect('/insider/events/'.$id);
     }
 
@@ -158,12 +161,18 @@ class EventController extends Controller
     public function edit_event_view($id)
     {
         $event = Event::findOrFail($id);
-        foreach ($event->tags as $tag)
+        if($event->userOrgs->contains(Auth::User()->id))
         {
-            $event->tags()->detach($tag->id);
+            foreach ($event->tags as $tag)
+            {
+                $event->tags()->detach($tag->id);
+            }
+            $tags = EventTags::all();
+            return view('events/edit_event_view', ['event' => $event, 'tags'=>$tags]);
         }
-        $tags = EventTags::all();
-        return view('events/edit_event_view', ['event' => $event, 'tags'=>$tags]);
+        else {
+            return redirect('/insider/events/'.$id);
+        }
     }
 
     public function edit_event(Request $request)
