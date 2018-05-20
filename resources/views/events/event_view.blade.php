@@ -22,7 +22,7 @@
                 @foreach($event->tags as $tag)
                         @if(in_array($tag->id, $s_tags))
                     <div class="card-group">
-                        <div class="card" style="border: 3px solid slategrey">
+                        <div class="card" style="border: 1px solid grey">
                             <div class="card-footer">
                                 <div class="text-center" style="margin-bottom: -33px">
                                     <h4><b>{{$event->name}}, ({{$event->type}})</b></h4>

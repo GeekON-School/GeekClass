@@ -42,6 +42,8 @@
                                     <div style="margin: 5px;">
                                         @if($event->userPartis->contains(Auth::User()->id))
                                             <a role="button" class="btn btn-danger" href={{"/insider/events/$event->id/left"}}>Я не иду</a>
+                                        @elseif($event->max_people=count($event->userPartis) && ($event->max_people != null))
+                                            <button role="button" class="btn btn-secondary">Я иду!</button>
                                         @else
                                             <a role="button" class="btn btn-primary" href={{"/insider/events/$event->id/go"}}>Я иду!</a>
                                         @endif
@@ -119,7 +121,13 @@
                         <ul>
                         </ul>
                         <p>
-                            <b>Участники:</b><ul>
+                            @if($event->max_people != null)
+                                <b>Участники:
+                                    {{count($event->userPartis)}}/{{$event->max_people}}
+                                </b><ul>
+                            @else
+                                <b>Участники:</b><ul>
+                            @endif
                             @foreach($users as $user)
                                 @if($event->userPartis->contains($user->id))
                                     <li>{{$user->name}}</li>
