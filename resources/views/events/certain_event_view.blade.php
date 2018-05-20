@@ -76,8 +76,10 @@
                                         {{$comment->created_at}}, <b>{{$comment->user->name}}</b>
                                     </div>
                                     <div class="float-right">
-                                        <a href={{"/insider/events/$comment->id/delete_comm"}}></a>
-                                        <img src="https://png.icons8.com/windows/50/000000/cancel.png" width="25px">
+                                        @if($comment->user_id == Auth::User()->id)
+                                            <a href={{"/insider/events/$event->id/delete_comm/$comment->id"}}>
+                                            <img src="https://png.icons8.com/windows/50/000000/cancel.png" width="25px"></a>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="card-body" style="margin-left: 5px;">

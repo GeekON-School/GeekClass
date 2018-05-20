@@ -110,11 +110,11 @@ class EventController extends Controller
     	return redirect('/insider/events/'.$event->id);
     }
 
-    public function del_comment($id)
+    public function del_comment($id, $id2)
     {
-    	$comment = EventComments::findOrFail($id);
+        $comment = EventComments::findOrFail($id2);
     	$comment->delete();
-        return redirect('/event/'.$id);
+        return redirect('/insider/events/'.$id);
     }
 
     public function like_event($id)
