@@ -2,21 +2,21 @@
 
 @section('content')
     <br>
-        <div class="row" style = "margin-top: -30px">
-            <div class="col">
-                <div class="float-left">
-                        <h2>
-                            <div class="float-left">
-                                {{$event->name}}
-                            </div>
-                        </h2>
-                </div>
+    <div class="row" style = "margin-top: -30px">
+        <div class="col">
+            <div class="float-left">
+                    <h2>
+                        <div class="float-left">
+                            {{$event->name}}
+                        </div>
+                    </h2>
+            </div>
 
-                <div class="float-right">
-                    <form class="form-inline" method="GET" action="{{url('insider/events/'.$event->id.'/add_org')}}">
-                        {{csrf_field()}}
-                        <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0"
-                               name="name" placeholder="Имя организатора">
+            <div class="float-right">
+                <form class="form-inline" method="GET" action="{{url('insider/events/'.$event->id.'/add_org')}}">
+                    {{csrf_field()}}
+                    <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0"
+                           name="name" placeholder="Имя организатора">
 
                         <input type="submit" value="Добавить" class="btn btn-success btn-sm">
                     </form>
