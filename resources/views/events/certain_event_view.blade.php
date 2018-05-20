@@ -107,6 +107,7 @@
                         @if($event->site != null)
                             <b>Сайт: </b><a href="https://geekclass.ru ">{{$event->site}}</a> <br><br>
                         @endif
+                        @if(count($event->tags) > 0 && !$event->tags->contains(1))
                         <b>Теги:</b>
                         <ul>
                             @foreach($tags as $tag)
@@ -117,6 +118,7 @@
                                 @endif
                             @endforeach
                         </ul>
+                        @endif
                         <p>
                             <b>Организаторы:</b><ul>
                             @foreach($users as $user)
