@@ -83,7 +83,7 @@
                     <form method="POST" action="{{url('insider/events/'.$event->id)}}">
                         {{csrf_field()}}
                         <textarea class="form-control" rows="5" style="margin-bottom:10px" name="text"></textarea>
-                        <input role="button" class="btn btn-success" type="submit"/>
+                        <input role="button" class="btn btn-success" value="Отправить комментарий" type="submit"/>
                     </form>
                 </div>
             </div>
