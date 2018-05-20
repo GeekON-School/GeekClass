@@ -208,6 +208,19 @@
             @endif
 
             @foreach($events as $event)
+                @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now())))
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 style="margin: 20px;" class="card-title">События <img
+                                        src="https://png.icons8.com/ultraviolet/50/000000/today.png" width="25px">
+                            </h4>
+                        </div>
+                    </div>
+                    @break
+                @endif
+            @endforeach
+
+            @foreach($events as $event)
                 @if($event->userPartis->contains($user->id))
                     <div class="row">
                         <div class="col-md-8">
