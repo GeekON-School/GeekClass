@@ -44,6 +44,24 @@ class EventController extends Controller
     	return view('/events/event_view', ['events' => $events, 'tags' => $tags, 's_tags' => $s_tags]);
     }
 
+    public function old_events_view(Request $request)
+    {
+        $events = Event::all()->sortByDesc('date');
+        $tags = EventTags::all();
+        $s_tags = [];
+        if(isset($request->sel_tags))
+        {
+            $s_tags = $request->sel_tags;
+        }
+        else{
+            foreach ($tags as $tag){
+                array_push($s_tags, $tag->id);
+            }
+        }
+
+        return view('/events/old_event_view', ['events' => $events, 'tags' => $tags, 's_tags' => $s_tags]);
+    }
+
     public function add_event(Request $request)
     {
     	$event = new Event;

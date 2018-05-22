@@ -234,7 +234,11 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <span>{{$event->short_text}}</span>
+                                    <div class="float-left"><span>{{$event->short_text}}</span></div>
+                                    <div class="float-right">
+                                        <a href="{{url('insider/events/'.$event->id)}}" class="btn btn-sm btn-primary">Страница
+                                            события</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

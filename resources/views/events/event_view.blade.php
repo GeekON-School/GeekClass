@@ -5,12 +5,14 @@
         <div class="row" style = "margin-top: -30px">
             <div class="col">
                 <div class="float-left">
-                    <h2>События</h2>
+                    <h2 style="color: blue">События</h2>
                 </div>
-                <div class="float-right">
+                <div class="text-center" style="margin-right: 10px">
+                    <a href="{{url('/insider/old')}}" style="color:black"><h2>Архив событий</h2></a>
+                </div>
+                <div class="float-right" style="margin-top: -40px">
                     <a href="{{url('/insider/events/add_event')}}" style = "margin-left: 50px" class = "btn btn-success">Провести событие</a>
                 </div>
-
             </div>
         </div>
         <div class="row" style = "margin-top: 10px">
