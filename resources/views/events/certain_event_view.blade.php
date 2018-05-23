@@ -109,7 +109,7 @@
                         <b>Когда:</b> {{$event->date}}<br><br>
                         <b>Где:</b> {{$event->location}}<br><br>
                         @if($event->site != null)
-                            <b>Сайт: </b><a href="https://geekclass.ru ">{{$event->site}}</a> <br><br>
+                            <b>Сайт: </b><a href="{{$event->site}}">{{$event->site}}</a> <br><br>
                         @endif
                         @if(count($event->tags) > 0 && !$event->tags->contains(1))
                         <b>Теги:</b>
