@@ -13,7 +13,7 @@ class AddCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('EventComments', function (Blueprint $table) {
+        Schema::create('event_comments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('event_id');

@@ -13,7 +13,7 @@ class UserToTagCol extends Migration
      */
     public function up()
     {
-        Schema::table('EventTags', function (Blueprint $table) {
+        Schema::table('event_tags', function (Blueprint $table) {
             $table->renameColumn('user_id', 'tag_id');
         });
     }
@@ -25,7 +25,7 @@ class UserToTagCol extends Migration
      */
     public function down()
     {
-        Schema::table('EventTags', function (Blueprint $table) {
+        Schema::table('event_tags', function (Blueprint $table) {
             $table->dropColumn('tag_id');
         });
     }

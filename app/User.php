@@ -159,17 +159,17 @@ class User extends Authenticatable
 
     public function eventOrgs()
     {
-        return $this->belongsToMany('App\Event', 'EventOrgs');
+        return $this->belongsToMany('App\Event', 'event_orgs');
     }
 
     public function eventPartis()
     {
-        return $this->belongsToMany('App\Event', 'EventPartis');
+        return $this->belongsToMany('App\Event', 'event_partis');
     }
 
     public function eventLikes()
     {
-        return $this->belongsToMany('App\Event', 'EventLikes');
+        return $this->belongsToMany('App\Event', 'event_likes');
     }
 
     public function eventComments()

@@ -13,7 +13,7 @@ class AddPartisTable extends Migration
      */
     public function up()
     {
-        Schema::create('EventPartis', function (Blueprint $table) {
+        Schema::create('event_partis', function (Blueprint $table) {
             $table->integer('event_id');
             $table->integer('user_id');
         });
@@ -26,6 +26,6 @@ class AddPartisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('EventPartis');
+        Schema::dropIfExists('event_partis');
     }
 }
