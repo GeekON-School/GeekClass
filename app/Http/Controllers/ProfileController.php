@@ -7,10 +7,12 @@ use App\Course;
 use App\CourseStep;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Event;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
 use App\Project;
+
 
 
 class ProfileController extends Controller
@@ -50,7 +52,8 @@ class ProfileController extends Controller
             $user = User::findOrFail($id);
         }
         $projects = $user->projects ();
-        return view('profile.details', compact('user', 'guest', 'projects'));
+        $events = Event::all();
+        return view('profile.details', compact('user', 'guest', 'projects', 'events'));
     }
 
     public function editView($id)

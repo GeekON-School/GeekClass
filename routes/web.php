@@ -109,6 +109,28 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/projects/{id}/delete', 'ProjectsController@deleteProject');
     Route::get('/projects', 'ProjectsController@index');
 
+    Route::get('/events', 'EventController@event_view');
+    Route::get('/events/old', 'EventController@old_events_view');
+    Route::get('/events/add_event', 'EventController@add_event_view');
+    Route::post('/events/add_event', 'EventController@add_event');
+    Route::get('/events/{id}', 'EventController@current_event');
+    Route::get('/events/{id}/go', 'EventController@go_event');
+    Route::get('/events/{id}/left', 'EventController@left_event');
+    Route::get('/events/{id}/like', 'EventController@like_event');
+    Route::get('/events/{id}/like_from_events', 'EventController@like_event_from_events');
+    Route::get('/events/{id}/dislike', 'EventController@dislike_event');
+    Route::get('/events/{id}/dislike_from_events', 'EventController@dislike_event_from_events');
+    Route::get('/events/{id}/add_org', 'EventController@add_org');
+    Route::post('/events', 'EventController@event_view');
+    Route::post('/events/old', 'EventController@old_events_view');
+    Route::get('/events/{id}/edit', 'EventController@edit_event_view');
+    Route::post('/events/{id}/edit', 'EventController@edit_event');
+    Route::get('/events/{id}/delete', 'EventController@del_event');
+    Route::get('/events/{id}/delete_comm/{id2}', 'EventController@del_comment');
+
+    Route::post('/events/{id}', 'EventController@add_comment');
+
+
     Route::get('/testmail', function () {
         $user = \App\User::findOrFail(1);
         $when = \Carbon\Carbon::now()->addSeconds(1);

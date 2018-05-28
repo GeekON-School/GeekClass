@@ -157,6 +157,23 @@ class User extends Authenticatable
         return $this->rank;
     }
 
+    public function eventOrgs()
+    {
+        return $this->belongsToMany('App\Event', 'EventOrgs');
+    }
 
+    public function eventPartis()
+    {
+        return $this->belongsToMany('App\Event', 'EventPartis');
+    }
 
+    public function eventLikes()
+    {
+        return $this->belongsToMany('App\Event', 'EventLikes');
+    }
+
+    public function eventComments()
+    {
+        return $this->hasMany('App\EventComments');
+    }
 }
