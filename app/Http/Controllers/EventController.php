@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Event;
 use App\User;
-use App\EventTags;
+use App\Tags;
 use App\EventComments;
 
 class EventController extends Controller
@@ -15,21 +15,21 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
         $user = User::all();
-        $tags = EventTags::all();
+        $tags = Tags::all();
         $comments = EventComments::all();
         return view('/events/certain_event_view', ['event' => $event, 'users'=>$user, 'tags' => $tags, 'comments' => $comments]);
     }
 
     public function add_event_view()
     {
-        $tags = EventTags::all();
+        $tags = Tags::all();
     	return view('/events/add_event_view', ['tags' => $tags]);
     }
 
     public function event_view(Request $request)
     {
         $events = Event::all()->sortBy('date');
-        $tags = EventTags::all();
+        $tags = Tags::all();
         $s_tags = [];
         if(isset($request->sel_tags))
         {
@@ -47,7 +47,7 @@ class EventController extends Controller
     public function old_events_view(Request $request)
     {
         $events = Event::all()->sortByDesc('date');
-        $tags = EventTags::all();
+        $tags = Tags::all();
         $s_tags = [];
         if(isset($request->sel_tags))
         {
@@ -185,7 +185,7 @@ class EventController extends Controller
             {
                 $event->tags()->detach($tag->id);
             }
-            $tags = EventTags::all();
+            $tags = Tags::all();
             return view('events/edit_event_view', ['event' => $event, 'tags'=>$tags]);
         }
         else {
