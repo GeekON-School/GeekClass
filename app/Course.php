@@ -26,7 +26,7 @@ class Course extends Model
 
     public function provider()
     {
-        return $this->hasOne('App\Provider',  'id', 'provider_id');
+        return $this->hasOne('App\Provider', 'id', 'provider_id');
     }
 
     public function teachers()
@@ -59,7 +59,7 @@ class Course extends Model
             $invite = str_random(8);
         } while (Course::where('invite', $invite)->count() != 0);
         $this->invite = $invite;
-        $this->remote_invite = $invite.'-R';
+        $this->remote_invite = $invite . '-R';
         $this->save();
     }
 
@@ -84,25 +84,56 @@ class Course extends Model
         $this->state = 'ended';
         $this->end_date = Carbon::now();
 
-        foreach ($this->students as $student)
-        {
+        CompletedCourse::where('course_id', $this->id)->delete();
+
+        $cert_request = ['courses' => []];
+
+        array_push($cert_request['courses'], [
+            'name' => $this->name,
+            'date' => Carbon::now()->format('d.m.Y'),
+            'teachers' => [
+                ['name' => $this->teachers[0]->name]
+            ],
+            'students' => []
+
+        ]);
+
+        foreach ($this->students as $student) {
+            array_push($cert_request['courses'][0]['students'], [
+                'id' => $student->id,
+                'name' => $student->name,
+                'mark' => Mark::getMark($this->points($student), $this->max_points($student))
+            ]);
+        }
+
+        $client = new \GuzzleHttp\Client();
+        $res = $client->post('https://cert.geekclass.ru', [
+            'body' => json_encode($cert_request)
+        ]);
+        $cert_result = json_decode($res->getBody()->getContents());
+
+
+
+        foreach ($this->students as $student) {
             $completed_course = new CompletedCourse();
             $completed_course->name = $this->name;
             $completed_course->provider = $this->provider->short_name;
             $completed_course->user_id = $student->id;
             $completed_course->course_id = $this->id;
+            $id = $student->id;
+            $completed_course->cert_link = $cert_result->$id->link;
             $completed_course->mark = Mark::getMark($this->points($student), $this->max_points($student));
             $completed_course->save();
         }
 
         $this->save();
     }
+
     public function export()
     {
         $export = collect([]);
         $lessons = $this->lessons;
-        foreach ($lessons as $lesson)
-        {
+        foreach ($lessons as $lesson) {
             $export->push(json_decode($lesson->export()));
         }
         return $export->toJson();
@@ -111,13 +142,12 @@ class Course extends Model
     public function import($course_json)
     {
         $lessons = json_decode($course_json);
-        foreach ($lessons as $lesson)
-        {
+        foreach ($lessons as $lesson) {
             $steps = $lesson->steps;
             unset($lesson->steps);
 
             $new_lesson = new Lesson();
-            foreach($lesson as $property => $value)
+            foreach ($lesson as $property => $value)
                 $new_lesson->$property = $value;
             $new_lesson->course_id = $this->id;
             $new_lesson->save();

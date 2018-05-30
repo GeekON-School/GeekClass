@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CompletedCourse;
 use App\Course;
 use App\CourseStep;
 use App\Http\Controllers\Controller;
@@ -44,6 +45,7 @@ class CoursesController extends Controller
         $user = User::findOrFail(Auth::User()->id);
         $course = Course::findOrFail($id);
         $students = $course->students;
+        $marks = CompletedCourse::where('course_id', $id)->get();
 
 
         $temp_steps = collect([]);
@@ -90,7 +92,7 @@ class CoursesController extends Controller
 
 
 
-        return view('courses.details', compact('course', 'user', 'steps', 'students', 'cstudent', 'lessons'));
+        return view('courses.details', compact('course', 'user', 'steps', 'students', 'cstudent', 'lessons', 'marks'));
     }
 
     public function assessments($id)
