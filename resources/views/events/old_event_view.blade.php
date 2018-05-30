@@ -3,12 +3,12 @@
 @section('content')
     <br>
     <div class="row" style = "margin-top: -30px">
-        <div class="col">
+        <div class="col" style="margin: -10px">
             <div class="float-left">
-                <a href="{{url('/insider/events')}}" style="color:black" ><h2>События</h2></a>
+                <a class="nav-link" href="{{url('/insider/events')}}" style="color:black" ><h2>События</h2></a>
             </div>
             <div class="text-center" style="margin-right: 10px">
-                <h2 style="color: blue">Архив событий</h2>
+                <h2 class="nav-link" style="color: blue">Архив событий</h2>
             </div>
         </div>
     </div>
