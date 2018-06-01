@@ -42,8 +42,8 @@
     </div>
     <div class="row">
         <div class="col-md-8">
-
-            @if ($course->state=="ended")
+            
+            @if ($course->state=="ended" and $user->role=='teacher')
                 <div class="card-group">
                     <div class="card">
                         <div class="card-body">
