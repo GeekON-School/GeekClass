@@ -56,17 +56,19 @@
         <div class="form-group row">
             @foreach($tags as $tag)
                 @if($tag->id !=1)
-                    <div class="col-md-3">
-                        <div class="card" style="width: 100%; margin-bottom: 10px;">
-                            <div class="card-body">
-                                <div class="form-check " style="margin-left: 10px;">
-                                    <input type="checkbox" name="tags[]" class="form-check-input" value="{{$tag->id}}" id="{{$tag->id}}">
-                                    <label for="{{$tag->id}}" class="form-check-label">{{$tag->name}}</label>
+                        <div class="col-md-3">
+                            <div class="card" style="width: 100%; margin-bottom: 10px;">
+                                <div class="card-body">
+                                    <div class="form-check " style="margin-left: 10px;">
+                                        <input type="checkbox" name="tags[]" class="form-check-input"
+                                               @if($event->tags->contains($tag->id)) checked @endif
+                                               value="{{$tag->id}}" id="{{$tag->id}}">
+                                        <label for="{{$tag->id}}" class="form-check-label">{{$tag->name}}</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endif
+                    @endif
             @endforeach
         </div>
         <div class="row" style="margin-left:0px">
