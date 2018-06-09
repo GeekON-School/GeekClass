@@ -70,7 +70,7 @@
                                 @if($tag->id !=1)
                                     <div class="form-check">
                                         <input type="checkbox" style="margin-left:5px" name="sel_tags[]" class="form-check-input" value="{{$tag->id}}" id="{{$tag->id}}"
-                                               @if(in_array($tag->id, $s_tags)) checked @endif>
+                                               @if((in_array($tag->id, $s_tags)) && ($s_tags[0] != 1)) checked @endif>
                                         <label for="{{$tag->id}}" class="form-check-label" style="margin-left:2px" >{{$tag->name}}</label>
                                     </div>
                                 @endif
