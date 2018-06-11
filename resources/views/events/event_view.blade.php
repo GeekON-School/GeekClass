@@ -3,15 +3,15 @@
 @section('content')
     <br>
         <div class="row" style = "margin-top: -30px">
-            <div class="col">
+            <div class="col" style="margin: -10px">
                 <div class="float-left">
-                    <h2 style="color: blue">События</h2>
+                    <h2 class="nav-link" style="color: blue">События</h2>
                 </div>
                 <div class="text-center" style="margin-right: 10px">
-                    <a href="{{url('/insider/events/old')}}" style="color:black"><h2>Архив событий</h2></a>
+                    <a class="nav-link" href="{{url('/insider/events/old')}}" style="color:black"><h2>Архив событий</h2></a>
                 </div>
-                <div class="float-right" style="margin-top: -40px">
-                    <a href="{{url('/insider/events/add_event')}}" style = "margin-left: 50px" class = "btn btn-success">Провести событие</a>
+                <div class="float-right" style="margin-top: -50px;">
+                    <a href="{{url('/insider/events/add_event')}}" class = "btn btn-success">Провести событие</a>
                 </div>
             </div>
         </div>
@@ -72,7 +72,8 @@
                                 @foreach($tags as $tag)
                                     @if($tag->id !=1)
                                         <div class="form-check">
-                                            <input type="checkbox" style="margin-left:5px" name="sel_tags[]" class="form-check-input" value="{{$tag->id}}" id="{{$tag->id}}">
+                                            <input type="checkbox" style="margin-left:5px" name="sel_tags[]" class="form-check-input" value="{{$tag->id}}" id="{{$tag->id}}"
+                                                   @if((in_array($tag->id, $s_tags)) && ($s_tags[0] != 1)) checked @endif>
                                             <label for="{{$tag->id}}" class="form-check-label" style="margin-left:2px" >{{$tag->name}}</label>
                                         </div>
                                     @endif
