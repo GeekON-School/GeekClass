@@ -10,7 +10,7 @@
                 <div class="text-center" style="margin-right: 10px">
                     <a class="nav-link" href="{{url('/insider/events/old')}}" style="color:black"><h2>Архив событий</h2></a>
                 </div>
-                <div class="float-right" style="margin-top: -50px;">
+                <div class="float-right" style="margin-top: -50px; margin-right: -10px;">
                     <a href="{{url('/insider/events/add_event')}}" class = "btn btn-success">Провести событие</a>
                 </div>
             </div>
