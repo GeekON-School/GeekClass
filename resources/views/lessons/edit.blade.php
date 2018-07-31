@@ -22,26 +22,7 @@
                                     </span>
                     @endif
                 </div>
-                <div class="form-group{{ $errors->has("start_date") ? ' has-error' : '' }}">
-                    <label for="start_date">Дата начала</label>
-                    @if (old('start_date')!="")
-                        <input id="start_date" type="text" class="form-control" value="{{old("start_date")}}"
-                               name="start_date"
-                               required>
-                    @else
-                        <input id="start_date" type="text" class="form-control"
-                               value="{{$lesson->start_date->format('Y-m-d')}}"
-                               name="start_date"
-                               required>
-                    @endif
 
-
-                    @if ($errors->has("start_date"))
-                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first("start_date") }}</strong>
-                                    </span>
-                    @endif
-                </div>
 
                 <div class="form-group">
                     <label for="description" style="padding-bottom: 10px;">Описание</label>
@@ -69,17 +50,6 @@
                     </label>
                 </div>
 
-                <div class="form-group{{ $errors->has("import") ? ' has-error' : '' }}">
-                    <label for="import">Импорт</label>
-                    <input id="import" type="file" class="form-control"
-                           name="import">
-
-                    @if ($errors->has("import"))
-                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first("import") }}</strong>
-                                    </span>
-                    @endif
-                </div>
 
                 <button type="submit" class="btn btn-success">Сохранить</button>
             </form>

@@ -18,19 +18,6 @@
                         <span class="help-block error-block"><strong>{{ $errors->first('name') }}</strong></span>
                     @endif
                 </div>
-                <div class="form-group{{ $errors->has("start_date") ? ' has-error' : '' }}">
-                    <label for="start_date">Дата начала</label>
-
-                    <input id="start_date" type="text" class="form-control" value="{{old("start_date")}}"
-                           name="start_date"
-                           required>
-
-                    @if ($errors->has("start_date"))
-                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first("start_date") }}</strong>
-                                    </span>
-                    @endif
-                </div>
                 <div class="form-group">
                     <label for="description" style="padding-bottom: 10px;">Описание урока</label>
 

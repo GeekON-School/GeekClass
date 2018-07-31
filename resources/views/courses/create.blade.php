@@ -21,6 +21,20 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="program">Программа</label>
+                    <select id="program"  class="form-control"  name="program" required>
+                        @foreach($programs as $program)
+                            <option value="{{$program->id}}">{{$program->name}}</option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('program'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('program') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+
+                <div class="form-group">
                     <label for="description">Описание</label>
                     <textarea id="description"  class="form-control"  name="description" required>{{old('description')}}</textarea>
                     @if ($errors->has('description'))

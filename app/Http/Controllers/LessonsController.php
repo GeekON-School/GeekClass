@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Course;
-use App\CourseStep;
+use App\ProgramStep;
 use App\Http\Controllers\Controller;
 use App\Lesson;
+use App\Program;
 use App\Question;
 use App\QuestionVariant;
 use App\Solution;
@@ -44,21 +45,19 @@ class LessonsController extends Controller
 
     public function create($id, Request $request)
     {
-        $course = Course::findOrFail($id);
+        $program = Program::findOrFail($id);
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
-            'start_date' => 'required|date|date_format:Y-m-d'
         ]);
 
         $order = 100;
-        if ($course->lessons->count()!=0)
-            $order = $course->lessons->last()->sort_index + 1;
+        if ($program->lessons->count()!=0)
+            $order = $program->lessons->last()->sort_index + 1;
 
         $lesson = new Lesson();
-        $lesson->start_date = Carbon::createFromFormat('Y-m-d', $request['start_date']);
         $lesson->name = $request->name;
-        $lesson->course_id = $course->id;
+        $lesson->program_id = $program->id;
         $lesson->sort_index = $order;
         $lesson->description = $request->description;
         $lesson->sticker = "/stickers/".random_int(1, 40).".png";
@@ -67,9 +66,9 @@ class LessonsController extends Controller
 
         $data = ['name'=>'Введение', 'theory'=>'', 'notes'=>''];
 
-        $step = CourseStep::createStep($lesson, $data);
+        $step = ProgramStep::createStep($lesson, $data);
 
-        return redirect('/insider/steps/' . $step->id);
+        return redirect('/insider/courses/'.$id.'/steps/' . $step->id);
     }
 
     public function editView($id)
@@ -78,12 +77,11 @@ class LessonsController extends Controller
         return view('lessons.edit', compact('lesson'));
     }
 
-    public function edit($id, Request $request)
+    public function edit($course_id, $id, Request $request)
     {
         $lesson = Lesson::findOrFail($id);
         $this->validate($request, [
             'name' => 'required|string',
-            'start_date' => 'required|date|date_format:Y-m-d',
             'description' => 'required'
         ]);
 
@@ -102,7 +100,7 @@ class LessonsController extends Controller
             $lesson->import($json);
         }
 
-        return redirect('/insider/courses/' . $lesson->course->id);
+        return redirect('/insider/courses/' . $course_id);
     }
 
     public function makeLower($id, Request $request)

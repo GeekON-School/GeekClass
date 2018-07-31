@@ -58,7 +58,7 @@
                                 @foreach($step->tasks as $task)
                                     @php
 
-                                        $filtered = $student->submissions->filter(function ($value) use ($task) {
+                                        $filtered = $student->submissions->filter(function ($value) use ($task, $course) {
                                             return $value->task_id == $task->id;
                                         });
                                         $mark = $filtered->max('mark');
@@ -87,7 +87,7 @@
                                     @endphp
                                     <td>
                                         <a target="_blank"
-                                           href="{{url('/insider/tasks/'.$task->id.'/student/'.$student->id)}}">
+                                           href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/student/'.$student->id)}}">
                                             <span class="badge {{$class}}">{{$mark}}</span>
                                         </a>
                                     </td>

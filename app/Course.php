@@ -29,6 +29,11 @@ class Course extends Model
         return $this->hasOne('App\Provider', 'id', 'provider_id');
     }
 
+    public function program()
+    {
+        return $this->hasOne('App\Program', 'id', 'program_id');
+    }
+
     public function teachers()
     {
         return $this->belongsToMany('App\User', 'course_teachers', 'course_id', 'user_id');
@@ -36,19 +41,12 @@ class Course extends Model
 
     public function steps()
     {
-        return $this->hasMany('App\CourseStep', 'course_id', 'id')->orderBy('sort_index')->orderBy('id');
+        return $this->program->steps();
     }
 
     public function lessons()
     {
-        return $this->hasMany('App\Lesson', 'course_id', 'id')->with('steps')->orderBy('sort_index')->orderBy('id');
-    }
-
-    public static function createCourse($data)
-    {
-        $course = Course::create(['name' => $data['name'], 'description' => $data['description']]);
-        $course->teachers()->attach(Auth::User()->id);
-        return $course;
+        return $this->program->lessons();
     }
 
     public function start()
@@ -127,35 +125,5 @@ class Course extends Model
         }
 
         $this->save();
-    }
-
-    public function export()
-    {
-        $export = collect([]);
-        $lessons = $this->lessons;
-        foreach ($lessons as $lesson) {
-            $export->push(json_decode($lesson->export()));
-        }
-        return $export->toJson();
-    }
-
-    public function import($course_json)
-    {
-        $lessons = json_decode($course_json);
-        foreach ($lessons as $lesson) {
-            $steps = $lesson->steps;
-            unset($lesson->steps);
-
-            $new_lesson = new Lesson();
-            foreach ($lesson as $property => $value)
-                $new_lesson->$property = $value;
-            $new_lesson->course_id = $this->id;
-            $new_lesson->save();
-
-            $lesson->steps = $steps;
-            $new_lesson->import(json_encode($lesson));
-
-        }
-
     }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.fluid')
 
 @section('title')
-    GeekClass: "{{$step->course->name}}" - "{{$step->name}}"
+    GeekClass: "{{$course->name}}" - "{{$step->name}}"
 @endsection
 
 @section('tabs')
@@ -16,7 +16,7 @@
                 @if (\Request::is('insider/*'))
                     <li class="nav-item">
                         <a class="nav-link" style="padding-top: 10px; padding-bottom: 10px; font-size: 150%;"
-                           href="{{url('/insider/courses/'.$step->course->id)}}">
+                           href="{{url('/insider/courses/'.$course->id)}}">
                             <i class="icon ion-chevron-left"></i> GeekClass </a>
                     </li>
                 @endif
@@ -34,7 +34,7 @@
                     <li class="nav-item">
                         @if (\Request::is('insider/*'))
                             <a class="nav-link @if ($lesson_step->id==$step->id) active @endif"
-                               href="{{url('/insider/steps/'.$lesson_step->id)}}">{{$lesson_step->name}}
+                               href="{{url('/insider/courses/'.$course->id.'/steps/'.$lesson_step->id)}}">{{$lesson_step->name}}
                                 @if ($lesson_step->tasks->count()!=0)
                                     <i class="ion ion-trophy"></i>
                                 @endif
@@ -50,7 +50,7 @@
             </ul>
             @if (\Request::is('insider/*') && $user->role=='teacher')
                 <p align="center" style="margin-top: 15px;">
-                    <a href="{{url('/insider/lessons/'.$step->lesson->id.'/create')}}" class="btn btn-success btn-sm">Новый
+                    <a href="{{url('/insider/courses/'.$course->id.'/lessons/'.$step->lesson->id.'/create')}}" class="btn btn-success btn-sm">Новый
                         этап</a>
                 </p>
             @endif
@@ -59,13 +59,13 @@
         <main role="main" class="col-sm-8 ml-sm-auto col-md-9 pt-3">
             <div style="padding: 15px;">
                 @if (\Request::is('insider/*'))
-                    <small><a href="{{url('/insider/courses/'.$step->course->id)}}"
-                              style="font-weight: 300;">{{$step->course->name}}</a> &raquo;
+                    <small><a href="{{url('/insider/courses/'.$course->id)}}"
+                              style="font-weight: 300;">{{$course->name}}</a> &raquo;
                         <strong>{{$step->lesson->name}}</strong></small>
                     <h2 style="font-weight: 300;">{{$step->name}}</h2>
                 @endif
                 @if (\Request::is('open/*'))
-                    <small>{{$step->course->name}} &raquo;
+                    <small>{{$course->name}} &raquo;
                         <strong>{{$step->lesson->name}}</strong></small>
                     <h2 style="font-weight: 300;">{{$step->name}}</h2>
                 @endif
@@ -99,7 +99,7 @@
                         @endif
                         @if (\Request::is('insider/*') && $user->role=='teacher')
                             <li class="nav-item" style="max-width: 45px;">
-                                <a href="{{url('/insider/steps/'.$step->id.'/edit')}}"
+                                <a href="{{url('/insider/courses/'.$course->id.'/steps/'.$step->id.'/edit')}}"
                                    class="nav-link btn btn-success"
                                    style="padding: 8px 9px; height: 40px; margin: 0 0; margin-left: 5px; width: 40px;;"><i
                                             class="icon ion-android-create"></i></a>
@@ -112,7 +112,7 @@
                                 </button>
                             </li>
                             <li class="nav-item" style="max-width: 45px;">
-                                <a href="{{url('/insider/perform/'.$step->id)}}"
+                                <a href="{{url('/insider/courses/'.$course->id.'/perform/'.$step->id)}}"
                                    class="nav-link btn btn-success"
                                    style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"><i
                                             class="icon ion-android-desktop"></i></a>
@@ -121,19 +121,19 @@
 
                                 <a class="nav-link btn btn-success"
                                    style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
-                                   href="{{url('/insider/steps/'.$step->id.'/lower')}}"><i
+                                   href="{{url('/insider/courses/'.$course->id.'/steps/'.$step->id.'/lower')}}"><i
                                             class="ion-arrow-up-c"></i></a>
                             </li>
                             <li class="nav-item" style="max-width: 45px;">
                                 <a class="nav-link btn btn-success"
                                    style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
-                                   href="{{url('/insider/steps/'.$step->id.'/upper')}}"><i
+                                   href="{{url('/insider/courses/'.$course->id.'/steps/'.$step->id.'/upper')}}"><i
                                             class="ion-arrow-down-c"></i></a>
                             </li>
                             <li class="nav-item" style="max-width: 45px;">
                                 <a class="nav-link btn btn-danger"
                                    style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
-                                   href="{{url('/insider/steps/'.$step->id.'/delete')}}"><i
+                                   href="{{url('/insider/courses/'.$course->id.'/steps/'.$step->id.'/delete')}}"><i
                                             class="ion-close-round"></i></a>
                             </li>
                         @endif
@@ -170,30 +170,30 @@
                                 {{$task->name}}
                                 @if (\Request::is('insider/*') && $user->role=='teacher')
                                     <a class="float-right btn btn-danger btn-sm"
-                                       href="{{url('/insider/tasks/'.$task->id.'/delete')}}"><i
+                                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"><i
                                                 class="icon ion-android-close"></i></a>
                                     <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm"
-                                       href="{{url('/insider/tasks/'.$task->id.'/edit')}}"><i
+                                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/edit')}}"><i
                                                 class="icon ion-android-create"></i></a>
                                     <a class="float-right btn btn-default btn-sm"
-                                       href="{{url('/insider/tasks/'.$task->id.'/phantom')}}"><i
+                                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/phantom')}}"><i
                                                 class="icon ion-ios-color-wand"></i></a>
 
 
                                     <a class="float-right btn btn-default btn-sm"
-                                       href="{{url('/insider/tasks/'.$task->id.'/right')}}"><i
+                                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/right')}}"><i
                                                 class="icon ion-arrow-right-c"></i></a>
                                     <a class="float-right btn btn-default btn-sm"
-                                       href="{{url('/insider/tasks/'.$task->id.'/left')}}"><i
+                                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/left')}}"><i
                                                 class="icon ion-arrow-left-c"></i></a>
                                     @if ($step->previousStep() != null)
                                         <a class="float-right btn btn-default btn-sm"
-                                           href="{{url('/insider/tasks/'.$task->id.'/up')}}"><i
+                                           href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/up')}}"><i
                                                     class="icon ion-arrow-up-c"></i></a>
                                     @endif
                                     @if ($step->nextStep() != null)
                                         <a class="float-right btn btn-default btn-sm"
-                                           href="{{url('/insider/tasks/'.$task->id.'/down')}}"><i
+                                           href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/down')}}"><i
                                                     class="icon ion-arrow-down-c"></i></a>
                                     @endif
 
@@ -204,7 +204,7 @@
                                 @parsedown($task->text)
 
                                 @if ($task->is_quiz)
-                                    <form action="{{url('/insider/tasks/'.$task->id.'/solution')}}"
+                                    <form action="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/solution')}}"
                                           method="POST"
                                           class="form-inline">
                                         {{ csrf_field() }}
@@ -258,30 +258,30 @@
                                             {{$task->name}}
                                             @if (\Request::is('insider/*') && $user->role=='teacher')
                                                 <a class="float-right btn btn-danger btn-sm"
-                                                   href="{{url('/insider/tasks/'.$task->id.'/delete')}}"><i
+                                                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"><i
                                                             class="icon ion-android-close"></i></a>
                                                 <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm"
-                                                   href="{{url('/insider/tasks/'.$task->id.'/edit')}}"><i
+                                                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/edit')}}"><i
                                                             class="icon ion-android-create"></i></a>
                                                 <a class="float-right btn btn-default btn-sm"
-                                                   href="{{url('/insider/tasks/'.$task->id.'/phantom')}}"><i
+                                                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/phantom')}}"><i
                                                             class="icon ion-ios-color-wand"></i></a>
 
 
                                                 <a class="float-right btn btn-default btn-sm"
-                                                   href="{{url('/insider/tasks/'.$task->id.'/right')}}"><i
+                                                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/right')}}"><i
                                                             class="icon ion-arrow-right-c"></i></a>
                                                 <a class="float-right btn btn-default btn-sm"
-                                                   href="{{url('/insider/tasks/'.$task->id.'/left')}}"><i
+                                                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/left')}}"><i
                                                             class="icon ion-arrow-left-c"></i></a>
                                                 @if ($step->previousStep() != null)
                                                     <a class="float-right btn btn-default btn-sm"
-                                                       href="{{url('/insider/tasks/'.$task->id.'/up')}}"><i
+                                                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/up')}}"><i
                                                                 class="icon ion-arrow-up-c"></i></a>
                                                 @endif
                                                 @if ($step->nextStep() != null)
                                                     <a class="float-right btn btn-default btn-sm"
-                                                       href="{{url('/insider/tasks/'.$task->id.'/down')}}"><i
+                                                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/down')}}"><i
                                                                 class="icon ion-arrow-down-c"></i></a>
                                                 @endif
 
@@ -294,7 +294,7 @@
 
                                             @if (\Request::is('insider/*'))
                                                 @if ($task->is_quiz)
-                                                    <form action="{{url('/insider/tasks/'.$task->id.'/solution')}}"
+                                                    <form action="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/solution')}}"
                                                           method="POST"
                                                           class="form-inline">
                                                         {{ csrf_field() }}
@@ -424,7 +424,7 @@
                                                     Добавить решение
                                                 </div>
                                                 <div class="card-body" style="padding: 0">
-                                                    <form action="{{url('/insider/tasks/'.$task->id.'/solution')}}"
+                                                    <form action="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/solution')}}"
                                                           method="POST"
                                                           class="form-horizontal">
                                                         {{ csrf_field() }}
@@ -535,11 +535,11 @@
             <p>
                 @if (\Request::is('insider/*'))
                     @if ($step->previousStep() != null)
-                        <a href="{{url('/insider/steps/'.$step->previousStep()->id)}}"
+                        <a href="{{url('/insider/courses/'.$course->id.'/steps/'.$step->previousStep()->id)}}"
                            class="btn btn-success btn-sm">Назад</a>
                     @endif
                     @if ($step->nextStep() != null)
-                        <a href="{{url('/insider/steps/'.$step->nextStep()->id)}}"
+                        <a href="{{url('/insider/courses/'.$course->id.'/steps/'.$step->nextStep()->id)}}"
                            class="btn btn-success btn-sm float-right">Вперед</a>
                     @endif
                 @endif
@@ -574,7 +574,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{url('/insider/steps/'.$step->id.'/task')}}" method="POST"
+                    <form action="{{url('/insider/courses/'.$course->id.'/steps/'.$step->id.'/task')}}" method="POST"
                           class="form-horizontal">
                         {{ csrf_field() }}
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">

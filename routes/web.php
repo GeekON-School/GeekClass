@@ -52,42 +52,50 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/courses/{id}/export', 'CoursesController@export');
 
 
+    Route::get('/programs', 'ProgramsController@index');
+    Route::get('/programs/create', 'ProgramsController@createView')->name('Create program');
+    Route::post('/programs/create', 'ProgramsController@create');
+    Route::get('/programs/{id}/', 'ProgramsController@details');
+    Route::get('/programs/{id}/edit', 'ProgramsController@editView');
+    Route::post('/programs/{id}/edit', 'ProgramsController@edit');
     Route::get('/courses/{id}/create', 'LessonsController@createView');
     Route::post('/courses/{id}/create', 'LessonsController@create');
-    Route::get('/lessons/{id}/edit', 'LessonsController@editView');
-    Route::post('/lessons/{id}/edit', 'LessonsController@edit');
-    Route::get('/lessons/{id}/export', 'LessonsController@export');
-    Route::get('/lessons/{id}/lower', 'LessonsController@makeLower');
-    Route::get('/lessons/{id}/upper', 'LessonsController@makeUpper');
-    Route::get('/lessons/{id}/delete', 'LessonsController@delete');
 
 
-    Route::get('/lessons/{id}/create', 'StepsController@createView');
-    Route::post('/lessons/{id}/create', 'StepsController@create');
-    Route::get('/steps/{id}', 'StepsController@details');
-    Route::get('/perform/{id}', 'StepsController@perform');
-    Route::get('/steps/{id}/edit', 'StepsController@editView');
-    Route::get('/steps/{id}/lower', 'StepsController@makeLower');
-    Route::get('/steps/{id}/upper', 'StepsController@makeUpper');
-    Route::get('/steps/{id}/delete', 'StepsController@delete');
-    Route::post('/steps/{id}/edit', 'StepsController@edit');
-    Route::post('/steps/{id}/question', 'StepsController@question');
-    Route::post('/steps/{id}/task', 'TasksController@create');
+    Route::get('/courses/{course_id}/lessons/{id}/edit', 'LessonsController@editView');
+    Route::post('/courses/{course_id}/lessons/{id}/edit', 'LessonsController@edit');
+    Route::get('/courses/{course_id}/lessons/{id}/export', 'LessonsController@export');
+    Route::get('/courses/{course_id}/lessons/{id}/lower', 'LessonsController@makeLower');
+    Route::get('/courses/{course_id}/lessons/{id}/upper', 'LessonsController@makeUpper');
+    Route::get('/courses/{course_id}/lessons/{id}/delete', 'LessonsController@delete');
 
-    Route::get('/questions/{id}/delete', 'StepsController@deleteQuestion');
-    Route::get('/tasks/{id}/delete', 'TasksController@delete');
-    Route::get('/tasks/{id}/edit', 'TasksController@editForm');
 
-    Route::get('/tasks/{id}/up', 'TasksController@toPreviousTask');
-    Route::get('/tasks/{id}/down', 'TasksController@toNextTask');
-    Route::get('/tasks/{id}/left', 'TasksController@makeLower');
-    Route::get('/tasks/{id}/right', 'TasksController@makeUpper');
+    Route::get('/courses/{course_id}/lessons/{id}/create', 'StepsController@createView');
+    Route::post('/courses/{course_id}/lessons/{id}/create', 'StepsController@create');
+    Route::get('/courses/{course_id}/steps/{id}', 'StepsController@details');
+    Route::get('/courses/{course_id}/perform/{id}', 'StepsController@perform');
+    Route::get('/courses/{course_id}/steps/{id}/edit', 'StepsController@editView');
+    Route::get('/courses/{course_id}/steps/{id}/lower', 'StepsController@makeLower');
+    Route::get('/courses/{course_id}/steps/{id}/upper', 'StepsController@makeUpper');
+    Route::get('/courses/{course_id}/steps/{id}/delete', 'StepsController@delete');
+    Route::post('/courses/{course_id}/steps/{id}/edit', 'StepsController@edit');
+    Route::post('/courses/{course_id}/steps/{id}/question', 'StepsController@question');
+    Route::post('/courses/{course_id}/steps/{id}/task', 'TasksController@create');
 
-    Route::post('/tasks/{id}/edit', 'TasksController@edit');
-    Route::post('/tasks/{id}/solution', 'TasksController@postSolution');
-    Route::get('/tasks/{id}/phantom', 'TasksController@phantomSolution');
-    Route::get('/tasks/{id}/student/{student_id}', 'TasksController@reviewSolutions');
-    Route::post('/solution/{id}', 'TasksController@estimateSolution');
+    Route::get('/courses/{course_id}/questions/{id}/delete', 'StepsController@deleteQuestion');
+    Route::get('/courses/{course_id}/tasks/{id}/delete', 'TasksController@delete');
+    Route::get('/courses/{course_id}/tasks/{id}/edit', 'TasksController@editForm');
+
+    Route::get('/courses/{course_id}/tasks/{id}/up', 'TasksController@toPreviousTask');
+    Route::get('/courses/{course_id}/tasks/{id}/down', 'TasksController@toNextTask');
+    Route::get('/courses/{course_id}/tasks/{id}/left', 'TasksController@makeLower');
+    Route::get('/courses/{course_id}/tasks/{id}/right', 'TasksController@makeUpper');
+
+    Route::post('/courses/{course_id}/tasks/{id}/edit', 'TasksController@edit');
+    Route::post('/courses/{course_id}/tasks/{id}/solution', 'TasksController@postSolution');
+    Route::get('/courses/{course_id}/tasks/{id}/phantom', 'TasksController@phantomSolution');
+    Route::get('/courses/{course_id}/tasks/{id}/student/{student_id}', 'TasksController@reviewSolutions');
+    Route::post('/courses/{course_id}/solution/{id}', 'TasksController@estimateSolution');
     Route::get('/invite', 'CoursesController@invite');
 
     Route::get('/community', 'ProfileController@index');
@@ -152,6 +160,38 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
 
                 $step->lesson_id = $lesson->id;
                 $step->save();
+            }
+        }
+
+    });
+
+    Route::get('/migrate_to_programs', function () {
+        $courses = \App\Course::all();
+        foreach ($courses as $course)
+        {
+            $program = new \App\Program();
+            $program->name = $course->name;
+            $program->save();
+            $program->authors()->attach(1);
+
+            $course->program_id = $program->id;
+            $course->save();
+
+            \DB::table('lessons')->where('course_id', $course->id)->update(['program_id'=> $program->id]);
+            foreach ($course->lessons as $lesson)
+            {
+                $lesson->program_id = $program->id;
+                foreach ($lesson->steps as $step)
+                {
+                    $step->program_id = $program->id;
+                    $step->save();
+                }
+                $lesson->save();
+
+                foreach ($step->tasks as $task)
+                {
+                    \DB::table('solutions')->where('task_id', $task->id)->update(['course_id'=> $course->id]);
+                }
             }
         }
 
