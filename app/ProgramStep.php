@@ -152,4 +152,5 @@ class ProgramStep extends Model
         return ($this->stats($student, $course))['max_points'];
     }
 
+
 }
