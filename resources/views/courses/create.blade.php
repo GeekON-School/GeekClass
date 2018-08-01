@@ -23,6 +23,7 @@
                 <div class="form-group">
                     <label for="program">Программа</label>
                     <select id="program"  class="form-control"  name="program" required>
+                        <option value="-1">Новая программа на основе курса</option>
                         @foreach($programs as $program)
                             <option value="{{$program->id}}">{{$program->name}}</option>
                         @endforeach

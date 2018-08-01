@@ -13,7 +13,7 @@ class Program extends Model
 
     public function courses()
     {
-        return $this->hasMany('App\Course', 'course_id', 'id');
+        return $this->hasMany('App\Course', 'program_id', 'id');
     }
 
     public function steps()
@@ -30,7 +30,4 @@ class Program extends Model
     {
         return $this->belongsToMany('App\User', 'programs_authors', 'program_id', 'user_id');
     }
-
-
-
 }

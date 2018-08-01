@@ -163,16 +163,33 @@ class CoursesController extends Controller
     public function create(Request $request)
     {
         $user = User::findOrFail(Auth::User()->id);
+
+
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
             'image' => 'image|max:1000',
-            'program' => 'required|integer|exists:programs,id'
         ]);
+
         $course = new Course();
+        if ($request->program != -1)
+        {
+            $this->validate($request, ['program' => 'required|integer|exists:programs,id']);
+            $course->program_id = $request->program;
+        }
+        else {
+            $program = new Program();
+            $program->name = $request->name;
+            $program->save();
+
+            $course->program_id = $program->id;
+        }
+
+
         $course->name = $request->name;
         $course->description = $request->description;
-        $course->program_id = $request->program;
+
+
 
         if ($request->hasFile('image')) {
             $extn = '.' . $request->file('image')->guessClientExtension();

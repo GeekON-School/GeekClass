@@ -197,6 +197,18 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
 
     });
 
+    Route::get('/clean_empty_programs', function () {
+        $programs = \App\Program::all();
+        foreach ($programs as $program)
+        {
+            if (count($program->courses) == 0)
+            {
+                $program->delete();
+            }
+        }
+
+    });
+
 });
 
 
