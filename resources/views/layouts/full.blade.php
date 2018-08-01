@@ -25,6 +25,10 @@
         .alchemy text {
             display: block !important;
         }
+
+        .alchemy g.active {
+            opacity: 0.9;
+        }
     </style>
 
     <link rel="stylesheet" href="{{url('/css/app.css')}}">
