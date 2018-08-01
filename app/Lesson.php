@@ -20,38 +20,38 @@ class Lesson extends Model
 
     protected $results_cache = array();
 
-    public function course()
+    public function program()
     {
-        return $this->belongsTo('App\Course', 'course_id', 'id');
+        return $this->belongsTo('App\Program', 'program_id', 'id');
     }
 
     public function steps()
     {
-        return $this->hasMany('App\CourseStep', 'lesson_id', 'id')->with('tasks')->orderBy('sort_index')->orderBy('id');
+        return $this->hasMany('App\ProgramStep', 'lesson_id', 'id')->with('tasks')->orderBy('sort_index')->orderBy('id');
     }
 
-    public function percent(User $student)
+    public function percent(User $student, Course $course)
     {
-        $points = $this->points($student);
-        $max_points = $this->max_points($student);
+        $points = $this->points($student, $course);
+        $max_points = $this->max_points($student, $course);
         if ($max_points == 0) return 100;
         return $points * 100 / $max_points;
 
     }
 
-    public function points(User $student)
+    public function points(User $student, Course $course)
     {
         $sum = 0;
         foreach ($this->steps as $step)
-            $sum += $step->points($student);
+            $sum += $step->points($student, $course);
         return $sum;
     }
 
-    public function max_points(User $student)
+    public function max_points(User $student, Course $course)
     {
         $sum = 0;
         foreach ($this->steps as $step)
-            $sum += $step->max_points($student);
+            $sum += $step->max_points($student, $course);
         return $sum;
     }
 
@@ -64,7 +64,6 @@ class Lesson extends Model
         }
         return $tasks;
     }
-
     public function export()
     {
         $lesson = Lesson::where('id', $this->id)->with('steps')->first();
@@ -75,7 +74,7 @@ class Lesson extends Model
             unset($lesson->steps[$key]->id);
             unset($lesson->steps[$key]->updated_at);
             unset($lesson->steps[$key]->lesson_id);
-            unset($lesson->steps[$key]->course_id);
+            unset($lesson->steps[$key]->program_id);
 
             foreach ($lesson->steps[$key]->tasks as $tkey => $task)
             {

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProgramStepsTable extends Migration
+class AddCourseIdToSolution extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,10 @@ class CreateProgramStepsTable extends Migration
      */
     public function up()
     {
-        Schema::create('course_steps', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('image')->nullable();
-            $table->string('start_date')->nullable();
+        Schema::table('solutions', function (Blueprint $table) {
             $table->integer('course_id')->unsigned()->nullable();
             $table->foreign('course_id')->references('id')
                 ->on('courses')->onDelete('cascade');
-            $table->timestamps();
         });
     }
 
@@ -33,6 +27,6 @@ class CreateProgramStepsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('course_steps');
+        //
     }
 }

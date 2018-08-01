@@ -5,9 +5,9 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class CourseStep extends Model
+class ProgramStep extends Model
 {
-    protected $table = 'course_steps';
+    protected $table = 'program_steps';
 
     protected $fillable = [
         'name', 'description', 'image', 'start_date'
@@ -84,11 +84,11 @@ class CourseStep extends Model
         if ($lesson->steps->count()!=0)
             $order = $lesson->steps->last()->sort_index + 1;
 
-        $step = new CourseStep();
+        $step = new ProgramStep();
         $step->name = $data['name'];
         $step->notes = $data['notes'];
         $step->theory = $data['theory'];
-        $step->course_id = $lesson->course->id;
+        $step->program_id = $lesson->program->id;
         $step->lesson_id = $lesson->id;
         $step->sort_index = $order;
         $step->start_date = $lesson->start_date;
@@ -106,14 +106,14 @@ class CourseStep extends Model
         return $step;
     }
 
-    public function stats(User $student)
+    public function stats(User $student, Course $course)
     {
-        if (isset($this->results_cache[$student->id]))
+        if (isset($this->results_cache[$course->id]) and isset($this->results_cache[$course->id][$student->id]))
         {
-            return $this->results_cache[$student->id];
+            return $this->results_cache[$course->id][$student->id];
         }
         $results = ['percent'=>0, 'points'=>0, 'max_points'=>0];
-        if ($this->course->students->contains($student))
+        if ($course->students->contains($student))
         {
             if ($student->pivot->is_remote)
             {
@@ -132,20 +132,25 @@ class CourseStep extends Model
                 $results['percent'] = $results['points'] * 100 / $results['max_points'];
             }
         }
-        $this->results_cache[$student->id] = $results;
+        if (!isset($this->results_cache[$course->id]))
+        {
+            $this->results_cache[$course->id] = [];
+        }
+        $this->results_cache[$course->id][$student->id] = $results;
         return $results;
     }
-    public function percent(User $student)
+    public function percent(User $student, Course $course)
     {
-        return ($this->stats($student))['percent'];
+        return ($this->stats($student, $course))['percent'];
     }
-    public function points(User $student)
+    public function points(User $student, Course $course)
     {
-        return ($this->stats($student))['points'];
+        return ($this->stats($student, $course))['points'];
     }
-    public function max_points(User $student)
+    public function max_points(User $student, Course $course)
     {
-        return ($this->stats($student))['max_points'];
+        return ($this->stats($student, $course))['max_points'];
     }
+
 
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CompletedCourse;
 use App\Course;
-use App\CourseStep;
+use App\ProgramStep;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Event;

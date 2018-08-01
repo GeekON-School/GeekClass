@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
-use App\CourseStep;
+use App\ProgramStep;
 use App\Http\Controllers\Controller;
 use App\Question;
 use App\QuestionVariant;
@@ -37,9 +37,9 @@ class TasksController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function create($id, Request $request)
+    public function create($course_id, $id, Request $request)
     {
-        $step = CourseStep::findOrFail($id);
+        $step = ProgramStep::findOrFail($id);
         $this->validate($request, [
             'text' => 'required|string',
             'name' => 'required|string',
@@ -68,24 +68,25 @@ class TasksController extends Controller
         }
         $task->save();
 
-        return redirect('/insider/steps/' . $step->id.'#task'.$task->id);
+        return redirect('/insider/courses/'.$course_id.'/steps/' . $step->id.'#task'.$task->id);
     }
 
-    public function delete($id)
+    public function delete($course_id, $id)
     {
         $task = Task::findOrFail($id);
         $step_id = $task->step_id;
         $task->delete();
-        return redirect('/insider/steps/' . $step_id);
+        return redirect('/insider/courses/'.$course_id.'/steps/' . $step_id);
     }
 
-    public function editForm($id)
+    public function editForm($course_id,$id)
     {
         $task = Task::findOrFail($id);
+        $course = Course::findOrFail($course_id);
         return view('steps.edit_task', compact('task'));
     }
 
-    public function edit($id, Request $request)
+    public function edit($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);
         $this->validate($request, [
@@ -144,27 +145,28 @@ class TasksController extends Controller
         $task->save();
 
         $step_id = $task->step_id;
-        return redirect('/insider/steps/' . $step_id. '#task'.$id);
+        return redirect('/insider/courses/'.$course_id.'/steps/' . $step_id. '#task'.$id);
     }
 
-    public function phantomSolution($id, Request $request)
+    public function phantomSolution($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);
         foreach ($task->step->course->students as $user)
         {
             $solution = new Solution();
             $solution->task_id = $id;
+            $solution->course_id = $course_id;
             $solution->user_id=$user->id;
             $solution->submitted = Carbon::now();
             $solution->text = " ";
             $solution->save();
         }
 
-        return redirect('/insider/steps/' . $task->step->id. '#task'.$id);
+        return redirect('/insider/courses/'.$course_id.'/steps/' . $task->step->id. '#task'.$id);
     }
 
 
-    public function postSolution($id, Request $request)
+    public function postSolution($course_id,$id, Request $request)
     {
         $task = Task::findOrFail($id);
         $this->validate($request, [
@@ -172,10 +174,12 @@ class TasksController extends Controller
         ]);
 
         $step_id = $task->step_id;
+        $course = Course::findOrFail($course_id);
 
         $solution = new Solution();
         $solution->task_id = $id;
         $solution->user_id=Auth::User()->id;
+        $solution->course_id = $course_id;
         $solution->submitted = Carbon::now();
         $solution->text = $request->text;
 
@@ -238,21 +242,22 @@ class TasksController extends Controller
         if (!$task->is_quiz && !$task->is_code)
         {
             $when = \Carbon\Carbon::now()->addSeconds(1);
-            Notification::send($task->step->course->teachers, (new \App\Notifications\NewSolution($solution))->delay($when));
+            Notification::send($course->teachers, (new \App\Notifications\NewSolution($solution))->delay($when));
         }
 
-        return redirect('/insider/steps/' . $step_id. '#task'.$id);
+        return redirect('/insider/courses/'.$course_id.'/steps/' . $step_id. '#task'.$id);
     }
-    public function reviewSolutions($id, $student_id, Request $request)
+    public function reviewSolutions($course_id, $id, $student_id, Request $request)
     {
         $task = Task::findOrFail($id);
         $student = User::findOrFail($student_id);
-        $solutions = $task->solutions->filter(function ($value) use ($student) {
+        $course = Course::findOrFail($course_id);
+        $solutions = $task->solutions->filter(function ($value) use ($student, $course_id) {
             return $value->user_id == $student->id;
         });
-        return view('steps.review', compact('task', 'student', 'solutions'));
+        return view('steps.review', compact('task', 'student', 'solutions', 'course'));
     }
-    public function estimateSolution($id, Request $request)
+    public function estimateSolution($course_id, $id, Request $request)
     {
         $solution = Solution::findOrFail($id);
         $this->validate($request, [
@@ -285,7 +290,7 @@ class TasksController extends Controller
         $task->save();
         return redirect('/insider/steps/' . $task->step->id. '#task'.$id);
     }
-    public function toNextTask($id, Request $request)
+    public function toNextTask($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);
         $next = $task->step->nextStep();
@@ -293,12 +298,12 @@ class TasksController extends Controller
         {
             $task->step_id = $next->id;
             $task->save();
-            return redirect('/insider/steps/' . $next->id. '#task'.$id);
+            return redirect('/insider/courses/'.$course_id.'/steps/' . $next->id. '#task'.$id);
         }
 
-        return redirect('/insider/steps/' . $task->step->id. '#task'.$id);
+        return redirect('/insider/courses/'.$course_id.'/steps/' . $task->step->id. '#task'.$id);
     }
-    public function toPreviousTask($id, Request $request)
+    public function toPreviousTask($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);
         $previous = $task->step->previousStep();
@@ -306,9 +311,9 @@ class TasksController extends Controller
         {
             $task->step_id = $previous->id;
             $task->save();
-            return redirect('/insider/steps/' . $previous->id. '#task'.$id);
+            return redirect('/insider/courses/'.$course_id.'/steps/' . $previous->id. '#task'.$id);
         }
 
-        return redirect('/insider/steps/' . $task->step->id. '#task'.$id);
+        return redirect('/insider/courses/'.$course_id.'/steps/' . $task->step->id. '#task'.$id);
     }
 }

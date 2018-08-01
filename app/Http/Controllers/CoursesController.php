@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\CompletedCourse;
 use App\Course;
-use App\CourseStep;
+use App\Program;
+use App\ProgramStep;
 use App\Http\Controllers\Controller;
 use App\Provider;
 use App\User;
@@ -49,10 +50,10 @@ class CoursesController extends Controller
 
 
         $temp_steps = collect([]);
-        $lessons = $course->lessons()->where('start_date', '<=', Carbon::now()->setTime(23,59))->get();
+        #$lessons = $course->lessons()->where('start_date', '<=', Carbon::now()->setTime(23,59))->get();
+        $lessons = $course->lessons;
         foreach ($lessons as $lesson)
         {
-
             $temp_steps = $temp_steps->merge($lesson->steps);
         }
         foreach ($students as $key => $value) {
@@ -77,7 +78,8 @@ class CoursesController extends Controller
             }
         }
         if ($user->role == 'student') {
-            $lessons = $course->lessons()->where('start_date', '<=', Carbon::now()->setTime(23,59))->get();
+            #$lessons = $course->lessons()->where('start_date', '<=', Carbon::now()->setTime(23,59))->get();
+            $lessons = $course->lessons()->get();
 
             $steps = $temp_steps;
             $cstudent = $students->filter(function ($value, $key) use ($user) {
@@ -103,7 +105,8 @@ class CoursesController extends Controller
 
     public function createView()
     {
-        return view('courses.create');
+        $programs = Program::all();
+        return view('courses.create', compact('programs'));
     }
 
     public function editView($id)
@@ -160,12 +163,34 @@ class CoursesController extends Controller
     public function create(Request $request)
     {
         $user = User::findOrFail(Auth::User()->id);
+
+
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
-            'image' => 'image|max:1000'
+            'image' => 'image|max:1000',
         ]);
-        $course = Course::createCourse($request);
+
+        $course = new Course();
+        if ($request->program != -1)
+        {
+            $this->validate($request, ['program' => 'required|integer|exists:programs,id']);
+            $course->program_id = $request->program;
+        }
+        else {
+            $program = new Program();
+            $program->name = $request->name;
+            $program->save();
+
+            $course->program_id = $program->id;
+        }
+
+
+        $course->name = $request->name;
+        $course->description = $request->description;
+
+
+
         if ($request->hasFile('image')) {
             $extn = '.' . $request->file('image')->guessClientExtension();
             $path = $request->file('image')->storeAs('course_avatars', $course->id . $extn);

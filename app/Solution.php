@@ -26,6 +26,11 @@ class Solution extends Model
         return $this->belongsTo('App\Task', 'task_id', 'id');
     }
 
+    public function course()
+    {
+        return $this->belongsTo('App\Course', 'course_id', 'id');
+    }
+
     public function teacher()
     {
         return $this->belongsTo('App\User', 'teacher_id', 'id');
