@@ -93,11 +93,11 @@ class Lesson extends Model
         {
             $tasks = $step->tasks;
             unset($step->tasks);
-            $new_step = new CourseStep();
+            $new_step = new ProgramStep();
             foreach($step as $property => $value)
                 $new_step->$property = $value;
             $new_step->lesson_id = $this->id;
-            $new_step->course_id = $this->course_id;
+            $new_step->program_id = $this->program_id;
             $new_step->save();
 
             foreach ($tasks as $task)

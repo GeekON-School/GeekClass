@@ -50,6 +50,18 @@
                     </label>
                 </div>
 
+                <div class="form-group{{ $errors->has("import") ? ' has-error' : '' }}">
+                    <label for="import">Импорт</label>
+                    <input id="import" type="file" class="form-control"
+                           name="import">
+
+                    @if ($errors->has("import"))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first("import") }}</strong>
+                                    </span>
+                    @endif
+                </div>
+
 
                 <button type="submit" class="btn btn-success">Сохранить</button>
             </form>
