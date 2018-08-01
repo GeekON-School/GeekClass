@@ -20,7 +20,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    <link rel="stylesheet" href="{{url('css/alchemy-white.css')}}"/>
+    <style>
+        .alchemy text {
+            display: block !important;
+        }
+    </style>
 
     <link rel="stylesheet" href="{{url('/css/app.css')}}">
 
@@ -66,7 +71,7 @@
     </div>
 </nav>
 
-<div class="container" style="margin-top: 30px;">
+
     @if(Session::has('alert-class') and Session::get('alert-destination')=='head')
         <div class="alert {{ Session::get('alert-class') }} alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
@@ -75,9 +80,10 @@
             <strong>{{Session::get('alert-title')}}</strong> {{ Session::get('alert-text') }}
         </div>
     @endif
-
-</div>
 @yield('content')
+
+
+
 
 <!-- Compiled and minified JavaScript -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

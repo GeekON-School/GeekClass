@@ -138,6 +138,11 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
 
     Route::post('/events/{id}', 'EventController@add_comment');
 
+    Route::get('/core', 'CoreController@index');
+    Route::get('/core/network', 'CoreController@get_core');
+    Route::get('/core/import', 'CoreController@import_core_form');
+    Route::post('/core/import', 'CoreController@import_core');
+
 
     Route::get('/testmail', function () {
         $user = \App\User::findOrFail(1);
