@@ -60,7 +60,7 @@ class CoreNode extends Model
             $node = $node->parents[0];
             $line .= $node->title.'&nbsp;|&nbsp;';
         }
-        $line .= $node->title;
+        $line .= $node->parents[0]->title;
         return $line;
     }
 
