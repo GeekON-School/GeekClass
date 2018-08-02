@@ -65,7 +65,7 @@ class Course extends Model
     {
         $sum = 0;
         foreach ($this->lessons as $step)
-            $sum += $step->points($student);
+            $sum += $step->points($student, $this);
         return $sum;
     }
 
@@ -73,7 +73,7 @@ class Course extends Model
     {
         $sum = 0;
         foreach ($this->steps as $step)
-            $sum += $step->max_points($student);
+            $sum += $step->max_points($student, $this);
         return $sum;
     }
 
