@@ -214,6 +214,20 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
 
     });
 
+    Route::get('/open_all_lessons', function () {
+        $courses = \App\Course::all();
+        foreach ($courses as $course)
+        {
+            foreach ($course->lessons as $lesson)
+            {
+                $lesson->setStartDate($course, '2016-01-01');
+            }
+
+        }
+        echo 'ok';
+
+    });
+
 });
 
 

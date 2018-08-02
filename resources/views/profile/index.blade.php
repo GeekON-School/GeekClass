@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.app')
 
 @section('content')
     <h3 class="lead" style="margin-left:15px;">Преподавательский состав</h3>

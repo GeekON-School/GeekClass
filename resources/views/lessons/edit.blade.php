@@ -36,6 +36,27 @@
                     </script>
                 </div>
 
+                <div class="form-group{{ $errors->has("start_date") ? ' has-error' : '' }}">
+                    <label for="start_date">Дата начала</label>
+                    @if (old('start_date')!="" || $lesson->getStartDate($course)==null)
+                        <input id="start_date" type="text" class="form-control" value="{{old("start_date")}}"
+                               name="start_date"
+                               required>
+                    @else
+                        <input id="start_date" type="text" class="form-control"
+                               value="{{$lesson->getStartDate($course)->format('Y-m-d')}}"
+                               name="start_date"
+                               required>
+                    @endif
+
+
+                    @if ($errors->has("start_date"))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first("start_date") }}</strong>
+                                    </span>
+                    @endif
+                </div>
+
                 <div class="form-group">
                     <label for="description" style="padding-bottom: 10px;">Описание</label>
                     @if (old('description')!="")

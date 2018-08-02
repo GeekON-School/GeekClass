@@ -21,7 +21,7 @@ class Course extends Model
 
     public function students()
     {
-        return $this->belongsToMany('App\User', 'course_students', 'course_id', 'user_id')->withPivot('is_remote');
+        return $this->belongsToMany('App\User', 'course_students', 'course_id', 'user_id')->withPivot('is_remote')->orderBy('name');
     }
 
     public function provider()
@@ -59,6 +59,24 @@ class Course extends Model
         $this->invite = $invite;
         $this->remote_invite = $invite . '-R';
         $this->save();
+    }
+
+    public function isStarted($lesson)
+    {
+        $info = LessonInfo::where('course_id', $this->id)->where('lesson_id', $lesson->id)->first();
+        if ($info == null) return false;
+        else return $info->start_date->lt(Carbon::now()->setTime(23,59));
+    }
+    public function isAvailable($lesson)
+    {
+        $user = User::findOrFail(\Auth::User()->id);
+        if (!$this->isStarted($lesson)) return false;
+        if ($user->role=='teacher') return true;
+        foreach ($lesson->prerequisites as $prerequisite)
+        {
+            if (!$user->checkPrerequisite($prerequisite)) return false;
+        }
+        return true;
     }
 
     public function points(User $student)

@@ -50,8 +50,9 @@ class CoursesController extends Controller
 
 
         $temp_steps = collect([]);
-        #$lessons = $course->lessons()->where('start_date', '<=', Carbon::now()->setTime(23,59))->get();
-        $lessons = $course->lessons;
+        $lessons = $course->lessons->filter(function ($lesson) use ($course) {
+            return $lesson->isStarted($course);
+        });
         foreach ($lessons as $lesson)
         {
             $temp_steps = $temp_steps->merge($lesson->steps);
@@ -78,8 +79,9 @@ class CoursesController extends Controller
             }
         }
         if ($user->role == 'student') {
-            #$lessons = $course->lessons()->where('start_date', '<=', Carbon::now()->setTime(23,59))->get();
-            $lessons = $course->lessons()->get();
+            $lessons = $course->lessons->filter(function ($lesson) use ($course) {
+                return $lesson->isStarted($course);
+            });
 
             $steps = $temp_steps;
             $cstudent = $students->filter(function ($value, $key) use ($user) {
@@ -191,6 +193,7 @@ class CoursesController extends Controller
 
         $course->name = $request->name;
         $course->description = $request->description;
+        $course->teachers()->attach($user->id);
 
 
 

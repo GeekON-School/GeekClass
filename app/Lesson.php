@@ -84,6 +84,54 @@ class Lesson extends Model
         }
         return $tasks;
     }
+    public function getStartDate($course)
+    {
+        $info = LessonInfo::where('course_id', $course->id)->where('lesson_id', $this->id)->first();
+        if ($info == null) return null;
+        else return $info->start_date;
+    }
+    public function setStartDate($course, $date)
+    {
+        $info = LessonInfo::where('course_id', $course->id)->where('lesson_id', $this->id)->first();
+        if ($info == null) {
+            $info = new LessonInfo();
+            $info->lesson_id = $this->id;
+            $info->course_id = $course->id;
+            $info->start_date = $date;
+        }
+        else {
+            $info->start_date = $date;
+        }
+        $info->save();
+    }
+    public function isStarted($course)
+    {
+        $info = LessonInfo::where('course_id', $course->id)->where('lesson_id', $this->id)->first();
+        if ($info == null) return false;
+        else return $info->start_date->lt(Carbon::now()->setTime(23,59));
+    }
+    public function isAvailable($course)
+    {
+        $user = User::findOrFail(\Auth::User()->id);
+        if (!$this->isStarted($course)) return false;
+        if ($user->role=='teacher') return true;
+        foreach ($this->prerequisites as $prerequisite)
+        {
+            if (!$user->checkPrerequisite($prerequisite)) return false;
+        }
+        return true;
+    }
+    public function isAvailableForUser($course, $user)
+    {
+        $user = User::findOrFail($user->id);
+        if (!$this->isStarted($course)) return false;
+        if ($user->role=='teacher') return true;
+        foreach ($this->prerequisites as $prerequisite)
+        {
+            if (!$user->checkPrerequisite($prerequisite)) return false;
+        }
+        return true;
+    }
     public function export()
     {
         $lesson = Lesson::where('id', $this->id)->with('steps')->first();

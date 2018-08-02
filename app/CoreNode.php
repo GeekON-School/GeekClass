@@ -58,10 +58,38 @@ class CoreNode extends Model
         {
             if ($node->level == 2) return $line.$node->parents[0]->title;
             $node = $node->parents[0];
-            $line .= $node->title.'&nbsp;|&nbsp;';
+            $line .= $node->title.'&nbsp;&raquo;&nbsp;';
         }
         $line .= $node->parents[0]->title;
         return $line;
+    }
+
+    public function getRelatedLessonsHTML()
+    {
+        $tasks = $this->tasks;
+        $user = User::findOrFail(\Auth::User()->id);
+        $result = '<p><small><ul>';
+        foreach ($tasks as $task)
+        {
+            if ($user->role=='teacher')
+            {
+                $course = Course::where('program_id', $task->step->program->id)->orderBy('id', 'DESC')->first();
+
+            }
+            else {
+                $course = $user->courses()->where('program_id', $task->step->program->id)->first();
+            }
+
+            if ($course==null)
+            {
+                $result .= "<li>".$task->step->name." (".$task->step->program->name.")</li>";
+            }
+            else {
+                $result .= "<li><a target='_blank' href='".url('/insider/courses/'.$course->id.'/steps/'.$task->step->id)."'>".$task->step->name." (".$task->step->program->name.")</a></li>";
+            }
+        }
+        $result .= '</small></ul></p>';
+        return $result;
     }
 
 }

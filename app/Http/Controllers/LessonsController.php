@@ -77,26 +77,29 @@ class LessonsController extends Controller
 
     public function editView($course_id, $id)
     {
-
+        $course = Course::findOrFail($course_id);
         $lesson = Lesson::findOrFail($id);
-        return view('lessons.edit', compact('lesson'));
+        return view('lessons.edit', compact('lesson', 'course'));
     }
 
     public function edit($course_id, $id, Request $request)
     {
         $lesson = Lesson::findOrFail($id);
+        $course = Course::findOrFail($course_id);
         $this->validate($request, [
             'name' => 'required|string',
-            'description' => 'required'
+            'description' => 'required',
+            'start_date' => 'date'
         ]);
         foreach ($lesson->prerequisites as $prerequisite) {
             $lesson->prerequisites()->detach($prerequisite->id);
         }
+        if ($request->prerequisites != null)
         foreach ($request->prerequisites as $prerequisite_id) {
             $lesson->prerequisites()->attach($prerequisite_id);
         }
         $lesson->name = $request->name;
-        $lesson->start_date = $request->start_date;
+        $lesson->setStartDate($course, $request->start_date);
         $lesson->description = $request->description;
         if ($request->open == "yes")
             $lesson->is_open = true;

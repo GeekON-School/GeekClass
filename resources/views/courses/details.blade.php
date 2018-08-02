@@ -78,9 +78,15 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
+                                        @if ($lesson->isAvailable($course) or $user->role=='teacher')
                                         <h5>{{$key+1}}. <a class="collection-item"
                                                            href="{{url('/insider/courses/'.$course->id.'/steps/'.$lesson->steps->first()->id)}}">{{$lesson->name}}</a>
                                         </h5>
+                                        @else
+                                            <h5>{{$key+1}}. <a class="collection-item text-muted"
+                                                               href="#">{{$lesson->name}}</a>
+                                            </h5>
+                                        @endif
                                     </div>
                                     @if ($user->role=='teacher')
                                         <div class="col-sm-auto">
@@ -106,10 +112,12 @@
 
                                         @if (count($lesson->prerequisites)!=0)
                                             <p>
-                                                <small class="text-muted">Нужно знать:</small><br>
+                                                <small class="text-muted">Нужно уметь:</small><br>
                                                 @foreach($lesson->prerequisites as $prerequisite)
                                                     @if (!$user->checkPrerequisite($prerequisite))
-                                                        <span class="badge badge-secondary">{{$prerequisite->title}}</span>
+                                                            <a tabindex="0" data-toggle="popover" data-trigger="focus" title="{{$prerequisite->title}}" data-html="true" data-content="<small>{{$prerequisite->getParentLine()}}</small> {{$prerequisite->getRelatedLessonsHTML()}}">
+                                                                <span class="badge @if ($user->role=='teacher') badge-secondary @else badge-danger @endif">{{$prerequisite->title}}</span>
+                                                            </a>
                                                     @else
                                                         <span class="badge badge-success">{{$prerequisite->title}}</span>
                                                     @endif
@@ -137,14 +145,14 @@
 
                                 </div>
                             </div>
-                            @if ($lesson->start_date!=null)
+                            @if ($lesson->getStartDate($course)!=null)
                                 <div class="card-footer">
                                     @if ($user->role=='teacher')
                                         <div class="collapse" id="marks{{$lesson->id}}">
                                             @foreach($students as $student)
                                                 <div class="row">
                                                     <div class="col">
-                                                        {{$student->name}}
+                                                        {{$student->name}} @if (!$lesson->isAvailableForUser($course, $student)) <strong><span style="color: red;">!!!</span></strong> @endif
                                                     </div>
                                                     <div class="col">
                                                         <div class="progress" style="margin: 5px;">
@@ -188,10 +196,10 @@
                                     <div class="row">
                                         <div class="col">
                                             <small class="text-muted"><i class="ion ion-clock"></i> Доступно
-                                                с {{$lesson->start_date->format('Y-m-d')}}</small>
+                                                с {{$lesson->getStartDate($course)->format('Y-m-d')}}</small>
                                         </div>
                                         <div class="col">
-                                            @if ($user->role=='student' and $lesson->max_points($cstudent, $course)!=0)
+                                            @if ($user->role=='student' and $lesson->max_points($cstudent, $course)!=0 and $lesson->isAvailable($course))
                                                 <div class="progress" style="margin: 5px;">
                                                     @if ($lesson->percent($cstudent, $course) < 40)
                                                         <div class="progress-bar progress-bar-striped bg-danger"
@@ -224,6 +232,9 @@
 
                                                     @endif
                                                 </div>
+                                            @endif
+                                            @if ($user->role=='student' and !$lesson->isAvailable($course))
+                                                <span class="badge badge-danger float-right" style="margin: 3px;">Не выполнены требования</span>
                                             @endif
                                             @if ($user->role=='teacher')
                                                 <small class="text-muted float-right" style="margin-right: 15px;">
@@ -375,6 +386,14 @@
                 </div>
             @endif
         </div>
+        <script>
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            });
+            $('.popover-dismiss').popover({
+                trigger: 'focus'
+            });
+        </script>
 
     </div>
 

@@ -36,9 +36,9 @@ class ProgramStep extends Model
 
     protected $results_cache = array();
 
-    public function course()
+    public function program()
     {
-        return $this->belongsTo('App\Course', 'course_id', 'id');
+        return $this->belongsTo('App\Program', 'program_id', 'id');
     }
 
     public function lesson()
