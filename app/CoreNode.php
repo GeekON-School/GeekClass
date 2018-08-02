@@ -56,9 +56,9 @@ class CoreNode extends Model
         $node = $this;
         for ($i = 0; $i < 2; $i++)
         {
-            if ($node->level == 1) return $line.$node->title;
+            if ($node->level == 2) return $line.$node->parents[0]->title;
             $node = $node->parents[0];
-            $line .= $node->title.' | ';
+            $line .= $node->title.'&nbsp;|&nbsp;';
         }
         $line .= $node->title;
         return $line;
