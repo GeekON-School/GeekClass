@@ -25,14 +25,15 @@ class CoreController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index($id)
     {
-        return view('core.index');
+        return view('core.index', compact('id'));
     }
 
-    public function get_core()
+    public function get_core($id)
     {
         $edges = CoreEdge::all();
+        $user = User::findOrFail($id);
         foreach ($edges as $edge)
         {
             $edge->source = $edge->from_id;
@@ -43,7 +44,16 @@ class CoreController extends Controller
         $nodes = CoreNode::all();
         foreach ($nodes as $node)
         {
+            if ($user->checkPrerequisite($node))
+            {
+                $node->nodeType='use';
+            }
+            else {
+                $node->nodeType='exists';
+            }
             $node->root = $node->is_root;
+
+
         }
         $result = ['nodes' => $nodes, 'edges' => $edges];
         return json_encode($result);

@@ -39,6 +39,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Course', 'course_teachers', 'user_id', 'course_id');
     }
 
+    public function solutions()
+    {
+        return $this->hasMany('App\Solution', 'user_id', 'id');
+    }
+
     public function courses()
     {
         return $this->belongsToMany('App\Course', 'course_students', 'user_id', 'course_id');
@@ -76,6 +81,21 @@ class User extends Authenticatable
         else {
             $this->grade_year = $current_year-$grade+1;
         }
+    }
+
+    public function checkPrerequisite(CoreNode $prerequisite)
+    {
+        foreach ($this->solutions as $solution)
+        {
+            foreach ($solution->task->consequences as $consequence)
+            {
+                if ($prerequisite->id == $consequence->id  and $solution->mark!=null and $solution->mark > $consequence->pivot->cutscore)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public function score()

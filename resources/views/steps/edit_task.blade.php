@@ -27,6 +27,19 @@
                     @endif
                 </div>
 
+                <div class="form-group">
+                    <label for="consequences" style="padding-bottom: 10px;">Подтверждаемые результаты из <sup><small>Core</small></sup>:</label><br>
+                    <select class="selectpicker  form-control" data-live-search="true" id="consequences" name="consequences[]"  multiple  data-width="auto">
+                        @foreach (\App\CoreNode::where('is_root', false)->get() as $node)
+                            <option  data-tokens="{{ $node->id }}" value="{{ $node->id }}" data-subtext="{{$node->parents[0]->title}} | {{$node->getCluster()->title}}" >{{$node->title}}</option>
+                        @endforeach
+                    </select>
+
+                    <script>
+                        $('.selectpicker').selectpicker('val', [{{implode(',', $task->consequences->pluck('id')->toArray())}}]);
+                    </script>
+                </div>
+
                 <div class="form-group{{ $errors->has('max_mark') ? ' has-error' : '' }}">
                     <label for="max_mark">Максимальный балл</label>
 

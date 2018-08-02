@@ -408,26 +408,26 @@
             clustering = this;
             this.clusterKey = conf.clusterKey;
             this.identifyClusters(this.a);
-            _charge = -1000;
+            _charge = -5000;
             _linkStrength = function (edge) {
                 var sourceCluster, targetCluster;
                 sourceCluster = nodes[edge.source.id]._properties[this.clusterKey];
                 targetCluster = nodes[edge.target.id]._properties[this.clusterKey];
                 if (sourceCluster === targetCluster) {
-                    return 0.15;
+                    return 0.45;
                 } else {
-                    return 0;
+                    return 0.15;
                 }
             };
             _friction = function () {
-                return 0.7;
+                return 0.3;
             };
             _linkDistancefn = function (edge) {
                 nodes = edge.self.a._nodes;
                 if (nodes[edge.source.id]._properties.root || nodes[edge.target.id]._properties.root) {
-                    return 1200;
+                    return 2000;
                 } else if (nodes[edge.source.id]._properties[this.clusterKey] === nodes[edge.target.id]._properties[this.clusterKey]) {
-                    return (20/nodes[edge.source.id]._properties['level']);
+                    return (200/nodes[edge.source.id]._properties['level']);
                 } else {
                     return 800;
                 }

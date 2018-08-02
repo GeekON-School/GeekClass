@@ -25,9 +25,30 @@
         .alchemy text {
             display: block !important;
         }
-
         .alchemy g.active {
-            opacity: 0.9;
+            opacity: 1;
+        }
+        g.use > circle {
+            opacity: 1 !important;
+            stroke: #fcff18 !important;
+            stroke-opacity: 0.8;
+            fill: green !important;
+        }
+        g.exists > circle {
+            opacity: 0.8;
+
+        }
+        .alchemy > svg {
+            background: white !important;
+        }
+        g.exists >  text {
+            fill: black;
+            text-shadow: none;
+        }
+
+        g.use > text {
+            fill: white !important;
+            text-shadow: none;
         }
     </style>
 
@@ -60,6 +81,9 @@
             </li>
             <li class="nav-item {{(Request::is('insider/events*') ? 'active' : '') }}">
                 <a class="nav-link" href="{{url('insider/events')}}">События</a>
+            </li>
+            <li class="nav-item {{(Request::is('insider/core*') ? 'active' : '') }}">
+                <a class="nav-link" href="{{url('insider/core/'.\Auth::User()->id)}}">Карта</a>
             </li>
         </ul>
         <ul class="navbar-nav" style="width: 220px;">

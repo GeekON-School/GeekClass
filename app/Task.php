@@ -31,5 +31,10 @@ class Task extends Model
         return $this->hasMany('App\Question', 'task_id', 'id');
     }
 
+    public function consequences()
+    {
+        return $this->belongsToMany('App\CoreNode', 'core_consequences', "task_id", "node_id");
+    }
+
 
 }

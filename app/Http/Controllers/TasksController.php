@@ -45,6 +45,9 @@ class TasksController extends Controller
             'name' => 'required|string',
             'max_mark' => 'required|integer|min:0|max:100'
         ]);
+
+
+
         $order = 100;
         if ($step->lesson->steps->count()!=0)
             $order = $step->lesson->steps->last()->sort_index + 1;
@@ -67,6 +70,10 @@ class TasksController extends Controller
             $task->template = $request->template;
         }
         $task->save();
+
+        foreach ($request->consequences as $consequence_id) {
+            $task->consequences()->attach($consequence_id);
+        }
 
         return redirect('/insider/courses/'.$course_id.'/steps/' . $step->id.'#task'.$task->id);
     }
@@ -94,6 +101,14 @@ class TasksController extends Controller
             'name' => 'required|string',
             'max_mark' => 'required|integer|min:0|max:100'
         ]);
+
+        foreach ($task->consequences as $consequence) {
+            $task->consequences()->detach($consequence->id);
+        }
+        foreach ($request->consequences as $consequence_id) {
+            $task->consequences()->attach($consequence_id);
+        }
+
         $task->text = $request->text;
         $task->max_mark = $request->max_mark;
         $task->name = $request->name;

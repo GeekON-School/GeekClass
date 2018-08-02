@@ -38,6 +38,13 @@
           href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/styles/atom-one-light.min.css">
     <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{{url('css/bootstrap-select.min.css')}}">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{{url('/js/bootstrap-select.min.js')}}"></script>
+
+
 
 
 </head>
@@ -67,6 +74,9 @@
             </li>
             <li class="nav-item {{(Request::is('insider/events*') ? 'active' : '') }}">
                 <a class="nav-link" href="{{url('insider/events')}}">События</a>
+            </li>
+            <li class="nav-item {{(Request::is('insider/core*') ? 'active' : '') }}">
+                <a class="nav-link" href="{{url('insider/core/'.\Auth::User()->id)}}">Карта</a>
             </li>
         </ul>
 
@@ -122,6 +132,9 @@
         target: "_blank"
     });
     $('div.markdown a').attr('target', 'blank');
+    $(document).ready(function() {
+        $('.selectpicker').selectpicker();
+    });
 </script>
 
 

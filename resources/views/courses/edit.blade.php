@@ -28,6 +28,22 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="git">Инвайт</label>
+
+                    @if (old('invite')!="")
+                        <input id="invite" type="text" class="form-control" name="invite" value="{{old('invite')}}">
+                    @else
+                        <input id="invite" type="text" class="form-control" name="invite" value="{{$course->invite}}"
+                        >
+                    @endif
+                    @if ($errors->has('invite'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('invite') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+
+                <div class="form-group">
                     <label for="git">Git репозиторий</label>
 
                     @if (old('git')!="")
@@ -47,9 +63,11 @@
                     <label for="telegram">Telegram чат</label>
 
                     @if (old('telegram')!="")
-                        <input id="telegram" type="text" class="form-control" name="telegram" value="{{old('telegram')}}">
+                        <input id="telegram" type="text" class="form-control" name="telegram"
+                               value="{{old('telegram')}}">
                     @else
-                        <input id="telegram" type="text" class="form-control" name="telegram" value="{{$course->telegram}}">
+                        <input id="telegram" type="text" class="form-control" name="telegram"
+                               value="{{$course->telegram}}">
                     @endif
                     @if ($errors->has('telegram'))
                         <span class="help-block error-block">

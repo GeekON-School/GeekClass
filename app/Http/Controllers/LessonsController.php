@@ -45,7 +45,7 @@ class LessonsController extends Controller
 
     public function create($id, Request $request)
     {
-        $program = Program::findOrFail($id);
+        $program = Course::findOrFail($id)->program;
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
@@ -64,6 +64,10 @@ class LessonsController extends Controller
 
         $lesson->save();
 
+        foreach ($request->prerequisites as $prerequisite_id) {
+            $lesson->prerequisites()->attach($prerequisite_id);
+        }
+
         $data = ['name'=>'Введение', 'theory'=>'', 'notes'=>''];
 
         $step = ProgramStep::createStep($lesson, $data);
@@ -71,8 +75,9 @@ class LessonsController extends Controller
         return redirect('/insider/courses/'.$id.'/steps/' . $step->id);
     }
 
-    public function editView($id)
+    public function editView($course_id, $id)
     {
+
         $lesson = Lesson::findOrFail($id);
         return view('lessons.edit', compact('lesson'));
     }
@@ -84,7 +89,12 @@ class LessonsController extends Controller
             'name' => 'required|string',
             'description' => 'required'
         ]);
-
+        foreach ($lesson->prerequisites as $prerequisite) {
+            $lesson->prerequisites()->detach($prerequisite->id);
+        }
+        foreach ($request->prerequisites as $prerequisite_id) {
+            $lesson->prerequisites()->attach($prerequisite_id);
+        }
         $lesson->name = $request->name;
         $lesson->start_date = $request->start_date;
         $lesson->description = $request->description;

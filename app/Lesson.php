@@ -30,6 +30,26 @@ class Lesson extends Model
         return $this->hasMany('App\ProgramStep', 'lesson_id', 'id')->with('tasks')->orderBy('sort_index')->orderBy('id');
     }
 
+    public function prerequisites()
+    {
+        return $this->belongsToMany('App\CoreNode', 'core_prerequisites', "lesson_id", "node_id");
+    }
+
+    public function getConsequences()
+    {
+        $tasks = $this->tasks();
+
+        $consequences = collect([]);
+        foreach ($tasks as $task)
+        {
+            foreach ($task->consequences as $consequence) {
+                $consequences->push($consequence);
+            }
+        }
+
+        return $consequences->unique();
+    }
+
     public function percent(User $student, Course $course)
     {
         $points = $this->points($student, $course);

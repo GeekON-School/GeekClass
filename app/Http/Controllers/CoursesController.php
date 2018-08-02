@@ -134,6 +134,7 @@ class CoursesController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
+            'invite' => 'required|string|unique:courses,invite|unique:providers,invite',
         ]);
 
         $course = Course::findOrFail($id);
@@ -143,6 +144,8 @@ class CoursesController extends Controller
         $course->site = $request->site;
         $course->image = $request->image;
         $course->telegram = $request->telegram;
+        $course->invite = $request->invite;
+        $course->remote_invite = $request->invite.'-R';
         /*if ($request->hasFile('image')) {
             $extn = '.' . $request->file('image')->guessClientExtension();
             $path = $request->file('image')->storeAs('course_avatars', $course->id . $extn);

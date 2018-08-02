@@ -10,7 +10,7 @@
         config = {
             directedEdges: true,
             fixRootNodes: true,
-            dataSource: "{{url('/insider/core/network')}}",
+            dataSource: "{{url('/insider/core/network/'.$id)}}",
             nodeCaption: 'title',
             nodeClick: function (d) {
                 edges = alchemy.getEdges(d.id);
@@ -29,15 +29,14 @@
 
             cluster: true,
             alpha: 0,
-            //curvedEdges: true,
+            curvedEdges: true,
             forceLocked: false,
+            nodeTypes: {"nodeType":["use", "exists"]},
             nodeStyle: {
                 "all": {
                     "radius": function(d) {
-                        return 400/d.getProperties().level;
-                    },
-
-
+                        return 200/d.getProperties().level;
+                    }
 
                 }
             },

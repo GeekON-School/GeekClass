@@ -39,7 +39,7 @@
     </div>
     <div class="row">
         <div class="col-md-8">
-            
+
             @if ($course->state=="ended" and $user->role=='teacher')
                 <div class="card-group">
                     <div class="card">
@@ -60,7 +60,8 @@
                                     </ul>
 
                                     <p>
-                                        <a href="{{url('insider/courses/'.$course->id.'/stop')}}" class="btn btn-primary btn-sm">Перевыпуск</a>
+                                        <a href="{{url('insider/courses/'.$course->id.'/stop')}}"
+                                           class="btn btn-primary btn-sm">Перевыпуск</a>
                                     </p>
                                 </div>
                             </div>
@@ -102,6 +103,30 @@
                                 <div class="row">
                                     <div class="col">
                                         @parsedown($lesson->description)
+
+                                        @if (count($lesson->prerequisites)!=0)
+                                            <p>
+                                                <small class="text-muted">Нужно знать:</small><br>
+                                                @foreach($lesson->prerequisites as $prerequisite)
+                                                    @if (!$user->checkPrerequisite($prerequisite))
+                                                        <span class="badge badge-secondary">{{$prerequisite->title}}</span>
+                                                    @else
+                                                        <span class="badge badge-success">{{$prerequisite->title}}</span>
+                                                    @endif
+                                                @endforeach
+                                            </p>
+                                        @endif
+
+                                        <p>
+                                            <small class="text-muted">Результаты:</small><br>
+                                            @foreach($lesson->getConsequences() as $consequence)
+                                                @if (!$user->checkPrerequisite($consequence))
+                                                    <span class="badge badge-secondary">{{$consequence->title}}</span>
+                                                @else
+                                                    <span class="badge badge-success">{{$consequence->title}}</span>
+                                                @endif
+                                            @endforeach
+                                        </p>
                                     </div>
                                     @if ($user->role=='teacher' || $lesson->percent($cstudent, $course) > 90)
                                         <div class="col-sm-auto">

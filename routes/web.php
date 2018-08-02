@@ -138,8 +138,8 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
 
     Route::post('/events/{id}', 'EventController@add_comment');
 
-    Route::get('/core', 'CoreController@index');
-    Route::get('/core/network', 'CoreController@get_core');
+    Route::get('/core/{id}', 'CoreController@index');
+    Route::get('/core/network/{id}', 'CoreController@get_core');
     Route::get('/core/import', 'CoreController@import_core_form');
     Route::post('/core/import', 'CoreController@import_core');
 

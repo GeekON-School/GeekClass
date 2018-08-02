@@ -167,7 +167,14 @@
                     @foreach ($tasks as $key => $task)
                         <div class="card">
                             <div class="card-header">
-                                {{$task->name}}
+                                {{$task->name}}&nbsp;&nbsp;
+                                    @foreach($task->consequences as $consequence)
+                                        @if (!$user->checkPrerequisite($consequence))
+                                            <span class="badge badge-secondary">{{$consequence->title}}</span>
+                                        @else
+                                            <span class="badge badge-success">{{$consequence->title}}</span>
+                                        @endif
+                                    @endforeach
                                 @if (\Request::is('insider/*') && $user->role=='teacher')
                                     <a class="float-right btn btn-danger btn-sm"
                                        href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"><i
@@ -256,6 +263,14 @@
                                     <div class="card">
                                         <div class="card-header">
                                             {{$task->name}}
+                                            &nbsp;&nbsp;
+                                            @foreach($task->consequences as $consequence)
+                                                @if (!$user->checkPrerequisite($consequence))
+                                                    <span class="badge badge-secondary">{{$consequence->title}}</span>
+                                                @else
+                                                    <span class="badge badge-success">{{$consequence->title}}</span>
+                                                @endif
+                                            @endforeach
                                             @if (\Request::is('insider/*') && $user->role=='teacher')
                                                 <a class="float-right btn btn-danger btn-sm"
                                                    href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"><i
@@ -588,6 +603,14 @@
                                     </span>
                                 @endif
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="consequences" style="padding-bottom: 10px;">Подтверждаемые результаты из <sup><small>Core</small></sup>:</label><br>
+                            <select class="selectpicker  form-control" data-live-search="true" id="consequences" name="consequences[]"  multiple  data-width="auto">
+                                @foreach (\App\CoreNode::where('is_root', false)->get() as $node)
+                                    <option  data-tokens="{{ $node->id }}" value="{{ $node->id }}" data-subtext="{{$node->parents[0]->title}} | {{$node->getCluster()->title}}" >{{$node->title}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group{{ $errors->has('max_mark') ? ' has-error' : '' }}">
                             <label for="max_mark" class="col-md-4">Максимальный балл</label>
