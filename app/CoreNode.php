@@ -49,4 +49,19 @@ class CoreNode extends Model
         return $this->hasMany('App\CoreEdge', 'to_id', 'id');
     }
 
+    public function getParentLine()
+    {
+        if ($this->level == 1) return '';
+        $line = '';
+        $node = $this;
+        for ($i = 0; $i < 2; $i++)
+        {
+            if ($node->level == 1) break;
+            $node = $node->parents[0];
+            $line .= $node->title.' |';
+        }
+        $line .= $node->title;
+        return $line;
+    }
+
 }
