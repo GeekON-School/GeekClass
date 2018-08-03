@@ -306,7 +306,7 @@
                         @endforeach
                     </ul>
                     <p>
-                        <b>Участники:</b>
+                        <b>Студенты:</b>
                     </p>
                     <ul>
                         @foreach($students->sortByDesc('percent') as $student)

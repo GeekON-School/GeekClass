@@ -39,7 +39,7 @@
         </div>
 
         <div class = "form-group">
-            <label>Ограничение на кол-во участников</label>
+            <label>Ограничение на кол-во студентов</label>
             <input name="max_people" class="form-control" type="number" value="{{$event->max_people}}">
         </div>
 
@@ -49,7 +49,7 @@
         </div>
 
         <div class = "form-group">
-            <label>Что должны знать участники</label>
+            <label>Что должны знать студенты</label>
             <input name="skills" class="form-control" value="{{$event->skills}}">
         </div>
 

@@ -46,7 +46,7 @@
                     <div class="float-right">
                         @if ($user->role=='teacher'|| $is_author)
                         <a href="{{url('/insider/projects/'.$project->id.'/add_user')}}"
-                                   class="btn btn-primary btn-sm">Добавить участников</a>
+                                   class="btn btn-primary btn-sm">Добавить студентов</a>
                             @endif
                             </div>
                         @endif -->

@@ -39,7 +39,7 @@
                 </div>
 
                 <div class = "form-group">
-                    <label>Ограничение на кол-во участников</label>
+                    <label>Ограничение на кол-во студентов</label>
                     <input type="number" name="max_people" class="form-control" >
                 </div>
 
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class = "form-group">
-                    <label>Что должны знать участники</label>
+                    <label>Что должны знать студенты</label>
                     <input name="skills" class="form-control" >
                 </div>
 

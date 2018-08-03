@@ -136,11 +136,11 @@
                         </ul>
                         <p>
                             @if($event->max_people != null)
-                                <b>Участники:
+                                <b>Студенты:
                                     {{count($event->userPartis)}}/{{$event->max_people}}
                                 </b>
                             @else
-                                <b>Участники:</b>
+                                <b>Студенты:</b>
                             @endif
                                     <ul>
                             @foreach($users as $user)
