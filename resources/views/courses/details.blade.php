@@ -46,23 +46,29 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5>Сертификаты</h5>
+                                    <a data-toggle="collapse" href="#certs" role="button" aria-expanded="false"
+                                       aria-controls="certs"><strong>Сертификаты</strong></a>
+                                    <a href="{{url('insider/courses/'.$course->id.'/stop')}}"
+                                       class="float-right btn btn-success btn-sm">Перевыпуск</a>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <ul>
-                                        @foreach($marks as $mark)
-                                            @if ($mark->cert_link!= null and $mark->mark != 'D')
-                                                <li>{{$mark->cert_link}}</li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
+                                    <div class="collapse" id="certs">
+                                        <p>
+                                        <ul>
+                                            @foreach($marks as $mark)
+                                                @if ($mark->cert_link!= null and $mark->mark != 'D')
+                                                    <li><a target="_blank"
+                                                           href="{{$mark->cert_link}}">{{$mark->user->name}} <span
+                                                                    class="float-right badge badge-pill badge-success">{{$mark->mark}}</span></a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                        </p>
 
-                                    <p>
-                                        <a href="{{url('insider/courses/'.$course->id.'/stop')}}"
-                                           class="btn btn-primary btn-sm">Перевыпуск</a>
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -79,9 +85,9 @@
                                 <div class="row">
                                     <div class="col">
                                         @if ($lesson->isAvailable($course) or $user->role=='teacher')
-                                        <h5>{{$key+1}}. <a class="collection-item"
-                                                           href="{{url('/insider/courses/'.$course->id.'/steps/'.$lesson->steps->first()->id)}}">{{$lesson->name}}</a>
-                                        </h5>
+                                            <h5>{{$key+1}}. <a class="collection-item"
+                                                               href="{{url('/insider/courses/'.$course->id.'/steps/'.$lesson->steps->first()->id)}}">{{$lesson->name}}</a>
+                                            </h5>
                                         @else
                                             <h5>{{$key+1}}. <a class="collection-item text-muted"
                                                                href="#">{{$lesson->name}}</a>
@@ -112,12 +118,15 @@
 
                                         @if (count($lesson->prerequisites)!=0)
                                             <p>
-                                                <small class="text-muted">Нужно уметь:</small><br>
+                                                <small class="text-muted">Нужно уметь:</small>
+                                                <br>
                                                 @foreach($lesson->prerequisites as $prerequisite)
                                                     @if (!$user->checkPrerequisite($prerequisite))
-                                                            <a tabindex="0" data-toggle="popover" data-trigger="focus" title="{{$prerequisite->title}}" data-html="true" data-content="<small>{{$prerequisite->getParentLine()}}</small> {{$prerequisite->getRelatedLessonsHTML()}}">
-                                                                <span class="badge @if ($user->role=='teacher') badge-secondary @else badge-danger @endif">{{$prerequisite->title}}</span>
-                                                            </a>
+                                                        <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                                           title="{{$prerequisite->title}}" data-html="true"
+                                                           data-content="<small>{{$prerequisite->getParentLine()}}</small> {{$prerequisite->getRelatedLessonsHTML()}}">
+                                                            <span class="badge @if ($user->role=='teacher') badge-secondary @else badge-danger @endif">{{$prerequisite->title}}</span>
+                                                        </a>
                                                     @else
                                                         <span class="badge badge-success">{{$prerequisite->title}}</span>
                                                     @endif
@@ -126,7 +135,8 @@
                                         @endif
 
                                         <p>
-                                            <small class="text-muted">Результаты:</small><br>
+                                            <small class="text-muted">Результаты:</small>
+                                            <br>
                                             @foreach($lesson->getConsequences() as $consequence)
                                                 @if (!$user->checkPrerequisite($consequence))
                                                     <span class="badge badge-secondary">{{$consequence->title}}</span>
@@ -152,7 +162,8 @@
                                             @foreach($students as $student)
                                                 <div class="row">
                                                     <div class="col">
-                                                        {{$student->name}} @if (!$lesson->isAvailableForUser($course, $student)) <strong><span style="color: red;">!!!</span></strong> @endif
+                                                        {{$student->name}} @if (!$lesson->isAvailableForUser($course, $student))
+                                                            <strong><span style="color: red;">!!!</span></strong> @endif
                                                     </div>
                                                     <div class="col">
                                                         <div class="progress" style="margin: 5px;">
