@@ -141,7 +141,7 @@
                     </div>
                     <div class="col" style="padding-top: 19px;">
                         @if ($guest->role=='teacher')
-                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
+                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-success"
                                     data-toggle="modal" data-target="#exampleModal">
                                 <i class="icon ion-plus-round"></i> Добавить
                             </button>
@@ -185,7 +185,7 @@
                     </div>
                     <div class="col" style="padding-top: 19px;">
                         @if ($guest->role=='teacher' || $guest->id==$user->id)
-                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
+                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-success"
                                     data-toggle="modal" data-target="#createProject">
                                 <i class="icon ion-plus-round"></i> Добавить
                             </button>
@@ -239,7 +239,7 @@
                                 <div class="card-body">
                                     <div class="float-left"><span>{{$event->short_text}}</span></div>
                                     <div class="float-right">
-                                        <a href="{{url('insider/events/'.$event->id)}}" class="btn btn-sm btn-primary">Страница
+                                        <a href="{{url('insider/events/'.$event->id)}}" class="card-link">Страница
                                             события</a>
                                     </div>
                                 </div>
@@ -278,7 +278,7 @@
                                     <div class="card-body">
                                         <div class="float-left"><span>{{$event->short_text}}</span></div>
                                         <div class="float-right">
-                                            <a href="{{url('insider/events/'.$event->id)}}" class="btn btn-sm btn-primary">Страница
+                                            <a href="{{url('insider/events/'.$event->id)}}" class="card-link">Страница
                                                 события</a>
                                         </div>
                                     </div>
