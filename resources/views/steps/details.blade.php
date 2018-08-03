@@ -15,9 +15,12 @@
             <ul class="nav nav-pills flex-column">
                 @if (\Request::is('insider/*'))
                     <li class="nav-item">
-                        <a class="nav-link" style="padding-top: 10px; padding-bottom: 10px; font-size: 150%;"
+                        <!--<a class="nav-link" style="padding-top: 10px; padding-bottom: 10px; font-size: 150%;"
                            href="{{url('/insider/courses/'.$course->id)}}">
-                            <i class="icon ion-chevron-left"></i> GeekClass </a>
+                            <i class="icon ion-chevron-left"></i> GeekClass </a>-->
+                            <a class="nav-link" style="padding-top: 10px; padding-bottom: 10px; font-size: 150%;"
+                               href="{{url('/insider/courses/'.$course->id)}}">
+                                <i class="icon ion-chevron-left"></i> <img src="{{url('images/bhlogo.png')}}" style="height: 35px;" /> </a>
                     </li>
                 @endif
                 @if (\Request::is('open/*'))

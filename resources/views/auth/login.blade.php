@@ -15,9 +15,14 @@
     <!-- Custom styles for this template -->
     <style>
         body {
-            padding-top: 120px;
+            /*padding-top: 120px;
             padding-bottom: 40px;
-            background-color: #eee;
+            background-color: #eee;*/
+            height: 100%;
+
+        }
+        html {
+            height: 100%;
         }
 
         .form-signin {
@@ -65,41 +70,68 @@
             margin: 0 auto;
             width: 100%;
         }
+        #login-col {
+            background: white;
+            height: 100%;
+            z-index: 100;
+        }
+        #bg {
+            position: fixed;
+            left: 0;
+            right: 0;
+            z-index: 1;
+            height: 100%;
+            background-image: url("{{url('/images/bg/'.random_int(1,3).'.jpg')}}");
+            background-size: cover;
+            display: block;
+            -webkit-filter: blur(3px);
+            -moz-filter: blur(3px);
+            -o-filter: blur(3px);
+            -ms-filter: blur(3px);
+            filter: blur(3px);
+        }
     </style>
 </head>
 
 <body>
+    <div id="bg">
 
-<div class="container">
+    </div>
 
-    <form method="POST" action="{{ url('/login') }}" class="form-signin">
-        <p align="center"><img class="logo" src="https://storage.geekclass.ru/images/75746a91-66e5-4bdc-8625-eacab77ba5f2.png"/></p>
-        {{ csrf_field() }}
 
-        <label for="inputEmail" class="sr-only">Email</label>
-        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required
-               autofocus>
-        @if ($errors->has('email'))
-            <span class="help-block error-block">
+    <div class="row" style="height: 100%; margin: 0;">
+        <div id="login-col" class="col-12 col-md-4 col-xl-3">
+            <form method="POST" action="{{ url('/login') }}" class="form-signin">
+                <p align="center"><img class="logo" src="{{url('/images/logo.png')}}"/></p>
+                {{ csrf_field() }}
+
+                <label for="inputEmail" class="sr-only">Email</label>
+                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required
+                       autofocus>
+                @if ($errors->has('email'))
+                    <span class="help-block error-block">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
-        @endif
-        <label for="inputPassword" class="sr-only">Пароль</label>
-        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
-        @if ($errors->has('password'))
-            <span class="help-block error-block">
+                @endif
+                <label for="inputPassword" class="sr-only">Пароль</label>
+                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+                @if ($errors->has('password'))
+                    <span class="help-block error-block">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
-        @endif
+                @endif
 
-        <button class="btn btn btn-primary btn-block" style="background-color: #0A6187; border: none;" type="submit">Вход</button>
-        <p style="margin-top: 15px;">
-            <a style="color: #0A6187;" href="{{url('/register')}}"><i class="icon ion-person-add"></i>&nbsp;Регистрация</a><br>
-            <a style="color: #0A6187;" href="{{url('/password/reset')}}">&nbsp;<i class="icon ion-key"></i>&nbsp;&nbsp;Забыли пароль?</a>
-        </p>
-    </form>
+                <button class="btn btn btn-primary btn-block" style="background-color: rgb(30,155,0); border: none;" type="submit">Вход</button>
+                <p style="margin-top: 15px;">
+                    <a style="color: #0A6187;" href="{{url('/register')}}"><i class="icon ion-person-add"></i>&nbsp;Регистрация</a><br>
+                    <a style="color: #0A6187;" href="{{url('/password/reset')}}">&nbsp;<i class="icon ion-key"></i>&nbsp;&nbsp;Забыли пароль?</a>
+                </p>
+            </form>
+        </div>
+    </div>
 
-</div> <!-- /container -->
+
+
 
 
 <!-- Bootstrap core JavaScript

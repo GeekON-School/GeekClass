@@ -24,7 +24,7 @@
     overflow: auto;
     font-size: 85%;
     line-height: 1.45;
-    background-color: #282a36;
+    background-color: #fafafa;
     margin-left: -30px;
     margin-right: -30px;
 }
@@ -211,7 +211,8 @@ sup > i {
     padding: 0;
     padding-top: 10px;
     min-height: 100%;
-    background-color: #0A6187;
+   /* background-color: #0A6187;*/
+    background-color: #1098D4;
 }
 
 .nav-pills .nav-link.active {
@@ -231,7 +232,7 @@ sup > i {
 }
 
 .bg-dark {
-    background-color: #0A6187 !important;
+    background-color:  rgb(30,155,0) !important;
 }
 .card.bg-dark {
     background-color: white !important;
