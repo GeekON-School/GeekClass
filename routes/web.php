@@ -228,6 +228,17 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
 
     });
 
+    Route::get('/set_solution_courses', function () {
+        $solutions = \App\Solution::where('course_id', null)->get();
+        foreach ($solutions as $solution)
+        {
+            $course = \App\Course::where('program_id', $solution->task->step->program_id)->first();
+            $solution->course_id = $course->id;
+            $solution->save();
+        }
+
+    });
+
 });
 
 

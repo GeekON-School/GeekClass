@@ -50,7 +50,8 @@
             </ul>
             @if (\Request::is('insider/*') && $user->role=='teacher')
                 <p align="center" style="margin-top: 15px;">
-                    <a href="{{url('/insider/courses/'.$course->id.'/lessons/'.$step->lesson->id.'/create')}}" class="btn btn-success btn-sm">Новый
+                    <a href="{{url('/insider/courses/'.$course->id.'/lessons/'.$step->lesson->id.'/create')}}"
+                       class="btn btn-success btn-sm">Новый
                         этап</a>
                 </p>
             @endif
@@ -168,13 +169,13 @@
                         <div class="card">
                             <div class="card-header">
                                 {{$task->name}}&nbsp;&nbsp;
-                                    @foreach($task->consequences as $consequence)
-                                        @if (!$user->checkPrerequisite($consequence))
-                                            <span class="badge badge-secondary">{{$consequence->title}}</span>
-                                        @else
-                                            <span class="badge badge-success">{{$consequence->title}}</span>
-                                        @endif
-                                    @endforeach
+                                @foreach($task->consequences as $consequence)
+                                    @if (!$user->checkPrerequisite($consequence))
+                                        <span class="badge badge-secondary">{{$consequence->title}}</span>
+                                    @else
+                                        <span class="badge badge-success">{{$consequence->title}}</span>
+                                    @endif
+                                @endforeach
                                 @if (\Request::is('insider/*') && $user->role=='teacher')
                                     <a class="float-right btn btn-danger btn-sm"
                                        href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"><i
@@ -308,6 +309,23 @@
 
 
                                             @if (\Request::is('insider/*'))
+
+                                                @if ($user->role == 'student' and $task->solution!=null and $task->isDone(Auth::User()->id))
+                                                    <h3>Авторское решение</h3>
+                                                    @parsedown($task->solution)
+                                                @endif
+
+                                                @if ($user->role=='teacher' and $task->solution != null)
+                                                        <p>
+                                                            <a class="" data-toggle="collapse" href="#solution{{$task->id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                                Авторское решение &raquo;
+                                                            </a>
+                                                        </p>
+                                                        <div class="collapse" id="solution{{$task->id}}">
+                                                            @parsedown($task->solution)
+                                                        </div>
+                                                @endif
+
                                                 @if ($task->is_quiz)
                                                     <form action="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/solution')}}"
                                                           method="POST"
@@ -540,7 +558,7 @@
                     <script>
                         $('.tab-pane').first().addClass('active show');
                         @if ($zero_theory)
-                            $('.task-pill').first().addClass('active');
+                        $('.task-pill').first().addClass('active');
                         @endif
                     </script>
                 @endif
@@ -605,10 +623,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="consequences" style="padding-bottom: 10px;">Подтверждаемые результаты из <sup><small>Core</small></sup>:</label><br>
-                            <select class="selectpicker  form-control" data-live-search="true" id="consequences" name="consequences[]"  multiple  data-width="auto">
+                            <label for="consequences" style="padding-bottom: 10px;">Подтверждаемые результаты из <sup>
+                                    <small>Core</small>
+                                </sup>:</label><br>
+                            <select class="selectpicker  form-control" data-live-search="true" id="consequences"
+                                    name="consequences[]" multiple data-width="auto">
                                 @foreach (\App\CoreNode::where('is_root', false)->get() as $node)
-                                    <option  data-tokens="{{ $node->id }}" value="{{ $node->id }}" data-subtext="{{$node->getParentLine()}}" >{{$node->title}}</option>
+                                    <option data-tokens="{{ $node->id }}" value="{{ $node->id }}"
+                                            data-subtext="{{$node->getParentLine()}}">{{$node->title}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -637,6 +659,17 @@
                                     </span>
                                 @endif
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="solution">Решение</label>
+                            <textarea id="solution" class="form-control"
+                                      name="solution">@if (old('solution')!=""){{old('solution')}}@endif</textarea>
+                            @if ($errors->has('solution'))
+                                <span class="help-block error-block">
+                                        <strong>{{ $errors->first('solution') }}</strong>
+                                    </span>
+                            @endif
                         </div>
 
                         <hr>
@@ -741,6 +774,10 @@
         var simplemde_task = new SimpleMDE({
             spellChecker: false,
             element: document.getElementById("text")
+        });
+        var simplemde_solution = new SimpleMDE({
+            spellChecker: false,
+            element: document.getElementById("solution")
         });
 
         $('table').addClass('table table-striped');

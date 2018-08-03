@@ -61,11 +61,20 @@
 
                 <div class="form-group">
                     <label for="text">Текст</label>
-                    <textarea id="text" class="form-control" name="text"
-                              required>@if (old('text')!=""){{old('text')}}@else{{$task->text}}@endif</textarea>
+                    <textarea id="text" class="form-control" name="text">@if (old('text')!=""){{old('text')}}@else{{$task->text}}@endif</textarea>
                     @if ($errors->has('text'))
                         <span class="help-block error-block">
                                         <strong>{{ $errors->first('text') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+
+                <div class="form-group">
+                    <label for="solution">Решение</label>
+                    <textarea id="solution" class="form-control" name="solution">@if (old('solution')!=""){{old('solution')}}@else{{$task->solution}}@endif</textarea>
+                    @if ($errors->has('solution'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('solution') }}</strong>
                                     </span>
                     @endif
                 </div>
@@ -208,6 +217,10 @@
         var simplemde_task = new SimpleMDE({
             spellChecker: false,
             element: document.getElementById("text")
+        });
+        var simplemde_solution = new SimpleMDE({
+            spellChecker: false,
+            element: document.getElementById("solution")
         });
     </script>
 @endsection

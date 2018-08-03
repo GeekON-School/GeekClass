@@ -56,6 +56,7 @@ class TasksController extends Controller
             'is_star' => $request->is_star=='on'?true:false,
             'only_remote' => $request->only_remote=='on'?true:false,
             'only_class' => $request->only_class=='on'?true:false]);
+        $task->solution = $request->solution;
 
         if ($request->has('answer'))
         {
@@ -105,6 +106,7 @@ class TasksController extends Controller
         foreach ($task->consequences as $consequence) {
             $task->consequences()->detach($consequence->id);
         }
+        if ($request->consequences != null)
         foreach ($request->consequences as $consequence_id) {
             $task->consequences()->attach($consequence_id);
         }
@@ -112,6 +114,7 @@ class TasksController extends Controller
         $task->text = $request->text;
         $task->max_mark = $request->max_mark;
         $task->name = $request->name;
+        $task->solution = $request->solution;
         if ($request->is_star=='on')
         {
             $task->is_star = true;
