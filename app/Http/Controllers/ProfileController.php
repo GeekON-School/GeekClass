@@ -51,9 +51,27 @@ class ProfileController extends Controller
         else {
             $user = User::findOrFail($id);
         }
+
+        $stickers = collect([]);
+        $sticker_description = [];
+
+        foreach($user->courses as $course) {
+            foreach($course->lessons as $lesson) {
+                if ($lesson->percent($course->students()->where('user_id', $user->id)->first(), $course)>90)
+                {
+                    $stickers->push($lesson->sticker);
+                    $sticker_description[$lesson->sticker] = $lesson->name;
+                }
+            }
+        }
+        $stickers = $stickers->unique();
+
+
+
+
         $projects = $user->projects ();
         $events = Event::all();
-        return view('profile.details', compact('user', 'guest', 'projects', 'events'));
+        return view('profile.details', compact('user', 'guest', 'projects', 'events', 'stickers', 'sticker_description'));
     }
 
     public function editView($id)

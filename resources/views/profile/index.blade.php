@@ -14,9 +14,12 @@
                         <div class="card-body"
                              style="@if ($user->image!=null) background-image: url({{url('/media/'.$user->image)}}); @else  background-image: url(https://api.adorable.io/avatars/250/{{$user->id}}.png);  @endif background-size: cover; padding: 10px;">
 
-                            <p class="card-text"><span style="font-size: 15px;"
-                                                       class="badge badge-pill badge-success"><i
-                                            class="icon ion-ios-arrow-up"></i> {{$user->rank()->name}}</span><br>@if ($user->is_trainee)
+                            <p class="card-text">
+                                <a tabindex="0" data-toggle="popover" data-trigger="focus" title="Ранги" data-html="true" data-content="{{\App\Rank::getRanksListHTML($user->rank())}}"><span style="font-size: 15px;" class="badge badge-pill badge-success"><i
+                                                class="icon ion-ios-arrow-up"></i> {{$user->rank()->name}}</span></a>
+                                <br>
+
+                                @if ($user->is_trainee)
                                     <span class="badge badge-pill badge-info">Стажер</span>
                                 @endif
                                 @if ($user->is_teacher)
@@ -42,9 +45,9 @@
                         <div class="card-body"
                              style="@if ($user->image!=null) background-image: url({{url('/media/'.$user->image)}}); @else  background-image: url(https://api.adorable.io/avatars/250/{{$user->id}}.png);  @endif background-size: cover; padding: 10px;">
 
-                            <p class="card-text"><span style="font-size: 15px;"
-                                                       class="badge badge-pill badge-success"><i
-                                            class="icon ion-ios-arrow-up"></i> {{$user->rank()->name}}</span><br>@if ($user->is_trainee)
+                            <p class="card-text"><a tabindex="0" data-toggle="popover" data-trigger="focus" title="Ранги" data-html="true" data-content="{{\App\Rank::getRanksListHTML($user->rank())}}"><span style="font-size: 15px;" class="badge badge-pill badge-success"><i
+                                                class="icon ion-ios-arrow-up"></i> {{$user->rank()->name}}</span></a>
+                                <br>@if ($user->is_trainee)
                                     <span class="badge badge-pill badge-info">Стажер</span>
                                 @endif
                                 @if ($user->is_teacher)
@@ -59,7 +62,7 @@
     </div>
     <h3 class="lead" style="margin-left:15px;">Личный состав</h3>
     <div class="row" style="margin-top: 15px;margin-left: 0;margin-right: 0;">
-        @foreach($users as $user)
+        @foreach($users->sortByDesc(function ($user) {return $user->score();}) as $user)
             @if (!$user->is_trainee && !$user->is_teacher && !$user->is_hidden)
                 <div class="col-md-3 col-sm-4 col-6 col-lg-2" style="margin-bottom: 15px; padding: 5px;">
 
@@ -70,9 +73,11 @@
                         <div class="card-body"
                              style="@if ($user->image!=null) background-image: url({{url('/media/'.$user->image)}}); @else  background-image: url(https://api.adorable.io/avatars/250/{{$user->id}}.png);  @endif background-size: cover; padding: 10px;">
 
-                            <p class="card-text"><span style="font-size: 15px;"
-                                                       class="badge badge-pill badge-success"><i
-                                            class="icon ion-ios-arrow-up"></i> {{$user->rank()->name}}</span><br>@if ($user->is_trainee)
+                            <p class="card-text">
+                                <a tabindex="0" data-toggle="popover" data-trigger="focus" title="Ранги" data-html="true" data-content="{{\App\Rank::getRanksListHTML($user->rank())}}"><span style="font-size: 15px;" class="badge badge-pill badge-success"><i
+                                                class="icon ion-ios-arrow-up"></i> {{$user->rank()->name}}</span></a>
+                                <br>
+                                @if ($user->is_trainee)
                                     <span class="badge badge-pill badge-info">Стажер</span>
                                 @endif
                                 @if ($user->is_teacher)
@@ -85,5 +90,13 @@
             @endif
         @endforeach
     </div>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        });
+        $('.popover-dismiss').popover({
+            trigger: 'focus'
+        });
+    </script>
 
 @endsection
