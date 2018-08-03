@@ -39,11 +39,11 @@
                 <div class="form-group{{ $errors->has("start_date") ? ' has-error' : '' }}">
                     <label for="start_date">Дата начала</label>
                     @if (old('start_date')!="" || $lesson->getStartDate($course)==null)
-                        <input id="start_date" type="text" class="form-control" value="{{old("start_date")}}"
+                        <input id="start_date" type="date" class="form-control" value="{{old("start_date")}}"
                                name="start_date"
                                required>
                     @else
-                        <input id="start_date" type="text" class="form-control"
+                        <input id="start_date" type="date" class="form-control"
                                value="{{$lesson->getStartDate($course)->format('Y-m-d')}}"
                                name="start_date"
                                required>

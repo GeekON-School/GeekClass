@@ -36,7 +36,7 @@
                     <div class="form-group{{ $errors->has("start_date") ? ' has-error' : '' }}">
                         <label for="start_date">Дата начала</label>
 
-                        <input id="start_date" type="text" class="form-control" value="{{old("start_date")}}" name="start_date"
+                        <input id="start_date" type="date" class="form-control" value="{{old("start_date")}}" name="start_date"
                                required>
 
                         @if ($errors->has("start_date"))

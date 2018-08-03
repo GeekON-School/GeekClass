@@ -94,7 +94,8 @@
 
         <button class="btn btn btn-primary btn-block" style="background-color: #0A6187; border: none;" type="submit">Вход</button>
         <p style="margin-top: 15px;">
-            <a style="color: #0A6187;" href="{{url('/register')}}"><i class="icon ion-person-add"></i>&nbsp;Регистрация</a>
+            <a style="color: #0A6187;" href="{{url('/register')}}"><i class="icon ion-person-add"></i>&nbsp;Регистрация</a><br>
+            <a style="color: #0A6187;" href="{{url('/password/reset')}}">&nbsp;<i class="icon ion-key"></i>&nbsp;&nbsp;Забыли пароль?</a>
         </p>
     </form>
 
