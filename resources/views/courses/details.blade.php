@@ -319,7 +319,7 @@
 
                     @if ($user->role=='teacher')
                         <p>
-                            <a href="{{url('insider/courses/'.$course->id.'/assessments')}}" class="btn btn-primary">Успеваемость</a>
+                            <a href="{{url('insider/courses/'.$course->id.'/assessments')}}" class="btn btn-success btn-sm">Успеваемость</a>
                         </p>
                     @endif
 
