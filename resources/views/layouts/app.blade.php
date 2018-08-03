@@ -42,10 +42,15 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="{{url('css/bootstrap-select.min.css')}}">
     <link rel="stylesheet" href="{{url('css/jquery-ui.min.css')}}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="{{url('js/jquery-ui.min.js')}}"></script>
     <script>
         $( function() {
-            $( "input[type=date]" ).datepicker();
+            $( "input[type=date]" ).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1940:2025"
+            });
             $( "input[type=date]" ).datepicker("option", "dateFormat", 'yy-mm-dd');
         } );
     </script>
