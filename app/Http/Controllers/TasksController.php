@@ -340,23 +340,33 @@ class TasksController extends Controller
         $course = Course::findOrFail($course_id);
         # $solutions = $task->solutions;
         $students = $course->students->shuffle();
+        $ids = [];
 
-
+        for ($i = 0; $i < $students->count(); $i++)
+        {
+            $ids[$students[$i]->id] = $i;
+            $students[$i]->works = collect([]);
+        }
         for ($i = 0; $i < $students->count(); $i++)
         {
             $students[$i]->reviewer1 = $students[($i + 1) % $students->count()];
             $students[$i]->reviewer2 = $students[($i + 2) % $students->count()];
-            
+
             try {
-                $students[$i]->solution = $task->solutions->where('user_id', $students[$i]->id)->where('course_id', $course_id)->first()->text;
+                $solution = $task->solutions->where('user_id', $students[$i]->id)->where('course_id', $course_id)->first();
+                $students[$i]->solution = $solution->text;
+                $students[$ids[$students[$i]->reviewer1->id]]->works->push($solution);
+                $students[$ids[$students[$i]->reviewer2->id]]->works->push($solution);
             }
             catch (\Exception $e)
             {
                 $students[$i]->solution = 'Нет';
             }
+
+
         }
 
-        return view('reviewer.peer', compact('task', 'students'));
+        return view('reviewer.peer', compact('task', 'students', 'ids'));
 
 
     }
