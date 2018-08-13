@@ -189,6 +189,9 @@
                                     <a class="float-right btn btn-default btn-sm"
                                        href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/phantom')}}"><i
                                                 class="icon ion-ios-color-wand"></i></a>
+                                    <a class="float-right btn btn-default btn-sm"
+                                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/peer')}}"><i
+                                                class="icon ion-person-stalker"></i></a>
 
 
                                     <a class="float-right btn btn-default btn-sm"
@@ -285,6 +288,10 @@
                                                 <a class="float-right btn btn-default btn-sm"
                                                    href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/phantom')}}"><i
                                                             class="icon ion-ios-color-wand"></i></a>
+                                                <a class="float-right btn btn-default btn-sm"
+                                                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/peer')}}"><i
+                                                            class="icon ion-person-stalker"></i></a>
+
 
 
                                                 <a class="float-right btn btn-default btn-sm"

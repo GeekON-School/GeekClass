@@ -334,4 +334,30 @@ class TasksController extends Controller
 
         return redirect('/insider/courses/'.$course_id.'/steps/' . $task->step->id. '#task'.$id);
     }
+    public function reviewTable($course_id, $id, Request $request)
+    {
+        $task = Task::findOrFail($id);
+        $course = Course::findOrFail($course_id);
+        # $solutions = $task->solutions;
+        $students = $course->students->shuffle();
+
+
+        for ($i = 0; $i < $students->count(); $i++)
+        {
+            $students[$i]->reviewer1 = $students[($i + 1) % $students->count()];
+            $students[$i]->reviewer2 = $students[($i + 2) % $students->count()];
+            
+            try {
+                $students[$i]->solution = $task->solutions->where('user_id', $students[$i]->id)->where('course_id', $course_id)->first()->text;
+            }
+            catch (\Exception $e)
+            {
+                $students[$i]->solution = 'Нет';
+            }
+        }
+
+        return view('reviewer.peer', compact('task', 'students'));
+
+
+    }
 }
