@@ -73,7 +73,7 @@
                     <h2 style="font-weight: 300;">{{$step->name}}</h2>
                 @endif
                 @if (\Request::is('open/*'))
-                    <small>{{$course->name}} &raquo;
+                    <small>
                         <strong>{{$step->lesson->name}}</strong></small>
                     <h2 style="font-weight: 300;">{{$step->name}}</h2>
                 @endif
