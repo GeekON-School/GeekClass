@@ -1,7 +1,11 @@
 @extends('layouts.fluid')
 
 @section('title')
-    GeekClass: "{{$course->name}}" - "{{$step->name}}"
+    @if (\Request::is('insider/*'))
+        GeekClass: "{{$course->name}}" - "{{$step->name}}"
+    @else
+        GeekClass: "{{$step->name}}"
+    @endif
 @endsection
 
 @section('tabs')
