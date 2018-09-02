@@ -72,6 +72,7 @@ class TasksController extends Controller
         }
         $task->save();
 
+        if ($request->consequences)
         foreach ($request->consequences as $consequence_id) {
             $task->consequences()->attach($consequence_id);
         }
