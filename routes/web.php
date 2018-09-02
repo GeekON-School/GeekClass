@@ -19,7 +19,7 @@ Route::get('/home', function () {
 });
 
 Route::get('/start-exam', function () {
-    return redirect('/open/steps/741');
+    return redirect('/open/steps/731');
 });
 
 Route::get('/', function () {
