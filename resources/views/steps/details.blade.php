@@ -31,7 +31,7 @@
                     <li class="nav-item">
                         <a class="nav-link" style="padding-top: 10px; padding-bottom: 10px; font-size: 150%;"
                            href="#">
-                            GeekClass </a>
+                            <img src="{{url('images/bhlogo.png')}}" style="height: 35px;" /> </a>
                     </li>
                 @endif
             </ul>
@@ -640,7 +640,7 @@
                             <label for="consequences" style="padding-bottom: 10px;">Подтверждаемые результаты из <sup>
                                     <small>Core</small>
                                 </sup>:</label><br>
-                            <select class="selectpicker  form-control" data-live-search="true" id="consequences"
+                            <select class="selectpicker form-control" data-live-search="true" id="consequences"
                                     name="consequences[]" multiple data-width="auto">
                                 @foreach (\App\CoreNode::where('is_root', false)->get() as $node)
                                     <option data-tokens="{{ $node->id }}" value="{{ $node->id }}"
@@ -795,6 +795,9 @@
         });
 
         $('table').addClass('table table-striped');
+        $(document).ready(function() {
+            $('.selectpicker').selectpicker();
+        });
     </script>
 
 
