@@ -39,6 +39,8 @@
     <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     <script src="{{url('src-min-noconflict/ace.js')}}" type="text/javascript" charset="utf-8"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{{url('/js/bootstrap-select.min.js')}}"></script>
 
 
 </head>
