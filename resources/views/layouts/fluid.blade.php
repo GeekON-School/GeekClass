@@ -41,6 +41,7 @@
     <script src="{{url('src-min-noconflict/ace.js')}}" type="text/javascript" charset="utf-8"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="{{url('/js/bootstrap-select.min.js')}}"></script>
+    <link rel="stylesheet" href="{{url('css/bootstrap-select.min.css')}}">
 
 
 </head>
