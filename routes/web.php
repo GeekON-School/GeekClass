@@ -18,6 +18,10 @@ Route::get('/home', function () {
 
 });
 
+Route::get('/start-exam', function () {
+    return redirect('/open/steps/741');
+});
+
 Route::get('/', function () {
     if (\Illuminate\Support\Facades\Auth::check() ) {
         return redirect('/insider');
