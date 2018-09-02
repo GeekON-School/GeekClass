@@ -64,6 +64,7 @@ class LessonsController extends Controller
 
         $lesson->save();
 
+        if ($request->prerequisites != null)
         foreach ($request->prerequisites as $prerequisite_id) {
             $lesson->prerequisites()->attach($prerequisite_id);
         }
