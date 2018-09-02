@@ -54,7 +54,7 @@ li {
 }
 
 .markdown {
-    font-size: 110%;
+    font-size: 105%;
     line-height: 1.5;
 }
 
@@ -87,6 +87,9 @@ li {
     margin-left: auto;
     margin-right: auto;
     width: 80%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
 }
 .assessment-block .table-wrapper {
     overflow-x:scroll;
