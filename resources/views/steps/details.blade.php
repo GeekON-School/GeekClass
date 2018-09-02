@@ -640,12 +640,15 @@
                             <label for="consequences" style="padding-bottom: 10px;">Подтверждаемые результаты из <sup>
                                     <small>Core</small>
                                 </sup>:</label><br>
-                            <select class="selectpicker form-control" data-live-search="true" id="consequences"
-                                    name="consequences[]" multiple data-width="auto">
+                            <select class="selectpicker  form-control" data-live-search="true" id="consequences" name="consequences[]"  multiple  data-width="auto">
                                 @foreach (\App\CoreNode::where('is_root', false)->get() as $node)
                                     <option  data-tokens="{{ $node->id }}" value="{{ $node->id }}" data-subtext="{{$node->getParentLine()}}" >{{$node->title}}</option>
                                 @endforeach
                             </select>
+
+                            <script>
+                                $('.selectpicker').selectpicker();
+                            </script>
                         </div>
                         <div class="form-group{{ $errors->has('max_mark') ? ' has-error' : '' }}">
                             <label for="max_mark" class="col-md-4">Максимальный балл</label>
@@ -794,9 +797,7 @@
         });
 
         $('table').addClass('table table-striped');
-        $(document).ready(function() {
-            $('.selectpicker').selectpicker();
-        });
+       
     </script>
 
 
