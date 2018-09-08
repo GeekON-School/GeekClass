@@ -10,6 +10,21 @@ class Rank extends Model
 {
     protected $table = "ranks";
 
+    public static function getRanksListHTML($current_rank)
+    {
+        $ranks = Rank::orderBy('from', 'DESC')->get();
+
+        $result = '<ul>';
+
+        foreach ($ranks as $rank)
+            if ($current_rank == $rank)
+                $result.='<li><strong>'.$rank->name.' ('.$rank->from.')</strong></li>';
+            else
+                $result.='<li>'.$rank->name.' ('.$rank->from.')</li>';
+        $result.='</ul>';
+        return $result;
+    }
+
 
 
 }

@@ -20,38 +20,58 @@ class Lesson extends Model
 
     protected $results_cache = array();
 
-    public function course()
+    public function program()
     {
-        return $this->belongsTo('App\Course', 'course_id', 'id');
+        return $this->belongsTo('App\Program', 'program_id', 'id');
     }
 
     public function steps()
     {
-        return $this->hasMany('App\CourseStep', 'lesson_id', 'id')->with('tasks')->orderBy('sort_index')->orderBy('id');
+        return $this->hasMany('App\ProgramStep', 'lesson_id', 'id')->with('tasks')->orderBy('sort_index')->orderBy('id');
     }
 
-    public function percent(User $student)
+    public function prerequisites()
     {
-        $points = $this->points($student);
-        $max_points = $this->max_points($student);
+        return $this->belongsToMany('App\CoreNode', 'core_prerequisites', "lesson_id", "node_id");
+    }
+
+    public function getConsequences()
+    {
+        $tasks = $this->tasks();
+
+        $consequences = collect([]);
+        foreach ($tasks as $task)
+        {
+            foreach ($task->consequences as $consequence) {
+                $consequences->push($consequence);
+            }
+        }
+
+        return $consequences->unique();
+    }
+
+    public function percent(User $student, Course $course)
+    {
+        $points = $this->points($student, $course);
+        $max_points = $this->max_points($student, $course);
         if ($max_points == 0) return 100;
         return $points * 100 / $max_points;
 
     }
 
-    public function points(User $student)
+    public function points(User $student, Course $course)
     {
         $sum = 0;
         foreach ($this->steps as $step)
-            $sum += $step->points($student);
+            $sum += $step->points($student, $course);
         return $sum;
     }
 
-    public function max_points(User $student)
+    public function max_points(User $student, Course $course)
     {
         $sum = 0;
         foreach ($this->steps as $step)
-            $sum += $step->max_points($student);
+            $sum += $step->max_points($student, $course);
         return $sum;
     }
 
@@ -64,7 +84,54 @@ class Lesson extends Model
         }
         return $tasks;
     }
-
+    public function getStartDate($course)
+    {
+        $info = LessonInfo::where('course_id', $course->id)->where('lesson_id', $this->id)->first();
+        if ($info == null) return null;
+        else return $info->start_date;
+    }
+    public function setStartDate($course, $date)
+    {
+        $info = LessonInfo::where('course_id', $course->id)->where('lesson_id', $this->id)->first();
+        if ($info == null) {
+            $info = new LessonInfo();
+            $info->lesson_id = $this->id;
+            $info->course_id = $course->id;
+            $info->start_date = $date;
+        }
+        else {
+            $info->start_date = $date;
+        }
+        $info->save();
+    }
+    public function isStarted($course)
+    {
+        $info = LessonInfo::where('course_id', $course->id)->where('lesson_id', $this->id)->first();
+        if ($info == null) return false;
+        else return $info->start_date->lt(Carbon::now()->setTime(23,59));
+    }
+    public function isAvailable($course)
+    {
+        $user = User::findOrFail(\Auth::User()->id);
+        if (!$this->isStarted($course)) return false;
+        if ($user->role=='teacher') return true;
+        foreach ($this->prerequisites as $prerequisite)
+        {
+            if (!$user->checkPrerequisite($prerequisite)) return false;
+        }
+        return true;
+    }
+    public function isAvailableForUser($course, $user)
+    {
+        $user = User::findOrFail($user->id);
+        if (!$this->isStarted($course)) return false;
+        if ($user->role=='teacher') return true;
+        foreach ($this->prerequisites as $prerequisite)
+        {
+            if (!$user->checkPrerequisite($prerequisite)) return false;
+        }
+        return true;
+    }
     public function export()
     {
         $lesson = Lesson::where('id', $this->id)->with('steps')->first();
@@ -75,7 +142,7 @@ class Lesson extends Model
             unset($lesson->steps[$key]->id);
             unset($lesson->steps[$key]->updated_at);
             unset($lesson->steps[$key]->lesson_id);
-            unset($lesson->steps[$key]->course_id);
+            unset($lesson->steps[$key]->program_id);
 
             foreach ($lesson->steps[$key]->tasks as $tkey => $task)
             {
@@ -94,11 +161,11 @@ class Lesson extends Model
         {
             $tasks = $step->tasks;
             unset($step->tasks);
-            $new_step = new CourseStep();
+            $new_step = new ProgramStep();
             foreach($step as $property => $value)
                 $new_step->$property = $value;
             $new_step->lesson_id = $this->id;
-            $new_step->course_id = $this->course_id;
+            $new_step->program_id = $this->program_id;
             $new_step->save();
 
             foreach ($tasks as $task)

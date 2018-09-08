@@ -25,6 +25,8 @@ class User extends Authenticatable
     protected $dates = [
         'birthday'
     ];
+
+    protected $prerequisite_cache = [];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -37,6 +39,11 @@ class User extends Authenticatable
     public function managed_courses()
     {
         return $this->belongsToMany('App\Course', 'course_teachers', 'user_id', 'course_id');
+    }
+
+    public function solutions()
+    {
+        return $this->hasMany('App\Solution', 'user_id', 'id');
     }
 
     public function courses()
@@ -76,6 +83,21 @@ class User extends Authenticatable
         else {
             $this->grade_year = $current_year-$grade+1;
         }
+    }
+
+    public function checkPrerequisite(CoreNode $prerequisite)
+    {
+        foreach ($this->solutions as $solution)
+        {
+            foreach ($solution->task->consequences as $consequence)
+            {
+                if ($prerequisite->id == $consequence->id and $solution->mark!=null and $solution->mark > $consequence->pivot->cutscore)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public function score()
@@ -159,17 +181,17 @@ class User extends Authenticatable
 
     public function eventOrgs()
     {
-        return $this->belongsToMany('App\Event', 'EventOrgs');
+        return $this->belongsToMany('App\Event', 'event_orgs');
     }
 
     public function eventPartis()
     {
-        return $this->belongsToMany('App\Event', 'EventPartis');
+        return $this->belongsToMany('App\Event', 'event_partis');
     }
 
     public function eventLikes()
     {
-        return $this->belongsToMany('App\Event', 'EventLikes');
+        return $this->belongsToMany('App\Event', 'event_likes');
     }
 
     public function eventComments()

@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Course;
-use App\CourseStep;
+use App\ProgramStep;
 use App\Task;
 use App\User;
 use Closure;
@@ -29,7 +29,8 @@ class HasAccessToTask
 
             $user = User::findOrFail(Auth::User()->id);
             $task = Task::findOrFail($request->id);
-            if ($task->step->course->students->contains($user))
+            $course = Course::findOrFail($request->course_id);
+            if ($course->students->contains($user) and $course->steps->contains($task->step))
             {
                 return $next($request);
             }

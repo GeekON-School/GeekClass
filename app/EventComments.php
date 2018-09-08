@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class EventComments extends Model
 {
-    protected $table = 'EventComments';
+    protected $table = 'event_comments';
 
     public function user()
     {

@@ -18,7 +18,7 @@ class Task extends Model
 
     public function step()
     {
-        return $this->belongsTo('App\CourseStep', 'step_id', 'id');
+        return $this->belongsTo('App\ProgramStep', 'step_id', 'id');
     }
 
     public function solutions()
@@ -30,6 +30,17 @@ class Task extends Model
     {
         return $this->hasMany('App\Question', 'task_id', 'id');
     }
+
+    public function consequences()
+    {
+        return $this->belongsToMany('App\CoreNode', 'core_consequences', "task_id", "node_id");
+    }
+
+    public function isDone($user_id)
+    {
+        return $this->solutions()->where('user_id', $user_id)->where('mark', '>', 1)->count() !=0;
+    }
+
 
 
 }

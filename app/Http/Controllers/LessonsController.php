@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Course;
-use App\CourseStep;
+use App\ProgramStep;
 use App\Http\Controllers\Controller;
 use App\Lesson;
+use App\Program;
 use App\Question;
 use App\QuestionVariant;
 use App\Solution;
@@ -44,51 +45,62 @@ class LessonsController extends Controller
 
     public function create($id, Request $request)
     {
-        $course = Course::findOrFail($id);
+        $program = Course::findOrFail($id)->program;
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
-            'start_date' => 'required|date|date_format:Y-m-d'
         ]);
 
         $order = 100;
-        if ($course->lessons->count()!=0)
-            $order = $course->lessons->last()->sort_index + 1;
+        if ($program->lessons->count()!=0)
+            $order = $program->lessons->last()->sort_index + 1;
 
         $lesson = new Lesson();
-        $lesson->start_date = Carbon::createFromFormat('Y-m-d', $request['start_date']);
         $lesson->name = $request->name;
-        $lesson->course_id = $course->id;
+        $lesson->program_id = $program->id;
         $lesson->sort_index = $order;
         $lesson->description = $request->description;
         $lesson->sticker = "/stickers/".random_int(1, 40).".png";
 
         $lesson->save();
 
+        if ($request->prerequisites != null)
+        foreach ($request->prerequisites as $prerequisite_id) {
+            $lesson->prerequisites()->attach($prerequisite_id);
+        }
+
         $data = ['name'=>'Введение', 'theory'=>'', 'notes'=>''];
 
-        $step = CourseStep::createStep($lesson, $data);
+        $step = ProgramStep::createStep($lesson, $data);
 
-        return redirect('/insider/steps/' . $step->id);
+        return redirect('/insider/courses/'.$id.'/steps/' . $step->id);
     }
 
-    public function editView($id)
+    public function editView($course_id, $id)
     {
+        $course = Course::findOrFail($course_id);
         $lesson = Lesson::findOrFail($id);
-        return view('lessons.edit', compact('lesson'));
+        return view('lessons.edit', compact('lesson', 'course'));
     }
 
-    public function edit($id, Request $request)
+    public function edit($course_id, $id, Request $request)
     {
         $lesson = Lesson::findOrFail($id);
+        $course = Course::findOrFail($course_id);
         $this->validate($request, [
             'name' => 'required|string',
-            'start_date' => 'required|date|date_format:Y-m-d',
-            'description' => 'required'
+            'description' => 'required',
+            'start_date' => 'date'
         ]);
-
+        foreach ($lesson->prerequisites as $prerequisite) {
+            $lesson->prerequisites()->detach($prerequisite->id);
+        }
+        if ($request->prerequisites != null)
+        foreach ($request->prerequisites as $prerequisite_id) {
+            $lesson->prerequisites()->attach($prerequisite_id);
+        }
         $lesson->name = $request->name;
-        $lesson->start_date = $request->start_date;
+        $lesson->setStartDate($course, $request->start_date);
         $lesson->description = $request->description;
         if ($request->open == "yes")
             $lesson->is_open = true;
@@ -102,7 +114,7 @@ class LessonsController extends Controller
             $lesson->import($json);
         }
 
-        return redirect('/insider/courses/' . $lesson->course->id);
+        return redirect('/insider/courses/' . $course_id);
     }
 
     public function makeLower($id, Request $request)
