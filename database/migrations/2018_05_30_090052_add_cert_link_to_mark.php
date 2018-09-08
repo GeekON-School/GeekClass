@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCommentsTable extends Migration
+class AddCertLinkToMark extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class AddCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('event_comments', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('event_id');
-            $table->text('text');
-            $table->timestamps();
+        Schema::table('completed_courses', function (Blueprint $table) {
+
+            $table->string('cert_link')->nullable();
         });
     }
 
@@ -29,6 +26,6 @@ class AddCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('EventComments');
+        //
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCommentsTable extends Migration
+class AddLevelToCore extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class AddCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('event_comments', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('event_id');
-            $table->text('text');
-            $table->timestamps();
+        Schema::table('core_nodes', function (Blueprint $table) {
+            $table->integer('level')->default(0);
         });
     }
 
@@ -29,6 +25,6 @@ class AddCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('EventComments');
+        //
     }
 }

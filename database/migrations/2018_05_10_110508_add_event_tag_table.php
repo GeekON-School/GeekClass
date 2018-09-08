@@ -13,7 +13,7 @@ class AddEventTagTable extends Migration
      */
     public function up()
     {
-        Schema::create('EventTags', function (Blueprint $table) {
+        Schema::create('event_tags', function (Blueprint $table) {
             $table->integer('event_id');
             $table->integer('user_id');
         });
@@ -26,6 +26,6 @@ class AddEventTagTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('EventTags');
+        Schema::dropIfExists('event_tags');
     }
 }

@@ -13,7 +13,7 @@ class AddOrgsTable extends Migration
      */
     public function up()
     {
-        Schema::create('EventOrgs', function (Blueprint $table) {
+        Schema::create('event_orgs', function (Blueprint $table) {
             $table->integer('event_id');
             $table->integer('user_id');
         });
@@ -26,6 +26,6 @@ class AddOrgsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('EventOrgs');
+        Schema::dropIfExists('event_orgs');
     }
 }

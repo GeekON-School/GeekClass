@@ -13,7 +13,7 @@ class AddLikesTable extends Migration
      */
     public function up()
     {
-        Schema::create('EventLikes', function (Blueprint $table) {
+        Schema::create('event_likes', function (Blueprint $table) {
             $table->integer('event_id');
             $table->integer('user_id');
         });
@@ -26,6 +26,6 @@ class AddLikesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('EventLikes');
+        Schema::dropIfExists('event_likes');
     }
 }

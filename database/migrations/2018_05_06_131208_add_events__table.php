@@ -14,7 +14,7 @@ class AddEventsTable extends Migration
     public function up()
     {
         Schema::dropIfExists('events');
-        Schema::create('Events', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->text('text');
@@ -37,6 +37,6 @@ class AddEventsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Events');
+        Schema::dropIfExists('events');
     }
 }
