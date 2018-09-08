@@ -20,7 +20,37 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{url('css/alchemy-white.css')}}"/>
+    <style>
+        .alchemy text {
+            display: block !important;
+        }
+        .alchemy g.active {
+            opacity: 1;
+        }
+        g.use > circle {
+            opacity: 1 !important;
+            stroke: #fcff18 !important;
+            stroke-opacity: 0.8;
+            fill: green !important;
+        }
+        g.exists > circle {
+            opacity: 0.8;
 
+        }
+        .alchemy > svg {
+            background: white !important;
+        }
+        g.exists >  text {
+            fill: black;
+            text-shadow: none;
+        }
+
+        g.use > text {
+            fill: white !important;
+            text-shadow: none;
+        }
+    </style>
 
     <link rel="stylesheet" href="{{url('/css/app.css')}}">
 
@@ -29,7 +59,7 @@
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a href="{{url('/')}}" class="navbar-brand" href="#">GeekClass</a>
+    <a href="{{url('/')}}" class="navbar-brand" href="#"><img style="height: 35px;" src="{{url('images/hlogo.png')}}" /></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -52,6 +82,9 @@
             <li class="nav-item {{(Request::is('insider/events*') ? 'active' : '') }}">
                 <a class="nav-link" href="{{url('insider/events')}}">События</a>
             </li>
+            <li class="nav-item {{(Request::is('insider/core*') ? 'active' : '') }}">
+                <a class="nav-link" href="{{url('insider/core/'.\Auth::User()->id)}}">Карта</a>
+            </li>
         </ul>
         <ul class="navbar-nav" style="width: 220px;">
             <li class="nav-item dropdown">
@@ -66,7 +99,7 @@
     </div>
 </nav>
 
-<div class="container" style="margin-top: 30px;">
+
     @if(Session::has('alert-class') and Session::get('alert-destination')=='head')
         <div class="alert {{ Session::get('alert-class') }} alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
@@ -75,9 +108,10 @@
             <strong>{{Session::get('alert-title')}}</strong> {{ Session::get('alert-text') }}
         </div>
     @endif
-
-</div>
 @yield('content')
+
+
+
 
 <!-- Compiled and minified JavaScript -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

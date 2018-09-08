@@ -24,9 +24,6 @@
                     <a href="{{url('/insider/courses/'.$course->id.'/edit')}}"
                        class="btn btn-primary btn-sm"><i
                                 class="icon ion-android-create"></i></a>
-                    <a href="{{url('/insider/courses/'.$course->id.'/export')}}"
-                       class="btn btn-primary btn-sm"><i
-                                class="icon ion-ios-cloud-download"></i></a>
                     @if ($course->state=="draft")
                         <a href="{{url('/insider/courses/'.$course->id.'/start')}}"
                            class="btn btn-success btn-sm"><i
@@ -42,6 +39,44 @@
     </div>
     <div class="row">
         <div class="col-md-8">
+
+            @if ($course->state=="ended" and $user->role=='teacher')
+                <div class="card-group">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <a data-toggle="collapse" href="#certs" role="button" aria-expanded="false"
+                                       aria-controls="certs"><strong>Сертификаты</strong></a>
+                                    <a href="{{url('insider/courses/'.$course->id.'/stop')}}"
+                                       class="float-right btn btn-success btn-sm">Перевыпуск</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="collapse" id="certs">
+                                        <p>
+                                        <ul>
+                                            @foreach($marks as $mark)
+                                                @if ($mark->cert_link!= null and $mark->mark != 'D')
+                                                    <li><a target="_blank"
+                                                           href="{{$mark->cert_link}}">{{$mark->user->name}} <span
+                                                                    class="float-right badge badge-pill badge-success">{{$mark->mark}}</span></a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            @endif
+
             @foreach($lessons as $key => $lesson)
                 @if ($lesson->steps->count()!=0)
                     <div class="card-group">
@@ -49,22 +84,28 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
-                                        <h5>{{$key+1}}. <a class="collection-item"
-                                                           href="{{url('/insider/steps/'.$lesson->steps->first()->id)}}">{{$lesson->name}}</a>
-                                        </h5>
+                                        @if ($lesson->isAvailable($course) or $user->role=='teacher')
+                                            <h5>{{$key+1}}. <a class="collection-item"
+                                                               href="{{url('/insider/courses/'.$course->id.'/steps/'.$lesson->steps->first()->id)}}">{{$lesson->name}}</a>
+                                            </h5>
+                                        @else
+                                            <h5>{{$key+1}}. <a class="collection-item text-muted"
+                                                               href="#">{{$lesson->name}}</a>
+                                            </h5>
+                                        @endif
                                     </div>
                                     @if ($user->role=='teacher')
                                         <div class="col-sm-auto">
-                                            <a href="{{url('insider/lessons/'.$lesson->id.'/edit')}}"
+                                            <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/edit')}}"
                                                class="btn btn-success btn-sm"><i
                                                         class="icon ion-android-create"></i></a>
-                                            <a href="{{url('insider/lessons/'.$lesson->id.'/export')}}"
+                                            <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/export')}}"
                                                class="btn btn-success btn-sm"><i
                                                         class="icon ion-ios-cloud-download"></i></a>
-                                            <a href="{{url('insider/lessons/'.$lesson->id.'/lower')}}"
+                                            <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/lower')}}"
                                                class="btn btn-success btn-sm"><i
                                                         class="icon ion-arrow-up-c"></i></a>
-                                            <a href="{{url('insider/lessons/'.$lesson->id.'/upper')}}"
+                                            <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/upper')}}"
                                                class="btn btn-success btn-sm"><i
                                                         class="icon ion-arrow-down-c"></i></a>
                                         </div>
@@ -74,8 +115,38 @@
                                 <div class="row">
                                     <div class="col">
                                         @parsedown($lesson->description)
+
+                                        @if (count($lesson->prerequisites)!=0)
+                                            <p>
+                                                <small class="text-muted">Нужно уметь:</small>
+                                                <br>
+                                                @foreach($lesson->prerequisites as $prerequisite)
+                                                    @if (!$user->checkPrerequisite($prerequisite))
+                                                        <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                                           title="{{$prerequisite->title}}" data-html="true"
+                                                           data-content="<small>{{$prerequisite->getParentLine()}}</small> {{$prerequisite->getRelatedLessonsHTML()}}">
+                                                            <span class="badge @if ($user->role=='teacher') badge-secondary @else badge-danger @endif">{{$prerequisite->title}}</span>
+                                                        </a>
+                                                    @else
+                                                        <span class="badge badge-success">{{$prerequisite->title}}</span>
+                                                    @endif
+                                                @endforeach
+                                            </p>
+                                        @endif
+
+                                        <p>
+                                            <small class="text-muted">Результаты:</small>
+                                            <br>
+                                            @foreach($lesson->getConsequences() as $consequence)
+                                                @if (!$user->checkPrerequisite($consequence))
+                                                    <span class="badge badge-secondary">{{$consequence->title}}</span>
+                                                @else
+                                                    <span class="badge badge-success">{{$consequence->title}}</span>
+                                                @endif
+                                            @endforeach
+                                        </p>
                                     </div>
-                                    @if ($user->role=='teacher' || $lesson->percent($cstudent) > 90)
+                                    @if ($user->role=='teacher' || $lesson->percent($cstudent, $course) > 90)
                                         <div class="col-sm-auto">
                                             <img src="{{url($lesson->sticker)}}" style="max-width: 200px;"/>
                                         </div>
@@ -83,48 +154,47 @@
 
 
                                 </div>
-
-
                             </div>
-                            @if ($lesson->start_date!=null)
+                            @if ($lesson->getStartDate($course)!=null)
                                 <div class="card-footer">
                                     @if ($user->role=='teacher')
                                         <div class="collapse" id="marks{{$lesson->id}}">
                                             @foreach($students as $student)
                                                 <div class="row">
                                                     <div class="col">
-                                                        {{$student->name}}
+                                                        {{$student->name}} @if (!$lesson->isAvailableForUser($course, $student))
+                                                            <strong><span style="color: red;">!!!</span></strong> @endif
                                                     </div>
                                                     <div class="col">
                                                         <div class="progress" style="margin: 5px;">
-                                                            @if ($lesson->percent($student) < 40)
+                                                            @if ($lesson->percent($student, $course) < 40)
                                                                 <div class="progress-bar progress-bar-striped bg-danger"
                                                                      role="progressbar"
-                                                                     style="width: {{$lesson->percent($student)}}%"
-                                                                     aria-valuenow="{{$lesson->percent($student)}}"
+                                                                     style="width: {{$lesson->percent($student, $course)}}%"
+                                                                     aria-valuenow="{{$lesson->percent($student, $course)}}"
                                                                      aria-valuemin="0"
-                                                                     aria-valuemax="100">{{$lesson->points($student)}}
-                                                                    / {{$lesson->max_points($student)}}</div>
+                                                                     aria-valuemax="100">{{$lesson->points($student, $course)}}
+                                                                    / {{$lesson->max_points($student, $course)}}</div>
 
-                                                            @elseif($lesson->percent($student) < 60)
+                                                            @elseif($lesson->percent($student, $course) < 60)
                                                                 <div class="progress-bar progress-bar-striped bg-warning"
                                                                      role="progressbar"
-                                                                     style="width: {{$lesson->percent($student)}}%"
-                                                                     aria-valuenow="{{$lesson->percent($student)}}"
+                                                                     style="width: {{$lesson->percent($student, $course)}}%"
+                                                                     aria-valuenow="{{$lesson->percent($student, $course)}}"
                                                                      aria-valuemin="0"
                                                                      aria-valuemax="100">
-                                                                    Успеваемость: {{$lesson->points($student)}}
-                                                                    / {{$lesson->max_points($student)}}</div>
+                                                                    Успеваемость: {{$lesson->points($student, $course)}}
+                                                                    / {{$lesson->max_points($student, $course)}}</div>
 
                                                             @else
                                                                 <div class="progress-bar progress-bar-striped bg-success"
                                                                      role="progressbar"
-                                                                     style="width: {{$lesson->percent($student)}}%"
-                                                                     aria-valuenow="{{$lesson->percent($student)}}"
+                                                                     style="width: {{$lesson->percent($student, $course)}}%"
+                                                                     aria-valuenow="{{$lesson->percent($student, $course)}}"
                                                                      aria-valuemin="0"
                                                                      aria-valuemax="100">
-                                                                    Успеваемость: {{$lesson->points($student)}}
-                                                                    / {{$lesson->max_points($student)}}</div>
+                                                                    Успеваемость: {{$lesson->points($student, $course)}}
+                                                                    / {{$lesson->max_points($student, $course)}}</div>
 
                                                             @endif
                                                         </div>
@@ -137,49 +207,52 @@
                                     <div class="row">
                                         <div class="col">
                                             <small class="text-muted"><i class="ion ion-clock"></i> Доступно
-                                                с {{$lesson->start_date->format('Y-m-d')}}</small>
+                                                с {{$lesson->getStartDate($course)->format('Y-m-d')}}</small>
                                         </div>
                                         <div class="col">
-                                            @if ($user->role=='student' and $lesson->max_points($cstudent)!=0)
+                                            @if ($user->role=='student' and $lesson->max_points($cstudent, $course)!=0 and $lesson->isAvailable($course))
                                                 <div class="progress" style="margin: 5px;">
-                                                    @if ($lesson->percent($cstudent) < 40)
+                                                    @if ($lesson->percent($cstudent, $course) < 40)
                                                         <div class="progress-bar progress-bar-striped bg-danger"
                                                              role="progressbar"
-                                                             style="width: {{$lesson->percent($cstudent)}}%"
-                                                             aria-valuenow="{{$lesson->percent($cstudent)}}"
+                                                             style="width: {{$lesson->percent($cstudent, $course)}}%"
+                                                             aria-valuenow="{{$lesson->percent($cstudent, $course)}}"
                                                              aria-valuemin="0"
-                                                             aria-valuemax="100">{{$lesson->points($cstudent)}}
-                                                            / {{$lesson->max_points($cstudent)}}</div>
+                                                             aria-valuemax="100">{{$lesson->points($cstudent, $course)}}
+                                                            / {{$lesson->max_points($cstudent, $course)}}</div>
 
-                                                    @elseif($lesson->percent($cstudent) < 60)
+                                                    @elseif($lesson->percent($cstudent, $course) < 60)
                                                         <div class="progress-bar progress-bar-striped bg-warning"
                                                              role="progressbar"
-                                                             style="width: {{$lesson->percent($cstudent)}}%"
-                                                             aria-valuenow="{{$lesson->percent($cstudent)}}"
+                                                             style="width: {{$lesson->percent($cstudent, $course)}}%"
+                                                             aria-valuenow="{{$lesson->percent($cstudent, $course)}}"
                                                              aria-valuemin="0"
                                                              aria-valuemax="100">
-                                                            Успеваемость: {{$lesson->points($cstudent)}}
-                                                            / {{$lesson->max_points($cstudent)}}</div>
+                                                            Успеваемость: {{$lesson->points($cstudent, $course)}}
+                                                            / {{$lesson->max_points($cstudent, $course)}}</div>
 
                                                     @else
                                                         <div class="progress-bar progress-bar-striped bg-success"
                                                              role="progressbar"
-                                                             style="width: {{$lesson->percent($cstudent)}}%"
-                                                             aria-valuenow="{{$lesson->percent($cstudent)}}"
+                                                             style="width: {{$lesson->percent($cstudent, $course)}}%"
+                                                             aria-valuenow="{{$lesson->percent($cstudent, $course)}}"
                                                              aria-valuemin="0"
                                                              aria-valuemax="100">
-                                                            Успеваемость: {{$lesson->points($cstudent)}}
-                                                            / {{$lesson->max_points($cstudent)}}</div>
+                                                            Успеваемость: {{$lesson->points($cstudent, $course)}}
+                                                            / {{$lesson->max_points($cstudent, $course)}}</div>
 
                                                     @endif
                                                 </div>
                                             @endif
+                                            @if ($user->role=='student' and !$lesson->isAvailable($course))
+                                                <span class="badge badge-danger float-right" style="margin: 3px;">Не выполнены требования</span>
+                                            @endif
                                             @if ($user->role=='teacher')
                                                 <small class="text-muted float-right" style="margin-right: 15px;">
                                                     @foreach($students as $student)
-                                                        @if ($lesson->percent($student) < 40)
+                                                        @if ($lesson->percent($student, $course) < 40)
                                                             <span class="badge badge-danger">&nbsp;</span>
-                                                        @elseif($lesson->percent($student) < 60)
+                                                        @elseif($lesson->percent($student, $course) < 60)
                                                             <span class="badge badge-warning">&nbsp;</span>
                                                         @else
                                                             <span class="badge badge-success">&nbsp;</span>
@@ -233,7 +306,7 @@
                         @endforeach
                     </ul>
                     <p>
-                        <b>Участники:</b>
+                        <b>Студенты:</b>
                     </p>
                     <ul>
                         @foreach($students->sortByDesc('percent') as $student)
@@ -246,7 +319,7 @@
 
                     @if ($user->role=='teacher')
                         <p>
-                            <a href="{{url('insider/courses/'.$course->id.'/assessments')}}" class="btn btn-primary">Успеваемость</a>
+                            <a href="{{url('insider/courses/'.$course->id.'/assessments')}}" class="btn btn-success btn-sm">Успеваемость</a>
                         </p>
                     @endif
 
@@ -305,7 +378,7 @@
                                     @endphp
                                     <tr>
                                         <td>
-                                            <a href="{{url('/insider/steps/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}}</a>
+                                            <a href="{{url('/insider/courses/'.$course->id.'/steps/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}}</a>
                                         </td>
 
                                         @if ($should_check)
@@ -324,6 +397,14 @@
                 </div>
             @endif
         </div>
+        <script>
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            });
+            $('.popover-dismiss').popover({
+                trigger: 'focus'
+            });
+        </script>
 
     </div>
 

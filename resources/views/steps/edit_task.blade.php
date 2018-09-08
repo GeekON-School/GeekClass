@@ -27,6 +27,19 @@
                     @endif
                 </div>
 
+                <div class="form-group">
+                    <label for="consequences" style="padding-bottom: 10px;">Подтверждаемые результаты из <sup><small>Core</small></sup>:</label><br>
+                    <select class="selectpicker  form-control" data-live-search="true" id="consequences" name="consequences[]"  multiple  data-width="auto">
+                        @foreach (\App\CoreNode::where('is_root', false)->get() as $node)
+                            <option  data-tokens="{{ $node->id }}" value="{{ $node->id }}" data-subtext="{{$node->getParentLine()}}" >{{$node->title}}</option>
+                        @endforeach
+                    </select>
+
+                    <script>
+                        $('.selectpicker').selectpicker('val', [{{implode(',', $task->consequences->pluck('id')->toArray())}}]);
+                    </script>
+                </div>
+
                 <div class="form-group{{ $errors->has('max_mark') ? ' has-error' : '' }}">
                     <label for="max_mark">Максимальный балл</label>
 
@@ -48,11 +61,20 @@
 
                 <div class="form-group">
                     <label for="text">Текст</label>
-                    <textarea id="text" class="form-control" name="text"
-                              required>@if (old('text')!=""){{old('text')}}@else{{$task->text}}@endif</textarea>
+                    <textarea id="text" class="form-control" name="text">@if (old('text')!=""){{old('text')}}@else{{$task->text}}@endif</textarea>
                     @if ($errors->has('text'))
                         <span class="help-block error-block">
                                         <strong>{{ $errors->first('text') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+
+                <div class="form-group">
+                    <label for="solution">Решение</label>
+                    <textarea id="solution" class="form-control" name="solution">@if (old('solution')!=""){{old('solution')}}@else{{$task->solution}}@endif</textarea>
+                    @if ($errors->has('solution'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('solution') }}</strong>
                                     </span>
                     @endif
                 </div>
@@ -195,6 +217,10 @@
         var simplemde_task = new SimpleMDE({
             spellChecker: false,
             element: document.getElementById("text")
+        });
+        var simplemde_solution = new SimpleMDE({
+            spellChecker: false,
+            element: document.getElementById("solution")
         });
     </script>
 @endsection

@@ -22,8 +22,9 @@
                              aria-valuemax="{{$user->rank()->to}}">{{$user->score()}}</div>
                     </div>
                     <p style="margin-top: 15px;">
-                        <span style="font-size: 15px;" class="badge badge-pill badge-success"><i
-                                    class="icon ion-ios-arrow-up"></i> {{$user->rank()->name}}</span><br>
+                        <a tabindex="0" data-toggle="popover" data-trigger="focus" title="Ранги" data-html="true" data-content="{{\App\Rank::getRanksListHTML($user->rank())}}"><span style="font-size: 15px;" class="badge badge-pill badge-success"><i
+                                        class="icon ion-ios-arrow-up"></i> {{$user->rank()->name}}</span></a>
+                        <br>
                         @if ($user->is_trainee)
                             <span class="badge badge-pill badge-info">Стажер</span>
                         @endif
@@ -31,33 +32,38 @@
                             <span class="badge badge-pill badge-info">Преподаватель</span>
                         @endif
                     </p>
+                    <ul class="list-group list-group-flush">
+                        @if ($user->telegram!='')
+                            <li class="list-group-item"><img src="https://png.icons8.com/telegram-app/win10/16"
+                                                             title="Telegram App" width="16"
+                                                             height="16"><strong> Telegram: </strong>
+                                {{$user->telegram}}</li>
+                        @endif
+                        @if ($user->git!='')
+                            <li class="list-group-item"><img src="https://png.icons8.com/git/color/24" title="Git"
+                                                             width="16" height="16"><strong> Git: </strong>
+                                {{$user->git}}</li>
+                        @endif
+                        @if ($user->vk!='')
+                            <li class="list-group-item"><img src="https://png.icons8.com/vkontakte/color/24"
+                                                             title="VKontakte" width="16"
+                                                             height="16">
+                                <strong> VK: </strong>
+                                {{$user->vk}}</li>
+                        @endif
+                        @if ($user->facebook!='')
+                            <li class="list-group-item"><img src="https://png.icons8.com/facebook/color/24" title="Facebook"
+                                                             width="16"
+                                                             height="16"><strong> Facebook: </strong>
+                                {{$user->facebook}}</li>
+                        @endif
+                    </ul>
+
+                    @foreach($stickers as $sticker)
+                        <img src="{{url($sticker)}}" title="{{$sticker_description[$sticker]}}" style="max-height: 35px;"/>
+                    @endforeach
                 </div>
-                <ul class="list-group list-group-flush">
-                    @if ($user->telegram!='')
-                        <li class="list-group-item"><img src="https://png.icons8.com/telegram-app/win10/16"
-                                                         title="Telegram App" width="16"
-                                                         height="16"><strong> Telegram: </strong>
-                            {{$user->telegram}}</li>
-                    @endif
-                    @if ($user->git!='')
-                        <li class="list-group-item"><img src="https://png.icons8.com/git/color/24" title="Git"
-                                                         width="16" height="16"><strong> Git: </strong>
-                            {{$user->git}}</li>
-                    @endif
-                    @if ($user->vk!='')
-                        <li class="list-group-item"><img src="https://png.icons8.com/vkontakte/color/24"
-                                                         title="VKontakte" width="16"
-                                                         height="16">
-                            <strong> VK: </strong>
-                            {{$user->vk}}</li>
-                    @endif
-                    @if ($user->facebook!='')
-                        <li class="list-group-item"><img src="https://png.icons8.com/facebook/color/24" title="Facebook"
-                                                         width="16"
-                                                         height="16"><strong> Facebook: </strong>
-                            {{$user->facebook}}</li>
-                    @endif
-                </ul>
+
 
 
             </div>
@@ -135,7 +141,7 @@
                     </div>
                     <div class="col" style="padding-top: 19px;">
                         @if ($guest->role=='teacher')
-                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
+                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-success"
                                     data-toggle="modal" data-target="#exampleModal">
                                 <i class="icon ion-plus-round"></i> Добавить
                             </button>
@@ -156,16 +162,13 @@
                                     <p>
                                         <span class="badge badge-pill badge-{{\App\CourseLabel::get($course)}}">{{$course->provider}}</span>
                                         <span class="badge badge-pill badge-success">Оценка: <strong>{{$course->mark}}</strong></span>
-                                        @if ($course->course_id!=null && ($guest->role=='teacher' || $course->course->students->contains($guest)))
-                                            <br>
-                                            <br>
-
-                                            <a href="{{url('insider/courses/'.$course->course_id)}}"
-                                               class="btn btn-sm btn-primary">Страница
-                                                курса</a>
-
-                                        @endif
                                     </p>
+                                    @if ($course->course_id!=null && ($guest->role=='teacher' || $course->course->students->contains($guest)))
+                                        <a href="{{url('insider/courses/'.$course->course_id)}}"
+                                           class="card-link">Страница
+                                            курса</a>
+                                    @endif
+
 
                                 </div>
                             </div>
@@ -182,7 +185,7 @@
                     </div>
                     <div class="col" style="padding-top: 19px;">
                         @if ($guest->role=='teacher' || $guest->id==$user->id)
-                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-primary"
+                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-success"
                                     data-toggle="modal" data-target="#createProject">
                                 <i class="icon ion-plus-round"></i> Добавить
                             </button>
@@ -236,7 +239,7 @@
                                 <div class="card-body">
                                     <div class="float-left"><span>{{$event->short_text}}</span></div>
                                     <div class="float-right">
-                                        <a href="{{url('insider/events/'.$event->id)}}" class="btn btn-sm btn-primary">Страница
+                                        <a href="{{url('insider/events/'.$event->id)}}" class="card-link">Страница
                                             события</a>
                                     </div>
                                 </div>
@@ -275,7 +278,7 @@
                                     <div class="card-body">
                                         <div class="float-left"><span>{{$event->short_text}}</span></div>
                                         <div class="float-right">
-                                            <a href="{{url('insider/events/'.$event->id)}}" class="btn btn-sm btn-primary">Страница
+                                            <a href="{{url('insider/events/'.$event->id)}}" class="card-link">Страница
                                                 события</a>
                                         </div>
                                     </div>
@@ -415,5 +418,13 @@
             </div>
         </div>
     </div>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        });
+        $('.popover-dismiss').popover({
+            trigger: 'focus'
+        });
+    </script>
 
 @endsection

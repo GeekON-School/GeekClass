@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" style="min-height: 100%;">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,29 +38,16 @@
           href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/styles/atom-one-light.min.css">
     <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="{{url('src-min-noconflict/ace.js')}}" type="text/javascript" charset="utf-8"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="{{url('/js/bootstrap-select.min.js')}}"></script>
-    <link rel="stylesheet" href="{{url('css/bootstrap-select.min.css')}}">
 
 
 </head>
-<body style="min-height: 100%; height: 100%;">
+<body>
 
-<div class="container-fluid" style="min-height: calc(100% - 56px);">
-    @if(Session::has('alert-class') and Session::get('alert-destination')=='head')
-        <div class="alert {{ Session::get('alert-class') }} alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                        aria-hidden="true">&times;</span>
-            </button>
-            <strong>{{Session::get('alert-title')}}</strong> {{ Session::get('alert-text') }}
-        </div>
-    @endif
-    @yield('content')
-</div>
+
+@yield('content')
+
 
 <!-- Compiled and minified JavaScript -->
-
 
 
 <!-- Scripts -->
@@ -83,11 +70,7 @@
     $('div').linkify({
         target: "_blank"
     });
-    $('div.markdown a').attr('target', 'blank');
-
 </script>
-
-
 
 
 </body>

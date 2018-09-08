@@ -22,15 +22,29 @@
                                     </span>
                     @endif
                 </div>
+
+                <div class="form-group">
+                    <label for="prerequisites" style="padding-bottom: 10px;">Необходимые знания из <sup><small>Core</small></sup>:</label><br>
+                    <select class="selectpicker  form-control" data-live-search="true" id="prerequisites" name="prerequisites[]"  multiple  data-width="auto">
+                        @foreach (\App\CoreNode::where('is_root', false)->get() as $node)
+                            <option  data-tokens="{{ $node->id }}" value="{{ $node->id }}" data-subtext="{{$node->getParentLine()}}" >{{$node->title}}</option>
+                        @endforeach
+                    </select>
+
+                    <script>
+                        $('.selectpicker').selectpicker('val', [{{implode(',', $lesson->prerequisites->pluck('id')->toArray())}}]);
+                    </script>
+                </div>
+
                 <div class="form-group{{ $errors->has("start_date") ? ' has-error' : '' }}">
                     <label for="start_date">Дата начала</label>
-                    @if (old('start_date')!="")
-                        <input id="start_date" type="text" class="form-control" value="{{old("start_date")}}"
+                    @if (old('start_date')!="" || $lesson->getStartDate($course)==null)
+                        <input id="start_date" type="date" class="form-control" value="{{old("start_date")}}"
                                name="start_date"
                                required>
                     @else
-                        <input id="start_date" type="text" class="form-control"
-                               value="{{$lesson->start_date->format('Y-m-d')}}"
+                        <input id="start_date" type="date" class="form-control"
+                               value="{{$lesson->getStartDate($course)->format('Y-m-d')}}"
                                name="start_date"
                                required>
                     @endif
@@ -80,6 +94,10 @@
                                     </span>
                     @endif
                 </div>
+
+
+
+
 
                 <button type="submit" class="btn btn-success">Сохранить</button>
             </form>

@@ -10,7 +10,7 @@
                 <div class="text-center" style="margin-right: 10px">
                     <a class="nav-link" href="{{url('/insider/events/old')}}" style="color:black"><h2>Архив событий</h2></a>
                 </div>
-                <div class="float-right" style="margin-top: -50px; margin-right: -10px;">
+                <div class="float-right" style="margin-top: -50px;">
                     <a href="{{url('/insider/events/add_event')}}" class = "btn btn-success">Провести событие</a>
                 </div>
             </div>
@@ -18,7 +18,7 @@
         <div class="row" style = "margin-top: 10px">
             <div class="col-md-8">
             @foreach($events as $event)
-                @if(\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now()))
+                @if(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $event->date)->gt(\Carbon\Carbon::now()))
                 @foreach($event->tags as $tag)
                         @if(in_array($tag->id, $s_tags))
                     <div class="card-group">

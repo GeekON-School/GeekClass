@@ -23,8 +23,9 @@
 
 
     <link rel="stylesheet" href="{{url('/css/app.css')}}">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
             integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
@@ -38,13 +39,41 @@
           href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/styles/atom-one-light.min.css">
     <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{{url('css/bootstrap-select.min.css')}}">
+    <link rel="stylesheet" href="{{url('css/jquery-ui.min.css')}}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="{{url('js/jquery-ui.min.js')}}"></script>
+    <script>
+        $( function() {
+            $( "input[type=date]" ).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1940:2025"
+            });
+            $( "input[type=date]" ).datepicker("option", "dateFormat", 'yy-mm-dd');
+        } );
+    </script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{{url('/js/bootstrap-select.min.js')}}"></script>
+    <style>
+        .card {
+            border: 1px solid rgba(220,220,220,1);
+        }
+        .card-footer {
+            border-radius: 0 !important;
+        }
+
+    </style>
+
+
 
 
 </head>
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a href="{{url('/')}}" class="navbar-brand" href="#">GeekClass</a>
+    <a href="{{url('/')}}" class="navbar-brand" href="#"><img style="height: 35px;" src="{{url('images/hlogo.png')}}" /></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -67,6 +96,9 @@
             </li>
             <li class="nav-item {{(Request::is('insider/events*') ? 'active' : '') }}">
                 <a class="nav-link" href="{{url('insider/events')}}">События</a>
+            </li>
+            <li class="nav-item {{(Request::is('insider/core*') ? 'active' : '') }}">
+                <a class="nav-link" href="{{url('insider/core/'.\Auth::User()->id)}}">Карта</a>
             </li>
         </ul>
 
@@ -122,6 +154,9 @@
         target: "_blank"
     });
     $('div.markdown a').attr('target', 'blank');
+    $(document).ready(function() {
+        $('.selectpicker').selectpicker();
+    });
 </script>
 
 

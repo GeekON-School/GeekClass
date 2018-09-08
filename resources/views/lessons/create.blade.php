@@ -18,18 +18,13 @@
                         <span class="help-block error-block"><strong>{{ $errors->first('name') }}</strong></span>
                     @endif
                 </div>
-                <div class="form-group{{ $errors->has("start_date") ? ' has-error' : '' }}">
-                    <label for="start_date">Дата начала</label>
-
-                    <input id="start_date" type="text" class="form-control" value="{{old("start_date")}}"
-                           name="start_date"
-                           required>
-
-                    @if ($errors->has("start_date"))
-                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first("start_date") }}</strong>
-                                    </span>
-                    @endif
+                <div class="form-group">
+                    <label for="prerequisites" style="padding-bottom: 10px;">Необходимые знания из <sup><small>Core</small></sup>:</label><br>
+                    <select class="selectpicker  form-control" data-live-search="true" id="prerequisites" name="prerequisites[]"  multiple  data-width="auto">
+                        @foreach (\App\CoreNode::where('is_root', false)->get() as $node)
+                            <option  data-tokens="{{ $node->id }}" value="{{ $node->id }}" data-subtext="{{$node->getParentLine()}}" >{{$node->title}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="description" style="padding-bottom: 10px;">Описание урока</label>
