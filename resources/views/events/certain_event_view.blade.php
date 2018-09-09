@@ -91,7 +91,7 @@
                         </div>
                     @endif
                 @endforeach
-                @if(\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now()))
+                @if(\Carbon\Carbon::createFromFormat('Y-m-d H:i', $event->date)->gt(\Carbon\Carbon::now()))
                 <div>
                     <form method="POST" action="{{url('insider/events/'.$event->id)}}">
                         {{csrf_field()}}
