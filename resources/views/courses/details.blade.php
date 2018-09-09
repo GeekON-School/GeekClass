@@ -374,7 +374,6 @@
                                         $mark = $mark == null?0:$mark;
                                         $should_check = false;
                                         if (count($filtered)!=0 && $filtered->last()->mark==null) $should_check=true;
-
                                     @endphp
                                     <tr>
                                         <td>
