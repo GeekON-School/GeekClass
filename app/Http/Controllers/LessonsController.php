@@ -117,19 +117,19 @@ class LessonsController extends Controller
         return redirect('/insider/courses/' . $course_id);
     }
 
-    public function makeLower($id, Request $request)
+    public function makeLower($course_id, $id, Request $request)
     {
         $lesson = Lesson::findOrFail($id);
         $lesson->sort_index -= 1;
         $lesson->save();
-        return redirect('/insider/courses/' . $lesson->course->id);
+        return redirect('/insider/courses/' . $course_id);
     }
-    public function makeUpper($id, Request $request)
+    public function makeUpper($course_id, $id, Request $request)
     {
         $lesson = Lesson::findOrFail($id);
         $lesson->sort_index += 1;
         $lesson->save();
-        return redirect('/insider/courses/' . $lesson->course->id);
+        return redirect('/insider/courses/' . $course_id);
     }
 
     public function export($id)
