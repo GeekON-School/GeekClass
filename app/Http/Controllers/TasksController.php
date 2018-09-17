@@ -170,7 +170,8 @@ class TasksController extends Controller
     public function phantomSolution($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);
-        foreach ($task->step->course->students as $user)
+        $course = Course::findOrFail($course_id);
+        foreach ($course->students as $user)
         {
             $solution = new Solution();
             $solution->task_id = $id;
@@ -214,7 +215,7 @@ class TasksController extends Controller
                 $solution->mark = 0;
                 $solution->comment = "Неверный ответ.";
             }
-            $solution->teacher_id = $task->Step->Course->Teachers->first()->id;
+            $solution->teacher_id = $course->Teachers->first()->id;
             $solution->checked = Carbon::now();
         }
         if ($task->is_code)
