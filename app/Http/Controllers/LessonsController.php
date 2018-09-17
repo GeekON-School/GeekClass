@@ -132,7 +132,7 @@ class LessonsController extends Controller
         return redirect('/insider/courses/' . $course_id);
     }
 
-    public function export($id)
+    public function export($course_id, $id)
     {
         $lesson = Lesson::findOrFail($id);
 
