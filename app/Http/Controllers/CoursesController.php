@@ -193,6 +193,7 @@ class CoursesController extends Controller
 
         $course->name = $request->name;
         $course->description = $request->description;
+        $course->save();
         $course->teachers()->attach($user->id);
 
 
