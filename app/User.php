@@ -91,7 +91,7 @@ class User extends Authenticatable
         {
             foreach ($solution->task->consequences as $consequence)
             {
-                if ($prerequisite->id == $consequence->id and $solution->mark!=null and $solution->mark > $consequence->pivot->cutscore)
+                if ($prerequisite->id == $consequence->id and $solution->mark!=null and $solution->mark >= $consequence->pivot->cutscore)
                 {
                     return true;
                 }
