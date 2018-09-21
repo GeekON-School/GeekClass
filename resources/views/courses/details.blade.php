@@ -367,6 +367,7 @@
                                 @endphp
                                 @foreach($tasks as $task)
                                     @php
+                                        if ($task->answer != null) continue;
                                         $filtered = $task->solutions->filter(function ($value) use ($user) {
                                             return $value->user_id == $user->id && !$value->is_quiz;
                                         });
