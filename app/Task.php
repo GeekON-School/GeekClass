@@ -23,7 +23,7 @@ class Task extends Model
 
     public function solutions()
     {
-        return $this->hasMany('App\Solution', 'task_id', 'id')->orderBy('id');
+        return $this->hasMany('App\Solution', 'task_id', 'id');
     }
 
     public function questions()

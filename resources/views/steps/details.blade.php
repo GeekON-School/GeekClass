@@ -244,7 +244,7 @@
                                 <span class="badge badge-secondary">Максимальный балл: {{$task->max_mark}}</span>
                                 @if ($task->is_quiz && $task->solutions()->where('user_id', Auth::User()->id)->count()!=0)
                                     @php
-                                        $solution = $task->solutions()->where('user_id', Auth::User()->id)->get()->last();
+                                        $solution = $task->solutions()->where('user_id', Auth::User()->id)->orderBy('id', 'DESC')->get()->first();
                                     @endphp
                                     <span class="badge badge-primary">Оценка: {{$solution->mark}}</span>
                                     <span class="small">{{$solution->comment}}</span>
