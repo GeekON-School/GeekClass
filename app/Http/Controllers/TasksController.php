@@ -205,7 +205,6 @@ class TasksController extends Controller
 
         if ($task->is_quiz)
         {
-            dd([$task->answer==$request->text, $request->text, $task->answer]);
             if ($task->answer==$request->text)
             {
                 $solution->mark = $task->max_mark;
