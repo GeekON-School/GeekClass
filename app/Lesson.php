@@ -108,7 +108,7 @@ class Lesson extends Model
     {
         $info = LessonInfo::where('course_id', $course->id)->where('lesson_id', $this->id)->first();
         if ($info == null) return false;
-        else return $info->start_date == null or $info->start_date->lt(Carbon::now()->setTime(23,59));
+        else return !$info->start_date == null or $info->start_date->lt(Carbon::now()->setTime(23,59));
     }
     public function isAvailable($course)
     {
