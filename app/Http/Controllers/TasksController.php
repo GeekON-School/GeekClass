@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CoinTransaction;
 use App\Course;
 use App\ProgramStep;
 use App\Http\Controllers\Controller;
@@ -43,6 +44,7 @@ class TasksController extends Controller
         $this->validate($request, [
             'text' => 'required|string',
             'name' => 'required|string',
+            'price' => 'required|numeric|min:0',
             'max_mark' => 'required|integer|min:0|max:100'
         ]);
 
@@ -57,6 +59,7 @@ class TasksController extends Controller
             'only_remote' => $request->only_remote=='on'?true:false,
             'only_class' => $request->only_class=='on'?true:false]);
         $task->solution = $request->solution;
+        $task->price = $request->price;
 
         if ($request->has('answer'))
         {
@@ -101,6 +104,7 @@ class TasksController extends Controller
         $this->validate($request, [
             'text' => 'required|string',
             'name' => 'required|string',
+            'price' => 'required|numeric|min:0',
             'max_mark' => 'required|integer|min:0|max:100'
         ]);
 
@@ -115,6 +119,7 @@ class TasksController extends Controller
         $task->text = $request->text;
         $task->max_mark = $request->max_mark;
         $task->name = $request->name;
+        $task->price = $request->price;
         $task->solution = $request->solution;
         if ($request->is_star=='on')
         {
@@ -207,6 +212,10 @@ class TasksController extends Controller
         {
             if ($task->answer==$request->text)
             {
+                if (!$task->isFullDone(Auth::User()->id))
+                {
+                    CoinTransaction::register(Auth::User()->id, $task->price, "Task #".$task->id);
+                }
                 $solution->mark = $task->max_mark;
                 $solution->comment = "Правильно.";
 
@@ -284,6 +293,11 @@ class TasksController extends Controller
             'mark' => 'required|integer|min:0|max:'.$solution->task->max_mark
         ]);
         $solution->mark = $request->mark;
+        if ($solution->mark == $solution->task->max_mark and !$solution->task->isFullDone($solution->user_id))
+        {
+            CoinTransaction::register($solution->user_id, $solution->task->price, "Task #".$solution->task->id);
+        }
+
         $solution->comment = $request->comment;
         $solution->teacher_id = Auth::User()->id;
         $solution->checked = Carbon::now();

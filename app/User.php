@@ -198,4 +198,14 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\EventComments');
     }
+
+    public function transactions()
+    {
+        return $this->hasMany('App\CoinTransaction', 'user_id', 'id');
+    }
+
+    public function balance()
+    {
+        return $this->transactions()->sum('price');
+    }
 }

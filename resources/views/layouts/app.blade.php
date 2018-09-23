@@ -103,7 +103,11 @@
             </li>
         </ul>
 
-        <ul class="navbar-nav" style="width: 220px;">
+        <ul class="navbar-nav" style="width: 240px;">
+            <span style="margin-top: 8px; color: white;">
+               <img src="https://png.icons8.com/color/50/000000/coins.png" style="height: 23px;">&nbsp;{{Auth::user()->balance()}}&nbsp;&nbsp;
+
+            </span>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">

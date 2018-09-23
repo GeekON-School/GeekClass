@@ -94,6 +94,27 @@
                            @if ($task->only_remote) checked @endif/>
                 </div>
 
+                <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
+                    <label for="price" class="col-md-4">Премия</label>
+
+                    <div class="col-md-12">
+
+                        @if (old('price')!="")
+                            <input type="text" name="price" class="form-control" id="price"
+                                   value="{{old('price')}}"/>
+                        @else
+                            <input type="text" name="price" class="form-control" id="price"
+                                   value="{{$task->price}}"/>
+                        @endif
+
+                        @if ($errors->has('price'))
+                            <span class="help-block error-block">
+                                        <strong>{{ $errors->first('price') }}</strong>
+                                    </span>
+                        @endif
+                    </div>
+                </div>
+
                 <div class="form-group{{ $errors->has('answer') ? ' has-error' : '' }}">
                     <label for="answer" class="col-md-4">Ответ</label>
 

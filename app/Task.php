@@ -41,6 +41,11 @@ class Task extends Model
         return $this->solutions()->where('user_id', $user_id)->where('mark', '>', 1)->count() !=0;
     }
 
+    public function isFullDone($user_id)
+    {
+        return $this->solutions()->where('user_id', $user_id)->where('mark', '=', $this->max_mark)->count() !=0;
+    }
+
 
 
 }

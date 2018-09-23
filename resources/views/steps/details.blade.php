@@ -183,7 +183,12 @@
                                         <span class="badge badge-success">{{$consequence->title}}</span>
                                     @endif
                                 @endforeach
-                                @if (\Request::is('insider/*') && $user->role=='teacher')
+
+                                @if ($task->price > 0)
+                                    <img src="https://png.icons8.com/color/50/000000/coins.png" style="height: 23px;">&nbsp;{{$task->price}}
+                                @endif
+
+                                @if ($user->role=='teacher')
                                     <a class="float-right btn btn-danger btn-sm"
                                        href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"><i
                                                 class="icon ion-android-close"></i></a>
@@ -282,6 +287,11 @@
                                                     <span class="badge badge-success">{{$consequence->title}}</span>
                                                 @endif
                                             @endforeach
+
+                                            @if ($task->price > 0)
+                                                <img src="https://png.icons8.com/color/50/000000/coins.png" style="height: 23px;">&nbsp;{{$task->price}}
+                                            @endif
+
                                             @if (\Request::is('insider/*') && $user->role=='teacher')
                                                 <a class="float-right btn btn-danger btn-sm"
                                                    href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"><i
@@ -709,6 +719,18 @@
                                 @if ($errors->has('answer'))
                                     <span class="help-block error-block">
                                         <strong>{{ $errors->first('answer') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
+                            <label for="price" class="col-md-4">Премия</label>
+
+                            <div class="col-md-12">
+                                <input type="text" name="price" class="form-control" id="price"/>
+                                @if ($errors->has('price'))
+                                    <span class="help-block error-block">
+                                        <strong>{{ $errors->first('price') }}</strong>
                                     </span>
                                 @endif
                             </div>
