@@ -90,7 +90,7 @@ class LessonsController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required',
-            'start_date' => 'date'
+            'start_date' => 'date|nullable'
         ]);
         foreach ($lesson->prerequisites as $prerequisite) {
             $lesson->prerequisites()->detach($prerequisite->id);
