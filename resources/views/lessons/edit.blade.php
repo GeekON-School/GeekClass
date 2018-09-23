@@ -40,13 +40,11 @@
                     <label for="start_date">Дата начала</label>
                     @if (old('start_date')!="" || $lesson->getStartDate($course)==null)
                         <input id="start_date" type="text" class="form-control date" value="{{old("start_date")}}"
-                               name="start_date"
-                               required>
+                               name="start_date">
                     @else
                         <input id="start_date" type="text" class="form-control date"
                                value="{{$lesson->getStartDate($course)->format('Y-m-d')}}"
-                               name="start_date"
-                               required>
+                               name="start_date">
                     @endif
 
 
