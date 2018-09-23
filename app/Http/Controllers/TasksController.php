@@ -296,19 +296,19 @@ class TasksController extends Controller
 
     }
 
-    public function makeLower($id, Request $request)
+    public function makeLower($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);
         $task->sort_index -= 1;
         $task->save();
-        return redirect('/insider/steps/' . $task->step->id. '#task'.$id);
+        return redirect('/insider/courses/'.$course_id.'/steps/' . $task->step->id. '#task'.$id);
     }
-    public function makeUpper($id, Request $request)
+    public function makeUpper($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);
         $task->sort_index += 1;
         $task->save();
-        return redirect('/insider/steps/' . $task->step->id. '#task'.$id);
+        return redirect('/insider/courses/'.$course_id.'/steps/' . $task->step->id. '#task'.$id);
     }
     public function toNextTask($course_id, $id, Request $request)
     {
