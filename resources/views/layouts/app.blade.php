@@ -46,12 +46,12 @@
     <script src="{{url('js/jquery-ui.min.js')}}"></script>
     <script>
         $( function() {
-            $( "input[type=date]" ).datepicker({
+            $( ".date" ).datepicker({
                 changeMonth: true,
                 changeYear: true,
                 yearRange: "1940:2025"
             });
-            $( "input[type=date]" ).datepicker("option", "dateFormat", 'yy-mm-dd');
+            $( ".date" ).datepicker("option", "dateFormat", 'yy-mm-dd');
         } );
     </script>
     <!-- Latest compiled and minified JavaScript -->

@@ -141,10 +141,10 @@
                             <label for='birthday'>Дата рождения</label>
 
                             @if (old('birthday')!="" || $user->birthday==null)
-                                <input id='birthday' type="date" class="form-control" name='birthday'
+                                <input id='birthday' type="text" class="form-control date" name='birthday'
                                        value="{{old('birthday')}}" required>
                             @else
-                                <input id='birthday' type="date" class="form-control" name='birthday'
+                                <input id='birthday' type="text" class="form-control date" name='birthday'
                                        value="{{$user->birthday->format('Y-m-d')}}"
                                        required>
                             @endif

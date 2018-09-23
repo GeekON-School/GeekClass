@@ -30,7 +30,7 @@
 
         <div class = "form-group required">
             <label>Дата проведения мероприятия</label>
-            <input type="date" name="date" class="form-control" value="{{$event->date}}" required>
+            <input type="text" name="date" class="date form-control" value="{{$event->date}}" required>
         </div>
 
         <div class = "form-group required">

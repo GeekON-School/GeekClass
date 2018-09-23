@@ -155,7 +155,7 @@
                                     <div class="form-group">
                                         <label for='birthday'>Дата рождения</label>
 
-                                        <input id='birthday' type="date" class="form-control" name='birthday'
+                                        <input id='birthday' type="text" class="form-control date" name='birthday'
                                                value="{{old('birthday')}}" required>
                                         <span class="help-block text-muted"><strong>Это обязательное поле.</strong></span>
 
