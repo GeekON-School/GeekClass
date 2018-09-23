@@ -49,9 +49,10 @@
             $( ".date" ).datepicker({
                 changeMonth: true,
                 changeYear: true,
-                yearRange: "1940:2025"
+                yearRange: "1940:2025",
+                dateFormat: 'yy-mm-dd'
             });
-            $( ".date" ).datepicker("option", "dateFormat", 'yy-mm-dd');
+
         } );
     </script>
     <!-- Latest compiled and minified JavaScript -->

@@ -45,7 +45,7 @@ class NewSolution extends Notification implements ShouldQueue
         return (new MailMessage)->greeting('Добрый день!')->subject('Новое решение')
                     ->line($this->solution->User->name." загрузил новое решение для задачи
                      ".$this->solution->task->name." (курс ".$this->solution->course->name.").")
-                    ->action('Оценить', url("/insider/courses/'.$this->solution->course_id.'/tasks/".$this->solution->task->id."/student/".$this->solution->User->id));
+                    ->action('Оценить', url("/insider/courses/".$this->solution->course_id."/tasks/".$this->solution->task->id."/student/".$this->solution->User->id));
     }
 
     /**
