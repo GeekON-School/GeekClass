@@ -293,7 +293,7 @@ class TasksController extends Controller
             'mark' => 'required|integer|min:0|max:'.$solution->task->max_mark
         ]);
         $solution->mark = $request->mark;
-        if ($solution->mark == $solution->task->max_mark and !$solution->task->isFullDone($solution->user_id))
+        if ($solution->task->price > 0 and $solution->mark == $solution->task->max_mark and !$solution->task->isFullDone($solution->user_id))
         {
             CoinTransaction::register($solution->user_id, $solution->task->price, "Task #".$solution->task->id);
         }
