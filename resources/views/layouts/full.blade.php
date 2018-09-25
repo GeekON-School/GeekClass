@@ -85,6 +85,9 @@
             <li class="nav-item {{(Request::is('insider/core*') ? 'active' : '') }}">
                 <a class="nav-link" href="{{url('insider/core/'.\Auth::User()->id)}}">Карта</a>
             </li>
+            <li class="nav-item {{(Request::is('insider/market*') ? 'active' : '') }}">
+                <a class="nav-link" href="{{url('insider/market')}}">Магазин</a>
+            </li>
         </ul>
         <ul class="navbar-nav" style="width: 220px;">
             <li class="nav-item dropdown">

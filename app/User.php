@@ -208,4 +208,14 @@ class User extends Authenticatable
     {
         return $this->transactions()->sum('price');
     }
+
+    public function goods()
+    {
+        return $this->belongsToMany('App\MarketGood', 'market_deals', 'user_id', 'good_id');
+    }
+
+    public function orders() {
+        return $this->hasMany('App\MarketDeal', 'user_id', 'id');
+    }
+
 }

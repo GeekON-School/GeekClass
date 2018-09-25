@@ -42,6 +42,16 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return redirect('/insider/courses');
     });
+
+    Route::get('/market', 'MarketController@index');
+    Route::get('/market/create', 'MarketController@createView');
+    Route::post('/market/create', 'MarketController@create');
+    Route::get('/market/{id}/edit', 'MarketController@editView');
+    Route::post('/market/{id}/edit', 'MarketController@edit');
+    Route::get('/market/{id}/buy', 'MarketController@buy');
+    Route::get('/market/ship/{id}', 'MarketController@ship');
+
+    
     Route::get('/courses', 'CoursesController@index')->name('Courses');
 
     Route::get('/courses/create', 'CoursesController@createView')->name('Create course');

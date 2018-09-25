@@ -22,7 +22,9 @@
                              aria-valuemax="{{$user->rank()->to}}">{{$user->score()}}</div>
                     </div>
                     <p style="margin-top: 15px;">
-                        <a tabindex="0" data-toggle="popover" data-trigger="focus" title="Ранги" data-html="true" data-content="{{\App\Rank::getRanksListHTML($user->rank())}}"><span style="font-size: 15px;" class="badge badge-pill badge-success"><i
+                        <a tabindex="0" data-toggle="popover" data-trigger="focus" title="Ранги" data-html="true"
+                           data-content="{{\App\Rank::getRanksListHTML($user->rank())}}"><span style="font-size: 15px;"
+                                                                                               class="badge badge-pill badge-success"><i
                                         class="icon ion-ios-arrow-up"></i> {{$user->rank()->name}}</span></a>
                         <br>
                         @if ($user->is_trainee)
@@ -52,7 +54,8 @@
                                 {{$user->vk}}</li>
                         @endif
                         @if ($user->facebook!='')
-                            <li class="list-group-item"><img src="https://png.icons8.com/facebook/color/24" title="Facebook"
+                            <li class="list-group-item"><img src="https://png.icons8.com/facebook/color/24"
+                                                             title="Facebook"
                                                              width="16"
                                                              height="16"><strong> Facebook: </strong>
                                 {{$user->facebook}}</li>
@@ -60,10 +63,10 @@
                     </ul>
 
                     @foreach($stickers as $sticker)
-                        <img src="{{url($sticker)}}" title="{{$sticker_description[$sticker]}}" style="max-height: 35px;"/>
+                        <img src="{{url($sticker)}}" title="{{$sticker_description[$sticker]}}"
+                             style="max-height: 35px;"/>
                     @endforeach
                 </div>
-
 
 
             </div>
@@ -75,7 +78,8 @@
                     <h4 class="card-title">О себе
                         @if ($guest->role=='teacher' || $guest->id==$user->id)
                             <a class="btn btn-sm btn-success float-right"
-                               href="{{'/insider/profile/'.$user->id.'/edit'}}"><i class="icon ion-android-create"></i> Редактировать</a>
+                               href="{{'/insider/profile/'.$user->id.'/edit'}}"><i class="icon ion-android-create"></i>
+                                Редактировать</a>
                         @endif
                     </h4>
                     <p><strong>Технологические интересы:</strong><br>{{$user->interests}}</p>
@@ -86,7 +90,8 @@
                 </div>
             </div>
             @if($user->managed_courses->count()!=0)
-                <h4 style="margin: 20px;" class="card-title">Преподаватель в курсах <img src="https://png.icons8.com/school-director/color/30/000000"></h4>
+                <h4 style="margin: 20px;" class="card-title">Преподаватель в курсах <img
+                            src="https://png.icons8.com/school-director/color/30/000000"></h4>
                 <div class="row">
                     @foreach($user->managed_courses as $course)
                         @if ($course->state == 'started')
@@ -254,7 +259,7 @@
                     <div class="row">
                         <div class="col-md-8">
                             <h4 style="margin: 20px;" class="card-title">События <img
-                                src="https://png.icons8.com/ultraviolet/50/000000/today.png" width="25px">
+                                        src="https://png.icons8.com/ultraviolet/50/000000/today.png" width="25px">
                             </h4>
                         </div>
                     </div>
@@ -267,26 +272,57 @@
                     @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now())))
                         <div class="col-md-6">
                             <div class="card" style="width: 100%; margin-bottom: 10px;">
-                                    <div class="card-footer">
-                                        <div class="float-left">
-                                            <h5 class="card-title">{{$event->name}}</h5>
-                                        </div>
-                                        <div class="float-right" style="margin-right:5px">
-                                            {{$event->date}}
-                                        </div>
+                                <div class="card-footer">
+                                    <div class="float-left">
+                                        <h5 class="card-title">{{$event->name}}</h5>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="float-left"><span>{{$event->short_text}}</span></div>
-                                        <div class="float-right">
-                                            <a href="{{url('insider/events/'.$event->id)}}" class="card-link">Страница
-                                                события</a>
-                                        </div>
+                                    <div class="float-right" style="margin-right:5px">
+                                        {{$event->date}}
                                     </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="float-left"><span>{{$event->short_text}}</span></div>
+                                    <div class="float-right">
+                                        <a href="{{url('insider/events/'.$event->id)}}" class="card-link">Страница
+                                            события</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     @endif
                 @endforeach
             </div>
+            @if ($user->orders->count()!=0 || $guest->role=='teacher')
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4 style="margin: 20px;" class="card-title">Покупки <img
+                                    src="https://png.icons8.com/color/30/000000/shopping-basket.png"></h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @foreach($user->orders as $deal)
+                        <div class="col-md-6">
+                            <div class="card" style="width: 100%; margin-bottom: 10px;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{$deal->good->name}}</h5>
+                                    <p>
+                                        @if ($deal->shipped)
+                                            <span class="badge badge-success">
+                                            Доставлено
+                                        </span>
+                                        @else
+                                            <span class="badge badge-warning">
+                                            Доставляется...
+                                        </span>
+                                        @endif
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
     </div>
 
