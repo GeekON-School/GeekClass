@@ -32,9 +32,9 @@ class MarketGood extends Authenticatable
     public function buy($user)
     {
         if ($this->number < 1)
-            return false;
+            return null;
         if ($user->balance() < $this->price)
-            return false;
+            return null;
 
         $this->number -= 1;
         $this->save();
@@ -46,7 +46,7 @@ class MarketGood extends Authenticatable
         $deal->shipped = false;
         $deal->save();
 
-        return true;
+        return $deal;
     }
 
 }

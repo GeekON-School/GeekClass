@@ -6,6 +6,7 @@ use App\CompletedCourse;
 use App\Course;
 use App\MarketDeal;
 use App\MarketGood;
+use App\Notifications\NewOrder;
 use App\Program;
 use App\ProgramStep;
 use App\Http\Controllers\Controller;
@@ -116,9 +117,12 @@ class MarketController extends Controller
     {
         $user = User::findOrFail(Auth::User()->id);
         $good = MarketGood::findOrFail($id);
+        $deal = $good->buy($user);
 
-        if ($good->buy($user))
+        if ($deal)
         {
+            $receiver = User::findOrFail(1);
+            $receiver->notify(new NewOrder($deal));
             $this->make_success_alert("Успех!", 'Покупка "'.$good->name.'" прошла успешно. Ожидайте доставки!', $destination = 'head');
         }
         else {
