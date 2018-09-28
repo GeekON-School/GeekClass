@@ -9,7 +9,5 @@ class LessonInfo extends Model
     protected $table = 'lesson_info';
     public $timestamps = false;
     protected $dates = ['start_date'];
-    protected $primaryKey = null;
-    public $incrementing = false;
 
 }
