@@ -44,6 +44,7 @@
     <link rel="stylesheet" href="{{url('css/jquery-ui.min.css')}}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="{{url('js/jquery-ui.min.js')}}"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script>
         $( function() {
             $( ".date" ).datepicker({
@@ -63,6 +64,9 @@
         }
         .card-footer {
             border-radius: 0 !important;
+        }
+        .modebar{
+            display: none !important;
         }
 
     </style>

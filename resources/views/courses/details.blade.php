@@ -318,8 +318,48 @@
                     </ul>
 
                     @if ($user->role=='teacher')
+
+                        <div id="histogram">
+
+                        </div>
+
+                        <script>
+                            @php
+                                $points = [];
+                                foreach ($students as $student)
+                                {
+                                    array_push($points, $student->percent);
+                                }
+                            @endphp
+                            var x = [{{implode(',',$points)}}];
+
+                            var trace = {
+                                x: x,
+                                type: 'histogram',
+                                autobinx: false,
+                                marker: {
+                                    color: "rgba(100, 200, 102, 0.7)",
+                                    line: {
+                                        color:  "rgba(100, 200, 102, 1)",
+                                        width: 1
+                                    }
+                                },
+                                opacity: 0.75,
+                                xbins: {
+                                    end: 110,
+                                    size: 15,
+                                    start: 0
+
+                                }
+                            };
+
+                            var data = [trace];
+                            Plotly.newPlot('histogram', data);
+                        </script>
+
                         <p>
-                            <a href="{{url('insider/courses/'.$course->id.'/assessments')}}" class="btn btn-success btn-sm">Успеваемость</a>
+                            <a href="{{url('insider/courses/'.$course->id.'/assessments')}}"
+                               class="btn btn-success btn-sm">Успеваемость</a>
                         </p>
                     @endif
 
