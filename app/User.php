@@ -50,23 +50,28 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Course', 'course_students', 'user_id', 'course_id');
     }
+
     public function completedCourses()
     {
         return $this->hasMany('App\CompletedCourse', 'user_id', 'id');
     }
+
     public function submissions()
     {
         return $this->hasMany('App\Solution', 'user_id', 'id');
     }
+
     public function manual_rank()
     {
         return $this->hasOne('App\Rank', 'id', 'rank_id');
     }
+
     public function grade()
     {
         $current_year = Carbon::now()->year;
-        return $current_year - $this->grade_year+1;
+        return $current_year - $this->grade_year + 1;
     }
+
     public function projects()
     {
         return $this->belongsToMany('App\Project', 'project_students', 'user_id', 'project_id');
@@ -76,23 +81,18 @@ class User extends Authenticatable
     {
         $current_year = Carbon::now()->year;
         $date = Carbon::now();
-        if ($date->lt(Carbon::createFromDate($current_year, 6,1 )))
-        {
-            $this->grade_year = $current_year-$grade;
-        }
-        else {
-            $this->grade_year = $current_year-$grade+1;
+        if ($date->lt(Carbon::createFromDate($current_year, 6, 1))) {
+            $this->grade_year = $current_year - $grade;
+        } else {
+            $this->grade_year = $current_year - $grade + 1;
         }
     }
 
     public function checkPrerequisite(CoreNode $prerequisite)
     {
-        foreach ($this->solutions as $solution)
-        {
-            foreach ($solution->task->consequences as $consequence)
-            {
-                if ($prerequisite->id == $consequence->id and $solution->mark!=null and $solution->mark >= $consequence->pivot->cutscore)
-                {
+        foreach ($this->solutions as $solution) {
+            foreach ($solution->task->consequences as $consequence) {
+                if ($prerequisite->id == $consequence->id and $solution->mark != null and $solution->mark >= $consequence->pivot->cutscore) {
                     return true;
                 }
             }
@@ -102,25 +102,21 @@ class User extends Authenticatable
 
     public function score()
     {
-        if ($this->score!=null)
+        if ($this->score != null)
             return $this->score;
-        if ($this->rank_id!=null)
-        {
-            $this->score = $this->manual_rank->to-1;
+        if ($this->rank_id != null) {
+            $this->score = $this->manual_rank->to - 1;
             return $this->score;
         }
         $this->score = 0;
         $group = $this->submissions->groupBy('task_id');
-        foreach ($group as $task)
-        {
+        foreach ($group as $task) {
             $this->score += $task->max('mark');
         }
 
-        foreach ($this->completedCourses as $course)
-        {
+        foreach ($this->completedCourses as $course) {
             $mark = $course->mark;
-            switch ($mark)
-            {
+            switch ($mark) {
                 case 'A+':
                     $this->score += 1500;
                     break;
@@ -167,10 +163,9 @@ class User extends Authenticatable
 
     public function rank()
     {
-        if ($this->rank!=null)
+        if ($this->rank != null)
             return $this->rank;
-        if ($this->rank_id!=null)
-        {
+        if ($this->rank_id != null) {
             $this->rank = $this->manual_rank;
             return $this->rank;
         }
@@ -214,8 +209,14 @@ class User extends Authenticatable
         return $this->belongsToMany('App\MarketGood', 'market_deals', 'user_id', 'good_id');
     }
 
-    public function orders() {
+    public function orders()
+    {
         return $this->hasMany('App\MarketDeal', 'user_id', 'id');
+    }
+
+    public function isBirthday()
+    {
+        return $this->birthday->format('d.m') == Carbon::now()->format('d.m');
     }
 
 }
