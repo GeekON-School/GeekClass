@@ -7,11 +7,13 @@
 @section('content')
 
     @if($user->isBirthday())
+        <div class="row">
         <div class="alert alert-info alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                         aria-hidden="true">&times;</span>
             </button>
-            <img src="https://png.icons8.com/color/50/000000/confetti.png"> <img src="https://png.icons8.com/color/50/000000/confetti.png"> <img src="https://png.icons8.com/color/50/000000/confetti.png"> <strong>С днем рождения!!!</strong> <img src="https://png.icons8.com/color/50/000000/confetti.png"> <img src="https://png.icons8.com/color/50/000000/confetti.png"> <img src="https://png.icons8.com/color/50/000000/confetti.png">
+            <img src="https://png.icons8.com/color/50/000000/confetti.png"> <img src="https://png.icons8.com/color/50/000000/confetti.png"> <img src="https://png.icons8.com/color/50/000000/confetti.png"> <h3>С днем рождения!!!</h3> <img src="https://png.icons8.com/color/50/000000/confetti.png"> <img src="https://png.icons8.com/color/50/000000/confetti.png"> <img src="https://png.icons8.com/color/50/000000/confetti.png">
+        </div>
         </div>
     @endif
 
