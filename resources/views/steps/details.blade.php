@@ -19,19 +19,20 @@
             <ul class="nav nav-pills flex-column">
                 @if (\Request::is('insider/*'))
                     <li class="nav-item">
-                        <!--<a class="nav-link" style="padding-top: 10px; padding-bottom: 10px; font-size: 150%;"
+                    <!--<a class="nav-link" style="padding-top: 10px; padding-bottom: 10px; font-size: 150%;"
                            href="{{url('/insider/courses/'.$course->id)}}">
                             <i class="icon ion-chevron-left"></i> GeekClass </a>-->
-                            <a class="nav-link" style="padding-top: 10px; padding-bottom: 10px; font-size: 150%;"
-                               href="{{url('/insider/courses/'.$course->id)}}">
-                                <i class="icon ion-chevron-left"></i> <img src="{{url('images/bhlogo.png')}}" style="height: 35px;" /> </a>
+                        <a class="nav-link" style="padding-top: 10px; padding-bottom: 10px; font-size: 150%;"
+                           href="{{url('/insider/courses/'.$course->id)}}">
+                            <i class="icon ion-chevron-left"></i> <img src="{{url('images/bhlogo.png')}}"
+                                                                       style="height: 35px;"/> </a>
                     </li>
                 @endif
                 @if (\Request::is('open/*'))
                     <li class="nav-item">
                         <a class="nav-link" style="padding-top: 10px; padding-bottom: 10px; font-size: 150%;"
                            href="#">
-                            <img src="{{url('images/bhlogo.png')}}" style="height: 35px;" /> </a>
+                            <img src="{{url('images/bhlogo.png')}}" style="height: 35px;"/> </a>
                     </li>
                 @endif
             </ul>
@@ -185,7 +186,8 @@
                                 @endforeach
 
                                 @if ($task->price > 0)
-                                    <img src="https://png.icons8.com/color/50/000000/coins.png" style="height: 23px;">&nbsp;{{$task->price}}
+                                    <img src="https://png.icons8.com/color/50/000000/coins.png" style="height: 23px;">
+                                    &nbsp;{{$task->price}}
                                 @endif
 
                                 @if ($user->role=='teacher')
@@ -289,7 +291,8 @@
                                             @endforeach
 
                                             @if ($task->price > 0)
-                                                <img src="https://png.icons8.com/color/50/000000/coins.png" style="height: 23px;">&nbsp;{{$task->price}}
+                                                <img src="https://png.icons8.com/color/50/000000/coins.png"
+                                                     style="height: 23px;">&nbsp;{{$task->price}}
                                             @endif
 
                                             @if (\Request::is('insider/*') && $user->role=='teacher')
@@ -340,14 +343,16 @@
                                                 @endif
 
                                                 @if ($user->role=='teacher' and $task->solution != null)
-                                                        <p>
-                                                            <a class="" data-toggle="collapse" href="#solution{{$task->id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                                Авторское решение &raquo;
-                                                            </a>
-                                                        </p>
-                                                        <div class="collapse" id="solution{{$task->id}}">
-                                                            @parsedown($task->solution)
-                                                        </div>
+                                                    <p>
+                                                        <a class="" data-toggle="collapse" href="#solution{{$task->id}}"
+                                                           role="button" aria-expanded="false"
+                                                           aria-controls="collapseExample">
+                                                            Авторское решение &raquo;
+                                                        </a>
+                                                    </p>
+                                                    <div class="collapse" id="solution{{$task->id}}">
+                                                        @parsedown($task->solution)
+                                                    </div>
                                                 @endif
 
                                                 @if ($task->is_quiz)
@@ -429,6 +434,57 @@
                                     @endif
                                 @endif
                                 @if (!$task->is_quiz && !$task->is_code)
+                                    @if (Auth::User()->role == 'teacher')
+                                        <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
+
+                                            <div class="col">
+
+                                                <div class="card">
+                                                    <table class="table table-stripped">
+
+                                                        @foreach($course->students as $student)
+                                                            @php
+                                                                    $filtered = $task->solutions->filter(function ($value) use ($student) {
+                                                                        return $value->user_id == $student->id;
+                                                                    });
+
+                                                                    $mark = $filtered->max('mark');
+                                                                    $mark = $mark == null?0:$mark;
+                                                                    $need_check = false;
+                                                                    if ($filtered->count()!=0 && $filtered->last()->mark==null)
+                                                                    {
+                                                                        $need_check = true;
+                                                                    }
+                                                                    $class = 'badge-light';
+                                                                    if ($mark >= $task->max_mark * 0.5)
+                                                                    {
+                                                                        $class = 'badge-primary';
+                                                                    }
+                                                                    if ($mark >= $task->max_mark * 0.7)
+                                                                    {
+                                                                        $class = 'badge-success';
+                                                                    }
+                                                                    if ($need_check)
+                                                                    {
+                                                                        $class = 'badge-warning';
+                                                                    }
+
+                                                            @endphp
+                                                            <tr>
+                                                                <td>{{$student->name}}</td>
+                                                                <td><a target="_blank"
+                                                                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/student/'.$student->id)}}">
+                                                                        <span class="badge {{$class}}">{{$mark}}</span>
+                                                                    </a></td>
+                                                            </tr>
+
+                                                        @endforeach
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    @endif
                                     @foreach ($task->solutions as $key => $solution)
                                         @if ($solution->user_id == Auth::User()->id)
                                             <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
@@ -620,191 +676,195 @@
 
 
     @if (\Request::is('insider/*'))
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Добавление задачи</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{url('/insider/courses/'.$course->id.'/steps/'.$step->id.'/task')}}" method="POST"
-                          class="form-horizontal">
-                        {{ csrf_field() }}
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4">Название</label>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Добавление задачи</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{url('/insider/courses/'.$course->id.'/steps/'.$step->id.'/task')}}"
+                              method="POST"
+                              class="form-horizontal">
+                            {{ csrf_field() }}
+                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                                <label for="name" class="col-md-4">Название</label>
 
-                            <div class="col-md-12">
-                                <input type="text" name="name" class="form-control" id="name"/>
-                                @if ($errors->has('name'))
-                                    <span class="help-block error-block">
+                                <div class="col-md-12">
+                                    <input type="text" name="name" class="form-control" id="name"/>
+                                    @if ($errors->has('name'))
+                                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="consequences" style="padding-bottom: 10px;">Подтверждаемые результаты из <sup>
-                                    <small>Core</small>
-                                </sup>:</label><br>
-                            <select class="selectpicker  form-control" data-live-search="true" id="consequences" name="consequences[]"  multiple  data-width="auto">
-                                @foreach (\App\CoreNode::where('is_root', false)->get() as $node)
-                                    <option  data-tokens="{{ $node->id }}" value="{{ $node->id }}" data-subtext="{{$node->getParentLine()}}" >{{$node->title}}</option>
-                                @endforeach
-                            </select>
+                            <div class="form-group">
+                                <label for="consequences" style="padding-bottom: 10px;">Подтверждаемые результаты из
+                                    <sup>
+                                        <small>Core</small>
+                                    </sup>:</label><br>
+                                <select class="selectpicker  form-control" data-live-search="true" id="consequences"
+                                        name="consequences[]" multiple data-width="auto">
+                                    @foreach (\App\CoreNode::where('is_root', false)->get() as $node)
+                                        <option data-tokens="{{ $node->id }}" value="{{ $node->id }}"
+                                                data-subtext="{{$node->getParentLine()}}">{{$node->title}}</option>
+                                    @endforeach
+                                </select>
 
-                            <script>
-                                $('.selectpicker').selectpicker();
-                            </script>
-                        </div>
-                        <div class="form-group{{ $errors->has('max_mark') ? ' has-error' : '' }}">
-                            <label for="max_mark" class="col-md-4">Максимальный балл</label>
+                                <script>
+                                    $('.selectpicker').selectpicker();
+                                </script>
+                            </div>
+                            <div class="form-group{{ $errors->has('max_mark') ? ' has-error' : '' }}">
+                                <label for="max_mark" class="col-md-4">Максимальный балл</label>
 
-                            <div class="col-md-12">
-                                <input type="text" name="max_mark" class="form-control" id="max_mark"/>
-                                @if ($errors->has('max_mark'))
-                                    <span class="help-block error-block">
+                                <div class="col-md-12">
+                                    <input type="text" name="max_mark" class="form-control" id="max_mark"/>
+                                    @if ($errors->has('max_mark'))
+                                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('max_mark') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group{{ $errors->has('text') ? ' has-error' : '' }}">
-                            <label for="text" class="col-md-4">Текст вопроса</label>
+                            <div class="form-group{{ $errors->has('text') ? ' has-error' : '' }}">
+                                <label for="text" class="col-md-4">Текст вопроса</label>
 
-                            <div class="col-md-12">
+                                <div class="col-md-12">
                                                 <textarea id="text" class="form-control"
                                                           name="text">{{old('text')}}</textarea>
 
-                                @if ($errors->has('text'))
-                                    <span class="help-block error-block">
+                                    @if ($errors->has('text'))
+                                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('text') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="solution">Решение</label>
-                            <textarea id="solution" class="form-control"
-                                      name="solution">@if (old('solution')!=""){{old('solution')}}@endif</textarea>
-                            @if ($errors->has('solution'))
-                                <span class="help-block error-block">
+                            <div class="form-group">
+                                <label for="solution">Решение</label>
+                                <textarea id="solution" class="form-control"
+                                          name="solution">@if (old('solution')!=""){{old('solution')}}@endif</textarea>
+                                @if ($errors->has('solution'))
+                                    <span class="help-block error-block">
                                         <strong>{{ $errors->first('solution') }}</strong>
                                     </span>
-                            @endif
-                        </div>
+                                @endif
+                            </div>
 
-                        <hr>
-                        <div class="form-group">
-                            <label for="is_star">Дополнительное</label>
-                            <input type="checkbox" id="is_star" name="is_star" value="on"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="only_class">Только для очной формы</label>
-                            <input type="checkbox" id="only_class" name="only_class" value="on"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="only_remote">Только для заочной формы</label>
-                            <input type="checkbox" id="only_remote" name="only_remote" value="on"/>
-                        </div>
-                        <div class="form-group{{ $errors->has('answer') ? ' has-error' : '' }}">
-                            <label for="answer" class="col-md-4">Ответ</label>
+                            <hr>
+                            <div class="form-group">
+                                <label for="is_star">Дополнительное</label>
+                                <input type="checkbox" id="is_star" name="is_star" value="on"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="only_class">Только для очной формы</label>
+                                <input type="checkbox" id="only_class" name="only_class" value="on"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="only_remote">Только для заочной формы</label>
+                                <input type="checkbox" id="only_remote" name="only_remote" value="on"/>
+                            </div>
+                            <div class="form-group{{ $errors->has('answer') ? ' has-error' : '' }}">
+                                <label for="answer" class="col-md-4">Ответ</label>
 
-                            <div class="col-md-12">
-                                <input type="text" name="answer" class="form-control" id="answer"/>
-                                @if ($errors->has('answer'))
-                                    <span class="help-block error-block">
+                                <div class="col-md-12">
+                                    <input type="text" name="answer" class="form-control" id="answer"/>
+                                    @if ($errors->has('answer'))
+                                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('answer') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
-                            <label for="price" class="col-md-4">Премия</label>
+                            <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
+                                <label for="price" class="col-md-4">Премия</label>
 
-                            <div class="col-md-12">
-                                <input type="text" name="price" class="form-control" id="price"/>
-                                @if ($errors->has('price'))
-                                    <span class="help-block error-block">
+                                <div class="col-md-12">
+                                    <input type="text" name="price" class="form-control" id="price"/>
+                                    @if ($errors->has('price'))
+                                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('price') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group{{ $errors->has('template') ? ' has-error' : '' }}">
-                            <label for="template" class="col-md-4">Шаблон кода</label>
+                            <div class="form-group{{ $errors->has('template') ? ' has-error' : '' }}">
+                                <label for="template" class="col-md-4">Шаблон кода</label>
 
-                            <div class="col-md-12">
+                                <div class="col-md-12">
 
                                     <textarea id="template" class="form-control"
                                               name="template">{{old('template')}}</textarea>
-                                @if ($errors->has('template'))
-                                    <span class="help-block error-block">
+                                    @if ($errors->has('template'))
+                                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('template') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group{{ $errors->has('checker') ? ' has-error' : '' }}">
-                            <label for="checker" class="col-md-4">Чекер</label>
+                            <div class="form-group{{ $errors->has('checker') ? ' has-error' : '' }}">
+                                <label for="checker" class="col-md-4">Чекер</label>
 
-                            <div class="col-md-12">
+                                <div class="col-md-12">
                                                 <textarea id="checker" class="form-control"
                                                           name="checker">{{old('checker')}}</textarea>
 
-                                @if ($errors->has('checker'))
-                                    <span class="help-block error-block">
+                                    @if ($errors->has('checker'))
+                                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('checker') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group{{ $errors->has('code_input') ? ' has-error' : '' }}">
-                            <label for="code_input" class="col-md-4">Входные данные</label>
+                            <div class="form-group{{ $errors->has('code_input') ? ' has-error' : '' }}">
+                                <label for="code_input" class="col-md-4">Входные данные</label>
 
-                            <div class="col-md-12">
+                                <div class="col-md-12">
                                                 <textarea id="code_input" class="form-control"
                                                           name="code_input">{{old('code_input')}}</textarea>
 
-                                @if ($errors->has('code_input'))
-                                    <span class="help-block error-block">
+                                    @if ($errors->has('code_input'))
+                                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('code_input') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group{{ $errors->has('code_answer') ? ' has-error' : '' }}">
-                            <label for="code_answer" class="col-md-4">Результат</label>
+                            <div class="form-group{{ $errors->has('code_answer') ? ' has-error' : '' }}">
+                                <label for="code_answer" class="col-md-4">Результат</label>
 
-                            <div class="col-md-12">
+                                <div class="col-md-12">
                                                 <textarea id="code_answer" class="form-control"
                                                           name="code_answer">{{old('code_answer')}}</textarea>
 
-                                @if ($errors->has('code_answer'))
-                                    <span class="help-block error-block">
+                                    @if ($errors->has('code_answer'))
+                                        <span class="help-block error-block">
                                         <strong>{{ $errors->first('code_answer') }}</strong>
                                     </span>
-                                @endif
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <button type="submit" class="btn btn-success">Создать</button>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-success">Создать</button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-@endif
+    @endif
     <script>
 
         $('blockquote').addClass('bd-callout bd-callout-info')
