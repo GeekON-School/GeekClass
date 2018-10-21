@@ -419,7 +419,11 @@
                                     @endphp
                                     <tr>
                                         <td>
-                                            <a href="{{url('/insider/courses/'.$course->id.'/steps/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}}</a>
+                                            @if ($task->step->lesson->isAvailable($course))
+                                                <a href="{{url('/insider/courses/'.$course->id.'/steps/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}}</a>
+                                            @else
+                                                <a href="#" class="text-muted">{{$task->name}}</a>
+                                            @endif
                                         </td>
 
                                         @if ($should_check)
