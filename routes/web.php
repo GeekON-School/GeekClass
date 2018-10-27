@@ -121,6 +121,7 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::post('/profile/{id}/edit', 'ProfileController@edit');
     Route::post('/profile/{id}/course', 'ProfileController@course');
     Route::get('/profile/delete-course/{id}', 'ProfileController@deleteCourse');
+    Route::get('/profile/{user_id}/delete-course/{course_id}', 'ProfileController@deleteCurrentCourse');
 
     Route::get('/projects/create', 'ProjectsController@createView');
     Route::post('/projects/create', 'ProjectsController@create');

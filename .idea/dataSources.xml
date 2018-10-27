@@ -13,5 +13,14 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/geekclass</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="1gb_icne-pacients@ms-sql-8.in-solve.ru" uuid="553993c2-8fab-4dc5-afee-9ffab3f488a4">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://ms-sql-8.in-solve.ru;database=1gb_icne-pacients</jdbc-url>
+      <driver-properties>
+        <property name="applicationName" value="DataGrip" />
+      </driver-properties>
+    </data-source>
   </component>
 </project>

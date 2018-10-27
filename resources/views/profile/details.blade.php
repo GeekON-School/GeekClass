@@ -106,6 +106,9 @@
                                             <a href="{{url('insider/courses/'.$course->id)}}" class="card-link">Страница
                                                 курса</a>
                                         @endif
+                                        @if ($guest->role=='teacher')
+                                            <br><a href="{{url('insider/profile/'.$user->id.'/delete-course/'.$course->id)}}" style="color: red;" class="card-link">Отчислить</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

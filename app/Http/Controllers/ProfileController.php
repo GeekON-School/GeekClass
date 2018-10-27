@@ -27,7 +27,7 @@ class ProfileController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('self')->except(['index', 'details', 'project', 'editProject']);
-        $this->middleware('teacher')->only(['deleteCourse', 'course']);
+        $this->middleware('teacher')->only(['deleteCourse', 'course', 'deleteCurrentCourse']);
     }
 
     /**
@@ -87,6 +87,14 @@ class ProfileController extends Controller
         $course->delete();
         return redirect()->back();
     }
+
+    public function deleteCurrentCourse($user_id, $course_id)
+    {
+        $user = User::findOrFail($user_id);
+        $user->courses()->detach($course_id);
+        return redirect()->back();
+    }
+
     public function course($id, Request $request)
     {
         $user = User::findOrFail(Auth::User()->id);
