@@ -84,15 +84,19 @@ class Lesson extends Model
         }
         return $tasks;
     }
+    public function info()
+    {
+        return $this->hasMany('App\LessonInfo', "lesson_id");
+    }
     public function getStartDate($course)
     {
-        $info = LessonInfo::where('course_id', $course->id)->where('lesson_id', $this->id)->first();
+        $info = $this->info->where('course_id', $course->id)->first();
         if ($info == null) return null;
         else return $info->start_date;
     }
     public function setStartDate($course, $date)
     {
-        $info = LessonInfo::where('course_id', $course->id)->where('lesson_id', $this->id)->first();
+        $info = $this->info->where('course_id', $course->id)->first();
         if ($info == null) {
             $info = new LessonInfo();
             $info->lesson_id = $this->id;
@@ -106,7 +110,7 @@ class Lesson extends Model
     }
     public function isStarted($course)
     {
-        $info = LessonInfo::where('course_id', $course->id)->where('lesson_id', $this->id)->first();
+        $info = $this->info->where('course_id', $course->id)->first();
         if ($info == null) return false;
         if ($info->start_date == null) return false;
         return $info->start_date->lt(Carbon::now()->setTime(23,59));

@@ -61,12 +61,6 @@ class Course extends Model
         $this->save();
     }
 
-    public function isStarted($lesson)
-    {
-        $info = LessonInfo::where('course_id', $this->id)->where('lesson_id', $lesson->id)->first();
-        if ($info == null) return false;
-        else return $info->start_date->lt(Carbon::now()->setTime(23,59));
-    }
     public function isAvailable($lesson)
     {
         $user = User::findOrFail(\Auth::User()->id);

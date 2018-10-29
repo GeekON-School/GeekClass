@@ -16,7 +16,7 @@ class CoreNode extends Model
 
     public function tasks()
     {
-        return $this->belongsToMany('App\Task', 'core_consequences', "node_id", "task_id");
+        return $this->belongsToMany('App\Task', 'core_consequences', "node_id", "task_id")->with('step', 'step.program');
     }
 
     public function children()

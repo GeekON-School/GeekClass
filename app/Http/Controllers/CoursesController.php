@@ -47,7 +47,7 @@ class CoursesController extends Controller
         \App\ActionLog::record(Auth::User()->id, 'course', $id);
 
         $user = User::with('solutions', 'solutions.task', 'solutions.task.consequences')->findOrFail(Auth::User()->id);
-        $course = Course::with('program.lessons', 'students', 'students.submissions', 'teachers', 'program.steps', 'program.lessons.prerequisites')->findOrFail($id);
+        $course = Course::with('program.lessons', 'students', 'students.submissions', 'teachers', 'program.steps', 'program.lessons.prerequisites', 'program.lessons.info')->findOrFail($id);
         $students = $course->students;
         $marks = CompletedCourse::where('course_id', $id)->get();
 
