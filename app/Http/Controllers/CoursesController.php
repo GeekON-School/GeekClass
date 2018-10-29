@@ -43,8 +43,11 @@ class CoursesController extends Controller
 
     public function details($id)
     {
-        $user = User::findOrFail(Auth::User()->id);
-        $course = Course::findOrFail($id);
+
+        \App\ActionLog::record(Auth::User()->id, 'course', $id);
+
+        $user = User::with('solutions')->findOrFail(Auth::User()->id);
+        $course = Course::with('program.lessons', 'students', 'teachers', 'program.steps')->findOrFail($id);
         $students = $course->students;
         $marks = CompletedCourse::where('course_id', $id)->get();
 

@@ -43,6 +43,8 @@ class StepsController extends Controller
         $course = Course::findOrFail($course_id);
         $step = ProgramStep::findOrFail($id);
 
+        \App\ActionLog::record(Auth::User()->id, 'step', $id);
+
         if ($user->role=='teacher')
         {
             $tasks = $step->tasks;

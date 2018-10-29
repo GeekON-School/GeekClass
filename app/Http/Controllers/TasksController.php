@@ -212,7 +212,7 @@ class TasksController extends Controller
         {
             if ($task->answer==$request->text)
             {
-                if (!$task->isFullDone(Auth::User()->id))
+                if ($task->price > 0 and !$task->isFullDone(Auth::User()->id))
                 {
                     CoinTransaction::register(Auth::User()->id, $task->price, "Task #".$task->id);
                 }
