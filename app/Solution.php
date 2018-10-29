@@ -23,7 +23,7 @@ class Solution extends Model
 
     public function task()
     {
-        return $this->belongsTo('App\Task', 'task_id', 'id');
+        return $this->belongsTo('App\Task', 'task_id', 'id')->with('consequences');
     }
 
     public function course()

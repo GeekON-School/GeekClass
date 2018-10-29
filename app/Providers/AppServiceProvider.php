@@ -19,6 +19,12 @@ class AppServiceProvider extends ServiceProvider
 
             \URL::forceScheme('https');
         }
+
+        /*\DB::listen(function ($query) {
+            print(
+                $query->sql."<br>"
+            );
+        });*/
     }
 
     /**

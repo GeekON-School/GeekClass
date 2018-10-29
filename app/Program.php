@@ -23,7 +23,7 @@ class Program extends Model
 
     public function lessons()
     {
-        return $this->hasMany('App\Lesson', 'program_id', 'id')->with('steps')->orderBy('sort_index')->orderBy('id');
+        return $this->hasMany('App\Lesson', 'program_id', 'id')->with('steps', 'steps.tasks', 'steps.class_tasks', 'steps.remote_tasks', 'prerequisites')->orderBy('sort_index')->orderBy('id');
     }
 
     public function authors()

@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     public function solutions()
     {
-        return $this->hasMany('App\Solution', 'user_id', 'id');
+        return $this->hasMany('App\Solution', 'user_id', 'id')->with('task.consequences');
     }
 
     public function courses()
