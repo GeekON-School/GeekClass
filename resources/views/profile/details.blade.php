@@ -306,7 +306,7 @@
                     @endif
                 @endforeach
             </div>
-            @if ($user->orders->count()!=0 || $guest->role=='teacher')
+            @if ($user->orders->count()!=0)
                 <div class="row">
                     <div class="col-md-8">
                         <h4 style="margin: 20px;" class="card-title">Покупки <img
