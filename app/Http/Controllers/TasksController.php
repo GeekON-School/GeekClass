@@ -45,7 +45,7 @@ class TasksController extends Controller
             'text' => 'required|string',
             'name' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'max_mark' => 'required|integer|min:0|max:100'
+            'max_mark' => 'required|integer|min:0|max:1000'
         ]);
 
 
