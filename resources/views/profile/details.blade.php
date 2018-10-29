@@ -33,6 +33,7 @@
                         @if ($user->is_teacher)
                             <span class="badge badge-pill badge-info">Преподаватель</span>
                         @endif
+                        <img src="https://png.icons8.com/color/50/000000/coins.png" style="height: 23px;">&nbsp;{{$user->balance()}}&nbsp;&nbsp;
                     </p>
                     <ul class="list-group list-group-flush">
                         @if ($user->telegram!='')
@@ -78,8 +79,13 @@
                     <h4 class="card-title">О себе
                         @if ($guest->role=='teacher' || $guest->id==$user->id)
                             <a class="btn btn-sm btn-success float-right"
-                               href="{{'/insider/profile/'.$user->id.'/edit'}}"><i class="icon ion-android-create"></i>
+                                                    href="{{'/insider/profile/'.$user->id.'/edit'}}"><i class="icon ion-android-create"></i>
                                 Редактировать</a>
+
+                            <button style="margin-right: 4px;" class="btn btn-sm btn-success float-right" type="button"
+                                    data-toggle="modal" data-target="#addMoney">
+                                <i class="icon ion-cash"></i> Начислить
+                            </button>
                         @endif
                     </h4>
                     <p><strong>Технологические интересы:</strong><br>{{$user->interests}}</p>
@@ -383,6 +389,57 @@
                         <div class="form-group">
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-success">Создать</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addMoney" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Начисление GT</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{url('/insider/profile/'.$user->id.'/money')}}" method="POST"
+                          class="form-horizontal">
+                        {{ csrf_field() }}
+                        <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
+                            <label for="description" class="col-md-4">За что?</label>
+
+                            <div class="col-md-12">
+                                <input type="text" name="description" class="form-control" id="description"/>
+                                @if ($errors->has('description'))
+                                    <span class="help-block error-block">
+                                        <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('amount') ? ' has-error' : '' }}">
+                            <label for="amount" class="col-md-4">Сколько?</label>
+
+                            <div class="col-md-12">
+                                <input type="number" name="amount" class="form-control" id="amount"/>
+                                @if ($errors->has('amount'))
+                                    <span class="help-block error-block">
+                                        <strong>{{ $errors->first('amount') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        
+                   
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-success">Начислить</button>
                             </div>
                         </div>
                     </form>

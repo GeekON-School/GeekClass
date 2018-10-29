@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CoinTransaction;
 use App\CompletedCourse;
 use App\Course;
 use App\ProgramStep;
@@ -134,6 +135,21 @@ class ProfileController extends Controller
             $course->class = 'warning';
         }
         $course->save();
+        return redirect()->back();
+    }
+
+    public function addMoney($id, Request $request)
+    {
+        $user = User::findOrFail(Auth::User()->id);
+        $this->validate($request, [
+            'description' => 'required|string',
+            'amount' => 'integer|min:-100|max:100|required'
+        ]);
+
+        CoinTransaction::register($user->id, $request->amount, $request->direction);
+
+        $this->make_success_alert('Успех!', 'Деньги начислены.');
+
         return redirect()->back();
     }
 
