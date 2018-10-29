@@ -177,7 +177,11 @@ class Lesson extends Model
             {
                 $new_task = new Task();
                 foreach($task as $property => $value)
+                {
+                    if ($property == 'consequences') continue;
                     $new_task->$property = $value;
+                }
+
                 $new_task->step_id = $new_step->id;
                 $new_task->save();
             }
