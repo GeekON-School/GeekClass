@@ -171,9 +171,6 @@
     });
 </script>
 
-<footer>
-    <p style="align: center; color: #0A6187;">Загрузка страницы заняла {{ (microtime(true) - LARAVEL_START) }} секунд</center>
-</footer>
 
 </body>
 </html>
