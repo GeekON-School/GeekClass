@@ -33,7 +33,8 @@
                         @if ($user->is_teacher)
                             <span class="badge badge-pill badge-info">Преподаватель</span>
                         @endif
-                        <img src="https://png.icons8.com/color/50/000000/coins.png" style="height: 23px;">&nbsp;{{$user->balance()}}&nbsp;&nbsp;
+                        <img src="https://png.icons8.com/color/50/000000/coins.png"
+                             style="height: 23px;">&nbsp;{{$user->balance()}}&nbsp;&nbsp;
                     </p>
                     <ul class="list-group list-group-flush">
                         @if ($user->telegram!='')
@@ -79,13 +80,15 @@
                     <h4 class="card-title">О себе
                         @if ($guest->role=='teacher' || $guest->id==$user->id)
                             <a class="btn btn-sm btn-success float-right"
-                                                    href="{{'/insider/profile/'.$user->id.'/edit'}}"><i class="icon ion-android-create"></i>
+                               href="{{'/insider/profile/'.$user->id.'/edit'}}"><i class="icon ion-android-create"></i>
                                 Редактировать</a>
-
-                            <button style="margin-right: 4px;" class="btn btn-sm btn-success float-right" type="button"
-                                    data-toggle="modal" data-target="#addMoney">
-                                <i class="icon ion-cash"></i> Начислить
-                            </button>
+                            @if ($guest->role=='teacher')
+                                <button style="margin-right: 4px;" class="btn btn-sm btn-success float-right"
+                                        type="button"
+                                        data-toggle="modal" data-target="#addMoney">
+                                    <i class="icon ion-cash"></i> Начислить
+                                </button>
+                            @endif
                         @endif
                     </h4>
                     <p><strong>Технологические интересы:</strong><br>{{$user->interests}}</p>
@@ -137,7 +140,9 @@
                                                 курса</a>
                                         @endif
                                         @if ($guest->role=='teacher')
-                                            <br><a href="{{url('insider/profile/'.$user->id.'/delete-course/'.$course->id)}}" style="color: red;" class="card-link">Отчислить</a>
+                                            <br>
+                                            <a href="{{url('insider/profile/'.$user->id.'/delete-course/'.$course->id)}}"
+                                               style="color: red;" class="card-link">Отчислить</a>
                                         @endif
                                     </div>
                                 </div>
@@ -318,12 +323,12 @@
                                     <p>
                                         @if ($deal->shipped)
                                             <span class="badge badge-success">
-                                            Доставлено
-                                        </span>
+                    Доставлено
+                </span>
                                         @else
                                             <span class="badge badge-warning">
-                                            Доставляется...
-                                        </span>
+                    Доставляется...
+                </span>
                                         @endif
                                     </p>
                                 </div>
@@ -356,8 +361,8 @@
                                 <input type="text" name="name" class="form-control" id="name"/>
                                 @if ($errors->has('name'))
                                     <span class="help-block error-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
+                <strong>{{ $errors->first('name') }}</strong>
+            </span>
                                 @endif
                             </div>
                         </div>
@@ -368,8 +373,8 @@
                                 <input type="text" name="mark" class="form-control" id="mark"/>
                                 @if ($errors->has('mark'))
                                     <span class="help-block error-block">
-                                        <strong>{{ $errors->first('mark') }}</strong>
-                                    </span>
+                <strong>{{ $errors->first('mark') }}</strong>
+            </span>
                                 @endif
                             </div>
                         </div>
@@ -380,8 +385,8 @@
                                 <input type="text" name="provider" class="form-control" id="provider"/>
                                 @if ($errors->has('provider'))
                                     <span class="help-block error-block">
-                                        <strong>{{ $errors->first('provider') }}</strong>
-                                    </span>
+                <strong>{{ $errors->first('provider') }}</strong>
+            </span>
                                 @endif
                             </div>
                         </div>
@@ -416,8 +421,8 @@
                                 <input type="text" name="description" class="form-control" id="description"/>
                                 @if ($errors->has('description'))
                                     <span class="help-block error-block">
-                                        <strong>{{ $errors->first('description') }}</strong>
-                                    </span>
+                <strong>{{ $errors->first('description') }}</strong>
+            </span>
                                 @endif
                             </div>
                         </div>
@@ -429,13 +434,12 @@
                                 <input type="number" name="amount" class="form-control" id="amount"/>
                                 @if ($errors->has('amount'))
                                     <span class="help-block error-block">
-                                        <strong>{{ $errors->first('amount') }}</strong>
-                                    </span>
+                <strong>{{ $errors->first('amount') }}</strong>
+            </span>
                                 @endif
                             </div>
                         </div>
-                        
-                   
+
 
                         <div class="form-group">
                             <div class="col-md-12">
@@ -468,8 +472,8 @@
                                 <input type="text" name="name" class="form-control" id="name"/>
                                 @if ($errors->has('name'))
                                     <span class="help-block error-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
+                <strong>{{ $errors->first('name') }}</strong>
+            </span>
                                 @endif
                             </div>
                         </div>
@@ -477,29 +481,29 @@
                             <label for="short_description" class="col-md-4">Краткое описание</label>
 
                             <div class="col-md-12">
-                                <textarea name="short_description" class="form-control"
-                                          id="short_description"></textarea>
+        <textarea name="short_description" class="form-control"
+                  id="short_description"></textarea>
                                 @if ($errors->has('short_description'))
                                     <span class="help-block error-block">
-                                        <strong>{{ $errors->first('short_description') }}</strong>
-                                    </span>
+                <strong>{{ $errors->first('short_description') }}</strong>
+            </span>
                                 @endif
                             </div>
                         </div>
                     <!--  <div class="form-group{{ $errors->has('projectType') ? ' has-error' : '' }}">
-                            <label for="short_description" class="col-md-4">Тип</label>
+    <label for="short_description" class="col-md-4">Тип</label>
 
-                            <div class="col-md-12">
-                                <select name="projectType" class="form-control" id="projectType"/>
-                                    <option value="None selected">Выберите тип проекта</option>
-                                    <option value="Learning">Учебный</option>
-                                    <option value="Working">Рабочий</option>
-                                </select>
-                                @if ($errors->has('short_description'))
+    <div class="col-md-12">
+        <select name="projectType" class="form-control" id="projectType"/>
+            <option value="None selected">Выберите тип проекта</option>
+            <option value="Learning">Учебный</option>
+            <option value="Working">Рабочий</option>
+        </select>
+        @if ($errors->has('short_description'))
                         <span class="help-block error-block">
                             <strong>{{ $errors->first('short_description') }}</strong>
-                                    </span>
-                                @endif
+            </span>
+        @endif
                             </div>
                         </div>-->
 

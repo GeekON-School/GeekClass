@@ -28,7 +28,7 @@ class ProfileController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('self')->except(['index', 'details', 'project', 'editProject']);
-        $this->middleware('teacher')->only(['deleteCourse', 'course', 'deleteCurrentCourse']);
+        $this->middleware('teacher')->only(['deleteCourse', 'course', 'deleteCurrentCourse', 'addMoney']);
     }
 
     /**
@@ -140,13 +140,12 @@ class ProfileController extends Controller
 
     public function addMoney($id, Request $request)
     {
-        $user = User::findOrFail(Auth::User()->id);
         $this->validate($request, [
             'description' => 'required|string',
             'amount' => 'integer|min:-100|max:100|required'
         ]);
 
-        CoinTransaction::register($user->id, $request->amount, $request->direction);
+        CoinTransaction::register($id, $request->amount, $request->description);
 
         $this->make_success_alert('Успех!', 'Деньги начислены.');
 
