@@ -88,9 +88,12 @@
                                         class="card-title">Празднуем день рождения:</h5>
                                     <p class="card-text" style="font-size: 0.8rem;">
                                     <ul>
-                                        @foreach($users->where('provider_id', $provider->id)->where('birthday', '!=', null)->sortBy('birthday') as $buser)
+                                        @foreach($users->where('provider_id', $provider->id)->where('birthday', '!=', null)->sortBy(function($col){return $col->birthday->month;}) as $buser)
                                             @if ($buser->birthday->month == \Carbon\Carbon::now()->month)
-                                                <li>{{ $buser->name }} -
+                                                <li>
+                                                    <a style="color: black; @if ($buser->birthday->day == \Carbon\Carbon::now()->day) font-weight: bold; @endif"
+                                                       href="{{url('insider/profile/'.$buser->id)}}">{{ $buser->name }}</a>
+                                                    -
                                                     <strong>{{$buser->birthday->format('d.m')}}</strong></li>
                                             @endif
                                         @endforeach
@@ -113,7 +116,6 @@
                                         <h5 style="margin-top: 15px; font-weight: 300;"
                                             class="card-title">{{$course->name}}</h5>
                                         <p class="card-text" style="font-size: 0.8rem;">{{$course->description}}</p>
-
 
 
                                     </div>
