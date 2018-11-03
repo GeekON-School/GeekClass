@@ -88,7 +88,7 @@
                                         class="card-title">Празднуем день рождения:</h5>
                                     <p class="card-text" style="font-size: 0.8rem;">
                                     <ul>
-                                        @foreach($users->where('provider_id', $provider->id)->where('birthday', '!=', null)->sortBy(function($col){return $col->birthday->month;}) as $buser)
+                                        @foreach($users->where('provider_id', $provider->id)->where('birthday', '!=', null)->sortBy(function($col){return $col->birthday->day;}) as $buser)
                                             @if ($buser->birthday->month == \Carbon\Carbon::now()->month)
                                                 <li>
                                                     <a style="color: black; @if ($buser->birthday->day == \Carbon\Carbon::now()->day) font-weight: bold; @endif"
