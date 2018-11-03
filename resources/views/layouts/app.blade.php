@@ -46,39 +46,39 @@
     <script src="{{url('js/jquery-ui.min.js')}}"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script>
-        $( function() {
-            $( ".date" ).datepicker({
+        $(function () {
+            $(".date").datepicker({
                 changeMonth: true,
                 changeYear: true,
                 yearRange: "1940:2025",
                 dateFormat: 'yy-mm-dd'
             });
 
-        } );
+        });
     </script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="{{url('/js/bootstrap-select.min.js')}}"></script>
     <style>
         .card {
-            border: 1px solid rgba(220,220,220,1);
+            border: 1px solid rgba(220, 220, 220, 1);
         }
+
         .card-footer {
             border-radius: 0 !important;
         }
-        .modebar{
+
+        .modebar {
             display: none !important;
         }
 
     </style>
 
 
-
-
 </head>
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a href="{{url('/')}}" class="navbar-brand" href="#"><img style="height: 35px;" src="{{url('images/hlogo.png')}}" /></a>
+    <a href="{{url('/')}}" class="navbar-brand" href="#"><img style="height: 35px;" src="{{url('images/hlogo.png')}}"/></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -86,50 +86,51 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         @if (Auth::check())
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item {{(Request::is('insider/courses*') ? 'active' : '') }}">
-                <a class="nav-link" href="{{url('/insider/courses')}}">Курсы <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item {{(Request::is('insider/profile*') ? 'active' : '') }}">
-                <a class="nav-link" href="{{url('insider/profile')}}">Профиль</a>
-            </li>
-            <li class="nav-item {{(Request::is('insider/community*') ? 'active' : '') }}">
-                <a class="nav-link" href="{{url('insider/community')}}">Сообщество</a>
-            </li>
-            <li class="nav-item {{(Request::is('insider/projects*') ? 'active' : '') }}">
-                <a class="nav-link" href="{{url('insider/projects')}}">Проекты</a>
-            </li>
-            <li class="nav-item {{(Request::is('insider/events*') ? 'active' : '') }}">
-                <a class="nav-link" href="{{url('insider/events')}}">События</a>
-            </li>
-            <li class="nav-item {{(Request::is('insider/core*') ? 'active' : '') }}">
-                <a class="nav-link" href="{{url('insider/core/'.\Auth::User()->id)}}">Карта</a>
-            </li>
-            <li class="nav-item {{(Request::is('insider/market*') ? 'active' : '') }}">
-                <a class="nav-link" href="{{url('insider/market')}}">Магазин</a>
-            </li>
-        </ul>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item {{(Request::is('insider/courses*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('/insider/courses')}}">Курсы <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item {{(Request::is('insider/profile*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/profile')}}">Профиль</a>
+                </li>
+                <li class="nav-item {{(Request::is('insider/community*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/community')}}">Сообщество</a>
+                </li>
+                <li class="nav-item {{(Request::is('insider/projects*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/projects')}}">Проекты</a>
+                </li>
+                <li class="nav-item {{(Request::is('insider/events*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/events')}}">События</a>
+                </li>
+                <li class="nav-item {{(Request::is('insider/core*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/core/'.\Auth::User()->id)}}">Карта</a>
+                </li>
+                <li class="nav-item {{(Request::is('insider/market*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/market')}}">Магазин</a>
+                </li>
+            </ul>
 
-        <ul class="navbar-nav" style="width: 260px;">
+            <ul class="navbar-nav" style="width: 260px;">
             <span style="margin-top: 8px; color: white;">
-               <img src="https://png.icons8.com/color/50/000000/coins.png" style="height: 23px;">&nbsp;{{Auth::user()->balance()}}&nbsp;&nbsp;
+               <img src="https://png.icons8.com/color/50/000000/coins.png"
+                    style="height: 23px;">&nbsp;{{Auth::user()->balance()}}&nbsp;&nbsp;
 
             </span>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    {{ Auth::user()->name }}</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="{{ route('logout') }}"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выход</a>
-                </div>
-            </li>
-        </ul>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        {{ Auth::user()->name }}</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выход</a>
+                    </div>
+                </li>
+            </ul>
         @endif
     </div>
 </nav>
 
-<div class="container" style="margin-top: 30px;">
+<div class=" mx-auto col-md-9 col-11" style="margin-top: 30px;">
     @if(Session::has('alert-class') and Session::get('alert-destination')=='head')
         <div class="alert {{ Session::get('alert-class') }} alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
@@ -142,7 +143,6 @@
 </div>
 
 <!-- Compiled and minified JavaScript -->
-
 
 
 <!-- Scripts -->
@@ -166,7 +166,7 @@
         target: "_blank"
     });
     $('div.markdown a').attr('target', 'blank');
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.selectpicker').selectpicker();
     });
 </script>

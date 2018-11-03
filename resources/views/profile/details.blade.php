@@ -89,6 +89,9 @@
                                     <i class="icon ion-cash"></i> Начислить
                                 </button>
                             @endif
+                            <a style="margin-right: 4px;" target="_blank" class="btn btn-sm btn-success float-right"
+                               href="{{'/insider/core/'.$user->id}}">
+                                Core</a>
                         @endif
                     </h4>
                     <p><strong>Технологические интересы:</strong><br>{{$user->interests}}</p>
