@@ -36,7 +36,7 @@ class CoursesController extends Controller
     public function index()
     {
         $user = User::findOrFail(Auth::User()->id);
-        $users = User::all();
+        $users = User::where('is_hidden', false)->get();
         $courses = Course::orderBy('id')->get();
         $providers = Provider::orderBy('id')->get();
         return view('home', compact('courses', 'user', 'providers', 'users'));
