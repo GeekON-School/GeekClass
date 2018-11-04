@@ -80,7 +80,7 @@
                     <div class="row" style="margin-top: 15px;">
 
 
-                        <div class="card-deck">
+                        <div class="card-columns">
                             <div class="card"
                                  style="min-width: 280px; border-left: 5px solid #5bc0de;">
                                 <div class="card-body">
