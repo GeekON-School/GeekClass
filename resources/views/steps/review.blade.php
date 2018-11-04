@@ -11,7 +11,7 @@
                 <div class="card-header">
                     {{$task->name}}
                     <a class="float-right btn btn-danger btn-sm"
-                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}">Удалить</a>
+                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"  onclick="return confirm('Вы уверены?')">Удалить</a>
                     <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm"
                        href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/edit')}}">Редактировать</a>
                 </div>

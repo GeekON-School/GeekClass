@@ -145,7 +145,7 @@
                                         @if ($guest->role=='teacher')
                                             <br>
                                             <a href="{{url('insider/profile/'.$user->id.'/delete-course/'.$course->id)}}"
-                                               style="color: red;" class="card-link">Отчислить</a>
+                                               style="color: red;" class="card-link" onclick="return confirm('Вы уверены?')">Отчислить</a>
                                         @endif
                                     </div>
                                 </div>
@@ -178,7 +178,7 @@
                                     <h5 class="card-title">{{$course->name}}
                                         @if ($guest->role=='teacher')
                                             <a class="float-right"
-                                               href="{{url('/insider/profile/delete-course/'.$course->id)}}"><span
+                                               href="{{url('/insider/profile/delete-course/'.$course->id)}}"  onclick="return confirm('Вы уверены?')"><span
                                                         aria-hidden="true">&times;</span></a>
                                         @endif</h5>
                                     <p>

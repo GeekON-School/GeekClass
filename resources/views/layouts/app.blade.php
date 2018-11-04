@@ -150,7 +150,7 @@
     <script src="{{ asset('js/app.js') }}"></script>-->
 <form style="display: none;" id="logout-form" method="POST" action="{{ route('logout') }}">{{ csrf_field() }}</form>
 <script>
-    var url = document.location.toString();
+    /*var url = document.location.toString();
 
     if (url.match('#')) {
         $('a[href="#' + url.split('#')[1] + '"]').tab('show');
@@ -168,9 +168,8 @@
     $('div.markdown a').attr('target', 'blank');
     $(document).ready(function () {
         $('.selectpicker').selectpicker();
-    });
+    });*/
 </script>
-
 
 </body>
 </html>

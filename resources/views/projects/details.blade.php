@@ -29,7 +29,7 @@
                                 <a href="{{url('/insider/projects/'.$project->id.'/edit')}}"
                                    class="btn btn-primary btn-sm">Редактировать</a>
                                 <a href="{{url('/insider/projects/'.$project->id.'/delete')}}"
-                                   class="btn btn-primary btn-sm">Удалить</a>
+                                   class="btn btn-primary btn-sm"  onclick="return confirm('Вы уверены?')">Удалить</a>
 
                             </div>
 

@@ -142,7 +142,7 @@
                             <li class="nav-item" style="max-width: 45px;">
                                 <a class="nav-link btn btn-danger"
                                    style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
-                                   href="{{url('/insider/courses/'.$course->id.'/steps/'.$step->id.'/delete')}}"><i
+                                   href="{{url('/insider/courses/'.$course->id.'/steps/'.$step->id.'/delete')}}"  onclick="return confirm('Вы уверены?')"><i
                                             class="ion-close-round"></i></a>
                             </li>
                         @endif
@@ -192,7 +192,7 @@
 
                                 @if ($user->role=='teacher')
                                     <a class="float-right btn btn-danger btn-sm"
-                                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"><i
+                                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"  onclick="return confirm('Вы уверены?')"><i
                                                 class="icon ion-android-close"></i></a>
                                     <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm"
                                        href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/edit')}}"><i
@@ -297,7 +297,7 @@
 
                                             @if (\Request::is('insider/*') && $user->role=='teacher')
                                                 <a class="float-right btn btn-danger btn-sm"
-                                                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"><i
+                                                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"  onclick="return confirm('Вы уверены?')"><i
                                                             class="icon ion-android-close"></i></a>
                                                 <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm"
                                                    href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/edit')}}"><i

@@ -40,7 +40,7 @@
                         <p class="card-text" style="font-size: 0.8rem;">{{$good->description}}</p>
 
                         @if ($good->number > 0 and $good->price <= $user->balance())
-                            <a href="{{url('/insider/market/'.$good->id.'/buy')}}" class="btn btn-primary">Купить за {{$good->price}} <img style="height: 20px;" src="https://png.icons8.com/color/50/000000/coins.png" /></a>
+                            <a href="{{url('/insider/market/'.$good->id.'/buy')}}" class="btn btn-primary"  onclick="return confirm('Вы уверены?')">Купить за {{$good->price}} <img style="height: 20px;" src="https://png.icons8.com/color/50/000000/coins.png" /></a>
                         @else
                             <a href="#" class="disabled btn btn-primary">Купить за {{$good->price}} <img style="height: 20px;" src="https://png.icons8.com/color/50/000000/coins.png" /></a>
                         @endif
