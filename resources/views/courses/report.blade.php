@@ -82,15 +82,16 @@
                                                 y: {!!$pulse_values[$student->id] !!},
                                                 type: 'scatter',
                                                 line: {shape: 'spline'},
-                                            },
+                                            }@if ($task_keys->has($student->id))
+                                            ,
                                             {
                                                 x: {!! $task_keys[$student->id] !!},
-                                                y: {!!$task_values[$student->id] !!},
+                                                y: {!! $task_values[$student->id] !!},
                                                 type: 'scatter',
                                                 yaxis: 'y2',
                                                 line: {shape: 'spline'},
                                                 fill: 'tonexty',
-                                            }
+                                            }@endif
 
                                         ];
 
