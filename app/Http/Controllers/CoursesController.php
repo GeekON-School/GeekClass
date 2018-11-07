@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ActionLog;
 use App\CompletedCourse;
 use App\Course;
 use App\Program;
@@ -58,12 +59,46 @@ class CoursesController extends Controller
             return $lesson->isStarted($course);
         });
 
-        foreach ($lessons as $lesson)
-        {
+        foreach ($lessons as $lesson) {
             $temp_steps = $temp_steps->merge($lesson->steps);
         }
 
+        /* count pulse */
 
+        $ids = $students->map(function ($item, $key) {
+            return $item->id;
+        })->values();
+
+        $steps_ids = $temp_steps->map(function ($item, $key) {
+            return $item->id;
+        })->values();
+
+
+        $records = ActionLog::where('created_at', '>', Carbon::now()->addWeeks(-2))->whereIn('user_id', $ids)->get()->filter(function ($item) use ($steps_ids, $course) {
+            return ($item->type == 'course' and $item->object_id == $course->id) or ($item->type == 'step' and $steps_ids->contains($item->object_id));
+        })->groupBy(function ($item) {
+            return $item->created_at->format('Y-m-d H:00:00');
+        })->map(function ($item) {
+            return $item->count();
+        });
+
+        $first_hour = Carbon::createFromFormat('Y-m-d H:00:00', $records->keys()[0]);
+
+        while ($first_hour->lt(Carbon::now()))
+        {
+            $first_hour->addHour();
+            if (!$records->has($first_hour->format('Y-m-d H:00:00')))
+            {
+                $records[$first_hour->format('Y-m-d H:00:00')] = 0;
+            }
+        }
+
+        $records = $records->sortBy(function($item, $key) {
+            return Carbon::createFromFormat('Y-m-d H:00:00', $key);
+        });
+
+        $pulse_keys = '[\'' . implode('\', \'', $records->keys()->toArray()) . '\']';
+        $pulse_values = '[\'' . implode('\', \'', $records->values()->toArray()) . '\']';
 
         foreach ($students as $key => $value) {
             $students[$key]->percent = 0;
@@ -98,12 +133,11 @@ class CoursesController extends Controller
             $cstudent = $students->filter(function ($value, $key) use ($user) {
                 return $value->id == $user->id;
             })->first();
-        }
-        else {
+        } else {
             $steps = $temp_steps;
             $lessons = $course->lessons;
         }
-        return view('courses.details', compact('course', 'user', 'steps', 'students', 'cstudent', 'lessons', 'marks'));
+        return view('courses.details', compact('course', 'user', 'steps', 'students', 'cstudent', 'lessons', 'marks', 'pulse_keys', 'pulse_values'));
     }
 
     public function assessments($id)
@@ -159,7 +193,7 @@ class CoursesController extends Controller
                 'invite' => 'required|string|unique:courses,invite|unique:providers,invite',
             ]);
             $course->invite = $request->invite;
-            $course->remote_invite = $request->invite.'-R';
+            $course->remote_invite = $request->invite . '-R';
         }
 
 
@@ -169,8 +203,7 @@ class CoursesController extends Controller
             $course->image = $path;
 
         }*/
-        if ($request->hasFile('import'))
-        {
+        if ($request->hasFile('import')) {
             $json = file_get_contents($request->file('import')->getRealPath());
 
             $course->import($json);
@@ -192,12 +225,10 @@ class CoursesController extends Controller
         ]);
 
         $course = new Course();
-        if ($request->program != -1)
-        {
+        if ($request->program != -1) {
             $this->validate($request, ['program' => 'required|integer|exists:programs,id']);
             $course->program_id = $request->program;
-        }
-        else {
+        } else {
             $program = new Program();
             $program->name = $request->name;
             $program->save();
@@ -210,7 +241,6 @@ class CoursesController extends Controller
         $course->description = $request->description;
         $course->save();
         $course->teachers()->attach($user->id);
-
 
 
         if ($request->hasFile('image')) {
@@ -265,7 +295,7 @@ class CoursesController extends Controller
         $response = \Response::make($json);
         $response->header('Content-Type', 'application/json');
         $response->header('Content-length', strlen($json));
-        $response->header('Content-Disposition', 'attachment; filename=course-' . $id.'.json');
+        $response->header('Content-Disposition', 'attachment; filename=course-' . $id . '.json');
 
         return $response;
 

@@ -77,6 +77,41 @@
 
             @endif
 
+            @if ($course->state=="started")
+                <div id="pulse" style="width:100%; height: 100px; margin-bottom: 10px;"></div>
+
+                <script>
+                    var data = [
+                        {
+                            x: {!! $pulse_keys !!},
+                            y: {!!$pulse_values!!},
+                            type: 'scatter'
+                        }
+                    ];
+
+                    Plotly.newPlot('pulse', data, {
+                        xaxis: {
+                            autotick: true,
+
+                            zeroline: false,
+                            showline: false,
+                            showgrid: false
+
+                        }, yaxis: {
+                            showgrid: false,
+                            zeroline: false,
+                            showline: false
+                        }, margin: {
+                            l: 15,
+                            r: 0,
+                            b: 24,
+                            t: 3,
+                            pad: 0
+                        },
+                    }, {staticPlot: false, displayModeBar: false});
+                </script>
+            @endif
+
             @foreach($lessons as $key => $lesson)
                 @if ($lesson->steps->count()!=0)
                     <div class="card-group">
@@ -319,18 +354,16 @@
 
                     @if ($user->role=='teacher')
 
-                        <div id="histogram">
-
-                        </div>
+                        <div id="histogram"></div>
 
                         <script>
-                            @php
-                                $points = [];
-                                foreach ($students as $student)
-                                {
-                                    array_push($points, $student->percent);
-                                }
-                            @endphp
+                                    @php
+                                        $points = [];
+                                        foreach ($students as $student)
+                                        {
+                                            array_push($points, $student->percent);
+                                        }
+                                    @endphp
                             var x = [{{implode(',',$points)}}];
 
                             var trace = {
@@ -340,7 +373,7 @@
                                 marker: {
                                     color: "rgba(100, 200, 102, 0.7)",
                                     line: {
-                                        color:  "rgba(100, 200, 102, 1)",
+                                        color: "rgba(100, 200, 102, 1)",
                                         width: 1
                                     }
                                 },

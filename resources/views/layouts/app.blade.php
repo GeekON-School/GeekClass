@@ -142,6 +142,10 @@
     @yield('content')
 </div>
 
+<div class="col-12">
+    <p style="text-align: center;">Load time: {{ (microtime(true) - LARAVEL_START) }}</p>
+</div>
+
 <!-- Compiled and minified JavaScript -->
 
 
