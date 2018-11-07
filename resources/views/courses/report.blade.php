@@ -110,7 +110,7 @@
                                                 overlaying: 'y'
                                             }, margin: {
                                                 l: 15,
-                                                r: 15,
+                                                r: 20,
                                                 b: 30,
                                                 t: 3,
                                                 pad: 0
