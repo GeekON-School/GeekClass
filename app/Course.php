@@ -49,6 +49,11 @@ class Course extends Model
         return $this->program->lessons();
     }
 
+    public function solutions()
+    {
+        return $this->hasMany('App\Solution', 'course_id', 'id');
+    }
+
     public function start()
     {
         $this->state = 'started';

@@ -9,6 +9,7 @@ use App\Program;
 use App\ProgramStep;
 use App\Http\Controllers\Controller;
 use App\Provider;
+use App\Solution;
 use App\User;
 use App\Lesson;
 use Carbon\Carbon;
@@ -26,7 +27,7 @@ class CoursesController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('course')->only(['details']);
-        $this->middleware('teacher')->only(['createView', 'editView', 'start', 'stop', 'edit', 'create', 'assesments']);
+        $this->middleware('teacher')->only(['createView', 'editView', 'start', 'stop', 'edit', 'create', 'assesments', 'report']);
     }
 
     /**
@@ -41,6 +42,129 @@ class CoursesController extends Controller
         $courses = Course::orderBy('id')->get();
         $providers = Provider::orderBy('id')->get();
         return view('home', compact('courses', 'user', 'providers', 'users'));
+    }
+
+    public function report($id)
+    {
+        $user = User::with('solutions', 'solutions.task', 'solutions.task.consequences')->findOrFail(Auth::User()->id);
+        $course = Course::with('program.lessons', 'students', 'students.submissions', 'teachers', 'program.steps', 'program.lessons.prerequisites', 'program.lessons.info')->findOrFail($id);
+        $students = $course->students;
+        $marks = CompletedCourse::where('course_id', $id)->get();
+        $steps = $course->steps;
+        $temp_steps = collect([]);
+        $lessons = $course->lessons->filter(function ($lesson) use ($course) {
+            return $lesson->isStarted($course);
+        });
+
+        foreach ($lessons as $lesson) {
+            $temp_steps = $temp_steps->merge($lesson->steps);
+        }
+
+        /* count pulse */
+
+        $ids = $students->map(function ($item, $key) {
+            return $item->id;
+        })->values();
+
+        $steps_ids = $temp_steps->map(function ($item, $key) {
+            return $item->id;
+        })->values();
+
+
+        $use_records = ActionLog::where('created_at', '>', Carbon::now()->addWeeks(-2))->whereIn('user_id', $ids)->get()->filter(function ($item) use ($steps_ids, $course) {
+            return ($item->type == 'course' and $item->object_id == $course->id) or ($item->type == 'step' and $steps_ids->contains($item->object_id));
+        })->groupBy('user_id')->map(function ($item) {
+            return $item->groupBy(function ($item) {
+                return $item->created_at->format('Y-m-d');
+            })->map(function ($item) {
+                return $item->count();
+            });
+        });
+
+        $pulse_keys = collect([]);
+        $pulse_values = collect([]);
+
+
+        foreach ($use_records as $student_id => $value)
+        {
+            $first_hour = Carbon::createFromFormat('Y-m-d', $value->keys()[0]);
+
+            while ($first_hour->lt(Carbon::now())) {
+                $first_hour->addHour();
+                if (!$value->has($first_hour->format('Y-m-d'))) {
+                    $use_records[$student_id][$first_hour->format('Y-m-d')] = 0;
+                }
+            }
+
+            $use_records[$student_id] = $use_records[$student_id]->sortBy(function ($item, $key) {
+                return Carbon::createFromFormat('Y-m-d', $key);
+            });
+
+            $pulse_keys[$student_id] = '[\'' . implode('\', \'', $use_records[$student_id]->keys()->toArray()) . '\']';
+            $pulse_values[$student_id] = '[\'' . implode('\', \'', $use_records[$student_id]->values()->toArray()) . '\']';
+        }
+
+        $task_records = $course->solutions->where('created_at', '>', Carbon::now()->addWeeks(-2))->groupBy('user_id')->map(function ($item) {
+            return $item->groupBy(function ($item) {
+                return $item->created_at->format('Y-m-d');
+            })->map(function ($item) {
+                return $item->sum('mark');
+            });
+        });
+
+        $task_keys = collect([]);
+        $task_values = collect([]);
+
+
+        foreach ($task_records as $student_id => $value)
+        {
+            $first_hour = Carbon::now()->addWeeks(-2);
+
+            while ($first_hour->lt(Carbon::now())) {
+                $first_hour->addDay();
+                if (!$value->has($first_hour->format('Y-m-d'))) {
+                    $task_records[$student_id][$first_hour->format('Y-m-d')] = 0;
+                }
+            }
+
+            $task_records[$student_id] = $task_records[$student_id]->sortBy(function ($item, $key) {
+                return Carbon::createFromFormat('Y-m-d', $key);
+            });
+
+            $task_keys[$student_id] = '[\'' . implode('\', \'', $task_records[$student_id]->keys()->toArray()) . '\']';
+            $task_values[$student_id] = '[\'' . implode('\', \'', $task_records[$student_id]->values()->toArray()) . '\']';
+        }
+
+
+
+
+
+        foreach ($students as $key => $value) {
+            $students[$key]->percent = 0;
+            $students[$key]->max_points = 0;
+            $students[$key]->points = 0;
+            foreach ($temp_steps as $step) {
+                if ($value->pivot->is_remote) {
+                    $tasks = $step->remote_tasks;
+                } else {
+                    $tasks = $step->class_tasks;
+                }
+
+                foreach ($tasks as $task) {
+                    if (!$task->is_star) $students[$key]->max_points += $task->max_mark;
+                    $students[$key]->points += $value->submissions->where('task_id', $task->id)->max('mark');
+                }
+
+
+            }
+            if ($students[$key]->max_points != 0) {
+                $students[$key]->percent = min(100, $students[$key]->points * 100 / $students[$key]->max_points);
+            }
+        }
+
+        return view('courses.report', compact('course', 'user', 'steps', 'students', 'lessons', 'marks', 'pulse_keys', 'pulse_values', 'task_keys', 'task_values'));
+
+
     }
 
     public function details($id)
@@ -84,16 +208,14 @@ class CoursesController extends Controller
 
         $first_hour = Carbon::createFromFormat('Y-m-d H:00:00', $records->keys()[0]);
 
-        while ($first_hour->lt(Carbon::now()))
-        {
+        while ($first_hour->lt(Carbon::now())) {
             $first_hour->addHour();
-            if (!$records->has($first_hour->format('Y-m-d H:00:00')))
-            {
+            if (!$records->has($first_hour->format('Y-m-d H:00:00'))) {
                 $records[$first_hour->format('Y-m-d H:00:00')] = 0;
             }
         }
 
-        $records = $records->sortBy(function($item, $key) {
+        $records = $records->sortBy(function ($item, $key) {
             return Carbon::createFromFormat('Y-m-d H:00:00', $key);
         });
 

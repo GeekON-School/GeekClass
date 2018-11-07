@@ -393,6 +393,8 @@
                         <p>
                             <a href="{{url('insider/courses/'.$course->id.'/assessments')}}"
                                class="btn btn-success btn-sm">Успеваемость</a>
+                            <a href="{{url('insider/courses/'.$course->id.'/report')}}"
+                               class="btn btn-success btn-sm">Отчет</a>
                         </p>
                     @endif
 

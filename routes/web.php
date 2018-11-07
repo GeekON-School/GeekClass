@@ -58,6 +58,7 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::post('/courses/create', 'CoursesController@create');
 
     Route::get('/courses/{id}/', 'CoursesController@details');
+    Route::get('/courses/{id}/report', 'CoursesController@report');
     Route::get('/courses/{id}/edit', 'CoursesController@editView');
     Route::get('/courses/{id}/start', 'CoursesController@start');
     Route::get('/courses/{id}/stop', 'CoursesController@stop');
