@@ -44,29 +44,26 @@ class TasksController extends Controller
         $this->validate($request, [
             'text' => 'required|string',
             'name' => 'required|string',
-            'price' => 'required|numeric|min:0',
+            'price' => 'numeric|min:0',
             'max_mark' => 'required|integer|min:0|max:1000'
         ]);
 
 
-
         $order = 100;
-        if ($step->lesson->steps->count()!=0)
+        if ($step->lesson->steps->count() != 0)
             $order = $step->lesson->steps->last()->sort_index + 1;
 
-        $task = Task::create(['text' => $request->text, 'step_id'=>$step->id, 'name'=>$request->name, 'max_mark'=>$request->max_mark, 'sort_index'=>$order,
-            'is_star' => $request->is_star=='on'?true:false,
-            'only_remote' => $request->only_remote=='on'?true:false,
-            'only_class' => $request->only_class=='on'?true:false]);
+        $task = Task::create(['text' => $request->text, 'step_id' => $step->id, 'name' => $request->name, 'max_mark' => $request->max_mark, 'sort_index' => $order,
+            'is_star' => $request->is_star == 'on' ? true : false,
+            'only_remote' => $request->only_remote == 'on' ? true : false,
+            'only_class' => $request->only_class == 'on' ? true : false]);
         $task->solution = $request->solution;
         $task->price = $request->price;
 
-        if ($request->has('answer'))
-        {
+        if ($request->has('answer') and $request->answer != "") {
             $task->is_quiz = true;
             $task->answer = $request->answer;
-        }
-        else if ($request->has('code_answer')) {
+        } else if ($request->has('code_answer') and $request->code_answer != "") {
             $task->is_code = true;
             $task->checker = $request->checker;
             $task->code_answer = $request->code_answer;
@@ -76,11 +73,11 @@ class TasksController extends Controller
         $task->save();
 
         if ($request->consequences)
-        foreach ($request->consequences as $consequence_id) {
-            $task->consequences()->attach($consequence_id);
-        }
+            foreach ($request->consequences as $consequence_id) {
+                $task->consequences()->attach($consequence_id);
+            }
 
-        return redirect('/insider/courses/'.$course_id.'/steps/' . $step->id.'#task'.$task->id);
+        return redirect('/insider/courses/' . $course_id . '/steps/' . $step->id . '#task' . $task->id);
     }
 
     public function delete($course_id, $id)
@@ -88,10 +85,10 @@ class TasksController extends Controller
         $task = Task::findOrFail($id);
         $step_id = $task->step_id;
         $task->delete();
-        return redirect('/insider/courses/'.$course_id.'/steps/' . $step_id);
+        return redirect('/insider/courses/' . $course_id . '/steps/' . $step_id);
     }
 
-    public function editForm($course_id,$id)
+    public function editForm($course_id, $id)
     {
         $task = Task::findOrFail($id);
         $course = Course::findOrFail($course_id);
@@ -104,7 +101,7 @@ class TasksController extends Controller
         $this->validate($request, [
             'text' => 'required|string',
             'name' => 'required|string',
-            'price' => 'required|numeric|min:0',
+            'price' => 'numeric|min:0',
             'max_mark' => 'required|integer|min:0|max:1000'
         ]);
 
@@ -112,56 +109,44 @@ class TasksController extends Controller
             $task->consequences()->detach($consequence->id);
         }
         if ($request->consequences != null)
-        foreach ($request->consequences as $consequence_id) {
-            $task->consequences()->attach($consequence_id);
-        }
+            foreach ($request->consequences as $consequence_id) {
+                $task->consequences()->attach($consequence_id);
+            }
 
         $task->text = $request->text;
         $task->max_mark = $request->max_mark;
         $task->name = $request->name;
         $task->price = $request->price;
         $task->solution = $request->solution;
-        if ($request->is_star=='on')
-        {
+        if ($request->is_star == 'on') {
             $task->is_star = true;
-        }
-        else
-        {
+        } else {
             $task->is_star = false;
         }
-        if ($request->only_class=='on')
-        {
+        if ($request->only_class == 'on') {
             $task->only_class = true;
-        }
-        else
-        {
+        } else {
             $task->only_class = false;
         }
-        if ($request->only_remote=='on')
-        {
+        if ($request->only_remote == 'on') {
             $task->only_remote = true;
-        }
-        else
-        {
+        } else {
             $task->only_remote = false;
         }
-        if ($request->has('answer'))
-        {
+        if ($request->has('answer') and $request->answer != "") {
             $task->is_quiz = true;
             $task->answer = $request->answer;
-        }
-        else {
+        } else {
             $task->is_quiz = false;
         }
-        if ($request->has('code_answer')) {
+        if ($request->has('code_answer') and $request->code_answer != "") {
             $task->is_quiz = false;
             $task->is_code = true;
             $task->checker = $request->checker;
             $task->code_answer = $request->code_answer;
             $task->code_input = $request->code_input;
             $task->template = $request->template;
-        }
-        else {
+        } else {
             $task->is_code = false;
         }
 
@@ -169,29 +154,28 @@ class TasksController extends Controller
         $task->save();
 
         $step_id = $task->step_id;
-        return redirect('/insider/courses/'.$course_id.'/steps/' . $step_id. '#task'.$id);
+        return redirect('/insider/courses/' . $course_id . '/steps/' . $step_id . '#task' . $id);
     }
 
     public function phantomSolution($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);
         $course = Course::findOrFail($course_id);
-        foreach ($course->students as $user)
-        {
+        foreach ($course->students as $user) {
             $solution = new Solution();
             $solution->task_id = $id;
             $solution->course_id = $course_id;
-            $solution->user_id=$user->id;
+            $solution->user_id = $user->id;
             $solution->submitted = Carbon::now();
             $solution->text = " ";
             $solution->save();
         }
 
-        return redirect('/insider/courses/'.$course_id.'/steps/' . $task->step->id. '#task'.$id);
+        return redirect('/insider/courses/' . $course_id . '/steps/' . $task->step->id . '#task' . $id);
     }
 
 
-    public function postSolution($course_id,$id, Request $request)
+    public function postSolution($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);
         $this->validate($request, [
@@ -203,60 +187,49 @@ class TasksController extends Controller
 
         $solution = new Solution();
         $solution->task_id = $id;
-        $solution->user_id=Auth::User()->id;
+        $solution->user_id = Auth::User()->id;
         $solution->course_id = $course_id;
         $solution->submitted = Carbon::now();
         $solution->text = $request->text;
 
-        if ($task->is_quiz)
-        {
-            if ($task->answer==$request->text)
-            {
-                if ($task->price > 0 and !$task->isFullDone(Auth::User()->id))
-                {
-                    CoinTransaction::register(Auth::User()->id, $task->price, "Task #".$task->id);
+        if ($task->is_quiz) {
+            if ($task->answer == $request->text) {
+                if ($task->price > 0 and !$task->isFullDone(Auth::User()->id)) {
+                    CoinTransaction::register(Auth::User()->id, $task->price, "Task #" . $task->id);
                 }
                 $solution->mark = $task->max_mark;
                 $solution->comment = "Правильно.";
 
-            }
-            else {
+            } else {
                 $solution->mark = 0;
                 $solution->comment = "Неверный ответ.";
             }
             $solution->teacher_id = $course->Teachers->first()->id;
             $solution->checked = Carbon::now();
         }
-        if ($task->is_code)
-        {
+        if ($task->is_code) {
             $solution->text = $request->text;
 
             $client = new Client();
-            $res = $client->post('https://checker.geekclass.ru', ['form_params' =>  ['pswd'=>'GEEK_PSWD_{{}}', 'input'=>$task->code_input, 'code'=>$solution->text, 'checker'=>$task->checker]]);
-            if ($res->getStatusCode()!=200)
-            {
+            $res = $client->post('https://checker.geekclass.ru', ['form_params' => ['pswd' => 'GEEK_PSWD_{{}}', 'input' => $task->code_input, 'code' => $solution->text, 'checker' => $task->checker]]);
+            if ($res->getStatusCode() != 200) {
                 $solution->mark = 0;
                 $solution->comment = "Ошибка проверки, попробуйте еще раз чуть позже..";
             }
             $data = \GuzzleHttp\json_decode($res->getBody());
-            if ($data->state=='general error')
-            {
+            if ($data->state == 'general error') {
                 $solution->mark = 0;
                 $solution->comment = "Ошибка проверки, попробуйте еще раз чуть позже.";
             }
-            if ($data->state=='error')
-            {
+            if ($data->state == 'error') {
                 $solution->mark = 0;
-                $solution->comment = "Ошибка в программе:<br><br>".nl2br($data->error);
+                $solution->comment = "Ошибка в программе:<br><br>" . nl2br($data->error);
             }
-            if ($data->state=='success')
-            {
-                if (str_contains($data->result, $task->code_answer))
-                {
+            if ($data->state == 'success') {
+                if (str_contains($data->result, $task->code_answer)) {
                     $solution->mark = $task->max_mark;
                     $solution->comment = "Правильно.";
-                }
-                else{
+                } else {
                     $solution->mark = 0;
                     $solution->comment = "Неверное решение.";
                 }
@@ -268,14 +241,14 @@ class TasksController extends Controller
 
         $solution->save();
 
-        if (!$task->is_quiz && !$task->is_code)
-        {
+        if (!$task->is_quiz && !$task->is_code) {
             $when = \Carbon\Carbon::now()->addSeconds(1);
             Notification::send($course->teachers, (new \App\Notifications\NewSolution($solution))->delay($when));
         }
 
-        return redirect('/insider/courses/'.$course_id.'/steps/' . $step_id. '#task'.$id);
+        return redirect('/insider/courses/' . $course_id . '/steps/' . $step_id . '#task' . $id);
     }
+
     public function reviewSolutions($course_id, $id, $student_id, Request $request)
     {
         $task = Task::findOrFail($id);
@@ -286,16 +259,16 @@ class TasksController extends Controller
         });
         return view('steps.review', compact('task', 'student', 'solutions', 'course'));
     }
+
     public function estimateSolution($course_id, $id, Request $request)
     {
         $solution = Solution::findOrFail($id);
         $this->validate($request, [
-            'mark' => 'required|integer|min:0|max:'.$solution->task->max_mark
+            'mark' => 'required|integer|min:0|max:' . $solution->task->max_mark
         ]);
         $solution->mark = $request->mark;
-        if ($solution->task->price > 0 and $solution->mark == $solution->task->max_mark and !$solution->task->isFullDone($solution->user_id))
-        {
-            CoinTransaction::register($solution->user_id, $solution->task->price, "Task #".$solution->task->id);
+        if ($solution->task->price > 0 and $solution->mark == $solution->task->max_mark and !$solution->task->isFullDone($solution->user_id)) {
+            CoinTransaction::register($solution->user_id, $solution->task->price, "Task #" . $solution->task->id);
         }
 
         $solution->comment = $request->comment;
@@ -315,41 +288,43 @@ class TasksController extends Controller
         $task = Task::findOrFail($id);
         $task->sort_index -= 1;
         $task->save();
-        return redirect('/insider/courses/'.$course_id.'/steps/' . $task->step->id. '#task'.$id);
+        return redirect('/insider/courses/' . $course_id . '/steps/' . $task->step->id . '#task' . $id);
     }
+
     public function makeUpper($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);
         $task->sort_index += 1;
         $task->save();
-        return redirect('/insider/courses/'.$course_id.'/steps/' . $task->step->id. '#task'.$id);
+        return redirect('/insider/courses/' . $course_id . '/steps/' . $task->step->id . '#task' . $id);
     }
+
     public function toNextTask($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);
         $next = $task->step->nextStep();
-        if ($next!=null)
-        {
+        if ($next != null) {
             $task->step_id = $next->id;
             $task->save();
-            return redirect('/insider/courses/'.$course_id.'/steps/' . $next->id. '#task'.$id);
+            return redirect('/insider/courses/' . $course_id . '/steps/' . $next->id . '#task' . $id);
         }
 
-        return redirect('/insider/courses/'.$course_id.'/steps/' . $task->step->id. '#task'.$id);
+        return redirect('/insider/courses/' . $course_id . '/steps/' . $task->step->id . '#task' . $id);
     }
+
     public function toPreviousTask($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);
         $previous = $task->step->previousStep();
-        if ($previous!=null)
-        {
+        if ($previous != null) {
             $task->step_id = $previous->id;
             $task->save();
-            return redirect('/insider/courses/'.$course_id.'/steps/' . $previous->id. '#task'.$id);
+            return redirect('/insider/courses/' . $course_id . '/steps/' . $previous->id . '#task' . $id);
         }
 
-        return redirect('/insider/courses/'.$course_id.'/steps/' . $task->step->id. '#task'.$id);
+        return redirect('/insider/courses/' . $course_id . '/steps/' . $task->step->id . '#task' . $id);
     }
+
     public function reviewTable($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);
@@ -358,13 +333,11 @@ class TasksController extends Controller
         $students = $course->students->shuffle();
         $ids = [];
 
-        for ($i = 0; $i < $students->count(); $i++)
-        {
+        for ($i = 0; $i < $students->count(); $i++) {
             $ids[$students[$i]->id] = $i;
             $students[$i]->works = collect([]);
         }
-        for ($i = 0; $i < $students->count(); $i++)
-        {
+        for ($i = 0; $i < $students->count(); $i++) {
             $students[$i]->reviewer1 = $students[($i + 1) % $students->count()];
             $students[$i]->reviewer2 = $students[($i + 2) % $students->count()];
 
@@ -373,9 +346,7 @@ class TasksController extends Controller
                 $students[$i]->solution = $solution->text;
                 $students[$ids[$students[$i]->reviewer1->id]]->works->push($solution);
                 $students[$ids[$students[$i]->reviewer2->id]]->works->push($solution);
-            }
-            catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 $students[$i]->solution = 'Нет';
             }
 
