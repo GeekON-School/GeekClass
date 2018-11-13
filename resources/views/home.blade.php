@@ -90,22 +90,18 @@
                                          style="min-width: 280px; background-image: url({{$course->image}}); background-size: cover;  border-left: 5px solid #28a745;">
                                         <div class="card-body" style="background-color: rgba(255,255,255,0.9);">
                                             <h5 style="margin-top: 15px; font-weight: 300;"
-                                                class="card-title">{{$course->name}}</h5>
+                                                class="card-title">
+                                                @if ($user->role=='teacher' || $course->students->contains($user))
+                                                    <a href="{{url('insider/courses/'.$course->id)}}" style="color: #333741;">{{$course->name}}</a>
+                                                @else
+                                                    <a href="#" class="text-muted">{{$course->name}}</a>
+                                                @endif
+
+                                            </h5>
                                             <p class="card-text" style="font-size: 0.8rem;">{{$course->description}}</p>
 
-                                            @if ($user->role=='teacher' || $course->students->contains($user))
-                                                <a href="{{url('insider/courses/'.$course->id)}}"
-                                                   class="btn btn-success btn-sm">&nbsp;Страница
-                                                    курса</a>
-                                            @else
-                                                <a href="#" class="btn btn-success btn-sm disabled" role="button"
-                                                   aria-disabled="true">Вы
-                                                    не
-                                                    записаны</a>
-                                            @endif
-
                                             @if ($course->site != null)
-                                                <a target="_blank" href="{{$course->site}}" style="margin-top: 6px;"
+                                                <a target="_blank" href="{{$course->site}}" style="margin-top: 6px; font-size: 0.8rem;"
                                                    class="float-right">О курсе</a>
                                             @endif
 

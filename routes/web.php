@@ -135,6 +135,19 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/projects/{id}/delete', 'ProjectsController@deleteProject');
     Route::get('/projects', 'ProjectsController@index');
 
+    // forum
+    Route::get('/forum', 'ForumController@index');
+    Route::get('/forum/create', 'ForumController@createView');
+    Route::get('/forum/{id}', 'ForumController@details');
+    Route::get('/forum/{thread_id}/delete/{id}', 'ForumController@delete');
+    Route::get('/forum/{thread_id}/edit/{id}', 'ForumController@editView');
+    Route::get('/forum/{thread_id}/upvote/{id}', 'ForumController@upvote');
+    Route::get('/forum/{thread_id}/downvote/{id}', 'ForumController@downvote');
+    Route::post('/forum/{thread_id}/edit/{id}', 'ForumController@edit');
+    Route::post('/forum/{id}/answer', 'ForumController@answer');
+    Route::post('/forum/{thread_id}/comment/{id}', 'ForumController@comment');
+    Route::post('/forum/create', 'ForumController@createThread');
+
     Route::get('/events', 'EventController@event_view');
     Route::get('/events/old', 'EventController@old_events_view');
     Route::get('/events/add_event', 'EventController@add_event_view');
