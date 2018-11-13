@@ -78,9 +78,44 @@
                         </div>
                     </div>
                     <div class="row" style="margin-top: 15px;">
+                        <div class="col-12 col-md-9">
+
+                            <div class="card-deck">
 
 
-                        <div class="card-columns">
+                                @foreach($provider->courses->where('state', 'started') as $course)
+
+
+                                    <div class="card"
+                                         style="min-width: 280px; background-image: url({{$course->image}}); background-size: cover;  border-left: 5px solid #28a745;">
+                                        <div class="card-body" style="background-color: rgba(255,255,255,0.9);">
+                                            <h5 style="margin-top: 15px; font-weight: 300;"
+                                                class="card-title">{{$course->name}}</h5>
+                                            <p class="card-text" style="font-size: 0.8rem;">{{$course->description}}</p>
+
+                                            @if ($user->role=='teacher' || $course->students->contains($user))
+                                                <a href="{{url('insider/courses/'.$course->id)}}"
+                                                   class="btn btn-success btn-sm">&nbsp;Страница
+                                                    курса</a>
+                                            @else
+                                                <a href="#" class="btn btn-success btn-sm disabled" role="button"
+                                                   aria-disabled="true">Вы
+                                                    не
+                                                    записаны</a>
+                                            @endif
+
+                                            @if ($course->site != null)
+                                                <a target="_blank" href="{{$course->site}}" style="margin-top: 6px;"
+                                                   class="float-right">О курсе</a>
+                                            @endif
+
+
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
                             <div class="card"
                                  style="min-width: 280px; border-left: 5px solid #5bc0de;">
                                 <div class="card-body">
@@ -103,43 +138,10 @@
 
                             </div>
 
-                            @foreach($provider->courses->where('state', 'started') as $course)
-
-
-                                <div class="card"
-                                     style="min-width: 280px; background-image: url({{$course->image}}); background-size: cover;">
-                                    <div class="card-body" style="background-color: rgba(255,255,255,0.9);">
-                                        @if ($course->provider->logo != null)
-                                            <img src="{{$course->Provider->logo}}"
-                                                 style="margin-top: 15px;height: 50px"/>
-                                        @endif
-                                        <h5 style="margin-top: 15px; font-weight: 300;"
-                                            class="card-title">{{$course->name}}</h5>
-                                        <p class="card-text" style="font-size: 0.8rem;">{{$course->description}}</p>
-
-
-                                    </div>
-                                    <div class="card-footer" style="background-color: rgba(245,245,245,1);">
-                                        @if ($user->role=='teacher' || $course->students->contains($user))
-                                            <a href="{{url('insider/courses/'.$course->id)}}"
-                                               class="btn btn-success btn-sm"><i
-                                                        class="icon ion-ios-list-outline"></i>&nbsp;Страница
-                                                курса</a>
-                                        @else
-                                            <a href="#" class="btn btn-success btn-sm disabled" role="button"
-                                               aria-disabled="true">Вы
-                                                не
-                                                записаны</a>
-                                        @endif
-
-                                        @if ($course->site != null)
-                                            <a target="_blank" href="{{$course->site}}" style="margin-top: 6px;"
-                                               class="float-right">О курсе</a>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach
                         </div>
+
+
+
 
                     </div>
                 @endif
