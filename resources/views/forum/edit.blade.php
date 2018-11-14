@@ -35,7 +35,7 @@
                     @endif
                 </div>
 
-                <input type="submit" class="btn btn-success" value="Задать вопрос"/>
+                <input type="submit" class="btn btn-success" value="Сохранить"/>
             </form>
         </div>
         <script>
