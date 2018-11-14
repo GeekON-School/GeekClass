@@ -16,44 +16,59 @@
     @foreach($thread->orderedPosts() as $post)
         <div class="card">
             <div class="card-body markdown @if (!$post->is_question and $post->getVotes()>=3) alert-success @endif">
-                <p style="line-height: 50px; max-width: 96%;">
-                    @if ($post->user->image)
-                        <img src="{{url('/media/'.$post->user->image)}}"
-                             style="width: 50px; margin: 0;margin-right: 10px;"
-                             class="img-thumbnail" align="left">
-                    @else
-
-                        <img src="https://api.adorable.io/avatars/250/{{$user->id}}.png"
-                             style="width: 50px; margin: 0;margin-right: 10px;"
-                             class="img-thumbnail" align="left">
-                    @endif
-                    <strong>{{$post->user->name}}</strong> <span class="float-right lead">
-                    @if ($post->user != $user and $post->checkVote($user))
-                            <a href="{{url('/insider/forum/'.$thread->id.'/upvote/'.$post->id)}}"
-                               class="btn btn-sm btn-success"
-                               style="margin-right: 5px;" onclick="return confirm('Вы уверены?');"><i
-                                        class="icon ion-ios-plus-empty"></i></a>
-                            {{$post->getVotes()}}
-                            <a href="{{url('/insider/forum/'.$thread->id.'/downvote/'.$post->id)}}"
-                               class="btn btn-sm btn-danger"
-                               style="margin-right: 5px;margin-left: 5px;" onclick="return confirm('Вы уверены?');"><i
-                                        class="icon ion-ios-minus-empty"></i></a>
+                <div class="row">
+                    <div class="col col-md-9">
+                        @if ($post->user->image)
+                            <img src="{{url('/media/'.$post->user->image)}}"
+                                 style="width: 50px; margin: 0;margin-right: 10px;"
+                                 class="img-thumbnail" align="left">
                         @else
-                            {{$post->getVotes()}}
+
+                            <img src="https://api.adorable.io/avatars/250/{{$user->id}}.png"
+                                 style="width: 50px; margin: 0;margin-right: 10px;"
+                                 class="img-thumbnail" align="left">
                         @endif
-                        @if ($post->user == $user || $user->role=='teacher')
-                            <a href="{{url('/insider/forum/'.$thread->id.'/edit/'.$post->id)}}"
-                               class="btn btn-sm btn-success"
-                               style="margin-right: 5px;margin-left: 5px;"><i class="icon ion-edit"></i></a>
-                            @if (!$post->is_question)
-                                <a href="{{url('/insider/forum/'.$thread->id.'/delete/'.$post->id)}}"
-                                   onclick="return confirm('Вы уверены?')" class="btn btn-sm btn-danger"
-                                   style="margin-right: 5px;"><i class="icon ion-close-round"></i></a>
+                        <strong>{{$post->user->name}}</strong><br>
+                        <span class="badge badge-pill badge-success"><i
+                                    class="icon ion-ios-arrow-up"></i> {{$post->user->rank()->name}}</span>
+
+                        @if ($post->user->is_trainee)
+                            <span class="badge badge-pill badge-info">Стажер</span>
+                        @endif
+                        @if ($post->user->is_teacher)
+                            <span class="badge badge-pill badge-info">Преподаватель</span>
+                        @endif
+                    </div>
+                    <div class="col col-md-3">
+                        <span class="float-right lead">
+                    @if ($post->user != $user and $post->checkVote($user))
+                                <a href="{{url('/insider/forum/'.$thread->id.'/upvote/'.$post->id)}}"
+                                   class="btn btn-sm btn-success"
+                                   style="margin-right: 5px;" onclick="return confirm('Вы уверены?');"><i
+                                            class="icon ion-ios-plus-empty"></i></a>
+                                {{$post->getVotes()}}
+                                <a href="{{url('/insider/forum/'.$thread->id.'/downvote/'.$post->id)}}"
+                                   class="btn btn-sm btn-danger"
+                                   style="margin-right: 5px;margin-left: 5px;" onclick="return confirm('Вы уверены?');"><i
+                                            class="icon ion-ios-minus-empty"></i></a>
+                            @else
+                                {{$post->getVotes()}}
                             @endif
-                        @endif
-                </span>
-                </p>
-                <div class="@if (!$post->is_question and $post->getVotes()<-2)text-muted @endif">
+                            @if ($post->user == $user || $user->role=='teacher')
+                                <a href="{{url('/insider/forum/'.$thread->id.'/edit/'.$post->id)}}"
+                                   class="btn btn-sm btn-success"
+                                   style="margin-right: 5px;margin-left: 5px;"><i class="icon ion-edit"></i></a>
+                                @if (!$post->is_question)
+                                    <a href="{{url('/insider/forum/'.$thread->id.'/delete/'.$post->id)}}"
+                                       onclick="return confirm('Вы уверены?')" class="btn btn-sm btn-danger"
+                                       style="margin-right: 5px;"><i class="icon ion-close-round"></i></a>
+                                @endif
+                            @endif
+                       </span>
+                    </div>
+                </div>
+
+                <div class="@if (!$post->is_question and $post->getVotes()<-2)text-muted @endif" style="margin-top: 15px;">
                     @parsedown($post->text)
                 </div>
                 <hr>
