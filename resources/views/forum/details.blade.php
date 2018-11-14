@@ -24,7 +24,7 @@
                                  class="img-thumbnail" align="left">
                         @else
 
-                            <img src="https://api.adorable.io/avatars/250/{{$user->id}}.png"
+                            <img src="https://api.adorable.io/avatars/250/{{$post->user->id}}.png"
                                  style="width: 50px; margin: 0;margin-right: 10px;"
                                  class="img-thumbnail" align="left">
                         @endif
@@ -41,7 +41,7 @@
                     </div>
                     <div class="col col-md-3">
                         <span class="float-right lead">
-                    @if ($post->user != $user and $post->checkVote($user))
+                            @if ($post->user->id != $user->id and $post->checkVote($user))
                                 <a href="{{url('/insider/forum/'.$thread->id.'/upvote/'.$post->id)}}"
                                    class="btn btn-sm btn-success"
                                    style="margin-right: 5px;" onclick="return confirm('Вы уверены?');"><i
@@ -68,7 +68,8 @@
                     </div>
                 </div>
 
-                <div class="@if (!$post->is_question and $post->getVotes()<-2)text-muted @endif" style="margin-top: 15px;">
+                <div class="@if (!$post->is_question and $post->getVotes()<-2)text-muted @endif"
+                     style="margin-top: 15px;">
                     @parsedown($post->text)
                 </div>
                 <hr>
