@@ -16,19 +16,27 @@
     @foreach($thread->orderedPosts() as $post)
         <div class="card">
             <div class="card-body markdown @if (!$post->is_question and $post->getVotes()>=3) alert-success @endif">
-                <p style="line-height: 50px; max-width: 96%;"><img src="{{url('/media/'.$post->user->image)}}"
-                                                                   style="width: 50px; margin: 0;margin-right: 10px;"
-                                                                   class="img-thumbnail" align="left">
+                <p style="line-height: 50px; max-width: 96%;">
+                    @if ($post->user->image)
+                        <img src="{{url('/media/'.$post->user->image)}}"
+                             style="width: 50px; margin: 0;margin-right: 10px;"
+                             class="img-thumbnail" align="left">
+                    @else
+
+                        <img src="https://api.adorable.io/avatars/250/{{$user->id}}.png"
+                             style="width: 50px; margin: 0;margin-right: 10px;"
+                             class="img-thumbnail" align="left">
+                    @endif
                     <strong>{{$post->user->name}}</strong> <span class="float-right lead">
                     @if ($post->user != $user and $post->checkVote($user))
                             <a href="{{url('/insider/forum/'.$thread->id.'/upvote/'.$post->id)}}"
                                class="btn btn-sm btn-success"
-                               style="margin-right: 5px;" onclick="return confirm('Вы уверены?')"><i
+                               style="margin-right: 5px;" onclick="return confirm('Вы уверены?');"><i
                                         class="icon ion-ios-plus-empty"></i></a>
                             {{$post->getVotes()}}
                             <a href="{{url('/insider/forum/'.$thread->id.'/downvote/'.$post->id)}}"
                                class="btn btn-sm btn-danger"
-                               style="margin-right: 5px;margin-left: 5px;" onclick="return confirm('Вы уверены?')"><i
+                               style="margin-right: 5px;margin-left: 5px;" onclick="return confirm('Вы уверены?');"><i
                                         class="icon ion-ios-minus-empty"></i></a>
                         @else
                             {{$post->getVotes()}}
@@ -42,12 +50,11 @@
                                    onclick="return confirm('Вы уверены?')" class="btn btn-sm btn-danger"
                                    style="margin-right: 5px;"><i class="icon ion-close-round"></i></a>
                             @endif
-
                         @endif
                 </span>
                 </p>
                 <div class="@if (!$post->is_question and $post->getVotes()<-2)text-muted @endif">
-                @parsedown($post->text)
+                    @parsedown($post->text)
                 </div>
                 <hr>
                 @foreach($post->comments as $comment)
@@ -71,6 +78,11 @@
     <div>
         <h5 class="card-title">Ответить:</h5>
 
+        <p class="text-muted">Опишите ваш ответ максимально точно и подробно, по возможности, приведите примеры кода.
+            Для разметки текста используется markdown, описание - <a target="_blank"
+                                                                     href="https://simplemde.com/markdown-guide">тут</a>.
+        </p>
+
         <form action="{{url('/insider/forum/'.$thread->id.'/answer')}}" method="post">
             {{csrf_field()}}
             <div class="form-group">
@@ -83,6 +95,10 @@
             </div>
 
             <div class="form-group">
+                <p style="margin-top: 5px;">Перед отправкой еще раз проверьте правильность, точность и грамотность
+                    вашего ответа. Кстати, если участники сочтут ответ хорошим и проголосуют за него более двух раз, вы
+                    получите несколько GC.</p>
+
                 <input type="submit" class="btn btn-success btn-lg" value="Отправить ответ"/>
             </div>
         </form>

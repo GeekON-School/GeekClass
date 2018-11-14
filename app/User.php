@@ -66,6 +66,10 @@ class User extends Authenticatable
         return $this->hasOne('App\Rank', 'id', 'rank_id');
     }
 
+    public function posts()
+    {
+        return $this->hasMany('App\ForumPost', 'user_id', 'id');
+    }
     public function grade()
     {
         $current_year = Carbon::now()->year;
@@ -112,6 +116,11 @@ class User extends Authenticatable
         $group = $this->submissions->groupBy('task_id');
         foreach ($group as $task) {
             $this->score += $task->max('mark');
+        }
+
+        foreach ($this->posts as $post)
+        {
+            $this->score += 5 * $post->getVotes();
         }
 
         foreach ($this->completedCourses as $course) {

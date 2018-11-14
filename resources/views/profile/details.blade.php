@@ -5,8 +5,13 @@
         <div class="col-md-4">
 
             <div class="card">
-                <img class="card-img-top"
-                     src="{{url('/media/'.$user->image)}}"/>
+                @if ($user->image)
+                    <img class="card-img-top"
+                         src="{{url('/media/'.$user->image)}}"/>
+                @else
+                    <img class="card-img-top"
+                         src="https://api.adorable.io/avatars/250/{{$user->id}}.png"/>
+                    @endif
                 <div class="card-body">
                     <h4 class="card-title">{{$user->name}}</h4>
 

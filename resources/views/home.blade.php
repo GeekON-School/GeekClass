@@ -87,21 +87,25 @@
 
 
                                     <div class="card"
-                                         style="min-width: 280px; background-image: url({{$course->image}}); background-size: cover;  border-left: 5px solid #28a745;">
+                                         style="min-width: 280px; background-image: url({{$course->image}}); background-size: cover;  @if($user->role=='teacher' || $course->students->contains($user))border-left: 5px solid #28a745;@endif">
                                         <div class="card-body" style="background-color: rgba(255,255,255,0.9);">
                                             <h5 style="margin-top: 15px; font-weight: 300;"
                                                 class="card-title">
                                                 @if ($user->role=='teacher' || $course->students->contains($user))
-                                                    <a href="{{url('insider/courses/'.$course->id)}}" style="color: #333741;">{{$course->name}}</a>
+                                                    <a href="{{url('insider/courses/'.$course->id)}}"
+                                                       style="color: #333741;">{{$course->name}}</a>
                                                 @else
-                                                    <a href="#" class="text-muted">{{$course->name}}</a>
+                                                    <a href="#" class="text-muted">{{$course->name}}
+                                                        <small>(вы не записаны)</small>
+                                                    </a>
                                                 @endif
 
                                             </h5>
                                             <p class="card-text" style="font-size: 0.8rem;">{{$course->description}}</p>
 
                                             @if ($course->site != null)
-                                                <a target="_blank" href="{{$course->site}}" style="margin-top: 6px; font-size: 0.8rem;"
+                                                <a target="_blank" href="{{$course->site}}"
+                                                   style="margin-top: 6px; font-size: 0.8rem;"
                                                    class="float-right">О курсе</a>
                                             @endif
 
@@ -115,6 +119,11 @@
                             <div class="card"
                                  style="min-width: 280px; border-left: 5px solid #5bc0de;">
                                 <div class="card-body">
+                                    @if ($provider->logo != null)
+                                        <img src="{{$course->Provider->logo}}"
+                                             style="margin-top: 15px;height: 60px"/>
+                                    @endif
+
                                     <h5 style="margin-top: 15px; font-weight: 300;"
                                         class="card-title">Празднуем день рождения:</h5>
                                     <p class="card-text" style="font-size: 0.8rem;">
@@ -134,9 +143,29 @@
 
                             </div>
 
+
+                            <div class="card"
+                                 style="min-width: 280px; border-left: 5px solid #007bff">
+                                <div class="card-body">
+
+
+                                    <h5 style="margin-top: 15px; font-weight: 300;"
+                                        class="card-title">Последние вопросы:</h5>
+                                    <p class="card-text" style="font-size: 0.8rem;">
+                                    <ul>
+                                        @foreach($threads as $thread)
+                                            <li>
+                                                <a style="color: black; @if ($buser->birthday->day == \Carbon\Carbon::now()->day) font-weight: bold; @endif"
+                                                   href="{{url('insider/forum/'.$thread->id)}}">{{ $thread->name }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                    </p>
+                                </div>
+
+                            </div>
+
                         </div>
-
-
 
 
                     </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ActionLog;
 use App\CompletedCourse;
 use App\Course;
+use App\ForumThread;
 use App\Program;
 use App\ProgramStep;
 use App\Http\Controllers\Controller;
@@ -41,7 +42,8 @@ class CoursesController extends Controller
         $users = User::where('is_hidden', false)->get();
         $courses = Course::orderBy('id')->get();
         $providers = Provider::orderBy('id')->get();
-        return view('home', compact('courses', 'user', 'providers', 'users'));
+        $threads = ForumThread::orderBy('id', 'DESC')->limit(5)->get();
+        return view('home', compact('courses', 'user', 'providers', 'users', 'threads'));
     }
 
     public function report($id)

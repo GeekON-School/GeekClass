@@ -14,6 +14,11 @@ class ForumPost extends Model
         return $this->belongsTo('App\User', 'user_id', 'id');
     }
 
+    public function thread()
+    {
+        return $this->belongsTo('App\ForumThread', 'thread_id', 'id');
+    }
+
     public function votes()
     {
         return $this->hasMany('App\ForumVote', 'post_id', 'id');

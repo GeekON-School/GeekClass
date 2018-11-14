@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use App\CoinTransaction;
 use App\ForumComment;
 use App\ForumPost;
+use App\ForumTag;
 use App\ForumThread;
 use App\ForumVote;
 use App\Project;
@@ -29,11 +30,34 @@ class ForumController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $user = User::findOrFail(Auth::User()->id);
-        $threads = ForumThread::orderBy('created_at', 'DESC')->get();
-        return view('forum.index', compact('user', 'threads'));
+        $q = "";
+        $tag = null;
+        if ($request->has('tag') and $request->tag != "") {
+            $tag = ForumTag::where('name', $request->tag)->first();
+        }
+        if ($request->has('q') and $request->q != "") {
+            $q = mb_strtolower($request->q);
+            $threads = ForumThread::whereRaw('LOWER(name)', 'LIKE', '%' . $request->q . '%')->orderBy('created_at', 'DESC')->get();
+            $posts = ForumPost::where('LOWER(text)', 'LIKE', '%' . $request->q . '%')->with('thread')->orderBy('created_at', 'DESC')->get();
+            foreach ($posts as $post) {
+                if (!$threads->contains($post->thread)) {
+                    $threads->push($post->thread);
+                }
+            }
+        } else {
+            $threads = ForumThread::orderBy('created_at', 'DESC')->get();
+        }
+
+        if ($tag) {
+            $threads = $threads->filter(function ($item) use ($tag) {
+                return $item->tags->contains($tag);
+            });
+        }
+
+        return view('forum.index', compact('user', 'threads', 'q', 'tag'));
     }
 
     public function createView()
@@ -156,7 +180,7 @@ class ForumController extends Controller
         $vote->save();
 
         if ($post->getVotes() == 3 and $post->coin_delivered == false) {
-            CoinTransaction::register($post->user->id, 3, 'QA #'.$post->id);
+            CoinTransaction::register($post->user->id, 3, 'QA #' . $post->id);
             $post->coin_delivered = true;
             $post->save();
         }
