@@ -39,7 +39,7 @@
                             <div style="width: 100%; font-size: 30px; font-weight: 300; text-align: center; line-height: 15px;">
                                 <a class="text-muted" title="Вы уже голосовали" href="#"
                                    onclick="return confirm('Вы уверены?');"
-                                   style="@if($post->goodVote($user))color: green !important;@endif"><i
+                                   style="@if($post->user->id != $user->id and $post->goodVote($user))color: green !important;@endif"><i
                                             class="icon ion-chevron-up"></i></a>
                             </div>
                             <div style="width: 100%; font-size: 30px; font-weight: 300; text-align: center;">
@@ -48,7 +48,7 @@
                             <div style="width: 100%; font-size: 30px; font-weight: 300; text-align: center; line-height: 15px;">
                                 <a class="text-muted" title="Вы уже голосовали" href="#"
                                    onclick="return confirm('Вы уверены?');"
-                                   style="@if(!$post->goodVote($user))color: red !important;;@endif"><i
+                                   style="@if($post->user->id != $user->id and !$post->goodVote($user))color: red !important;;@endif"><i
                                             class="icon ion-chevron-down"></i></a>
                             </div>
                         @endif
