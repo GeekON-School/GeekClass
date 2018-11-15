@@ -89,12 +89,12 @@
                 </div>
             </form>
             <script>
-                var simplemde_description = new SimpleMDE({
+                var simplemde_description = new EasyMDE({
                     spellChecker: false,
                     element: document.getElementById("description")
                 });
-                var simplemde_theory = new SimpleMDE({spellChecker: false, element: document.getElementById("theory")});
-                var simplemde_notes = new SimpleMDE({spellChecker: false, element: document.getElementById("notes")});
+                var simplemde_theory = new EasyMDE({spellChecker: false, element: document.getElementById("theory")});
+                var simplemde_notes = new EasyMDE({spellChecker: false, element: document.getElementById("notes")});
             </script>
         </div>
     </div>

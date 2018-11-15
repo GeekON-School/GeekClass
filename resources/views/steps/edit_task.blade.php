@@ -235,11 +235,11 @@
     </div>
 
     <script>
-        var simplemde_task = new SimpleMDE({
+        var simplemde_task = new EasyMDE({
             spellChecker: false,
             element: document.getElementById("text")
         });
-        var simplemde_solution = new SimpleMDE({
+        var simplemde_solution = new EasyMDE({
             spellChecker: false,
             element: document.getElementById("solution")
         });

@@ -160,7 +160,7 @@
     </div>
 
     <script>
-        var simplemde_text = new SimpleMDE({
+        var simplemde_text = new EasyMDE({
             spellChecker: false,
             autosave: true,
             element: document.getElementById("answer")

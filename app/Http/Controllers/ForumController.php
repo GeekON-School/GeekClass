@@ -91,7 +91,7 @@ class ForumController extends Controller
                 'text' => 'required|string'
 
             ]);
-            
+
             $post->text = $request->text;
             $post->save();
 

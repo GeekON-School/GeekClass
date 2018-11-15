@@ -46,7 +46,7 @@
                 </div>
             </form>
             <script>
-                var simplemde_description = new SimpleMDE({
+                var simplemde_description = new EasyMDE({
                     spellChecker: false,
                     element: document.getElementById("description")
                 });
