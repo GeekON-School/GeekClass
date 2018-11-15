@@ -81,7 +81,7 @@
                             </div>
                             <div class="col col-md-3">
                         <span class="float-right lead">
-                            @if ($post->user == $user || $user->role=='teacher')
+                            @if ($post->user->id == $user->id || $user->role=='teacher')
                                 <a href="{{url('/insider/forum/'.$thread->id.'/edit/'.$post->id)}}"
                                    class="btn btn-sm btn-success"
                                    style="margin-right: 5px;margin-left: 5px;"><i class="icon ion-edit"></i></a>
@@ -102,7 +102,7 @@
                         @if ($post->is_question)
                             @foreach($post->thread->tags as $tag)
                                 <span class="badge badge-secondary badge-light"><a target="_blank"
-                                            href="{{url('/insider/forum?tag='.$tag->name)}}">{{$tag->name}}</a></span>
+                                                                                   href="{{url('/insider/forum?tag='.$tag->name)}}">{{$tag->name}}</a></span>
                             @endforeach
                         @endif
 
