@@ -83,25 +83,29 @@ class ForumController extends Controller
         $thread = ForumThread::findOrFail($thread_id);
         $user = User::findOrFail(Auth::User()->id);
 
+        if ($post->user_id != $user->id and $user->role != 'teacher') abort(503);
+
         if ($post->is_question) {
             $this->validate($request, [
                 'name' => 'required|string',
                 'text' => 'required|string'
 
             ]);
+            
+            $post->text = $request->text;
+            $post->save();
+
+            $thread->name = $request->name;
+            $thread->save();
         } else {
             $this->validate($request, [
                 'text' => 'required|string'
             ]);
+
+            $post->text = $request->text;
+            $post->save();
         }
 
-        if ($post->user_id != $user->id and $user->role != 'teacher') abort(503);
-
-        $post->text = $request->text;
-        $post->save();
-
-        $thread->name = $request->name;
-        $thread->save();
 
         return redirect('/insider/forum/' . $thread_id);
     }
