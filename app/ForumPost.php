@@ -39,6 +39,7 @@ class ForumPost extends Model
     }
     public function goodVote($user)
     {
+        if ($this->checkVote($user)) return false;
         return $this->votes()->where('user_id', $user->id)->first()->mark==1;
     }
 
