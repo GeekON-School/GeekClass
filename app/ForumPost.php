@@ -37,6 +37,11 @@ class ForumPost extends Model
     {
         return $this->votes()->where('user_id', $user->id)->count()==0;
     }
+    public function goodVote($user)
+    {
+        return $this->votes()->where('user_id', $user->id)->first()->mark==1;
+    }
+
 
 
 }

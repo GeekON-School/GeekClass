@@ -65,7 +65,7 @@
             @endif
         </nav>
 
-        <main role="main" class="col-sm-8 ml-sm-auto col-md-9 pt-3">
+        <main role="main" class="col-sm-8 ml-sm-auto col-md-9 pt-3 markdown">
             <div style="padding: 15px;">
                 @if (\Request::is('insider/*'))
                     <small><a href="{{url('/insider/courses/'.$course->id)}}"
@@ -142,7 +142,8 @@
                             <li class="nav-item" style="max-width: 45px;">
                                 <a class="nav-link btn btn-danger"
                                    style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
-                                   href="{{url('/insider/courses/'.$course->id.'/steps/'.$step->id.'/delete')}}"  onclick="return confirm('Вы уверены?')"><i
+                                   href="{{url('/insider/courses/'.$course->id.'/steps/'.$step->id.'/delete')}}"
+                                   onclick="return confirm('Вы уверены?')"><i
                                             class="ion-close-round"></i></a>
                             </li>
                         @endif
@@ -157,13 +158,11 @@
                 @if ($empty || !$zero_theory)
                     <div class="tab-pane fade show active" id="theory" role="tabpanel" aria-labelledby="v-theory-tab">
 
-                        <div class="markdown">
-                            @parsedown($step->theory)
+                        @parsedown($step->theory)
 
-                        </div>
                         @if (!$step->lesson->is_open && $user->role=='teacher' && $step->notes!='')
 
-                            <div class="markdown">
+                            <div>
                                 <h3>Комментарий для преподавателя</h3>
                                 @parsedown($step->notes)
                             </div>
@@ -192,7 +191,8 @@
 
                                 @if ($user->role=='teacher')
                                     <a class="float-right btn btn-danger btn-sm"
-                                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"  onclick="return confirm('Вы уверены?')"><i
+                                       href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"
+                                       onclick="return confirm('Вы уверены?')"><i
                                                 class="icon ion-android-close"></i></a>
                                     <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm"
                                        href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/edit')}}"><i
@@ -297,7 +297,8 @@
 
                                             @if (\Request::is('insider/*') && $user->role=='teacher')
                                                 <a class="float-right btn btn-danger btn-sm"
-                                                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"  onclick="return confirm('Вы уверены?')"><i
+                                                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"
+                                                   onclick="return confirm('Вы уверены?')"><i
                                                             class="icon ion-android-close"></i></a>
                                                 <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm"
                                                    href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/edit')}}"><i
@@ -444,30 +445,30 @@
 
                                                         @foreach($course->students as $student)
                                                             @php
-                                                                    $filtered = $task->solutions->filter(function ($value) use ($student) {
-                                                                        return $value->user_id == $student->id;
-                                                                    });
+                                                                $filtered = $task->solutions->filter(function ($value) use ($student) {
+                                                                    return $value->user_id == $student->id;
+                                                                });
 
-                                                                    $mark = $filtered->max('mark');
-                                                                    $mark = $mark == null?0:$mark;
-                                                                    $need_check = false;
-                                                                    if ($filtered->count()!=0 && $filtered->last()->mark==null)
-                                                                    {
-                                                                        $need_check = true;
-                                                                    }
-                                                                    $class = 'badge-light';
-                                                                    if ($mark >= $task->max_mark * 0.5)
-                                                                    {
-                                                                        $class = 'badge-primary';
-                                                                    }
-                                                                    if ($mark >= $task->max_mark * 0.7)
-                                                                    {
-                                                                        $class = 'badge-success';
-                                                                    }
-                                                                    if ($need_check)
-                                                                    {
-                                                                        $class = 'badge-warning';
-                                                                    }
+                                                                $mark = $filtered->max('mark');
+                                                                $mark = $mark == null?0:$mark;
+                                                                $need_check = false;
+                                                                if ($filtered->count()!=0 && $filtered->last()->mark==null)
+                                                                {
+                                                                    $need_check = true;
+                                                                }
+                                                                $class = 'badge-light';
+                                                                if ($mark >= $task->max_mark * 0.5)
+                                                                {
+                                                                    $class = 'badge-primary';
+                                                                }
+                                                                if ($mark >= $task->max_mark * 0.7)
+                                                                {
+                                                                    $class = 'badge-success';
+                                                                }
+                                                                if ($need_check)
+                                                                {
+                                                                    $class = 'badge-warning';
+                                                                }
 
                                                             @endphp
                                                             <tr>

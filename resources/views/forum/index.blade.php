@@ -42,7 +42,7 @@
             <div class="card-deck">
                 @foreach ($threads as $thread)
                     <div class="card"
-                         style="min-width: 280px; width: 50%; border-left: 5px solid #28a745;">
+                         style="min-width:35% !important; border-left: 5px solid #28a745;">
 
                         <div class="card-body" style="background-color: rgba(255,255,255,0.9);">
                             <div class="row">

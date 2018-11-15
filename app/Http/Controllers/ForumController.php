@@ -14,6 +14,7 @@ use App\ForumPost;
 use App\ForumTag;
 use App\ForumThread;
 use App\ForumVote;
+use App\Notifications\NewForumAnswer;
 use App\Project;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -152,6 +153,10 @@ class ForumController extends Controller
         $post->user_id = $user->id;
         $post->is_question = false;
         $post->save();
+
+        $when = Carbon::now()->addSeconds(1);
+
+        $thread->user->notify((new NewForumAnswer($post))->delay($when));
 
         return redirect('/insider/forum/' . $id);
     }
