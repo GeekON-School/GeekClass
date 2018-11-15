@@ -9,10 +9,11 @@
     <div class="row" style="margin-top: 15px;">
         <div class="col">
             <form method="POST" class="form-horizontal" enctype="multipart/form-data">
+                {{ csrf_field() }}
                 @if ($post->is_question)
 
                     <div class="form-group">
-                        {{ csrf_field() }}
+
                         <label for="name">Название</label>
                         <input id="name" type="text" class="form-control" name="name"
                                value="@if (old('name')!=''){{old('name')}}@else{{$thread->name}}@endif" required>
