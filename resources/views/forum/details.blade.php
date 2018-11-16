@@ -95,7 +95,7 @@
                             </div>
                         </div>
 
-                        <div class="@if (!$post->is_question and $post->getVotes()<-2)text-muted @endif"
+                        <div class="imagesafe @if (!$post->is_question and $post->getVotes()<-2)text-muted @endif"
                              style="margin-top: 15px;">
                             @parsedown($post->text)
                         </div>
