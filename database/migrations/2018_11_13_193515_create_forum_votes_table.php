@@ -22,7 +22,7 @@ class CreateForumVotesTable extends Migration
 
             $table->integer('post_id')->unsigned()->nullable();
             $table->foreign('post_id')->references('id')
-                ->on('users')->onDelete('cascade');
+                ->on('forum_posts')->onDelete('cascade');
 
             $table->integer('mark')->default(1);
 
