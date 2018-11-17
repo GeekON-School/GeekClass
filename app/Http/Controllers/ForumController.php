@@ -188,9 +188,9 @@ class ForumController extends Controller
         $vote->post_id = $id;
         $vote->save();
 
-        if ($post->getVotes() == 3 and $post->coin_delivered == false) {
+        if ($post->getVotes() == 3 and $post->coins_delivered == false) {
             CoinTransaction::register($post->user->id, 3, 'QA #' . $post->id);
-            $post->coin_delivered = true;
+            $post->cois_delivered = true;
             $post->save();
         }
 
