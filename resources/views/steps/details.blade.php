@@ -153,10 +153,10 @@
             </div>
 
 
-            <div class="tab-content markdown" id="pills-tabContent" style="padding: 15px;">
+            <div class="tab-content" id="pills-tabContent" style="padding: 15px;">
 
                 @if ($empty || !$zero_theory)
-                    <div class="tab-pane fade show active" id="theory" role="tabpanel" aria-labelledby="v-theory-tab">
+                    <div class="tab-pane fade show active  markdown" id="theory" role="tabpanel" aria-labelledby="v-theory-tab">
 
                         @parsedown($step->theory)
 
