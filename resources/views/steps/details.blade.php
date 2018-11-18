@@ -65,7 +65,7 @@
             @endif
         </nav>
 
-        <main role="main" class="col-sm-8 ml-sm-auto col-md-9 pt-3 markdown">
+        <main role="main" class="col-sm-8 ml-sm-auto col-md-9 pt-3">
             <div style="padding: 15px;">
                 @if (\Request::is('insider/*'))
                     <small><a href="{{url('/insider/courses/'.$course->id)}}"
@@ -153,7 +153,7 @@
             </div>
 
 
-            <div class="tab-content" id="pills-tabContent" style="padding: 15px;">
+            <div class="tab-content markdown" id="pills-tabContent" style="padding: 15px;">
 
                 @if ($empty || !$zero_theory)
                     <div class="tab-pane fade show active" id="theory" role="tabpanel" aria-labelledby="v-theory-tab">
