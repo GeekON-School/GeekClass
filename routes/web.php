@@ -51,7 +51,24 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/market/{id}/buy', 'MarketController@buy');
     Route::get('/market/ship/{id}', 'MarketController@ship');
 
-    
+
+    Route::get('/scales', 'ScalesController@index');
+    Route::get('/scales/create', 'ScalesController@createView');
+    Route::post('/scales/create', 'ScalesController@create');
+    Route::get('/scales/{id}/edit', 'ScalesController@editView');
+    Route::post('/scales/{id}/edit', 'ScalesController@edit');
+    Route::get('/scales/{id}', 'ScalesController@details');
+    Route::get('/scales/{id}/results/add', 'ScalesController@createResultView');
+    Route::post('/scales/{id}/results/add', 'ScalesController@createResult');
+    Route::get('/scales/{id}/results/{result_id}/edit', 'ScalesController@editResultView');
+    Route::post('/scales/{id}/results/{result_id}/edit', 'ScalesController@editResult');
+    Route::get('/scales/{id}/results/{result_id}/delete', 'ScalesController@deleteResult');
+    Route::get('/scales/{id}/results/{result_id}/tasks/add', 'ScalesController@createTaskForm');
+    Route::post('/scales/{id}/results/{result_id}/tasks/add', 'ScalesController@createTask');
+    Route::get('/scales/{id}/results/{result_id}/tasks/{task_id}/edit', 'ScalesController@editTaskForm');
+    Route::post('/scales/{id}/results/{result_id}/tasks/{task_id}/edit', 'ScalesController@editTask');
+    Route::get('/scales/{id}/results/{result_id}/tasks/{task_id}/delete', 'ScalesController@deleteTask');
+
     Route::get('/courses', 'CoursesController@index')->name('Courses');
 
     Route::get('/courses/create', 'CoursesController@createView')->name('Create course');

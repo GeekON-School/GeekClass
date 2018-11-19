@@ -94,7 +94,7 @@
                 </div>
 
 
-                <button type="submit" class="btn btn-success">Создать</button>
+                <button type="submit" class="btn btn-success">Сохранить</button>
             </form>
         </div>
     </div>
