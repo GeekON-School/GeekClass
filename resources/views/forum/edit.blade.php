@@ -36,6 +36,20 @@
                     @endif
                 </div>
 
+                @if ($post->is_question)
+                    <div class="form-group">
+                        <label for="tags">Теги</label>
+                        <p class="text-muted" style="margin-top: 5px;">Перечислите тэги вашей темы через точку с запятой <strong>без пробелов</strong>.</p>
+
+                        <input id="tags" type="text" placeholder="python;типы данных;list;" class="form-control" name="tags" value="@if (old('name')!=''){{old('tags')}}@else{{ $thread->tags->pluck('name')->implode(';') }}@endif" required>
+                        @if ($errors->has('tags'))
+                            <span class="help-block error-block">
+                                        <strong>{{ $errors->first('tags') }}</strong>
+                                    </span>
+                        @endif
+                    </div>
+                @endif
+
                 <input type="submit" class="btn btn-success" value="Сохранить"/>
             </form>
         </div>

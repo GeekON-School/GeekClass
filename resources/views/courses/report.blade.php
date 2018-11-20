@@ -197,7 +197,7 @@
 
 
                                                                 <a target="_blank"
-                                                                   href="{{url('/insider/courses/'.$course->id.'/steps/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}}</a>
+                                                                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/student/'.$student->id)}}">{{$task->name}}</a>
 
 
                                                                 @if ($should_check)

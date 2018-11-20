@@ -15,6 +15,10 @@ class ForumThread extends Model
         return $this->belongsToMany( 'App\ForumTag', 'forum_threads_tags', 'thread_id', 'tag_id' );
     }
 
+    public function subscribers(){
+        return $this->belongsToMany( 'App\User', 'forum_threads_subscribers', 'thread_id', 'user_id' );
+    }
+
     public function posts()
     {
         return $this->hasMany('App\ForumPost', 'thread_id', 'id')->orderBy('id');
@@ -39,7 +43,5 @@ class ForumThread extends Model
             $record->save();
         }
         $this->tags()->attach($record->id);
-
-
     }
 }

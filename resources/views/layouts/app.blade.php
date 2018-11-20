@@ -91,7 +91,7 @@
                     <a class="nav-link" href="{{url('/insider/courses')}}">Курсы <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item {{(Request::is('insider/forum*') ? 'active' : '') }}">
-                    <a class="nav-link" style="text-decoration: underline;" href="{{url('insider/forum')}}">Ответы</a>
+                    <a class="nav-link" href="{{url('insider/forum')}}">Ответы</a>
                 </li>
                 <li class="nav-item {{(Request::is('insider/profile*') ? 'active' : '') }}">
                     <a class="nav-link" href="{{url('insider/profile')}}">Профиль</a>
