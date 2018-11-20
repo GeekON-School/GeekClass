@@ -68,7 +68,8 @@
                                          style="width: 50px; margin: 0;margin-right: 10px;"
                                          class="img-thumbnail" align="left">
                                 @endif
-                                <strong>{{$post->user->name}}</strong><br>
+                                <strong><a href="{{url('/insider/profile/'.$post->user->id)}}" target="_blank"
+                                           style="color: black">{{$post->user->name}}</a></strong><br>
                                 <span class="badge badge-pill badge-success"><i
                                             class="icon ion-ios-arrow-up"></i> {{$post->user->rank()->name}}</span>
 
