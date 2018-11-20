@@ -145,6 +145,8 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/forum/{thread_id}/downvote/{id}', 'ForumController@downvote');
     Route::post('/forum/{thread_id}/edit/{id}', 'ForumController@edit');
     Route::post('/forum/{id}/answer', 'ForumController@answer');
+    Route::get('/forum/{id}/subscribe', 'ForumController@subscribe');
+    Route::get('/forum/{id}/unsubscribe', 'ForumController@unsubscribe');
     Route::post('/forum/{thread_id}/comment/{id}', 'ForumController@comment');
     Route::post('/forum/create', 'ForumController@createThread');
 

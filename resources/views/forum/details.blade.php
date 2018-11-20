@@ -81,6 +81,17 @@
                             </div>
                             <div class="col col-md-3">
                         <span class="float-right lead">
+                            @if ($post->is_question)
+                                @if ($thread->subscribers()->where('id', $user->id)->count()!=0)
+                                    <a href="{{url('/insider/forum/'.$thread->id.'/unsubscribe')}}"
+                                       class="btn btn-sm btn-primary"
+                                       style="margin-right: 5px;margin-left: 5px;">Не следить</a>
+                                @else
+                                    <a href="{{url('/insider/forum/'.$thread->id.'/subscribe')}}"
+                                       class="btn btn-sm btn-primary"
+                                       style="margin-right: 5px;margin-left: 5px;">Следить</a>
+                                @endif
+                            @endif
                             @if ($post->user->id == $user->id || $user->role=='teacher')
                                 <a href="{{url('/insider/forum/'.$thread->id.'/edit/'.$post->id)}}"
                                    class="btn btn-sm btn-success"

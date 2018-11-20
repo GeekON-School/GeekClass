@@ -88,14 +88,26 @@ class ForumController extends Controller
         if ($post->is_question) {
             $this->validate($request, [
                 'name' => 'required|string',
-                'text' => 'required|string'
-
+                'text' => 'required|string',
+                'tags' => 'required|string'
             ]);
 
             $post->text = $request->text;
             $post->save();
 
             $thread->name = $request->name;
+
+            foreach ($thread->tags as $tag)
+            {
+                $thread->tags()->detach($tag->id);
+            }
+            $parts = explode(';', $request->tags);
+            foreach ($parts as $tag) {
+                if ($tag == '') continue;
+                $thread->attachTag($tag);
+            }
+
+
             $thread->save();
         } else {
             $this->validate($request, [
@@ -138,6 +150,8 @@ class ForumController extends Controller
         $post->user_id = $user->id;
         $post->save();
 
+        $thread->subscribers()->attach($user->id);
+
         return redirect('/insider/forum');
     }
 
@@ -160,7 +174,9 @@ class ForumController extends Controller
 
         $when = Carbon::now()->addSeconds(1);
 
-        $thread->user->notify((new NewForumAnswer($post))->delay($when));
+        foreach ($thread->subscribers as $subscriber) {
+            $subscriber->notify((new NewForumAnswer($post))->delay($when));
+        }
 
         return redirect('/insider/forum/' . $id);
     }
@@ -212,6 +228,26 @@ class ForumController extends Controller
         return redirect('/insider/forum/' . $thread_id);
     }
 
+    public function subscribe($thread_id, Request $request)
+    {
+        $user = User::findOrFail(Auth::User()->id);
+        $thread = ForumThread::findOrFail($thread_id);
+
+        $thread->subscribers()->attach($user->id);
+
+        return redirect('/insider/forum/' . $thread_id);
+    }
+
+    public function unsubscribe($thread_id, Request $request)
+    {
+        $user = User::findOrFail(Auth::User()->id);
+        $thread = ForumThread::findOrFail($thread_id);
+
+        $thread->subscribers()->detach($user->id);
+
+        return redirect('/insider/forum/' . $thread_id);
+    }
+
     public function comment($thread_id, $id, Request $request)
     {
         $this->validate($request, [
@@ -219,6 +255,7 @@ class ForumController extends Controller
         ]);
         $post = ForumPost::findOrFail($id);
         $user = User::findOrFail(Auth::User()->id);
+        $thread = ForumThread::findOrFail($thread_id);
 
 
         $comment = new ForumComment();
@@ -226,6 +263,11 @@ class ForumController extends Controller
         $comment->post_id = $post->id;
         $comment->user_id = $user->id;
         $comment->save();
+
+        $when = Carbon::now()->addSeconds(1);
+        foreach ($thread->subscribers as $subscriber) {
+            $subscriber->notify((new NewForumAnswer($post))->delay($when));
+        }
 
         return redirect('/insider/forum/' . $thread_id);
     }
