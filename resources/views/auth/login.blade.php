@@ -81,7 +81,7 @@
             right: 0;
             z-index: 1;
             height: 100%;
-            background-image: url("{{url('/images/bg/'.random_int(1,3).'.jpg')}}");
+            background-image: url("{{url('/images/bg/'.random_int(1,7).'.jpg')}}");
             background-size: cover;
             display: block;
             -webkit-filter: blur(3px);
