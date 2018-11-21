@@ -207,6 +207,8 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
         $user->notify((new \App\Notifications\NewSolution())->delay($when));
     });
 
+    /*
+
     Route::get('/migrate_to_lessons', function () {
         $courses = \App\Course::all();
         foreach ($courses as $course)
@@ -311,7 +313,7 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
                 $lesson->save();
             }
         }
-    });
+    });*/
 
 });
 
