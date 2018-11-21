@@ -166,7 +166,7 @@ class ForumController extends Controller
 
         if (!$thread->subscribers->has($user->id))
         {
-            $thread->subscribers->attach($user->id);
+            $thread->subscribers()->attach($user->id);
         }
 
 
@@ -264,7 +264,7 @@ class ForumController extends Controller
 
         if (!$thread->subscribers->has($user->id))
         {
-            $thread->subscribers->attach($user->id);
+            $thread->subscribers()->attach($user->id);
         }
 
 
