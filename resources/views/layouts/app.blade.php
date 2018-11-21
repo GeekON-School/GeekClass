@@ -93,9 +93,6 @@
                 <li class="nav-item {{(Request::is('insider/forum*') ? 'active' : '') }}">
                     <a class="nav-link" href="{{url('insider/forum')}}">Ответы</a>
                 </li>
-                <li class="nav-item {{(Request::is('insider/profile*') ? 'active' : '') }}">
-                    <a class="nav-link" href="{{url('insider/profile')}}">Профиль</a>
-                </li>
                 <li class="nav-item {{(Request::is('insider/community*') ? 'active' : '') }}">
                     <a class="nav-link" href="{{url('insider/community')}}">Сообщество</a>
                 </li>
@@ -104,9 +101,6 @@
                 </li>
                 <li class="nav-item {{(Request::is('insider/events*') ? 'active' : '') }}">
                     <a class="nav-link" href="{{url('insider/events')}}">События</a>
-                </li>
-                <li class="nav-item {{(Request::is('insider/core*') ? 'active' : '') }}">
-                    <a class="nav-link" href="{{url('insider/core/'.\Auth::User()->id)}}">Карта</a>
                 </li>
                 <li class="nav-item {{(Request::is('insider/market*') ? 'active' : '') }}">
                     <a class="nav-link" href="{{url('insider/market')}}">Магазин</a>
@@ -123,9 +117,13 @@
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
                         {{ Auth::user()->name }}</a>
+
                     <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" href="{{url('insider/profile')}}"><i class="icon ion-person"></i> Профиль</a>
+                        <a class="dropdown-item" href="{{url('insider/core/'.\Auth::User()->id)}}"><i class="icon ion-map"></i> Карта</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выход</a>
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="icon ion-reply"></i>Выход</a>
+
                     </div>
                 </li>
             </ul>
@@ -144,7 +142,6 @@
     @endif
     @yield('content')
 </div>
-
 
 
 <!-- Compiled and minified JavaScript -->
