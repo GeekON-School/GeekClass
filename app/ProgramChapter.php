@@ -57,7 +57,7 @@ class ProgramChapter extends Model
     {
         $done = 0;
         foreach ($course->students as $student) {
-            if ($this->isAvailableForUser($course, $student))
+            if ($this->isDoneByUser($course, $student))
                 $done++;
         }
         return $done * 100 / $course->students->count();
