@@ -7,6 +7,7 @@ use App\CompletedCourse;
 use App\Course;
 use App\ForumThread;
 use App\Program;
+use App\ProgramChapter;
 use App\ProgramStep;
 use App\Http\Controllers\Controller;
 use App\Provider;
@@ -28,7 +29,8 @@ class CoursesController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('course')->only(['details']);
-        $this->middleware('teacher')->only(['createView', 'editView', 'start', 'stop', 'edit', 'create', 'assesments', 'report']);
+        $this->middleware('teacher')->only(['createView', 'editView', 'start', 'stop', 'edit', 'create', 'assesments', 'report', 'createChapter', 'editChapter', 'createChapterView', 'editChapterView
+       ']);
     }
 
     /**
@@ -87,8 +89,7 @@ class CoursesController extends Controller
         $pulse_values = collect([]);
 
 
-        foreach ($use_records as $student_id => $value)
-        {
+        foreach ($use_records as $student_id => $value) {
             $first_hour = Carbon::createFromFormat('Y-m-d', $value->keys()[0]);
 
             while ($first_hour->lt(Carbon::now())) {
@@ -118,8 +119,7 @@ class CoursesController extends Controller
         $task_values = collect([]);
 
 
-        foreach ($task_records as $student_id => $value)
-        {
+        foreach ($task_records as $student_id => $value) {
             $first_hour = Carbon::now()->addWeeks(-2);
 
             while ($first_hour->lt(Carbon::now())) {
@@ -136,9 +136,6 @@ class CoursesController extends Controller
             $task_keys[$student_id] = '[\'' . implode('\', \'', $task_records[$student_id]->keys()->toArray()) . '\']';
             $task_values[$student_id] = '[\'' . implode('\', \'', $task_records[$student_id]->values()->toArray()) . '\']';
         }
-
-
-
 
 
         foreach ($students as $key => $value) {
@@ -169,7 +166,7 @@ class CoursesController extends Controller
 
     }
 
-    public function details($id)
+    public function details($id, Request $request)
     {
 
         \App\ActionLog::record(Auth::User()->id, 'course', $id);
@@ -179,17 +176,22 @@ class CoursesController extends Controller
         $students = $course->students;
         $marks = CompletedCourse::where('course_id', $id)->get();
 
+        if ($request->has('chapter')) {
+            $chapter = ProgramChapter::findOrFail($request->chapter);
+        } else {
+            $chapter = $course->program->chapters->first();
+        }
+
 
         $temp_steps = collect([]);
-        $lessons = $course->lessons->filter(function ($lesson) use ($course) {
-            return $lesson->isStarted($course);
+        $lessons = $course->lessons->filter(function ($lesson) use ($course, $chapter) {
+            return $lesson->isStarted($course) and $lesson->chapter_id = $chapter->id;
         });
 
         foreach ($lessons as $lesson) {
             $temp_steps = $temp_steps->merge($lesson->steps);
         }
-        if ($course->state=='started')
-        {
+        if ($course->state == 'started') {
             /* count pulse */
 
             $ids = $students->map(function ($item, $key) {
@@ -209,23 +211,29 @@ class CoursesController extends Controller
                 return $item->count();
             });
 
-            $first_hour = Carbon::createFromFormat('Y-m-d H:00:00', $records->keys()[0]);
+            if ($records->count() != 0) {
+                $first_hour = Carbon::createFromFormat('Y-m-d H:00:00', $records->keys()[0]);
 
-            while ($first_hour->lt(Carbon::now())) {
-                $first_hour->addHour();
-                if (!$records->has($first_hour->format('Y-m-d H:00:00'))) {
-                    $records[$first_hour->format('Y-m-d H:00:00')] = 0;
+                while ($first_hour->lt(Carbon::now())) {
+                    $first_hour->addHour();
+                    if (!$records->has($first_hour->format('Y-m-d H:00:00'))) {
+                        $records[$first_hour->format('Y-m-d H:00:00')] = 0;
+                    }
                 }
+
+                $records = $records->sortBy(function ($item, $key) {
+                    return Carbon::createFromFormat('Y-m-d H:00:00', $key);
+                });
+
+                $pulse_keys = '[\'' . implode('\', \'', $records->keys()->toArray()) . '\']';
+                $pulse_values = '[\'' . implode('\', \'', $records->values()->toArray()) . '\']';
+            } else {
+                $pulse_keys = '[]';
+                $pulse_values = '[]';
             }
 
-            $records = $records->sortBy(function ($item, $key) {
-                return Carbon::createFromFormat('Y-m-d H:00:00', $key);
-            });
 
-            $pulse_keys = '[\'' . implode('\', \'', $records->keys()->toArray()) . '\']';
-            $pulse_values = '[\'' . implode('\', \'', $records->values()->toArray()) . '\']';
-        }
-        else {
+        } else {
             $pulse_keys = '[]';
             $pulse_values = '[]';
         }
@@ -268,7 +276,8 @@ class CoursesController extends Controller
             $steps = $temp_steps;
             $lessons = $course->lessons;
         }
-        return view('courses.details', compact('course', 'user', 'steps', 'students', 'cstudent', 'lessons', 'marks', 'pulse_keys', 'pulse_values'));
+
+        return view('courses.details', compact('chapter', 'course', 'user', 'steps', 'students', 'cstudent', 'lessons', 'marks', 'pulse_keys', 'pulse_values'));
     }
 
     public function assessments($id)
@@ -301,6 +310,80 @@ class CoursesController extends Controller
         $course = Course::findOrFail($id);
         $course->end();
         return redirect('/insider/courses/' . $course->id);
+    }
+
+    public function createChapterView($course_id)
+    {
+        return view('courses.create_chapter');
+    }
+
+    public function editChapterView($course_id, $chapter_id)
+    {
+        $chapter = ProgramChapter::findOrFail($chapter_id);
+        return view('courses.edit_chapter', compact('chapter'));
+    }
+
+    public function editChapter($course_id, $chapter_id, Request $request)
+    {
+        $user = User::findOrFail(Auth::User()->id);
+        $chapter = ProgramChapter::findOrFail($chapter_id);
+
+
+        $this->validate($request, [
+            'name' => 'required|string',
+            'description' => 'required|string',
+        ]);
+
+        $chapter = ProgramChapter::findOrFail($chapter_id);
+        $chapter->name = $request->name;
+        $chapter->description = $request->description;
+        $chapter->save();
+
+        return redirect('/insider/courses/'.$course_id.'?chapter='.$chapter_id);
+    }
+
+    public function createChapter($course_id, Request $request)
+    {
+        $user = User::findOrFail(Auth::User()->id);
+
+
+        $this->validate($request, [
+            'name' => 'required|string',
+            'description' => 'required|string',
+        ]);
+
+        $course = Course::findOrFail($course_id);
+        $program = $course->program;
+
+        $order = 100;
+        if ($program->chapters->count()!=0)
+            $order = $program->chapters->last()->sort_index + 1;
+
+        $chapter = new ProgramChapter();
+        $chapter->name = $request->name;
+        $chapter->program_id = $program->id;
+        $chapter->sort_index = $order;
+        $chapter->description = $request->description;
+
+        $chapter->save();
+
+        return redirect('/insider/courses/'.$course_id);
+    }
+
+    public function makeChapterLower($course_id, $chapter_id, Request $request)
+    {
+        $chapter = ProgramChapter::findOrFail($chapter_id);
+        $chapter->sort_index -= 1;
+        $chapter->save();
+        return redirect('/insider/courses/' . $course_id.'?chapter='.$chapter_id);
+    }
+
+    public function makeChapterUpper($course_id, $chapter_id, Request $request)
+    {
+        $chapter = ProgramChapter::findOrFail($chapter_id);
+        $chapter->sort_index += 1;
+        $chapter->save();
+        return redirect('/insider/courses/' . $course_id.'?chapter='.$chapter_id);
     }
 
     public function edit($id, Request $request)
@@ -386,6 +469,8 @@ class CoursesController extends Controller
         $course->save();
         return redirect('/insider/courses');
     }
+
+
 
     public function invite(Request $request)
     {

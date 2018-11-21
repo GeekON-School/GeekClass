@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\ProgramChapter;
 use App\ProgramStep;
 use App\Http\Controllers\Controller;
 use App\Lesson;
@@ -51,8 +52,15 @@ class LessonsController extends Controller
             'description' => 'required|string',
         ]);
 
+        if ($request->has('chapter')) {
+            $chapter = ProgramChapter::findOrFail($request->chapter);
+        } else {
+            $chapter = $program->chapters->first();
+        }
+
+
         $order = 100;
-        if ($program->lessons->count()!=0)
+        if ($program->lessons->count() != 0)
             $order = $program->lessons->last()->sort_index + 1;
 
         $lesson = new Lesson();
@@ -60,20 +68,21 @@ class LessonsController extends Controller
         $lesson->program_id = $program->id;
         $lesson->sort_index = $order;
         $lesson->description = $request->description;
-        $lesson->sticker = "/stickers/".random_int(1, 40).".png";
+        $lesson->sticker = "/stickers/" . random_int(1, 40) . ".png";
+        $lesson->chapter_id = $chapter->id;
 
         $lesson->save();
 
         if ($request->prerequisites != null)
-        foreach ($request->prerequisites as $prerequisite_id) {
-            $lesson->prerequisites()->attach($prerequisite_id);
-        }
+            foreach ($request->prerequisites as $prerequisite_id) {
+                $lesson->prerequisites()->attach($prerequisite_id);
+            }
 
-        $data = ['name'=>'Введение', 'theory'=>'', 'notes'=>''];
+        $data = ['name' => 'Введение', 'theory' => '', 'notes' => ''];
 
         $step = ProgramStep::createStep($lesson, $data);
 
-        return redirect('/insider/courses/'.$id.'/steps/' . $step->id);
+        return redirect('/insider/courses/' . $id . '/steps/' . $step->id);
     }
 
     public function editView($course_id, $id)
@@ -90,26 +99,27 @@ class LessonsController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required',
-            'start_date' => 'date|nullable'
+            'start_date' => 'date|nullable',
+            'chapter' => 'required|exists:program_chapters,id'
         ]);
         foreach ($lesson->prerequisites as $prerequisite) {
             $lesson->prerequisites()->detach($prerequisite->id);
         }
         if ($request->prerequisites != null)
-        foreach ($request->prerequisites as $prerequisite_id) {
-            $lesson->prerequisites()->attach($prerequisite_id);
-        }
+            foreach ($request->prerequisites as $prerequisite_id) {
+                $lesson->prerequisites()->attach($prerequisite_id);
+            }
         $lesson->name = $request->name;
         $lesson->setStartDate($course, $request->start_date);
         $lesson->description = $request->description;
+        $lesson->chapter_id = $request->chapter;
         if ($request->open == "yes")
             $lesson->is_open = true;
         else
             $lesson->is_open = false;
         $lesson->save();
 
-        if ($request->hasFile('import') && $request->file('import')->getClientMimeType() == 'application/json')
-        {
+        if ($request->hasFile('import') && $request->file('import')->getClientMimeType() == 'application/json') {
             $json = file_get_contents($request->file('import')->getRealPath());
             $lesson->import($json);
         }
@@ -122,14 +132,15 @@ class LessonsController extends Controller
         $lesson = Lesson::findOrFail($id);
         $lesson->sort_index -= 1;
         $lesson->save();
-        return redirect('/insider/courses/' . $course_id);
+        return redirect('/insider/courses/' . $course_id.'?chapter='.$request->chapter);
     }
+
     public function makeUpper($course_id, $id, Request $request)
     {
         $lesson = Lesson::findOrFail($id);
         $lesson->sort_index += 1;
         $lesson->save();
-        return redirect('/insider/courses/' . $course_id);
+        return redirect('/insider/courses/' . $course_id.'?chapter='.$request->chapter);
     }
 
     public function export($course_id, $id)
@@ -141,14 +152,11 @@ class LessonsController extends Controller
         $response = \Response::make($json);
         $response->header('Content-Type', 'application/json');
         $response->header('Content-length', strlen($json));
-        $response->header('Content-Disposition', 'attachment; filename=lesson-' . $id.'.json');
+        $response->header('Content-Disposition', 'attachment; filename=lesson-' . $id . '.json');
 
         return $response;
 
     }
-
-
-
 
 
 }

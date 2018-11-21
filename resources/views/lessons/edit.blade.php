@@ -56,6 +56,29 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="chapter" style="padding-bottom: 10px;">Глава</label>
+                    @if (old('chapter')!="")
+                        <select class="form-control" name="chapter">
+                            @foreach($lesson->program->chapters as $chapter)
+                                <option value="{{$chapter->id}}" @if ($chapter->id==old('chapter')) selected @endif>{{$chapter->name}}</option>
+                            @endforeach
+                        </select>
+                    @else
+                        <select class="form-control" name="chapter">
+                            @foreach($lesson->program->chapters as $chapter)
+                                <option value="{{$chapter->id}}" @if ($chapter->id==$lesson->chapter->id) selected @endif>{{$chapter->name}}</option>
+                            @endforeach
+                        </select>
+                    @endif
+
+                    @if ($errors->has('chapter'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('chapter') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+
+                <div class="form-group">
                     <label for="description" style="padding-bottom: 10px;">Описание</label>
                     @if (old('description')!="")
                         <textarea id="description" class="form-control"

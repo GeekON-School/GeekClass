@@ -23,7 +23,7 @@
                            href="{{url('/insider/courses/'.$course->id)}}">
                             <i class="icon ion-chevron-left"></i> GeekClass </a>-->
                         <a class="nav-link" style="padding-top: 10px; padding-bottom: 10px; font-size: 150%;"
-                           href="{{url('/insider/courses/'.$course->id)}}">
+                           href="{{url('/insider/courses/'.$course->id.'?chapter='.$step->lesson->chapter->id)}}">
                             <i class="icon ion-chevron-left"></i> <img src="{{url('images/bhlogo.png')}}"
                                                                        style="height: 35px;"/> </a>
                     </li>
@@ -646,7 +646,7 @@
 
 
             </div>
-            <p>
+            <p class="markdown">
                 @if (\Request::is('insider/*'))
                     @if ($step->previousStep() != null)
                         <a href="{{url('/insider/courses/'.$course->id.'/steps/'.$step->previousStep()->id)}}"

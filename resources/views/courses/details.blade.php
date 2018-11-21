@@ -19,20 +19,34 @@
         @if ($user->role=='teacher')
             <div class="col">
                 <div class="float-right">
-                    <a href="{{url('/insider/courses/'.$course->id.'/create')}}" class="btn btn-primary btn-sm"><i
-                                class="icon ion-compose"></i></a>
-                    <a href="{{url('/insider/courses/'.$course->id.'/edit')}}"
-                       class="btn btn-primary btn-sm"><i
-                                class="icon ion-android-create"></i></a>
-                    @if ($course->state=="draft")
-                        <a href="{{url('/insider/courses/'.$course->id.'/start')}}"
-                           class="btn btn-success btn-sm"><i
-                                    class="icon ion-power"></i></a>
-                    @elseif ($course->state=="started")
-                        <a href="{{url('/insider/courses/'.$course->id.'/stop')}}"
-                           class="btn btn-danger btn-sm"><i
-                                    class="icon ion-stop"></i></a>
-                    @endif
+
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Действия
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="{{url('/insider/courses/'.$course->id.'/create?chapter='.$chapter->id)}}"
+                               class="dropdown-item"><i
+                                        class="icon ion-compose"></i> Добавить урок</a>
+                            <a href="{{url('/insider/courses/'.$course->id.'/chapter')}}" class="dropdown-item"><i
+                                        class="icon ion-plus"></i> Добавить главу</a>
+                            <a href="{{url('/insider/courses/'.$course->id.'/edit')}}"
+                               class="dropdown-item"><i
+                                        class="icon ion-android-create"></i> Изменить курс</a>
+                            @if ($course->state=="draft")
+                                <a href="{{url('/insider/courses/'.$course->id.'/start')}}"
+                                   class="dropdown-item"><i
+                                            class="icon ion-power"></i> Запустить курс</a>
+                            @elseif ($course->state=="started")
+                                <a href="{{url('/insider/courses/'.$course->id.'/stop')}}"
+                                   class="dropdown-item"><i
+                                            class="icon ion-stop"></i> Завершить курс</a>
+                            @endif
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         @endif
@@ -112,7 +126,7 @@
                 </script>
             @endif
 
-            @foreach($lessons as $key => $lesson)
+            @foreach($chapter->lessons as $key => $lesson)
                 @if ($lesson->steps->count()!=0)
                     <div class="card-group">
                         <div class="card">
@@ -137,10 +151,10 @@
                                             <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/export')}}"
                                                class="btn btn-success btn-sm"><i
                                                         class="icon ion-ios-cloud-download"></i></a>
-                                            <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/lower')}}"
+                                            <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/lower?chapter='.$chapter->id)}}"
                                                class="btn btn-success btn-sm"><i
                                                         class="icon ion-arrow-up-c"></i></a>
-                                            <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/upper')}}"
+                                            <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/upper?chapter='.$chapter->id)}}"
                                                class="btn btn-success btn-sm"><i
                                                         class="icon ion-arrow-down-c"></i></a>
                                         </div>
@@ -311,7 +325,36 @@
             @endforeach
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <ul class="list-group">
+                @if ($course->program->chapters->count()!=0)
+                    @foreach($course->program->chapters as $current_chapter)
+                        @if ($user->role == 'teacher' or $chapter->lessons->count() != 0)
+                            <li class="list-group-item @if ($current_chapter->id == $chapter->id)  list-group-item-success @endif"
+                                style="border-radius: 0 !important;"><a
+                                        href="{{url('/insider/courses/'.$course->id.'?chapter='.$current_chapter->id)}}">{{$current_chapter->name}}</a>
+
+                                @if ($user->role=='teacher')
+                                    <span class="float-right">
+                                <a href="{{url('insider/courses/'.$course->id.'/chapters/'.$current_chapter->id.'/edit')}}"
+                                   class="btn btn-success btn-sm"><i
+                                            class="icon ion-android-create"></i></a>
+                                <a href="{{url('insider/courses/'.$course->id.'/chapters/'.$current_chapter->id.'/lower')}}"
+                                   class="btn btn-success btn-sm"><i
+                                            class="icon ion-arrow-up-c"></i></a>
+                                <a href="{{url('insider/courses/'.$course->id.'/chapters/'.$current_chapter->id.'/upper')}}"
+                                   class="btn btn-success btn-sm"><i
+                                            class="icon ion-arrow-down-c"></i></a>
+                            </span>
+                                    <p class="small" style="margin-bottom: 0;">{{$current_chapter->description}}</p>
+                                @endif
+                            </li>
+                        @endif
+                    @endforeach
+                @endif
+            </ul>
+
+
+            <div class="card" style="margin-top: 15px;">
                 <div class="card-body">
                     <h4 class="card-title">Информация <img src="https://png.icons8.com/info/color/30/000000"></h4>
                     <p>

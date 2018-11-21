@@ -82,6 +82,13 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::post('/courses/{id}/edit', 'CoursesController@edit');
     Route::get('/courses/{id}/assessments', 'CoursesController@assessments');
     Route::get('/courses/{id}/export', 'CoursesController@export');
+    Route::get('/courses/{id}/chapter', 'CoursesController@createChapterView');
+    Route::post('/courses/{id}/chapter', 'CoursesController@createChapter');
+
+    Route::get('/courses/{course_id}/chapters/{chapter_id}/edit', 'CoursesController@editChapterView');
+    Route::get('/courses/{course_id}/chapters/{chapter_id}/upper', 'CoursesController@makeChapterUpper');
+    Route::get('/courses/{course_id}/chapters/{chapter_id}/lower', 'CoursesController@makeChapterLower');
+    Route::post('/courses/{course_id}/chapters/{chapter_id}/edit', 'CoursesController@editChapter');
 
 
     Route::get('/programs', 'ProgramsController@index');
@@ -287,6 +294,23 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
             $solution->save();
         }
 
+    });
+
+    Route::get('/set_chapters', function () {
+        $programs = \App\Program::all();
+        foreach ($programs as $program)
+        {
+            $chapter = new \App\ProgramChapter();
+            $chapter->program_id = $program->id;
+            $chapter->name = "Глава 1";
+            $chapter->save();
+
+            foreach ($program->lessons as $lesson)
+            {
+                $lesson->chapter_id = $chapter->id;
+                $lesson->save();
+            }
+        }
     });
 
 });

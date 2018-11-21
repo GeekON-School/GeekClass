@@ -25,6 +25,11 @@ class Lesson extends Model
         return $this->belongsTo('App\Program', 'program_id', 'id');
     }
 
+    public function chapter()
+    {
+        return $this->belongsTo('App\ProgramChapter', 'chapter_id', 'id');
+    }
+
     public function steps()
     {
         return $this->hasMany('App\ProgramStep', 'lesson_id', 'id')->with('tasks', 'tasks.consequences')->orderBy('sort_index')->orderBy('id');

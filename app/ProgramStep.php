@@ -41,6 +41,11 @@ class ProgramStep extends Model
         return $this->belongsTo('App\Program', 'program_id', 'id');
     }
 
+    public function chapter()
+    {
+        return $this->belongsTo('App\ProgramChapter', 'chapter_id', 'id');
+    }
+
     public function lesson()
     {
         return $this->belongsTo('App\Lesson', 'lesson_id', 'id');

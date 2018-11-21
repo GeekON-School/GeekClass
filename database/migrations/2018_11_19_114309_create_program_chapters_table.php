@@ -21,7 +21,7 @@ class CreateProgramChaptersTable extends Migration
                 ->on('programs')->onDelete('cascade');
 
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->boolean('is_scale_blocking')->default(false);
             $table->boolean('is_time_blocking')->default(false);
 
