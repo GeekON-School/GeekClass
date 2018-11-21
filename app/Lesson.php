@@ -147,7 +147,6 @@ class Lesson extends Model
 
     public function isDoneByUser($course, $user)
     {
-        $user = User::findOrFail(\Auth::User()->id);
         if (!$this->isStarted($course)) return false;
         if ($user->role == 'teacher') return true;
         foreach ($this->getConsequences() as $consequence) {
