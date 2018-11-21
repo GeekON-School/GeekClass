@@ -195,6 +195,7 @@ class CoursesController extends Controller
 
 
         $temp_steps = collect([]);
+        $all_steps = collect([]);
         $lessons = $course->lessons->filter(function ($lesson) use ($course, $chapter) {
             return $lesson->isStarted($course) and $lesson->chapter_id == $chapter->id;
         });
@@ -203,6 +204,10 @@ class CoursesController extends Controller
         foreach ($lessons as $lesson) {
             $temp_steps = $temp_steps->merge($lesson->steps);
         }
+        foreach ($course->lessons->filter(function($item) use ($course) {return $item->isStarted($course);}) as $lesson) {
+            $all_steps = $all_steps->merge($lesson->steps);
+        }
+
         if ($course->state == 'started') {
             /* count pulse */
 
@@ -255,7 +260,7 @@ class CoursesController extends Controller
             $students[$key]->percent = 0;
             $students[$key]->max_points = 0;
             $students[$key]->points = 0;
-            foreach ($temp_steps as $step) {
+            foreach ($all_steps as $step) {
                 if ($value->pivot->is_remote) {
                     $tasks = $step->remote_tasks;
                 } else {
