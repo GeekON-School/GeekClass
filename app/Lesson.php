@@ -45,8 +45,7 @@ class Lesson extends Model
         $tasks = $this->tasks();
 
         $consequences = collect([]);
-        foreach ($tasks as $task)
-        {
+        foreach ($tasks as $task) {
             foreach ($task->consequences as $consequence) {
                 $consequences->push($consequence);
             }
@@ -83,22 +82,24 @@ class Lesson extends Model
     public function tasks()
     {
         $tasks = new \Illuminate\Database\Eloquent\Collection;;
-        foreach ($this->steps as $step)
-        {
+        foreach ($this->steps as $step) {
             $tasks = $tasks->merge($step->tasks);
         }
         return $tasks;
     }
+
     public function info()
     {
         return $this->hasMany('App\LessonInfo', "lesson_id");
     }
+
     public function getStartDate($course)
     {
         $info = $this->info->where('course_id', $course->id)->first();
         if ($info == null) return null;
         else return $info->start_date;
     }
+
     public function setStartDate($course, $date)
     {
         $info = $this->info->where('course_id', $course->id)->first();
@@ -107,55 +108,66 @@ class Lesson extends Model
             $info->lesson_id = $this->id;
             $info->course_id = $course->id;
             $info->start_date = $date;
-        }
-        else {
+        } else {
             $info->start_date = $date;
         }
         $info->save();
     }
+
     public function isStarted($course)
     {
         $info = $this->info->where('course_id', $course->id)->first();
         if ($info == null) return false;
         if ($info->start_date == null) return false;
-        return $info->start_date->lt(Carbon::now()->setTime(23,59));
+        return $info->start_date->lt(Carbon::now()->setTime(23, 59));
     }
+
     public function isAvailable($course)
     {
         $user = User::findOrFail(\Auth::User()->id);
         if (!$this->isStarted($course)) return false;
-        if ($user->role=='teacher') return true;
-        foreach ($this->prerequisites as $prerequisite)
-        {
-            if (!$user->checkPrerequisite($prerequisite)) return false;
-        }
-        return true;
+        return $this->isAvailableForUser($course, $user);
     }
+
     public function isAvailableForUser($course, $user)
     {
-        $user = User::findOrFail($user->id);
         if (!$this->isStarted($course)) return false;
-        if ($user->role=='teacher') return true;
-        foreach ($this->prerequisites as $prerequisite)
-        {
+        if ($user->role == 'teacher') return true;
+        foreach ($this->prerequisites as $prerequisite) {
             if (!$user->checkPrerequisite($prerequisite)) return false;
         }
         return true;
     }
+
+    public function isDone($course)
+    {
+        $user = User::findOrFail(\Auth::User()->id);
+        return $this->isDoneByUser($course, $user);
+    }
+
+    public function isDoneByUser($course, $user)
+    {
+        $user = User::findOrFail(\Auth::User()->id);
+        if (!$this->isStarted($course)) return false;
+        if ($user->role == 'teacher') return true;
+        foreach ($this->getConsequences() as $consequence) {
+            if (!$user->checkPrerequisite($consequence)) return false;
+        }
+        return true;
+    }
+
     public function export()
     {
         $lesson = Lesson::where('id', $this->id)->with('steps')->first();
         unset($lesson->id);
         unset($lesson->updated_at);
-        foreach ($lesson->steps as $key => $step)
-        {
+        foreach ($lesson->steps as $key => $step) {
             unset($lesson->steps[$key]->id);
             unset($lesson->steps[$key]->updated_at);
             unset($lesson->steps[$key]->lesson_id);
             unset($lesson->steps[$key]->program_id);
 
-            foreach ($lesson->steps[$key]->tasks as $tkey => $task)
-            {
+            foreach ($lesson->steps[$key]->tasks as $tkey => $task) {
                 unset($lesson->steps[$key]->tasks[$tkey]->id);
                 unset($lesson->steps[$key]->tasks[$tkey]->step_id);
                 unset($lesson->steps[$key]->tasks[$tkey]->updated_at);
@@ -167,22 +179,19 @@ class Lesson extends Model
     public function import($lesson_json)
     {
         $new_lesson = json_decode($lesson_json);
-        foreach ($new_lesson->steps as $step)
-        {
+        foreach ($new_lesson->steps as $step) {
             $tasks = $step->tasks;
             unset($step->tasks);
             $new_step = new ProgramStep();
-            foreach($step as $property => $value)
+            foreach ($step as $property => $value)
                 $new_step->$property = $value;
             $new_step->lesson_id = $this->id;
             $new_step->program_id = $this->program_id;
             $new_step->save();
 
-            foreach ($tasks as $task)
-            {
+            foreach ($tasks as $task) {
                 $new_task = new Task();
-                foreach($task as $property => $value)
-                {
+                foreach ($task as $property => $value) {
                     if ($property == 'consequences') continue;
                     $new_task->$property = $value;
                 }

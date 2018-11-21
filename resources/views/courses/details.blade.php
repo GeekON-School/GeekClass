@@ -326,12 +326,21 @@
         </div>
         <div class="col-md-4">
             <ul class="list-group">
-                @if ($course->program->chapters->count()!=0)
+                @if ($course->program->chapters->count()>1)
                     @foreach($course->program->chapters as $current_chapter)
-                        @if ($user->role == 'teacher' or $chapter->lessons->count() != 0)
+                        @if ($user->role == 'teacher' or $current_chapter->isStarted($course))
                             <li class="list-group-item @if ($current_chapter->id == $chapter->id)  list-group-item-success @endif"
                                 style="border-radius: 0 !important;"><a
-                                        href="{{url('/insider/courses/'.$course->id.'?chapter='.$current_chapter->id)}}">{{$current_chapter->name}}</a>
+                                        href="{{url('/insider/courses/'.$course->id.'?chapter='.$current_chapter->id)}}">{{$current_chapter->name}}
+                                    @if ($user->role=='teacher' and $current_chapter->isStarted($course))
+                                        <span class="badge badge-primary"> {{ round($current_chapter->getStudentsPercent($course)) }}
+                                            % </span>
+                                    @endif
+                                    @if ($user->role=='student')
+                                        <span class="badge badge-primary"> {{ round($current_chapter->getStudentPercent($course, $user)) }}
+                                            % </span>
+                                    @endif
+                                </a>
 
                                 @if ($user->role=='teacher')
                                     <span class="float-right">
@@ -346,6 +355,12 @@
                                             class="icon ion-arrow-down-c"></i></a>
                             </span>
                                     <p class="small" style="margin-bottom: 0;">{{$current_chapter->description}}</p>
+                                @else
+                                    @if ($current_chapter->isDone($course) and $user->role!='teacher')
+                                        <span class="float-right">
+                                        <i class="icon ion-checkmark-circled" style="color:green;"></i> <span style="color: green;">выполнено</span>
+                                        </span>
+                                    @endif
                                 @endif
                             </li>
                         @endif
@@ -498,9 +513,9 @@
                                     <tr>
                                         <td>
                                             @if ($task->step->lesson->isAvailable($course))
-                                                <a href="{{url('/insider/courses/'.$course->id.'/steps/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}}</a>
+                                                <a href="{{url('/insider/courses/'.$course->id.'/steps/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}} @if ($task->is_star)(*)@endif</a>
                                             @else
-                                                <a href="#" class="text-muted">{{$task->name}}</a>
+                                                <a href="#" class="text-muted">{{$task->name}} @if ($task->is_star)(*)@endif</a>
                                             @endif
                                         </td>
 

@@ -29,7 +29,7 @@ class CoursesController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('course')->only(['details']);
-        $this->middleware('teacher')->only(['createView', 'editView', 'start', 'stop', 'edit', 'create', 'assesments', 'report', 'createChapter', 'editChapter', 'createChapterView', 'editChapterView
+        $this->middleware('teacher')->only(['createView', 'editView', 'start', 'stop', 'edit', 'create', 'assessments', 'report', 'createChapter', 'editChapter', 'createChapterView', 'editChapterView
        ']);
     }
 
@@ -179,14 +179,26 @@ class CoursesController extends Controller
         if ($request->has('chapter')) {
             $chapter = ProgramChapter::findOrFail($request->chapter);
         } else {
-            $chapter = $course->program->chapters->first();
+            if ($user->role == 'teacher') {
+                $chapter = $course->program->chapters->first();
+            } else {
+                $current_chapter = $course->program->chapters->first();
+                foreach ($course->program->chapters as $chapter) {
+                    $current_chapter = $chapter;
+                    if (!$chapter->isDone($course)) {
+                        break;
+                    }
+                }
+                $chapter = $current_chapter;
+            }
         }
 
 
         $temp_steps = collect([]);
         $lessons = $course->lessons->filter(function ($lesson) use ($course, $chapter) {
-            return $lesson->isStarted($course) and $lesson->chapter_id = $chapter->id;
+            return $lesson->isStarted($course) and $lesson->chapter_id == $chapter->id;
         });
+
 
         foreach ($lessons as $lesson) {
             $temp_steps = $temp_steps->merge($lesson->steps);
@@ -264,8 +276,8 @@ class CoursesController extends Controller
 
 
         if ($user->role == 'student') {
-            $lessons = $course->lessons->filter(function ($lesson) use ($course) {
-                return $lesson->isStarted($course);
+            $lessons = $course->lessons->filter(function ($lesson) use ($course, $chapter) {
+                return $lesson->isStarted($course) and $lesson->chapter_id == $chapter->id;
             });
 
             $steps = $temp_steps;
@@ -274,7 +286,7 @@ class CoursesController extends Controller
             })->first();
         } else {
             $steps = $temp_steps;
-            $lessons = $course->lessons;
+            $lessons = $course->lessons->where('chapter_id', $chapter->id);
         }
 
         return view('courses.details', compact('chapter', 'course', 'user', 'steps', 'students', 'cstudent', 'lessons', 'marks', 'pulse_keys', 'pulse_values'));
@@ -331,7 +343,7 @@ class CoursesController extends Controller
 
         $this->validate($request, [
             'name' => 'required|string',
-            'description' => 'required|string',
+
         ]);
 
         $chapter = ProgramChapter::findOrFail($chapter_id);
@@ -339,7 +351,7 @@ class CoursesController extends Controller
         $chapter->description = $request->description;
         $chapter->save();
 
-        return redirect('/insider/courses/'.$course_id.'?chapter='.$chapter_id);
+        return redirect('/insider/courses/' . $course_id . '?chapter=' . $chapter_id);
     }
 
     public function createChapter($course_id, Request $request)
@@ -348,15 +360,14 @@ class CoursesController extends Controller
 
 
         $this->validate($request, [
-            'name' => 'required|string',
-            'description' => 'required|string',
+            'name' => 'required|string'
         ]);
 
         $course = Course::findOrFail($course_id);
         $program = $course->program;
 
         $order = 100;
-        if ($program->chapters->count()!=0)
+        if ($program->chapters->count() != 0)
             $order = $program->chapters->last()->sort_index + 1;
 
         $chapter = new ProgramChapter();
@@ -367,7 +378,7 @@ class CoursesController extends Controller
 
         $chapter->save();
 
-        return redirect('/insider/courses/'.$course_id);
+        return redirect('/insider/courses/' . $course_id);
     }
 
     public function makeChapterLower($course_id, $chapter_id, Request $request)
@@ -375,7 +386,7 @@ class CoursesController extends Controller
         $chapter = ProgramChapter::findOrFail($chapter_id);
         $chapter->sort_index -= 1;
         $chapter->save();
-        return redirect('/insider/courses/' . $course_id.'?chapter='.$chapter_id);
+        return redirect('/insider/courses/' . $course_id . '?chapter=' . $chapter_id);
     }
 
     public function makeChapterUpper($course_id, $chapter_id, Request $request)
@@ -383,7 +394,7 @@ class CoursesController extends Controller
         $chapter = ProgramChapter::findOrFail($chapter_id);
         $chapter->sort_index += 1;
         $chapter->save();
-        return redirect('/insider/courses/' . $course_id.'?chapter='.$chapter_id);
+        return redirect('/insider/courses/' . $course_id . '?chapter=' . $chapter_id);
     }
 
     public function edit($id, Request $request)
@@ -469,7 +480,6 @@ class CoursesController extends Controller
         $course->save();
         return redirect('/insider/courses');
     }
-
 
 
     public function invite(Request $request)

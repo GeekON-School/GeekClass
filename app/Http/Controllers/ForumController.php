@@ -164,6 +164,11 @@ class ForumController extends Controller
         $thread = ForumThread::findOrFail($id);
         $user = User::findOrFail(Auth::User()->id);
 
+        if (!$thread->subscribers->has($user->id))
+        {
+            $thread->subscribers->attach($user->id);
+        }
+
 
         $post = new ForumPost();
         $post->text = $request->text;
@@ -257,6 +262,11 @@ class ForumController extends Controller
         $user = User::findOrFail(Auth::User()->id);
         $thread = ForumThread::findOrFail($thread_id);
 
+        if (!$thread->subscribers->has($user->id))
+        {
+            $thread->subscribers->attach($user->id);
+        }
+
 
         $comment = new ForumComment();
         $comment->text = $request->text;
@@ -266,7 +276,11 @@ class ForumController extends Controller
 
         $when = Carbon::now()->addSeconds(1);
         foreach ($thread->subscribers as $subscriber) {
-            $subscriber->notify((new NewForumAnswer($post))->delay($when));
+            if ($subscriber->id != $user->id)
+            {
+                $subscriber->notify((new NewForumAnswer($post))->delay($when));
+            }
+
         }
 
         return redirect('/insider/forum/' . $thread_id);
