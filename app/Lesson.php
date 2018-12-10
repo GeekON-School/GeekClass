@@ -200,7 +200,7 @@ class Lesson extends Model
                 $new_task->save();
                 if ($task->consequences!=null)
                     foreach ($task->consequences as $consequence) {
-                        $task->consequences()->attach($consequence->id);
+                        $new_task->consequences()->attach($consequence->id);
                     }
             }
         }
