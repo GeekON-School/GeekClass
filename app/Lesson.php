@@ -198,7 +198,7 @@ class Lesson extends Model
 
                 $new_task->step_id = $new_step->id;
                 $new_task->save();
-                if ($task->has('consequences'))
+                if ($task->consequences!=null)
                     foreach ($task->consequences as $consequence) {
                         $task->consequences()->attach($consequence->id);
                     }
