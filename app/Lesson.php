@@ -195,8 +195,13 @@ class Lesson extends Model
                     $new_task->$property = $value;
                 }
 
+
                 $new_task->step_id = $new_step->id;
                 $new_task->save();
+                if ($task->has('consequences'))
+                    foreach ($task->consequences as $consequence) {
+                        $task->consequences()->attach($consequence->id);
+                    }
             }
         }
         $this->save();
