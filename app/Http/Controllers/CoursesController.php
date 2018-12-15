@@ -464,6 +464,18 @@ class CoursesController extends Controller
             $program->save();
 
             $course->program_id = $program->id;
+
+            $order = 100;
+            if ($program->chapters->count() != 0)
+                $order = $program->chapters->last()->sort_index + 1;
+
+            $chapter = new ProgramChapter();
+            $chapter->name = $request->name;
+            $chapter->program_id = $program->id;
+            $chapter->sort_index = $order;
+            $chapter->description = $request->description;
+
+            $chapter->save();
         }
 
 
@@ -483,6 +495,9 @@ class CoursesController extends Controller
         }
         $course->provider_id = $user->provider_id;
         $course->save();
+
+
+
         return redirect('/insider/courses');
     }
 
