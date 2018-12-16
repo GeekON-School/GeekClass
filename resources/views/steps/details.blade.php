@@ -156,7 +156,8 @@
             <div class="tab-content" id="pills-tabContent" style="padding: 15px;">
 
                 @if ($empty || !$zero_theory)
-                    <div class="tab-pane fade show active  markdown" id="theory" role="tabpanel" aria-labelledby="v-theory-tab">
+                    <div class="tab-pane fade show active  markdown" id="theory" role="tabpanel"
+                         aria-labelledby="v-theory-tab">
 
                         @parsedown($step->theory)
 
@@ -281,14 +282,15 @@
                                     <div class="card">
                                         <div class="card-header">
                                             {{$task->name}}
-                                            &nbsp;&nbsp;
-                                            @foreach($task->consequences as $consequence)
-                                                @if (!$user->checkPrerequisite($consequence))
-                                                    <span class="badge badge-secondary">{{$consequence->title}}</span>
-                                                @else
-                                                    <span class="badge badge-success">{{$consequence->title}}</span>
-                                                @endif
-                                            @endforeach
+                                            &nbsp;&nbsp;@if (\Request::is('insider/*'))
+                                                @foreach($task->consequences as $consequence)
+                                                    @if (!$user->checkPrerequisite($consequence))
+                                                        <span class="badge badge-secondary">{{$consequence->title}}</span>
+                                                    @else
+                                                        <span class="badge badge-success">{{$consequence->title}}</span>
+                                                    @endif
+                                                @endforeach
+                                            @endif
 
                                             @if ($task->price > 0)
                                                 <img src="https://png.icons8.com/color/50/000000/coins.png"
