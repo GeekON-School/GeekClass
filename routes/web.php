@@ -26,6 +26,10 @@ Route::get('/vk-meetup', function () {
     return redirect('/open/steps/745');
 });
 
+Route::get('/telegram-bot', function () {
+    return redirect('/open/steps/647');
+});
+
 Route::get('/', function () {
     if (\Illuminate\Support\Facades\Auth::check() ) {
         return redirect('/insider');
