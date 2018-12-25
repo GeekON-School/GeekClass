@@ -22,7 +22,7 @@ Route::get('/start-exam', function () {
     return redirect('/open/steps/731');
 });
 
-Route::get('/start-exam', function () {
+Route::get('/vk-meetup', function () {
     return redirect('/open/steps/745');
 });
 
