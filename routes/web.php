@@ -22,6 +22,10 @@ Route::get('/start-exam', function () {
     return redirect('/open/steps/731');
 });
 
+Route::get('/start-exam', function () {
+    return redirect('/open/steps/745');
+});
+
 Route::get('/', function () {
     if (\Illuminate\Support\Facades\Auth::check() ) {
         return redirect('/insider');
