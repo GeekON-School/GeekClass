@@ -72,7 +72,7 @@
                                         <p>
                                         <ul>
                                             @foreach($marks as $mark)
-                                                @if ($mark->cert_link!= null and $mark->mark != 'D')
+                                                @if ($mark->cert_link!= null)
                                                     <li><a target="_blank"
                                                            href="{{$mark->cert_link}}">{{$mark->user->name}} <span
                                                                     class="float-right badge badge-pill badge-success">{{$mark->mark}}</span></a>
