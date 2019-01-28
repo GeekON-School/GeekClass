@@ -63,12 +63,8 @@ class TasksController extends Controller
         if ($request->has('answer') and $request->answer != "") {
             $task->is_quiz = true;
             $task->answer = $request->answer;
-        } else if ($request->has('code_answer') and $request->code_answer != "") {
+        } else if ($request->has('is_code') and $request->is_code == true) {
             $task->is_code = true;
-            $task->checker = $request->checker;
-            $task->code_answer = $request->code_answer;
-            $task->code_input = $request->code_input;
-            $task->template = $request->template;
         }
         $task->save();
 

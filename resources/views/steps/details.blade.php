@@ -774,6 +774,10 @@
                                 <label for="only_remote">Только для заочной формы</label>
                                 <input type="checkbox" id="only_remote" name="only_remote" value="on"/>
                             </div>
+                            <div class="form-group">
+                                <label for="is_code">Автопроверка на Python</label>
+                                <input type="checkbox" id="is_code" name="is_code" value="on"/>
+                            </div>
                             <div class="form-group{{ $errors->has('answer') ? ' has-error' : '' }}">
                                 <label for="answer" class="col-md-4">Ответ</label>
 
@@ -798,64 +802,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('template') ? ' has-error' : '' }}">
-                                <label for="template" class="col-md-4">Шаблон кода</label>
 
-                                <div class="col-md-12">
-
-                                    <textarea id="template" class="form-control"
-                                              name="template">{{old('template')}}</textarea>
-                                    @if ($errors->has('template'))
-                                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first('template') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="form-group{{ $errors->has('checker') ? ' has-error' : '' }}">
-                                <label for="checker" class="col-md-4">Чекер</label>
-
-                                <div class="col-md-12">
-                                                <textarea id="checker" class="form-control"
-                                                          name="checker">{{old('checker')}}</textarea>
-
-                                    @if ($errors->has('checker'))
-                                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first('checker') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group{{ $errors->has('code_input') ? ' has-error' : '' }}">
-                                <label for="code_input" class="col-md-4">Входные данные</label>
-
-                                <div class="col-md-12">
-                                                <textarea id="code_input" class="form-control"
-                                                          name="code_input">{{old('code_input')}}</textarea>
-
-                                    @if ($errors->has('code_input'))
-                                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first('code_input') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="form-group{{ $errors->has('code_answer') ? ' has-error' : '' }}">
-                                <label for="code_answer" class="col-md-4">Результат</label>
-
-                                <div class="col-md-12">
-                                                <textarea id="code_answer" class="form-control"
-                                                          name="code_answer">{{old('code_answer')}}</textarea>
-
-                                    @if ($errors->has('code_answer'))
-                                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first('code_answer') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
 
                             <div class="form-group">
                                 <div class="col-md-12">

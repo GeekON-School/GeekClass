@@ -36,6 +36,11 @@ class Task extends Model
         return $this->belongsToMany('App\CoreNode', 'core_consequences', "task_id", "node_id");
     }
 
+    public function tests()
+    {
+        return $this->hasMany('App\CodeTask', 'task_id', 'id');
+    }
+
     public function isDone($user_id)
     {
         return $this->solutions()->where('user_id', $user_id)->where('mark', '>', 1)->count() !=0;
