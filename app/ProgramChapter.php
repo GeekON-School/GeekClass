@@ -60,7 +60,7 @@ class ProgramChapter extends Model
             if ($this->isDoneByUser($course, $student))
                 $done++;
         }
-        return $done * 100 / $course->students->count();
+        return $done * 100 / min($course->students->count(), 1);
     }
 
     public function getStudentPercent($course, $student)
