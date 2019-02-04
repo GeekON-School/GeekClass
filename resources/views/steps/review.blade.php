@@ -40,7 +40,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-8">
-                                {{$solution->text}}
+                                @parsedown(nl2br(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->text))))
                                 <br>
                                 <br>
                                 @if ($solution->mark!=null)
@@ -51,7 +51,7 @@
                                     </p>
 
                                     <p>
-                                        <span class="small">{{$solution->comment}}</span>
+                                        <span class="small">@parsedown(nl2br(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->comment))))</span>
                                     </p>
                                 @else
                                     <span class="badge badge-secondary">Решение еще не проверено</span>

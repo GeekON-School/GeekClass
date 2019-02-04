@@ -418,15 +418,15 @@
                                                         @if ($task->is_code)
                                                             <pre><code class="hljs python">{{$solution->text}}</code></pre>
                                                         @else
-                                                            {{$solution->text}}
+                                                            @parsedown(nl2br(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->text))))
                                                         @endif
                                                         @if ($solution->mark!=null)
                                                             <p>
                                                     <span class="badge badge-light">Проверено: {{$solution->checked}}
                                                         , {{$solution->teacher->name}}</span>
                                                             </p>
-                                                            <p>
-                                                                <span class="small">{!!$solution->comment !!}</span>
+                                                            <p class="small">
+                                                                @parsedown(nl2br(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->comment))))
                                                             </p>
                                                         @endif
                                                     </div>
@@ -510,7 +510,7 @@
                                                             @if ($task->is_code)
                                                                 <pre><code class="hljs python">{{$solution->text}}</code></pre>
                                                             @else
-                                                                {{$solution->text}}
+                                                                @parsedown(nl2br(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->text))))
                                                             @endif
                                                             <br><br>
                                                             @if ($solution->mark!=null)
@@ -518,8 +518,8 @@
                                                     <span class="badge badge-light">Проверено: {{$solution->checked}}
                                                         , {{$solution->teacher->name}}</span>
                                                                 </p>
-                                                                <p>
-                                                                    <span class="small">{{$solution->comment}}</span>
+                                                                <p class="small">
+                                                                    @parsedown(nl2br(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->comment))))
                                                                 </p>
                                                             @endif
                                                         </div>

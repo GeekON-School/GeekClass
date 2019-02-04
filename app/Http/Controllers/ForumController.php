@@ -92,7 +92,7 @@ class ForumController extends Controller
                 'tags' => 'required|string'
             ]);
 
-            $post->text = $request->text;
+            $post->text = clean($request->text);
             $post->save();
 
             $thread->name = $request->name;
@@ -114,7 +114,7 @@ class ForumController extends Controller
                 'text' => 'required|string'
             ]);
 
-            $post->text = $request->text;
+            $post->text = clean($request->text);
             $post->save();
         }
 
@@ -145,7 +145,7 @@ class ForumController extends Controller
         }
 
         $post = new ForumPost();
-        $post->text = $request->text;
+        $post->text = clean($request->text);
         $post->thread_id = $thread->id;
         $post->user_id = $user->id;
         $post->save();
@@ -171,7 +171,7 @@ class ForumController extends Controller
 
 
         $post = new ForumPost();
-        $post->text = $request->text;
+        $post->text = clean($request->text);
         $post->thread_id = $thread->id;
         $post->user_id = $user->id;
         $post->is_question = false;
@@ -269,7 +269,7 @@ class ForumController extends Controller
 
 
         $comment = new ForumComment();
-        $comment->text = $request->text;
+        $comment->text = clean($request->text);
         $comment->post_id = $post->id;
         $comment->user_id = $user->id;
         $comment->save();

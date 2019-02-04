@@ -186,7 +186,7 @@ class TasksController extends Controller
         $solution->user_id = Auth::User()->id;
         $solution->course_id = $course_id;
         $solution->submitted = Carbon::now();
-        $solution->text = $request->text;
+        $solution->text = clean($request->text);
 
         if ($task->is_quiz) {
             if ($task->answer == $request->text) {
