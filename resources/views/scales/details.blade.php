@@ -90,6 +90,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Закрыть</button>
                             <a class="btn btn-sm btn-primary" href="{{url('/insider/scales/'.$scale->id.'/results/'.$result->id.'/tasks/'.$task->id.'/edit')}}">Изменить</a>
+                            <a class="btn btn-sm btn-danger" href="{{url('/insider/scales/'.$scale->id.'/results/'.$result->id.'/tasks/'.$task->id.'/delete')}}" onclick="confirm('Вы уверены?')">Удалить</a>
                         </div>
                     </div>
                 </div>

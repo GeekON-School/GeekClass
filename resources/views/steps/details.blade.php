@@ -418,7 +418,7 @@
                                                         @if ($task->is_code)
                                                             <pre><code class="hljs python">{{$solution->text}}</code></pre>
                                                         @else
-                                                            @parsedown(nl2br(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->text))))
+                                                            {!! nl2br(e(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->text)))) !!}
                                                         @endif
                                                         @if ($solution->mark!=null)
                                                             <p>
@@ -426,7 +426,7 @@
                                                         , {{$solution->teacher->name}}</span>
                                                             </p>
                                                             <p class="small">
-                                                                @parsedown(nl2br(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->comment))))
+                                                                {!! nl2br(e(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->comment)))) !!}
                                                             </p>
                                                         @endif
                                                     </div>
@@ -510,7 +510,7 @@
                                                             @if ($task->is_code)
                                                                 <pre><code class="hljs python">{{$solution->text}}</code></pre>
                                                             @else
-                                                                @parsedown(nl2br(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->text))))
+                                                                {!! nl2br(e(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->text))))  !!}
                                                             @endif
                                                             <br><br>
                                                             @if ($solution->mark!=null)
@@ -519,7 +519,7 @@
                                                         , {{$solution->teacher->name}}</span>
                                                                 </p>
                                                                 <p class="small">
-                                                                    @parsedown(nl2br(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->comment))))
+                                                                    {!!  nl2br(e(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->comment)))) !!}
                                                                 </p>
                                                             @endif
                                                         </div>

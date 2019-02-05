@@ -11,9 +11,9 @@ class Mark
     public static function getMark($points, $max_points)
     {
         if ($max_points == 0) return 'A';
-        $percent = $points * 100 / $max_points;
+        $percent = round($points * 100 / $max_points);
 
-        if ($percent>=95)
+        if ($percent>=99)
             return 'A+';
         if ($percent>=90)
             return 'A';
