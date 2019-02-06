@@ -41,8 +41,8 @@ class ForumController extends Controller
         }
         if ($request->has('q') and $request->q != "") {
             $q = mb_strtolower($request->q);
-            $threads = ForumThread::where('LOWER(name)', 'LIKE', '%' . $request->q . '%')->orderBy('created_at', 'DESC')->get();
-            $posts = ForumPost::where('LOWER(text)', 'LIKE', '%' . $request->q . '%')->with('thread')->orderBy('created_at', 'DESC')->get();
+            $threads = ForumThread::whereRaw('LOWER(name) LIKE \'%' . $request->q . '%\'')->orderBy('created_at', 'DESC')->get();
+            $posts = ForumPost::whereRaw('LOWER(text) LIKE \'%' . $request->q . '%\'')->with('thread')->orderBy('created_at', 'DESC')->get();
             foreach ($posts as $post) {
                 if (!$threads->contains($post->thread)) {
                     $threads->push($post->thread);
