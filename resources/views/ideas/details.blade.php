@@ -17,7 +17,7 @@
         <div class="col-md-12">
             <div class="card">
 
-                <div class="card-body">
+                <div class="card-body markdown">
                     <div class="row">
                         <div class="col col-md-auto">
                             <h3 class="card-title" style="line-height: 50px; font-weight: 200;">{{$idea->name}}&nbsp;<img src="https://img.icons8.com/color/48/000000/idea-sharing.png">
