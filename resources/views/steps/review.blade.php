@@ -32,7 +32,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        Дата сдачи: {{ $solution->submitted->format('d.M.Y H:m')}}
+                        Дата сдачи: {{ $solution->submitted->format('d.M.Y H:i')}}
                         <div class="float-right">
 
                         </div>

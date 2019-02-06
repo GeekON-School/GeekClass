@@ -404,7 +404,7 @@
                                             <div class="col">
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        Дата сдачи: {{ $solution->submitted->format('d.M.Y H:m')}}
+                                                        Дата сдачи: {{ $solution->submitted->format('d.M.Y H:i')}}
                                                         <div class="float-right">
                                                             @if ($solution->mark!=null)
                                                                 <span class="badge badge-primary">Оценка: {{$solution->mark}}</span>
@@ -496,7 +496,7 @@
 
                                                     <div class="card">
                                                         <div class="card-header">
-                                                            Дата сдачи: {{ $solution->submitted->format('d.M.Y H:m')}}
+                                                            Дата сдачи: {{ $solution->submitted->format('d.M.Y H:i')}}
                                                             <div class="float-right">
                                                                 @if ($solution->mark!=null)
                                                                     <span class="badge badge-primary">Оценка: {{$solution->mark}}</span>
