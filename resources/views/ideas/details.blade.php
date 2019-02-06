@@ -17,11 +17,13 @@
         <div class="col-md-12">
             <div class="card">
 
-                <div class="card-body markdown">
+                <div class="card-body">
                     <div class="row">
                         <div class="col col-md-auto">
-                            <h3 class="card-title" style="line-height: 50px; font-weight: 200;">{{$idea->name}}&nbsp;<img src="https://img.icons8.com/color/48/000000/idea-sharing.png">
-                                @if ($idea->author->role=='student') <br><span class="small text-muted">Автор идеи - <a href="{{url('insider/users/'.$idea->author->id)}}">{{$idea->author->name}}</a></span> @endif
+                            <h3 class="card-title" style="line-height: 50px; font-weight: 200;">{{$idea->name}}
+                                &nbsp;<img src="https://img.icons8.com/color/48/000000/idea-sharing.png">
+                                @if ($idea->author->role=='student') <br><span class="small text-muted">Автор идеи - <a
+                                            href="{{url('insider/users/'.$idea->author->id)}}">{{$idea->author->name}}</a></span> @endif
                             </h3>
                         </div>
                         <div class="col">
@@ -42,9 +44,10 @@
                     <blockquote class="bd-callout bd-callout-info">
                         <p class="text-muted">{{$idea->short_description}}</p>
                     </blockquote>
+                    <div class="markdown">
 
-
-                    @parsedown($idea->description)
+                        @parsedown($idea->description)
+                    </div>
                 </div>
             </div>
 
