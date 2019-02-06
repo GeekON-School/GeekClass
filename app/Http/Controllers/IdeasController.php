@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CoinTransaction;
 use App\GlossaryRecord;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -92,6 +93,8 @@ class IdeasController extends Controller
         $idea->short_description = $request->short_description;
         $idea->author_id = $user->id;
         $idea->save();
+
+        CoinTransaction::register(Auth::User()->id, 3, "Idea #" . $idea->id);
 
         return redirect('/insider/ideas/' . $idea->id);
     }
