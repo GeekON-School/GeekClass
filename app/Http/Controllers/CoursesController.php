@@ -417,6 +417,14 @@ class CoursesController extends Controller
         $course->image = $request->image;
         $course->telegram = $request->telegram;
 
+        foreach ($course->teachers as $teacher) {
+        $course->teachers()->detach($teacher->id);
+    }
+        if ($request->teachers != null)
+            foreach ($request->teachers as $teacher_id) {
+                $course->teachers()->attach($teacher_id);
+            }
+
 
         if ($course->invite != $request->invite) {
             $this->validate($request, [

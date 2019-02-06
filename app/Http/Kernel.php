@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\HasAccessToCourse;
+use App\Http\Middleware\HasAccessToIdea;
 use App\Http\Middleware\HasAccessToProject;
 use App\Http\Middleware\HasAccessToStep;
 use App\Http\Middleware\HasAccessToTask;
@@ -73,6 +74,7 @@ class Kernel extends HttpKernel
         'course' => HasAccessToCourse::class,
         'task' => HasAccessToTask::class,
         'project' => HasAccessToProject::class,
+        'idea' => HasAccessToIdea::class,
         'self' => SelfAccess::class
 
     ];

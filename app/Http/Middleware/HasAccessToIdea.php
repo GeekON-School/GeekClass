@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use App\GlossaryRecord;
+use App\Project;
+use App\User;
+use Closure;
+use Illuminate\Support\Facades\Auth;
+
+class HasAccessToIdea
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string|null  $guard
+     * @return mixed
+     */
+    public function handle($request, Closure $next, $guard = null)
+    {
+        if (Auth::User()->role=='teacher') {
+            return $next($request);
+        }
+
+        if (Auth::User()->role=='student') {
+            $user = User::findOrFail(Auth::User()->id);
+            $idea = GlossaryRecord::findOrFail($request->id);
+
+            if ($idea->author->id == $user->id)
+            {
+                return $next($request);
+            }
+        }
+
+        return abort(403);
+
+    }
+}

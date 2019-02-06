@@ -93,6 +93,9 @@
                 <li class="nav-item {{(Request::is('insider/forum*') ? 'active' : '') }}">
                     <a class="nav-link" href="{{url('insider/forum')}}">Ответы</a>
                 </li>
+                <li class="nav-item {{(Request::is('insider/ideas*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/ideas')}}">Идеи</a>
+                </li>
                 <li class="nav-item {{(Request::is('insider/community*') ? 'active' : '') }}">
                     <a class="nav-link" href="{{url('insider/community')}}">Сообщество</a>
                 </li>

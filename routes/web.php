@@ -167,6 +167,16 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/projects/{id}/delete', 'ProjectsController@deleteProject');
     Route::get('/projects', 'ProjectsController@index');
 
+    Route::get('/ideas/create', 'IdeasController@createView');
+    Route::post('/ideas/create', 'IdeasController@create');
+    Route::get('/ideas/{id}', 'IdeasController@details');
+    Route::post('/idea/{id}/edit', 'IdeasController@edit');
+
+    Route::get('/ideas/{id}/edit', 'IdeasController@editView');
+    Route::post('/ideas/{id}/edit', 'IdeasController@edit');
+    Route::get('/ideas/{id}/delete', 'IdeasController@deleteIdea');
+    Route::get('/ideas', 'IdeasController@index');
+
     // forum
     Route::get('/forum', 'ForumController@index');
     Route::get('/forum/create', 'ForumController@createView');

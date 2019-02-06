@@ -25,23 +25,28 @@
         .alchemy text {
             display: block !important;
         }
+
         .alchemy g.active {
             opacity: 1;
         }
+
         g.use > circle {
             opacity: 1 !important;
             stroke: #fcff18 !important;
             stroke-opacity: 0.8;
             fill: green !important;
         }
+
         g.exists > circle {
             opacity: 0.8;
 
         }
+
         .alchemy > svg {
             background: white !important;
         }
-        g.exists >  text {
+
+        g.exists > text {
             fill: black;
             text-shadow: none;
         }
@@ -59,7 +64,7 @@
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a href="{{url('/')}}" class="navbar-brand" href="#"><img style="height: 35px;" src="{{url('images/hlogo.png')}}" /></a>
+    <a href="{{url('/')}}" class="navbar-brand" href="#"><img style="height: 35px;" src="{{url('images/hlogo.png')}}"/></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -72,6 +77,9 @@
             </li>
             <li class="nav-item {{(Request::is('insider/forum*') ? 'active' : '') }}">
                 <a class="nav-link" href="{{url('insider/forum')}}">Ответы</a>
+            </li>
+            <li class="nav-item {{(Request::is('insider/ideas*') ? 'active' : '') }}">
+                <a class="nav-link" href="{{url('insider/ideas')}}">Идеи</a>
             </li>
             <li class="nav-item {{(Request::is('insider/community*') ? 'active' : '') }}">
                 <a class="nav-link" href="{{url('insider/community')}}">Сообщество</a>
@@ -99,10 +107,13 @@
                     {{ Auth::user()->name }}</a>
 
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="{{url('insider/profile')}}"><i class="icon ion-person"></i> Профиль</a>
-                    <a class="dropdown-item" href="{{url('insider/core/'.\Auth::User()->id)}}"><i class="icon ion-map"></i> Карта</a>
+                    <a class="dropdown-item" href="{{url('insider/profile')}}"><i class="icon ion-person"></i>
+                        Профиль</a>
+                    <a class="dropdown-item" href="{{url('insider/core/'.\Auth::User()->id)}}"><i
+                                class="icon ion-map"></i> Карта</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="icon ion-reply"></i>Выход</a>
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                class="icon ion-reply"></i>Выход</a>
 
                 </div>
             </li>
@@ -111,14 +122,14 @@
 </nav>
 
 
-    @if(Session::has('alert-class') and Session::get('alert-destination')=='head')
-        <div class="alert {{ Session::get('alert-class') }} alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                        aria-hidden="true">&times;</span>
-            </button>
-            <strong>{{Session::get('alert-title')}}</strong> {{ Session::get('alert-text') }}
-        </div>
-    @endif
+@if(Session::has('alert-class') and Session::get('alert-destination')=='head')
+    <div class="alert {{ Session::get('alert-class') }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">&times;</span>
+        </button>
+        <strong>{{Session::get('alert-title')}}</strong> {{ Session::get('alert-text') }}
+    </div>
+@endif
 @yield('content')
 
 
