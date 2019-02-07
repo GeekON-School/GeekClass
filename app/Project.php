@@ -28,7 +28,7 @@ class Project extends Model
 
     public static function createProject($data)
     {
-        $project = Project::create(['name' => $data['name'], 'short_description' => $data['short_description'], 'description' => $data['description']]);
+        $project = Project::create(['name' => $data['name'], 'short_description' => clean($data['short_description']), 'description' => clean($data['description'])]);
 
         return $project;
     }
@@ -42,8 +42,8 @@ class Project extends Model
     {
 
         $this->name = $data['name'];
-        $this->short_description = $data['short_description'];
-        $this->description = $data['description'];
+        $this->short_description = clean($data['short_description']);
+        $this->description = clean($data['description']);
         $this->type = $data['type'];
         $this->url = $data['url'];
         $this->save();
