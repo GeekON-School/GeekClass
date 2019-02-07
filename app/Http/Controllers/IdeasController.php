@@ -9,7 +9,7 @@
 namespace App\Http\Controllers;
 
 use App\CoinTransaction;
-use App\GlossaryRecord;
+use App\Idea;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class IdeasController extends Controller
     public function index()
     {
         $user = User::findOrFail(Auth::User()->id);
-        $ideas = GlossaryRecord::where('type', 'idea')->get();
+        $ideas = Idea::all();
         $ideas = $ideas->groupBy(function ($item, $key) {
             return mb_substr($item->name, 0, 1);     //treats the name string as an array
         })->sortBy(function ($item, $key) {      //sorts A-Z at the top level
@@ -41,7 +41,7 @@ class IdeasController extends Controller
     public function details($id)
     {
         $user = User::findOrFail(Auth::User()->id);
-        $idea = GlossaryRecord::findOrFail($id);
+        $idea = Idea::findOrFail($id);
         $author = $idea->author();
         return view('ideas.details', compact('idea', 'user', 'author'));
     }
@@ -53,7 +53,7 @@ class IdeasController extends Controller
 
     public function editView($id)
     {
-        $idea = GlossaryRecord::findOrFail($id);
+        $idea = Idea::findOrFail($id);
         return view('ideas.edit', compact('idea'));
     }
 
@@ -67,10 +67,10 @@ class IdeasController extends Controller
         ]);
 
 
-        $idea = GlossaryRecord::findOrFail($id);
+        $idea = Idea::findOrFail($id);
         $idea->name = $request->name;
-        $idea->description = $request->description;
-        $idea->short_description = $request->short_description;
+        $idea->description = clean($request->description);
+        $idea->short_description = clean($request->short_description);
         $idea->save();
 
 
@@ -86,11 +86,10 @@ class IdeasController extends Controller
 
         ]);
         $user = User::findOrFail(Auth::User()->id);
-        $idea = new GlossaryRecord();
-        $idea->type = 'idea';
+        $idea = new Idea();
         $idea->name = $request->name;
-        $idea->description = $request->description;
-        $idea->short_description = $request->short_description;
+        $idea->description = clean($request->description);
+        $idea->short_description = clean($request->short_description);
         $idea->author_id = $user->id;
         $idea->save();
 
@@ -101,7 +100,7 @@ class IdeasController extends Controller
 
     public function delete($id)
     {
-        $idea = GlossaryRecord::findOrFail($id);
+        $idea = Idea::findOrFail($id);
         $idea->delete();
         return redirect('/insider/ideas/');
     }

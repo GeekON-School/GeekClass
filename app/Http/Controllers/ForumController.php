@@ -203,6 +203,7 @@ class ForumController extends Controller
         $user = User::findOrFail(Auth::User()->id);
 
         if ($post->user_id == $user->id) abort(503);
+        if (ForumVote::where('user_id', $user->id)->where('post_id', $id)->count() != 0) abort(503);
         $vote = new ForumVote();
         $vote->user_id = $user->id;
         $vote->mark = 1;
@@ -224,6 +225,7 @@ class ForumController extends Controller
         $user = User::findOrFail(Auth::User()->id);
 
         if ($post->user_id == $user->id) abort(503);
+        if (ForumVote::where('user_id', $user->id)->where('post_id', $id)->count() != 0) abort(503);
         $vote = new ForumVote();
         $vote->user_id = $user->id;
         $vote->mark = -1;

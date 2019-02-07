@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\GlossaryRecord;
+use App\Idea;
 use App\Project;
 use App\User;
 use Closure;
@@ -26,7 +26,7 @@ class HasAccessToIdea
 
         if (Auth::User()->role=='student') {
             $user = User::findOrFail(Auth::User()->id);
-            $idea = GlossaryRecord::findOrFail($request->id);
+            $idea = Idea::findOrFail($request->id);
 
             if ($idea->author->id == $user->id)
             {

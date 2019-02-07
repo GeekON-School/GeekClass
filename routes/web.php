@@ -174,7 +174,7 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
 
     Route::get('/ideas/{id}/edit', 'IdeasController@editView');
     Route::post('/ideas/{id}/edit', 'IdeasController@edit');
-    Route::get('/ideas/{id}/delete', 'IdeasController@deleteIdea');
+    Route::get('/ideas/{id}/delete', 'IdeasController@delete');
     Route::get('/ideas', 'IdeasController@index');
 
     // forum

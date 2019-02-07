@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GlossaryRecord extends Model
+class Idea extends Model
 {
     public function author()
     {
