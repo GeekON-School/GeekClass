@@ -23,6 +23,7 @@ class CoreController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('teacher')->only(['import_core']);
     }
 
     public function index($id)
@@ -30,8 +31,13 @@ class CoreController extends Controller
         return view('core.index', compact('id'));
     }
 
-    public function get_core($id)
+    public function get_core($id, Request $request)
     {
+        $version=1;
+        if ($request->has('version'))
+        {
+            $version = $request->version;
+        }
         $edges = CoreEdge::all();
         $user = User::findOrFail($id);
         foreach ($edges as $edge)
@@ -41,7 +47,7 @@ class CoreController extends Controller
             unset($edge->id);
         }
 
-        $nodes = CoreNode::all();
+        $nodes = CoreNode::where('version', $version)->get();
         foreach ($nodes as $node)
         {
             if ($user->checkPrerequisite($node))
@@ -60,7 +66,7 @@ class CoreController extends Controller
     }
 
     public function import_core_form() {
-       return "<form method='post'>".csrf_field()."<textarea name='data'></textarea><input type='submit'/></form>";
+       return "<form method='post'>".csrf_field()."<textarea name='data'></textarea><br>Версия:<input type='text' value='1' name='version'/> <input type='submit'/></form>";
     }
     public function import_core(Request $request)
     {
@@ -73,6 +79,7 @@ class CoreController extends Controller
             $record->cluster = $node->cluster;
             $record->level = $node->level;
             $record->is_root = $node->root;
+            $record->version = $request->version;
             $record->save();
         }
 
