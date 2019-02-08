@@ -57,6 +57,7 @@ class ProjectsController extends Controller
     public function edit($id, Request $request)
     {
 
+
         $this->validate($request, [
             'name' => 'required|string',
             'short_description' => 'required|string',
@@ -69,6 +70,8 @@ class ProjectsController extends Controller
 
 
         $project = Project::findOrFail($id);
+        $user  = User::findOrFail(Auth::User()->id);
+        if ($project->author->id != $user->id && !$project->Students->contains($user)) abort(503);
         $project->editProject($request);
 
 
@@ -89,6 +92,7 @@ class ProjectsController extends Controller
     public function deleteProject($id)
     {
         $project = Project::findOrFail($id);
+        if ($project->author->id == Auth::User()->id ) abort(503);
         $project->delete();
         return redirect('/insider/profile/');
     }
