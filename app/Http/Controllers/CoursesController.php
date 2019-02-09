@@ -457,6 +457,14 @@ class CoursesController extends Controller
                 $course->teachers()->attach($teacher_id);
             }
 
+        foreach ($course->students as $teacher) {
+            $course->students()->detach($teacher->id);
+        }
+        if ($request->students != null)
+            foreach ($request->students as $teacher_id) {
+                $course->students()->attach($teacher_id);
+            }
+
 
         if ($course->invite != $request->invite) {
             $this->validate($request, [

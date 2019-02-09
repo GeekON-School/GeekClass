@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="prerequisites" style="padding-bottom: 10px;">Учителя:</label><br>
+                    <label for="teachers" style="padding-bottom: 10px;">Учителя:</label><br>
                     <select class="selectpicker  form-control" data-live-search="true" id="teachers" name="teachers[]"  multiple  data-width="auto">
                         @foreach (\App\User::where('role', 'teacher')->get() as $teacher)
                             <option  data-tokens="{{ $teacher->id }}" value="{{ $teacher->id }}" >{{$teacher->name}}</option>
@@ -37,6 +37,19 @@
 
                     <script>
                         $('.selectpicker').selectpicker('val', [{{implode(',', $course->teachers->pluck('id')->toArray())}}]);
+                    </script>
+                </div>
+
+                <div class="form-group">
+                    <label for="students" style="padding-bottom: 10px;">Студенты:</label><br>
+                    <select class="selectpicker  form-control" data-live-search="true" id="students" name="students[]"  multiple  data-width="auto">
+                        @foreach (\App\User::all() as $student)
+                            <option  data-tokens="{{ $student->id }}" value="{{ $student->id }}" >{{$student->name}}</option>
+                        @endforeach
+                    </select>
+
+                    <script>
+                        $('.selectpicker').selectpicker('val', [{{implode(',', $course->students->pluck('id')->toArray())}}]);
                     </script>
                 </div>
 
