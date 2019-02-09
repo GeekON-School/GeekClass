@@ -26,25 +26,23 @@ class CoreController extends Controller
         $this->middleware('teacher')->only(['import_core']);
     }
 
-    public function index($id)
+    public function index($id, Request $request)
     {
-        return view('core.index', compact('id'));
+        $version = 1;
+        if ($request->has('version'))
+        {
+            $version = $request->version;
+        }
+        return view('core.index', compact('id', 'version'));
     }
 
     public function get_core($id, Request $request)
     {
         $version=1;
+        $user = User::findOrFail($id);
         if ($request->has('version'))
         {
             $version = $request->version;
-        }
-        $edges = CoreEdge::all();
-        $user = User::findOrFail($id);
-        foreach ($edges as $edge)
-        {
-            $edge->source = $edge->from_id;
-            $edge->target = $edge->to_id;
-            unset($edge->id);
         }
 
         $nodes = CoreNode::where('version', $version)->get();
@@ -61,6 +59,16 @@ class CoreController extends Controller
 
 
         }
+        $edges = CoreEdge::whereIn('from_id', $nodes->pluck('id'))->orWhereIn('to_id', $nodes->pluck('id'))->get();
+
+        foreach ($edges as $edge)
+        {
+            $edge->source = $edge->from_id;
+            $edge->target = $edge->to_id;
+            unset($edge->id);
+        }
+
+
         $result = ['nodes' => $nodes, 'edges' => $edges];
         return json_encode($result);
     }
@@ -71,6 +79,8 @@ class CoreController extends Controller
     public function import_core(Request $request)
     {
         $data = json_decode($request->data);
+
+        CoreNode::where('version', $request->version)->delete();
         foreach ($data->nodes as $node)
         {
             $record = new CoreNode();

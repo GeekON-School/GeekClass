@@ -174,127 +174,159 @@ class CoursesController extends Controller
         $user = User::with('solutions', 'solutions.task', 'solutions.task.consequences')->findOrFail(Auth::User()->id);
         $course = Course::with('program.lessons', 'students', 'students.submissions', 'teachers', 'program.steps', 'program.lessons.prerequisites', 'program.lessons.info')->findOrFail($id);
         $students = $course->students;
-        $marks = CompletedCourse::where('course_id', $id)->get();
 
-        if ($request->has('chapter')) {
-            $chapter = ProgramChapter::findOrFail($request->chapter);
-        } else {
-            if ($user->role == 'teacher') {
-                $chapter = $course->program->chapters->first();
+        if (!$course->is_sdl) {
+            $marks = CompletedCourse::where('course_id', $id)->get();
+
+            if ($request->has('chapter')) {
+                $chapter = ProgramChapter::findOrFail($request->chapter);
             } else {
-                $current_chapter = $course->program->chapters->first();
-                foreach ($course->program->chapters as $chapter) {
-                    $current_chapter = $chapter;
-                    if (!$chapter->isDone($course)) {
-                        break;
+                if ($user->role == 'teacher') {
+                    $chapter = $course->program->chapters->first();
+                } else {
+                    $current_chapter = $course->program->chapters->first();
+                    foreach ($course->program->chapters as $chapter) {
+                        $current_chapter = $chapter;
+                        if (!$chapter->isDone($course)) {
+                            break;
+                        }
                     }
+                    $chapter = $current_chapter;
                 }
-                $chapter = $current_chapter;
             }
-        }
 
 
-        $temp_steps = collect([]);
-        $all_steps = collect([]);
-        $lessons = $course->lessons->filter(function ($lesson) use ($course, $chapter) {
-            return $lesson->isStarted($course) and $lesson->chapter_id == $chapter->id;
-        });
-
-
-        foreach ($lessons as $lesson) {
-            $temp_steps = $temp_steps->merge($lesson->steps);
-        }
-        foreach ($course->lessons->filter(function($item) use ($course) {return $item->isStarted($course);}) as $lesson) {
-            $all_steps = $all_steps->merge($lesson->steps);
-        }
-
-        if ($course->state == 'started') {
-            /* count pulse */
-
-            $ids = $students->map(function ($item, $key) {
-                return $item->id;
-            })->values();
-
-            $steps_ids = $temp_steps->map(function ($item, $key) {
-                return $item->id;
-            })->values();
-
-
-            $records = ActionLog::where('created_at', '>', Carbon::now()->addWeeks(-2))->whereIn('user_id', $ids)->get()->filter(function ($item) use ($steps_ids, $course) {
-                return ($item->type == 'course' and $item->object_id == $course->id) or ($item->type == 'step' and $steps_ids->contains($item->object_id));
-            })->groupBy(function ($item) {
-                return $item->created_at->format('Y-m-d H:00:00');
-            })->map(function ($item) {
-                return $item->count();
+            $temp_steps = collect([]);
+            $all_steps = collect([]);
+            $lessons = $course->lessons->filter(function ($lesson) use ($course, $chapter) {
+                return $lesson->isStarted($course) and $lesson->chapter_id == $chapter->id;
             });
 
-            if ($records->count() != 0) {
-                $first_hour = Carbon::createFromFormat('Y-m-d H:00:00', $records->keys()[0]);
 
-                while ($first_hour->lt(Carbon::now())) {
-                    $first_hour->addHour();
-                    if (!$records->has($first_hour->format('Y-m-d H:00:00'))) {
-                        $records[$first_hour->format('Y-m-d H:00:00')] = 0;
-                    }
-                }
+            foreach ($lessons as $lesson) {
+                $temp_steps = $temp_steps->merge($lesson->steps);
+            }
+            foreach ($course->lessons->filter(function ($item) use ($course) {
+                return $item->isStarted($course);
+            }) as $lesson) {
+                $all_steps = $all_steps->merge($lesson->steps);
+            }
 
-                $records = $records->sortBy(function ($item, $key) {
-                    return Carbon::createFromFormat('Y-m-d H:00:00', $key);
+            if ($course->state == 'started') {
+                /* count pulse */
+
+                $ids = $students->map(function ($item, $key) {
+                    return $item->id;
+                })->values();
+
+                $steps_ids = $temp_steps->map(function ($item, $key) {
+                    return $item->id;
+                })->values();
+
+
+                $records = ActionLog::where('created_at', '>', Carbon::now()->addWeeks(-2))->whereIn('user_id', $ids)->get()->filter(function ($item) use ($steps_ids, $course) {
+                    return ($item->type == 'course' and $item->object_id == $course->id) or ($item->type == 'step' and $steps_ids->contains($item->object_id));
+                })->groupBy(function ($item) {
+                    return $item->created_at->format('Y-m-d H:00:00');
+                })->map(function ($item) {
+                    return $item->count();
                 });
 
-                $pulse_keys = '[\'' . implode('\', \'', $records->keys()->toArray()) . '\']';
-                $pulse_values = '[\'' . implode('\', \'', $records->values()->toArray()) . '\']';
+                if ($records->count() != 0) {
+                    $first_hour = Carbon::createFromFormat('Y-m-d H:00:00', $records->keys()[0]);
+
+                    while ($first_hour->lt(Carbon::now())) {
+                        $first_hour->addHour();
+                        if (!$records->has($first_hour->format('Y-m-d H:00:00'))) {
+                            $records[$first_hour->format('Y-m-d H:00:00')] = 0;
+                        }
+                    }
+
+                    $records = $records->sortBy(function ($item, $key) {
+                        return Carbon::createFromFormat('Y-m-d H:00:00', $key);
+                    });
+
+                    $pulse_keys = '[\'' . implode('\', \'', $records->keys()->toArray()) . '\']';
+                    $pulse_values = '[\'' . implode('\', \'', $records->values()->toArray()) . '\']';
+                } else {
+                    $pulse_keys = '[]';
+                    $pulse_values = '[]';
+                }
+
+
             } else {
                 $pulse_keys = '[]';
                 $pulse_values = '[]';
             }
 
 
-        } else {
-            $pulse_keys = '[]';
-            $pulse_values = '[]';
-        }
+            foreach ($students as $key => $value) {
+                $students[$key]->percent = 0;
+                $students[$key]->max_points = 0;
+                $students[$key]->points = 0;
+                foreach ($all_steps as $step) {
+                    if ($value->pivot->is_remote) {
+                        $tasks = $step->remote_tasks;
+                    } else {
+                        $tasks = $step->class_tasks;
+                    }
+
+                    foreach ($tasks as $task) {
+                        if (!$task->is_star) $students[$key]->max_points += $task->max_mark;
+                        $students[$key]->points += $value->submissions->where('task_id', $task->id)->max('mark');
+                    }
 
 
-        foreach ($students as $key => $value) {
-            $students[$key]->percent = 0;
-            $students[$key]->max_points = 0;
-            $students[$key]->points = 0;
-            foreach ($all_steps as $step) {
-                if ($value->pivot->is_remote) {
-                    $tasks = $step->remote_tasks;
-                } else {
-                    $tasks = $step->class_tasks;
                 }
-
-                foreach ($tasks as $task) {
-                    if (!$task->is_star) $students[$key]->max_points += $task->max_mark;
-                    $students[$key]->points += $value->submissions->where('task_id', $task->id)->max('mark');
+                if ($students[$key]->max_points != 0) {
+                    $students[$key]->percent = min(100, $students[$key]->points * 100 / $students[$key]->max_points);
                 }
-
-
             }
-            if ($students[$key]->max_points != 0) {
-                $students[$key]->percent = min(100, $students[$key]->points * 100 / $students[$key]->max_points);
+
+
+            if ($user->role == 'student') {
+                $lessons = $course->lessons->filter(function ($lesson) use ($course, $chapter) {
+                    return $lesson->isStarted($course) and $lesson->chapter_id == $chapter->id;
+                });
+
+                $steps = $temp_steps;
+                $cstudent = $students->filter(function ($value, $key) use ($user) {
+                    return $value->id == $user->id;
+                })->first();
+            } else {
+                $steps = $temp_steps;
+                $lessons = $course->lessons->where('chapter_id', $chapter->id);
             }
-        }
 
 
-        if ($user->role == 'student') {
-            $lessons = $course->lessons->filter(function ($lesson) use ($course, $chapter) {
-                return $lesson->isStarted($course) and $lesson->chapter_id == $chapter->id;
-            });
+            return view('courses.details', compact('chapter', 'course', 'user', 'steps', 'students', 'cstudent', 'lessons', 'marks', 'pulse_keys', 'pulse_values'));
 
-            $steps = $temp_steps;
-            $cstudent = $students->filter(function ($value, $key) use ($user) {
-                return $value->id == $user->id;
-            })->first();
         } else {
-            $steps = $temp_steps;
-            $lessons = $course->lessons->where('chapter_id', $chapter->id);
+            $marks = [];
+            $lessons = $course->user_sdl_lessons($user)->get();
+            //$available_lessons = Lesson::where('sdl_node_id', '!=', null)->where('is_sdl', true)->get();
+            $available_lessons = Lesson::getAvailableSdlLessons($user, $course);
+            return view('courses.sdl_details', compact('course', 'user', 'lessons', 'marks', 'students', 'available_lessons'));
         }
 
-        return view('courses.details', compact('chapter', 'course', 'user', 'steps', 'students', 'cstudent', 'lessons', 'marks', 'pulse_keys', 'pulse_values'));
+
+    }
+
+    public function addSdlLesson($id, Request $request)
+    {
+        $user = User::findOrFail(Auth::User()->id);
+        $course = Course::findOrFail($id);
+        $lesson = Lesson::findOrFail($request->lesson_id);
+
+        if (!$course->is_sdl) abort(422);
+        if ($lesson->sdl_node_id == null) abort(422);
+        if (!$course->students->contains($user) and !$course->teachers->contains($user)) {
+            abort(422);
+        }
+
+        $course->sdl_lessons()->attach($request->lesson_id, array('user_id' => $user->id));
+        return redirect('/insider/courses/' . $course->id);
+
     }
 
     public function assessments($id)
@@ -418,8 +450,8 @@ class CoursesController extends Controller
         $course->telegram = $request->telegram;
 
         foreach ($course->teachers as $teacher) {
-        $course->teachers()->detach($teacher->id);
-    }
+            $course->teachers()->detach($teacher->id);
+        }
         if ($request->teachers != null)
             foreach ($request->teachers as $teacher_id) {
                 $course->teachers()->attach($teacher_id);
@@ -463,27 +495,37 @@ class CoursesController extends Controller
         ]);
 
         $course = new Course();
-        if ($request->program != -1) {
+        if ($request->program >= 0) {
             $this->validate($request, ['program' => 'required|integer|exists:programs,id']);
             $course->program_id = $request->program;
         } else {
-            $program = new Program();
-            $program->name = $request->name;
-            $program->save();
+            if ($request->program == -1) {
+                $program = new Program();
+                $program->name = $request->name;
+                $program->save();
 
-            $course->program_id = $program->id;
+                $course->program_id = $program->id;
 
-            $order = 100;
-            if ($program->chapters->count() != 0)
-                $order = $program->chapters->last()->sort_index + 1;
+                $order = 100;
+                if ($program->chapters->count() != 0)
+                    $order = $program->chapters->last()->sort_index + 1;
 
-            $chapter = new ProgramChapter();
-            $chapter->name = $request->name;
-            $chapter->program_id = $program->id;
-            $chapter->sort_index = $order;
-            $chapter->description = $request->description;
+                $chapter = new ProgramChapter();
+                $chapter->name = $request->name;
+                $chapter->program_id = $program->id;
+                $chapter->sort_index = $order;
+                $chapter->description = $request->description;
 
-            $chapter->save();
+                $chapter->save();
+            } else if ($request->program == -2) {
+                $this->validate($request, ['sdl_version' => 'required|integer|exists:core_nodes,version']);
+                $course->is_sdl = true;
+                $course->sdl_core_version = $request->sdl_version;
+                $course->program_id = null;
+            } else {
+                abort(422);
+            }
+
         }
 
 
@@ -503,7 +545,6 @@ class CoursesController extends Controller
         }
         $course->provider_id = $user->provider_id;
         $course->save();
-
 
 
         return redirect('/insider/courses');

@@ -24,10 +24,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="prerequisites" style="padding-bottom: 10px;">Необходимые знания из <sup><small>Core</small></sup>:</label><br>
-                    <select class="selectpicker  form-control" data-live-search="true" id="prerequisites" name="prerequisites[]"  multiple  data-width="auto">
+                    <label for="prerequisites" style="padding-bottom: 10px;">Необходимые знания из <sup>
+                            <small>Core</small>
+                        </sup>:</label><br>
+                    <select class="selectpicker  form-control" data-live-search="true" id="prerequisites"
+                            name="prerequisites[]" multiple data-width="auto">
                         @foreach (\App\CoreNode::where('is_root', false)->where('version', 1)->get() as $node)
-                            <option  data-tokens="{{ $node->id }}" value="{{ $node->id }}" data-subtext="{{$node->getParentLine()}}" >{{$node->title}}</option>
+                            <option data-tokens="{{ $node->id }}" value="{{ $node->id }}"
+                                    data-subtext="{{$node->getParentLine()}}">{{$node->title}}</option>
                         @endforeach
                     </select>
 
@@ -60,13 +64,15 @@
                     @if (old('chapter')!="")
                         <select class="form-control" name="chapter">
                             @foreach($lesson->program->chapters as $chapter)
-                                <option value="{{$chapter->id}}" @if ($chapter->id==old('chapter')) selected @endif>{{$chapter->name}}</option>
+                                <option value="{{$chapter->id}}"
+                                        @if ($chapter->id==old('chapter')) selected @endif>{{$chapter->name}}</option>
                             @endforeach
                         </select>
                     @else
                         <select class="form-control" name="chapter">
                             @foreach($lesson->program->chapters as $chapter)
-                                <option value="{{$chapter->id}}" @if ($chapter->id==$lesson->chapter->id) selected @endif>{{$chapter->name}}</option>
+                                <option value="{{$chapter->id}}"
+                                        @if ($chapter->id==$lesson->chapter->id) selected @endif>{{$chapter->name}}</option>
                             @endforeach
                         </select>
                     @endif
@@ -99,7 +105,41 @@
 
                 <div class="form-check">
                     <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="open" value="yes" @if ($lesson->is_open) checked @endif>
+                        <input type="checkbox" class="form-check-input" name="is_sdl" value="yes"
+                               @if ($lesson->is_sdl) checked @endif>
+                        Доступно в SDL
+                    </label>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="sdl_node_id">Связанная вершина из Core для SDL</label>
+                    <select class="selectpicker form-control" data-live-search="true" id="sdl_node_id"
+                            name="sdl_node_id" data-width="auto">
+                        <option data-tokens="-1" value="-1">Недоступно в SDL курсах</option>
+                        @foreach (\App\CoreNode::where('is_root', false)->where('version', 2)->get() as $node)
+                            <option data-tokens="{{ $node->id }}" value="{{ $node->id }}">{{$node->title}}</option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('sdl_node_id'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('sdl_node_id') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+
+                <script>
+                    @if ($lesson->sdl_node_id != null)
+                    $('.selectpicker').selectpicker('val', '{{$lesson->sdl_node_id}}');
+                    @else
+                    $('.selectpicker').selectpicker();
+                    @endif
+                </script>
+
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="open" value="yes"
+                               @if ($lesson->is_open) checked @endif>
                         Сделать занятие открытым
                     </label>
                 </div>
@@ -115,9 +155,6 @@
                                     </span>
                     @endif
                 </div>
-
-
-
 
 
                 <button type="submit" class="btn btn-success">Сохранить</button>

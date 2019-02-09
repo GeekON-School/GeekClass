@@ -250,7 +250,7 @@ class TasksController extends Controller
         $task = Task::findOrFail($id);
         $student = User::findOrFail($student_id);
         $course = Course::findOrFail($course_id);
-        $solutions = $task->solutions->filter(function ($value) use ($student, $course_id) {
+        $solutions = $task->solutions->filter(function ($value) use ($student_id) {
             return $value->user_id == $student->id;
         });
         return view('steps.review', compact('task', 'student', 'solutions', 'course'));

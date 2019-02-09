@@ -111,50 +111,43 @@ class ProgramStep extends Model
         return $step;
     }
 
-    public function stats(User $student, Course $course)
+    public function stats(User $student)
     {
-        if (isset($this->results_cache[$course->id]) and isset($this->results_cache[$course->id][$student->id]))
+        if (isset($this->results_cache) and isset($this->results_cache[$student->id]))
         {
-            return $this->results_cache[$course->id][$student->id];
+            return $this->results_cache[$student->id];
         }
         $results = ['percent'=>0, 'points'=>0, 'max_points'=>0];
-        if ($course->students->contains($student))
+
+        $tasks = $this->class_tasks;
+        foreach ($tasks as $task)
         {
-            if ($student->pivot->is_remote)
-            {
-                $tasks = $this->remote_tasks;
-            }
-            else {
-                $tasks = $this->class_tasks;
-            }
-            foreach ($tasks as $task)
-            {
-                if (!$task->is_star) $results['max_points'] += $task->max_mark;
-                $results['points'] += $student->submissions()->where('task_id', $task->id)->max('mark');
-            }
-            if ($results['max_points'] != 0)
-            {
-                $results['percent'] = $results['points'] * 100 / $results['max_points'];
-            }
+            if (!$task->is_star) $results['max_points'] += $task->max_mark;
+            $results['points'] += $student->submissions()->where('task_id', $task->id)->max('mark');
         }
-        if (!isset($this->results_cache[$course->id]))
+        if ($results['max_points'] != 0)
         {
-            $this->results_cache[$course->id] = [];
+            $results['percent'] = $results['points'] * 100 / $results['max_points'];
         }
-        $this->results_cache[$course->id][$student->id] = $results;
+
+        if (!isset($this->results_cache))
+        {
+            $this->results_cache = [];
+        }
+        $this->results_cache[$student->id] = $results;
         return $results;
     }
-    public function percent(User $student, Course $course)
+    public function percent(User $student)
     {
-        return ($this->stats($student, $course))['percent'];
+        return ($this->stats($student))['percent'];
     }
-    public function points(User $student, Course $course)
+    public function points(User $student)
     {
-        return ($this->stats($student, $course))['points'];
+        return ($this->stats($student))['points'];
     }
-    public function max_points(User $student, Course $course)
+    public function max_points(User $student)
     {
-        return ($this->stats($student, $course))['max_points'];
+        return ($this->stats($student))['max_points'];
     }
 
 

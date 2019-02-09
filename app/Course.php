@@ -19,6 +19,16 @@ class Course extends Model
         'start_date', 'end_date'
     ];
 
+    public function sdl_lessons()
+    {
+        return $this->belongsToMany('App\Lesson', 'sdl_courses_users_lessons', 'course_id', 'lesson_id');
+    }
+
+    public function user_sdl_lessons($user)
+    {
+        return $this->sdl_lessons()->wherePivot('user_id', $user->id);
+    }
+
     public function students()
     {
         return $this->belongsToMany('App\User', 'course_students', 'course_id', 'user_id')->withPivot('is_remote')->orderBy('name');
@@ -90,7 +100,7 @@ class Course extends Model
     {
         $sum = 0;
         foreach ($this->steps as $step)
-            $sum += $step->max_points($student, $this);
+            $sum += $step->max_points($student);
         return $sum;
     }
 

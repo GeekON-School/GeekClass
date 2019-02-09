@@ -195,7 +195,7 @@
                                             @endforeach
                                         </p>
                                     </div>
-                                    @if ($user->role=='teacher' || $lesson->percent($cstudent, $course) > 90)
+                                    @if ($user->role=='teacher' || $lesson->percent($cstudent) > 90)
                                         <div class="col-sm-auto">
                                             <img src="{{url($lesson->sticker)}}" style="max-width: 200px;"/>
                                         </div>
@@ -216,34 +216,34 @@
                                                     </div>
                                                     <div class="col">
                                                         <div class="progress" style="margin: 5px;">
-                                                            @if ($lesson->percent($student, $course) < 40)
+                                                            @if ($lesson->percent($student) < 40)
                                                                 <div class="progress-bar progress-bar-striped bg-danger"
                                                                      role="progressbar"
-                                                                     style="width: {{$lesson->percent($student, $course)}}%"
-                                                                     aria-valuenow="{{$lesson->percent($student, $course)}}"
+                                                                     style="width: {{$lesson->percent($student)}}%"
+                                                                     aria-valuenow="{{$lesson->percent($student)}}"
                                                                      aria-valuemin="0"
-                                                                     aria-valuemax="100">{{$lesson->points($student, $course)}}
-                                                                    / {{$lesson->max_points($student, $course)}}</div>
+                                                                     aria-valuemax="100">{{$lesson->points($student)}}
+                                                                    / {{$lesson->max_points($student)}}</div>
 
-                                                            @elseif($lesson->percent($student, $course) < 60)
+                                                            @elseif($lesson->percent($student) < 60)
                                                                 <div class="progress-bar progress-bar-striped bg-warning"
                                                                      role="progressbar"
-                                                                     style="width: {{$lesson->percent($student, $course)}}%"
-                                                                     aria-valuenow="{{$lesson->percent($student, $course)}}"
+                                                                     style="width: {{$lesson->percent($student)}}%"
+                                                                     aria-valuenow="{{$lesson->percent($student)}}"
                                                                      aria-valuemin="0"
                                                                      aria-valuemax="100">
-                                                                    Успеваемость: {{$lesson->points($student, $course)}}
-                                                                    / {{$lesson->max_points($student, $course)}}</div>
+                                                                    Успеваемость: {{$lesson->points($student)}}
+                                                                    / {{$lesson->max_points($student)}}</div>
 
                                                             @else
                                                                 <div class="progress-bar progress-bar-striped bg-success"
                                                                      role="progressbar"
-                                                                     style="width: {{$lesson->percent($student, $course)}}%"
-                                                                     aria-valuenow="{{$lesson->percent($student, $course)}}"
+                                                                     style="width: {{$lesson->percent($student)}}%"
+                                                                     aria-valuenow="{{$lesson->percent($student)}}"
                                                                      aria-valuemin="0"
                                                                      aria-valuemax="100">
-                                                                    Успеваемость: {{$lesson->points($student, $course)}}
-                                                                    / {{$lesson->max_points($student, $course)}}</div>
+                                                                    Успеваемость: {{$lesson->points($student)}}
+                                                                    / {{$lesson->max_points($student)}}</div>
 
                                                             @endif
                                                         </div>
@@ -259,36 +259,36 @@
                                                 с {{$lesson->getStartDate($course)->format('Y-m-d')}}</small>
                                         </div>
                                         <div class="col">
-                                            @if ($user->role=='student' and $lesson->max_points($cstudent, $course)!=0 and $lesson->isAvailable($course))
+                                            @if ($user->role=='student' and $lesson->max_points($cstudent)!=0 and $lesson->isAvailable($course))
                                                 <div class="progress" style="margin: 5px;">
-                                                    @if ($lesson->percent($cstudent, $course) < 40)
+                                                    @if ($lesson->percent($cstudent) < 40)
                                                         <div class="progress-bar progress-bar-striped bg-danger"
                                                              role="progressbar"
-                                                             style="width: {{$lesson->percent($cstudent, $course)}}%"
-                                                             aria-valuenow="{{$lesson->percent($cstudent, $course)}}"
+                                                             style="width: {{$lesson->percent($cstudent)}}%"
+                                                             aria-valuenow="{{$lesson->percent($cstudent)}}"
                                                              aria-valuemin="0"
-                                                             aria-valuemax="100">{{$lesson->points($cstudent, $course)}}
-                                                            / {{$lesson->max_points($cstudent, $course)}}</div>
+                                                             aria-valuemax="100">{{$lesson->points($cstudent)}}
+                                                            / {{$lesson->max_points($cstudent)}}</div>
 
-                                                    @elseif($lesson->percent($cstudent, $course) < 60)
+                                                    @elseif($lesson->percent($cstudent) < 60)
                                                         <div class="progress-bar progress-bar-striped bg-warning"
                                                              role="progressbar"
-                                                             style="width: {{$lesson->percent($cstudent, $course)}}%"
-                                                             aria-valuenow="{{$lesson->percent($cstudent, $course)}}"
+                                                             style="width: {{$lesson->percent($cstudent)}}%"
+                                                             aria-valuenow="{{$lesson->percent($cstudent)}}"
                                                              aria-valuemin="0"
                                                              aria-valuemax="100">
-                                                            Успеваемость: {{$lesson->points($cstudent, $course)}}
-                                                            / {{$lesson->max_points($cstudent, $course)}}</div>
+                                                            Успеваемость: {{$lesson->points($cstudent)}}
+                                                            / {{$lesson->max_points($cstudent)}}</div>
 
                                                     @else
                                                         <div class="progress-bar progress-bar-striped bg-success"
                                                              role="progressbar"
-                                                             style="width: {{$lesson->percent($cstudent, $course)}}%"
-                                                             aria-valuenow="{{$lesson->percent($cstudent, $course)}}"
+                                                             style="width: {{$lesson->percent($cstudent)}}%"
+                                                             aria-valuenow="{{$lesson->percent($cstudent)}}"
                                                              aria-valuemin="0"
                                                              aria-valuemax="100">
-                                                            Успеваемость: {{$lesson->points($cstudent, $course)}}
-                                                            / {{$lesson->max_points($cstudent, $course)}}</div>
+                                                            Успеваемость: {{$lesson->points($cstudent)}}
+                                                            / {{$lesson->max_points($cstudent)}}</div>
 
                                                     @endif
                                                 </div>
@@ -299,9 +299,9 @@
                                             @if ($user->role=='teacher')
                                                 <small class="text-muted float-right" style="margin-right: 15px;">
                                                     @foreach($students as $student)
-                                                        @if ($lesson->percent($student, $course) < 40)
+                                                        @if ($lesson->percent($student) < 40)
                                                             <span class="badge badge-danger">&nbsp;</span>
-                                                        @elseif($lesson->percent($student, $course) < 60)
+                                                        @elseif($lesson->percent($student) < 60)
                                                             <span class="badge badge-warning">&nbsp;</span>
                                                         @else
                                                             <span class="badge badge-success">&nbsp;</span>
@@ -337,7 +337,7 @@
                                             % </span>
                                     @endif
                                     @if ($user->role=='student')
-                                        <span class="badge badge-primary"> {{ round($current_chapter->getStudentPercent($course, $user)) }}
+                                        <span class="badge badge-primary"> {{ round($current_chapter->getStudentPercent($user)) }}
                                             % </span>
                                     @endif
                                 </a>
@@ -376,7 +376,6 @@
                         @if ($user->role=='teacher')
                             <b>Статус:</b> {{$course->state}}<br/>
                             <b>Инвайт:</b> {{$course->invite}}<br/>
-                            <b>Дистанционно:</b> {{$course->remote_invite}}<br/>
 
                         @endif
                         @if ($course->git!=null)

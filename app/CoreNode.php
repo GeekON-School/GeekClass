@@ -21,7 +21,7 @@ class CoreNode extends Model
 
     public function children()
     {
-        return $this->belongsToMany('App\CoreNode', 'core_edges', "to_id", "from_id")->wherePivot('type', 'partOf');
+        return $this->belongsToMany('App\CoreNode', 'core_edges', "to_id", "from_id");
     }
 
     public function connections()
@@ -31,7 +31,7 @@ class CoreNode extends Model
 
     public function parents()
     {
-        return $this->belongsToMany('App\CoreNode', 'core_edges', "from_id", "to_id")->wherePivot('type', 'partOf');
+        return $this->belongsToMany('App\CoreNode', 'core_edges', "from_id", "to_id");
     }
 
     public function getCluster()

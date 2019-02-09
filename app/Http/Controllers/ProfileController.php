@@ -58,7 +58,7 @@ class ProfileController extends Controller
 
         foreach($user->courses as $course) {
             foreach($course->lessons as $lesson) {
-                if ($lesson->percent($course->students()->where('user_id', $user->id)->first(), $course)>90)
+                if ($lesson->percent($user)>90)
                 {
                     $stickers->push($lesson->sticker);
                     $sticker_description[$lesson->sticker] = $lesson->name;

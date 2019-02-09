@@ -10,7 +10,7 @@
         config = {
             directedEdges: true,
             fixRootNodes: true,
-            dataSource: "{{url('/insider/core/network/'.$id)}}",
+            dataSource: "{{url('/insider/core/network/'.$id.'?version='.$version)}}",
             nodeCaption: 'title',
             nodeClick: function (d) {
                 edges = alchemy.getEdges(d.id);

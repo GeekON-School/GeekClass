@@ -11,7 +11,7 @@
 |
 */
 Route::get('/home', function () {
-    if (\Illuminate\Support\Facades\Auth::check() ) {
+    if (\Illuminate\Support\Facades\Auth::check()) {
         return redirect('/insider');
     }
     return redirect('/login');
@@ -31,20 +31,20 @@ Route::get('/telegram-bot', function () {
 });
 
 Route::get('/', function () {
-    if (\Illuminate\Support\Facades\Auth::check() ) {
+    if (\Illuminate\Support\Facades\Auth::check()) {
         return redirect('/insider');
     }
     return redirect('/login');
 
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::prefix('open')->group(function () {
     Route::get('/steps/{id}', 'OpenStepsController@details');
 });
 
-Route::prefix('insider')->middleware(['auth'])->group(function () {
+Route::prefix('insider')->middleware(['auth', 'verified'])->group(function () {
 
     #TODO Check
     Route::get('/', function () {
@@ -92,6 +92,7 @@ Route::prefix('insider')->middleware(['auth'])->group(function () {
     Route::get('/courses/{id}/export', 'CoursesController@export');
     Route::get('/courses/{id}/chapter', 'CoursesController@createChapterView');
     Route::post('/courses/{id}/chapter', 'CoursesController@createChapter');
+    Route::get('/courses/{id}/add_sdl_lesson', 'CoursesController@addSdlLesson');
 
     Route::get('/courses/{course_id}/chapters/{chapter_id}/edit', 'CoursesController@editChapterView');
     Route::get('/courses/{course_id}/chapters/{chapter_id}/upper', 'CoursesController@makeChapterUpper');

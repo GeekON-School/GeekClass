@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use function foo\func;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -30,6 +31,11 @@ class Lesson extends Model
         return $this->belongsTo('App\ProgramChapter', 'chapter_id', 'id');
     }
 
+    public function sdl_node()
+    {
+        return $this->belongsTo('App\CoreNode', 'sdl_node_id', 'id');
+    }
+
     public function steps()
     {
         return $this->hasMany('App\ProgramStep', 'lesson_id', 'id')->with('tasks', 'tasks.consequences')->orderBy('sort_index')->orderBy('id');
@@ -54,28 +60,28 @@ class Lesson extends Model
         return $consequences->unique();
     }
 
-    public function percent(User $student, Course $course)
+    public function percent(User $student)
     {
-        $points = $this->points($student, $course);
-        $max_points = $this->max_points($student, $course);
+        $points = $this->points($student);
+        $max_points = $this->max_points($student);
         if ($max_points == 0) return 100;
         return $points * 100 / $max_points;
 
     }
 
-    public function points(User $student, Course $course)
+    public function points(User $student)
     {
         $sum = 0;
         foreach ($this->steps as $step)
-            $sum += $step->points($student, $course);
+            $sum += $step->points($student);
         return $sum;
     }
 
-    public function max_points(User $student, Course $course)
+    public function max_points(User $student)
     {
         $sum = 0;
         foreach ($this->steps as $step)
-            $sum += $step->max_points($student, $course);
+            $sum += $step->max_points($student);
         return $sum;
     }
 
@@ -198,13 +204,43 @@ class Lesson extends Model
 
                 $new_task->step_id = $new_step->id;
                 $new_task->save();
-                if ($task->consequences!=null)
+                if ($task->consequences != null)
                     foreach ($task->consequences as $consequence) {
                         $new_task->consequences()->attach($consequence->id);
                     }
             }
         }
         $this->save();
+    }
+
+    public static function getAvailableSdlLessons($user, Course $course)
+    {
+        $current_lessons = $course->user_sdl_lessons($user)->with('sdl_node', 'sdl_node.children')->get();
+        $version = $course->sdl_core_version;
+
+        $nodes = CoreNode::where('version', $version)->with('parents', 'children')->get();
+        $lessons = Lesson::whereIn('sdl_node_id', $nodes->pluck('id'))->with('sdl_node', 'sdl_node.children')->get();
+        $available_lessons = $lessons->filter(function ($lesson) use ($current_lessons) {
+            // TODO: fix children to parents
+            if ($lesson->sdl_node->children()->count() == 0 and !$current_lessons->contains($lesson)) return true;
+            return false;
+        });
+
+        $completed_nodes = collect([]);
+
+        foreach ($lessons as $lesson) {
+            if ($lesson->percent($user) > 90) {
+                $completed_nodes->push($lesson->sdl_node);
+            }
+        }
+
+        foreach ($lessons as $lesson) {
+            if ($current_lessons->contains($lesson)) continue;
+            if ($completed_nodes->pluck('id')->intersect($lesson->sdl_node->children->pluck('id'))->diff($lesson->sdl_node->children->pluck('id'))->count() != 0) continue;
+            $available_lessons->push($lesson);
+        }
+
+        return $available_lessons;
     }
 
 

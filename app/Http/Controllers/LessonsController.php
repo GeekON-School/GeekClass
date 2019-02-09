@@ -117,6 +117,26 @@ class LessonsController extends Controller
             $lesson->is_open = true;
         else
             $lesson->is_open = false;
+
+        if ($request->has('sdl_node_id'))
+        {
+            if ($request->sdl_node_id == -1)
+            {
+                $lesson->sdl_node_id = null;
+            }
+            else {
+                $this->validate($request, ['sdl_node_id' => 'nullable|exists:core_nodes,id']);
+                $lesson->sdl_node_id = $request->sdl_node_id;
+                if ($request->has('is_sdl'))
+                {
+                    $lesson->is_sdl = true;
+                }
+                else {
+                    $lesson->is_sdl = false;
+                }
+            }
+        }
+
         $lesson->save();
 
         if ($request->hasFile('import') && $request->file('import')->getClientMimeType() == 'application/json') {

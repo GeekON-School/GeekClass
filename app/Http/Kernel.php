@@ -75,7 +75,8 @@ class Kernel extends HttpKernel
         'task' => HasAccessToTask::class,
         'project' => HasAccessToProject::class,
         'idea' => HasAccessToIdea::class,
-        'self' => SelfAccess::class
+        'self' => SelfAccess::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
     ];
 }

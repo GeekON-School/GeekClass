@@ -766,14 +766,7 @@
                                 <label for="is_star">Дополнительное</label>
                                 <input type="checkbox" id="is_star" name="is_star" value="on"/>
                             </div>
-                            <div class="form-group">
-                                <label for="only_class">Только для очной формы</label>
-                                <input type="checkbox" id="only_class" name="only_class" value="on"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="only_remote">Только для заочной формы</label>
-                                <input type="checkbox" id="only_remote" name="only_remote" value="on"/>
-                            </div>
+
                             <div class="form-group">
                                 <label for="is_code">Автопроверка на Python</label>
                                 <input type="checkbox" id="is_code" name="is_code" value="on"/>

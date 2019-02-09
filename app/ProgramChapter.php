@@ -63,24 +63,20 @@ class ProgramChapter extends Model
         return $done * 100 / max($course->students->count(), 1);
     }
 
-    public function getStudentPercent($course, $student)
+    public function getStudentPercent($student)
     {
 
         $temp_steps = collect([]);
-        foreach ($this->lessons as $lesson)
-        {
+        foreach ($this->lessons as $lesson) {
             $temp_steps = $temp_steps->merge($lesson->steps);
         }
 
         $max_points = 0;
         $points = 0;
-        $student = $course->students()->where('id', $student->id)->first();
         foreach ($temp_steps as $step) {
-            if ($student->pivot->is_remote) {
-                $tasks = $step->remote_tasks;
-            } else {
-                $tasks = $step->class_tasks;
-            }
+
+            $tasks = $step->class_tasks;
+
 
             foreach ($tasks as $task) {
                 if (!$task->is_star) $max_points += $task->max_mark;
