@@ -44,7 +44,7 @@ class TasksController extends Controller
         $this->validate($request, [
             'text' => 'required|string',
             'name' => 'required|string',
-            'price' => 'numeric|min:0',
+            'price' => 'nullable|numeric|min:0',
             'max_mark' => 'required|integer|min:0|max:1000'
         ]);
 
@@ -58,6 +58,7 @@ class TasksController extends Controller
             'only_remote' => $request->only_remote == 'on' ? true : false,
             'only_class' => $request->only_class == 'on' ? true : false]);
         $task->solution = $request->solution;
+        if (!$request->has('price')) $request->price = 0;
         $task->price = $request->price;
 
         if ($request->has('answer') and $request->answer != "") {
@@ -97,7 +98,7 @@ class TasksController extends Controller
         $this->validate($request, [
             'text' => 'required|string',
             'name' => 'required|string',
-            'price' => 'numeric|min:0',
+            'price' => 'nullable|numeric|min:0',
             'max_mark' => 'required|integer|min:0|max:1000'
         ]);
 
@@ -112,6 +113,7 @@ class TasksController extends Controller
         $task->text = $request->text;
         $task->max_mark = $request->max_mark;
         $task->name = $request->name;
+        if (!$request->has('price')) $request->price = 0;
         $task->price = $request->price;
         $task->solution = $request->solution;
         if ($request->is_star == 'on') {
