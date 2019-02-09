@@ -77,6 +77,7 @@ class Kernel extends HttpKernel
         'idea' => HasAccessToIdea::class,
         'self' => SelfAccess::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
 
     ];
 }
