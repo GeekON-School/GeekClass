@@ -178,6 +178,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Parsedown\Providers\ParsedownServiceProvider::class,
         Mews\Purifier\PurifierServiceProvider::class,
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+
 
     ],
 
@@ -228,6 +230,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Purifier' => Mews\Purifier\Facades\Purifier::class,
+        'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
 
     ],
 
