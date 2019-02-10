@@ -82,7 +82,8 @@ class IdeasController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'short_description' => 'nullable|string',
-            'description' => 'required|string'
+            'description' => 'required|string',
+            'g-recaptcha-response' => 'required|captcha'
 
         ]);
         $user = User::findOrFail(Auth::User()->id);

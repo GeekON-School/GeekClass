@@ -81,7 +81,8 @@ class ProjectsController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'short_description' => 'required|string'
+            'short_description' => 'required|string',
+            'g-recaptcha-response' => 'required|captcha'
 
         ]);
         $user  = User::findOrFail(Auth::User()->id);
