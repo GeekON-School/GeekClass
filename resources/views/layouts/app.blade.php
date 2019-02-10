@@ -45,6 +45,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="{{url('js/jquery-ui.min.js')}}"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    {!! \NoCaptcha::renderJs() !!}
     <script>
         $(function () {
             $(".date").datepicker({
