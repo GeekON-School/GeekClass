@@ -77,6 +77,14 @@
                                     </span>
                                         @endif
                                     </div>
+                                    <div class="form-group">
+                                        {!! NoCaptcha::display() !!}
+                                        @if ($errors->has('g-recaptcha-response'))
+                                            <span class="help-block">
+                                            <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -146,7 +154,7 @@
 
                                         <span class="help-block text-muted">Ваше имя и фамилия.</span>
 
-                                    @if ($errors->has('name'))
+                                        @if ($errors->has('name'))
                                             <span class="help-block error-block"><strong>{{ $errors->first('name') }}</strong></span>
                                         @endif
                                     </div>
@@ -159,7 +167,7 @@
                                                value="{{old('birthday')}}" required>
                                         <span class="help-block text-muted"><strong>Это обязательное поле.</strong></span>
 
-                                    @if ($errors->has('birthday'))
+                                        @if ($errors->has('birthday'))
                                             <span class="help-block error-block">
                                         <strong>{{ $errors->first('birthday') }}</strong>
                                     </span>
@@ -175,7 +183,7 @@
                                         <span class="help-block text-muted">Например, "Гимназия 1576". <strong>Это обязательное поле.</strong></span>
 
 
-                                    @if ($errors->has('school'))
+                                        @if ($errors->has('school'))
                                             <span class="help-block error-block">
                                         <strong>{{ $errors->first('school') }}</strong>
                                     </span>
@@ -190,7 +198,7 @@
                                                required>
                                         <span class="help-block text-muted">Ваш текущий класс, если сейчас лето, то класс в который вы переходите. <strong>Это обязательное поле.</strong></span>
 
-                                    @if ($errors->has('grade'))
+                                        @if ($errors->has('grade'))
                                             <span class="help-block error-block">
                                         <strong>{{ $errors->first('grade') }}</strong>
                                     </span>
@@ -204,7 +212,7 @@
                                                   name="interests">{{old('interests')}}</textarea>
                                         <span class="help-block text-muted">Все направления, предметы и технологии, которые вам могут быть интересны. Например, "Нейронные сети и блокчейн, разработка мобильных приложений на React Native". <strong>Это обязательное поле.</strong></span>
 
-                                    @if ($errors->has('interests'))
+                                        @if ($errors->has('interests'))
                                             <span class="help-block error-block"><strong>{{ $errors->first('interests') }}</strong></span>
                                         @endif
                                     </div>
@@ -215,7 +223,7 @@
                                                   name="hobbies">{{old('hobbies')}}</textarea>
                                         <span class="help-block text-muted">Все, чем вы интересуетесь помимо учебы и работы. Например, "катание на лошадях и игра на гитаре". <strong>Это обязательное поле.</strong></span>
 
-                                    @if ($errors->has('hobbies'))
+                                        @if ($errors->has('hobbies'))
                                             <span class="help-block error-block">
                                         <strong>{{ $errors->first('hobbies') }}</strong>
                                     </span>

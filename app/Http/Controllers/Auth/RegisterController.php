@@ -61,7 +61,8 @@ class RegisterController extends Controller
             'birthday' => 'required|date|date_format:Y-m-d',
             'hobbies' => 'required|string',
             'interests' => 'required|string',
-            'image' => 'image|max:1000'
+            'image' => 'image|max:1000',
+            'g-recaptcha-response' => 'required|captcha'
         ]);
     }
 
