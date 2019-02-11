@@ -15,6 +15,11 @@
         {{ csrf_field() }}
 
         <div class="col-md-12">
+            @if (!$idea->is_approved and $user->id == $idea->author->id)
+                <div class="alert alert-warning" role="alert">
+                    Ваша идея ожидает утверждения. Скоро один из преподавателей ознакомится с ней, утвердит ее или предложит доработки.
+                </div>
+            @endif
             <div class="card">
 
                 <div class="card-body">
@@ -22,14 +27,24 @@
                         <div class="col col-md-auto">
                             <h3 class="card-title" style="line-height: 50px; font-weight: 200;">{{$idea->name}}
                                 &nbsp;<img src="https://img.icons8.com/color/48/000000/idea-sharing.png">
-                                @if ($idea->author->role=='student') <br><span class="small text-muted">Автор идеи - <a
-                                            href="{{url('insider/users/'.$idea->author->id)}}">{{$idea->author->name}}</a></span> @endif
                             </h3>
+
+                            @if ($idea->is_approved) <p class="text-muted">
+                                Автор идеи - <a
+                                        href="{{url('insider/profile/'.$idea->author->id)}}">{{$idea->author->name}}</a>
+                            </h4> @endif
+
                         </div>
                         <div class="col">
 
-                            @if ($user->role=='teacher'|| $user->id == $idea->author->id)
+                            @if ($user->role=='teacher'|| ($user->id == $idea->author->id && !$idea->is_approved))
                                 <div class="float-right">
+                                    @if ($user->role=='teacher' and !$idea->is_approved)
+                                        <a href="{{url('/insider/ideas/'.$idea->id.'/approve')}}"
+                                           class="btn btn-primary btn-sm">Утвердить</a>
+                                        <a href="{{url('/insider/ideas/'.$idea->id.'/decline')}}"
+                                           class="btn btn-warning btn-sm">Попросить доработать</a>
+                                    @endif
                                     <a href="{{url('/insider/ideas/'.$idea->id.'/edit')}}"
                                        class="btn btn-success btn-sm"><i class="icon ion-android-create"></i></a>
                                     <a href="{{url('/insider/ideas/'.$idea->id.'/delete')}}"

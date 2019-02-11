@@ -28,7 +28,7 @@ class HasAccessToIdea
             $user = User::findOrFail(Auth::User()->id);
             $idea = Idea::findOrFail($request->id);
 
-            if ($idea->author->id == $user->id)
+            if ($idea->author->id == $user->id and !$idea->is_approved)
             {
                 return $next($request);
             }

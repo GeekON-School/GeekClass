@@ -171,7 +171,8 @@ Route::prefix('insider')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/ideas/create', 'IdeasController@createView');
     Route::post('/ideas/create', 'IdeasController@create');
     Route::get('/ideas/{id}', 'IdeasController@details');
-    Route::post('/idea/{id}/edit', 'IdeasController@edit');
+    Route::get('/ideas/{id}/approve', 'IdeasController@approve');
+    Route::get('/ideas/{id}/decline', 'IdeasController@decline');
 
     Route::get('/ideas/{id}/edit', 'IdeasController@editView');
     Route::post('/ideas/{id}/edit', 'IdeasController@edit');
