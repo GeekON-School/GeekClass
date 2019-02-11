@@ -142,7 +142,7 @@ class IdeasController extends Controller
         $when = Carbon::now()->addSeconds(1);
         $idea->author->notify((new IdeaApproved($idea))->delay($when));
 
-        CoinTransaction::register($idea->author->id, 3, "Idea #" . $idea->id);
+        CoinTransaction::register($idea->author->id, 5, "Idea #" . $idea->id);
         return redirect('/insider/ideas/');
     }
 
@@ -153,7 +153,6 @@ class IdeasController extends Controller
         $when = Carbon::now()->addSeconds(1);
         $idea->author->notify((new IdeaDeclined($idea))->delay($when));
 
-        CoinTransaction::register($idea->author->id, 3, "Idea #" . $idea->id);
         return redirect('/insider/ideas/');
     }
 }
