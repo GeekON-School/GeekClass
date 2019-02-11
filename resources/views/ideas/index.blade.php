@@ -81,7 +81,7 @@
                     <div class="card-columns" style="-webkit-column-count:2;-moz-column-count:2;column-count:2;">
                         @foreach($draft_ideas as $letter => $list)
 
-                            <div class="card" style="width: 50%;">
+                            <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">{{$letter}} </h5>
                                     <ul>

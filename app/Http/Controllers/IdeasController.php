@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 use App\CoinTransaction;
+use App\CoreNode;
 use App\Idea;
 use App\Http\Controllers\Controller;
 use App\Notifications\IdeaApproved;
@@ -80,13 +81,18 @@ class IdeasController extends Controller
             'name' => 'required|string',
             'short_description' => 'nullable|string',
             'description' => 'required|string',
+            'sdl_node_id' => 'nullable|exists:core_nodes,id'
         ]);
-
+        $user = User::findOrFail(Auth::User()->id);
 
         $idea = Idea::findOrFail($id);
         $idea->name = $request->name;
         $idea->description = clean($request->description);
         $idea->short_description = clean($request->short_description);
+        if ($user->role != 'student' and $request->has('sdl_node_id'))
+        {
+            $idea->sdl_node_id = $request->sdl_node_id;
+        }
         $idea->save();
 
 

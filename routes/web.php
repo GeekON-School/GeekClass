@@ -216,6 +216,7 @@ Route::prefix('insider')->middleware(['auth', 'verified'])->group(function () {
     Route::post('/events/{id}', 'EventController@add_comment');
 
     Route::get('/core/{id}', 'CoreController@index');
+    Route::get('/core/{id}/node/{node_id}', 'CoreController@subcore');
     Route::get('/core/network/{id}', 'CoreController@get_core');
     Route::get('/core/import', 'CoreController@import_core_form');
     Route::post('/core/import', 'CoreController@import_core');
