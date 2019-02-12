@@ -1,6 +1,6 @@
 
 
-@if (@env('RECAPTCHA_ENABLE'))
+@if (config('app.enable_recaptcha'))
   {!! \NoCaptcha::display() !!}
   @if ($errors->has('g-recaptcha-response'))
       <span class="help-block">

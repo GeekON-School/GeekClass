@@ -27,6 +27,9 @@ return [
 
     'env' => env('APP_ENV', 'development'),
 
+    'enable_recaptcha' => env('RECAPTCHA_ENABLE', true),
+    'enable_email_verification' => env('EMAIL_VERIF_ENABLE', true),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

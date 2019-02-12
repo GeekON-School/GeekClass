@@ -7,7 +7,7 @@ class EmailVerify
     private $isEnabled;
     public function __construct()
     {
-        $this->isEnabled = env('EMAIL_VERIF_ENABLE');
+        $this->isEnabled = config('app.enable_email_verification');
     }
 
     public function getDate()

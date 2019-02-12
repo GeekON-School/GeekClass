@@ -7,7 +7,7 @@ class Recaptcha
   private $isEnabled;
   public function __construct()
   {
-    $this->isEnabled = env('RECAPTCHA_ENABLE');
+    $this->isEnabled = config('app.enable_recaptcha');
   }
 
   public function getValidationString()
