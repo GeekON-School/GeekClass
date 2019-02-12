@@ -24,7 +24,7 @@
                                 <div class="text-center">
                                     <h4><b>{{$event->name}}, ({{$event->type}})</b></h4>
                                 </div>
-                                <div onclick="toggleLike({{$event->id}}, $(this));" style="cursor: pointer;" data-liked="{{$event->hasLiked(Auth::id()) ? 'true' : 'false'}}">
+                                <div onclick="toggleLike({{$event->id}}, $(this));" style="cursor: pointer;" data-liked="{{$event->hasLiked(Auth::id()) ? 'true' : 'false'}}" data-likes="{{$event->userLikes()->count()}}">
                                     @if($event->hasLiked(Auth::User()->id))
                  
                                             <img src="https://png.icons8.com/color/50/000000/hearts.png" width="35px"></a>
@@ -83,36 +83,26 @@
         </div>
         <script>
         function dislike(id, el) {
+            el.attr('data-likes', parseInt(el.attr('data-likes')) - 1);
+
             el.children('img').attr('src', 'https://png.icons8.com/ios/50/000000/hearts.png');
             $.ajax({
                 url: '/insider/events/'+id+'/dislike_from_events',
-                async: false
             });
-            $.ajax({
-                url: 'http://localhost:8050/insider/events/'+id+'/api',
-                success: function(result)
-                {
-                    var json = JSON.parse(result);
-                    console.log(json.likes)
-                    el.children('.likes1').html(json['likes']);
-                }
-            })
+            el.children('.likes1').html(el.attr('data-likes'));
+
         }
         function like(id, el) {
+            el.attr('data-likes', parseInt(el.attr('data-likes')) + 1);
+
             el.children('img').attr('src', 'https://png.icons8.com/color/50/000000/hearts.png');
 
             $.ajax({
                 url: '/insider/events/'+id+'/like_from_events',
-                async: false
             });
-            $.ajax({
-                url: 'http://localhost:8050/insider/events/'+id+'/api',
-                success: function(result)
-                {
-                    var json = JSON.parse(result);
-                    el.children('.likes1').html(json['likes']);
-                }
-            })
+
+            el.children('.likes1').html(el.attr('data-likes'));
+
         }
         function toggleLike(id, el)
         {
