@@ -13,13 +13,14 @@
             </div>
 
             <div class="float-right">
+                @if($event->isOwner(Auth::User()->id))
                 <form class="form-inline" method="GET" action="{{url('insider/events/'.$event->id.'/add_org')}}">
                     {{csrf_field()}}
                     <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0"
                            name="name" placeholder="Имя организатора">
-
-                        <input type="submit" value="Добавить" class="btn btn-success btn-sm">
-                    </form>
+                    <input type="submit" value="Добавить" class="btn btn-success btn-sm">
+                </form>
+                @endif
                 </div>
             </div>
         </div>

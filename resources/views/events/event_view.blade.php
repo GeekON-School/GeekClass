@@ -18,24 +18,23 @@
         <div class="row" style = "margin-top: 10px">
             <div class="col-md-8">
             @foreach($events as $event)
-                {{'wooho'}}
                     <div class="card-group">
-                        <div class="card" style="border: 1px solid grey">
-                            <div class="card-footer">
-                                <div class="text-center" style="margin-bottom: -33px">
+                        <div class="card" style="border: none;">
+                            <div class="row" style="display: flex; justify-content: space-between;">
+                                <div class="text-center">
                                     <h4><b>{{$event->name}}, ({{$event->type}})</b></h4>
                                 </div>
-                                <div class="float-left">
+                                <div onclick="toggleLike({{$event->id}}, $(this));" style="cursor: pointer;" data-liked="{{$event->hasLiked(Auth::id()) ? 'true' : 'false'}}">
                                     @if($event->hasLiked(Auth::User()->id))
-                                        <a href={{"/insider/events/$event->id/dislike_from_events"}}>
+                 
                                             <img src="https://png.icons8.com/color/50/000000/hearts.png" width="35px"></a>
                                     @else
-                                        <a href={{"/insider/events/$event->id/like_from_events"}}>
+                                        
                                             <img src="https://png.icons8.com/ios/50/000000/hearts.png" width="35px"></a>
                                     @endif
-                                    {{count($event->userLikes)}}
+                                    <span class="likes1">{{count($event->userLikes)}}</span>
                                 </div>
-                                <div class="float-right" style="margin-right:15px">
+                                <div style="margin-right:15px">
                                     <b>{{$event->date}}</b>
                                 </div>
                             </div>
@@ -82,4 +81,52 @@
                 </div>
             </div>
         </div>
+        <script>
+        function dislike(id, el) {
+            el.children('img').attr('src', 'https://png.icons8.com/ios/50/000000/hearts.png');
+            $.ajax({
+                url: '/insider/events/'+id+'/dislike_from_events',
+                async: false
+            });
+            $.ajax({
+                url: 'http://localhost:8050/insider/events/'+id+'/api',
+                success: function(result)
+                {
+                    var json = JSON.parse(result);
+                    console.log(json.likes)
+                    el.children('.likes1').html(json['likes']);
+                }
+            })
+        }
+        function like(id, el) {
+            el.children('img').attr('src', 'https://png.icons8.com/color/50/000000/hearts.png');
+
+            $.ajax({
+                url: '/insider/events/'+id+'/like_from_events',
+                async: false
+            });
+            $.ajax({
+                url: 'http://localhost:8050/insider/events/'+id+'/api',
+                success: function(result)
+                {
+                    var json = JSON.parse(result);
+                    el.children('.likes1').html(json['likes']);
+                }
+            })
+        }
+        function toggleLike(id, el)
+        {
+            if (el.attr('data-liked') == 'true')
+            {
+                dislike(id, el);
+                el.attr('data-liked', 'false');
+            }
+            else
+            {
+                like(id, el);
+                el.attr('data-liked', 'true');
+            }
+
+        }
+    </script>
 @endsection
