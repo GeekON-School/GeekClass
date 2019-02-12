@@ -21,7 +21,7 @@
                                 <div class="text-center">
                                     <h4><b>{{$event->name}}, ({{$event->type}})</b></h4>
                                 </div>
-                                <div onclick="toggleLike({{$event->id}}, $(this));" style="cursor: pointer;" data-liked="{{$event->hasLiked(Auth::id()) ? 'true' : 'false'}}">
+                                <div onclick="toggleLike({{$event->id}}, $(this));" style="cursor: pointer;" data-liked="{{$event->hasLiked(Auth::id()) ? 'true' : 'false'}}" data-likes="{{$event->userLikes()->count()}}">
                                     @if($event->hasLiked(Auth::User()->id))
                  
                                             <img src="https://png.icons8.com/color/50/000000/hearts.png" width="35px"></a>
