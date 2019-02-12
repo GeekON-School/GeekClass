@@ -299,7 +299,7 @@ class CoursesController extends Controller
             }
 
 
-            return view('courses.details', compact('chapter', 'course', 'user', 'steps', 'students', 'lessons', 'marks', 'pulse_keys', 'pulse_values'));
+            return view('courses.details', compact('chapter', 'course', 'user', 'steps', 'students', 'cstudent', 'lessons', 'marks', 'pulse_keys', 'pulse_values'));
 
         } else {
             $marks = [];
