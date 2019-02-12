@@ -73,6 +73,55 @@ class CoreController extends Controller
         return json_encode($result);
     }
 
+    public function subcore($id, $node_id, Request $request)
+    {
+        $version=1;
+        $user = User::findOrFail($id);
+        $node = CoreNode::findOrFail($node_id);
+        $nodes = collect([]);
+        $nodes->push($node);
+
+        $nodes_to_look = $node->children;
+
+        while ($nodes_to_look->count() != 0)
+        {
+            $current_node = $nodes_to_look->pop();
+            $nodes->push($current_node);
+
+            foreach ($current_node->children as $child)
+            {
+                if ($nodes->contains($child) or $nodes_to_look->contains($child)) continue;
+                $nodes_to_look->push($child);
+            }
+        }
+
+        foreach ($nodes as $node)
+        {
+            if ($user->checkPrerequisite($node))
+            {
+                $node->nodeType='use';
+            }
+            else {
+                $node->nodeType='exists';
+            }
+            $node->root = $node->is_root;
+
+
+        }
+        $edges = CoreEdge::whereIn('from_id', $nodes->pluck('id'))->orWhereIn('to_id', $nodes->pluck('id'))->get();
+
+        foreach ($edges as $edge)
+        {
+            $edge->source = $edge->from_id;
+            $edge->target = $edge->to_id;
+            unset($edge->id);
+        }
+
+
+        $result = ['nodes' => $nodes, 'edges' => $edges];
+        return json_encode($result);
+    }
+
     public function import_core_form() {
        return "<form method='post'>".csrf_field()."<textarea name='data'></textarea><br>Версия:<input type='text' value='1' name='version'/> <input type='submit'/></form>";
     }

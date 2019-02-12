@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    GeekClass: Изменение проекта "{{$idea->name}}"
+    GeekClass: Изменение идеи "{{$idea->name}}"
 @endsection
 
 @section('content')
@@ -48,6 +48,32 @@
                     @endif
                 </div>
 
+                @if ($user->role != 'student')
+                    <hr />
+                    <div class="form-group">
+                        <label for="sdl_node_id">Связанная вершина из Core</label>
+                        <select class="selectpicker form-control" data-live-search="true" id="sdl_node_id"
+                                name="sdl_node_id" data-width="auto">
+                            <option data-tokens="-1" value="-1">Нет</option>
+                            @foreach (\App\CoreNode::where('is_root', false)->get() as $node)
+                                <option data-tokens="{{ $node->id }}" value="{{ $node->id }}" data-subtext="Версия Core - {{$node->version}}">{{$node->title}}</option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('sdl_node_id'))
+                            <span class="help-block error-block">
+                                        <strong>{{ $errors->first('sdl_node_id') }}</strong>
+                                    </span>
+                        @endif
+                    </div>
+
+                    <script>
+                        @if ($idea->sdl_node_id != null)
+                        $('.selectpicker').selectpicker('val', '{{$idea->sdl_node_id}}');
+                        @else
+                        $('.selectpicker').selectpicker();
+                        @endif
+                    </script>
+                @endif
 
 
                 <button type="submit" class="btn btn-success">Сохранить</button>

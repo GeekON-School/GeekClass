@@ -32,6 +32,9 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Описание</label>
+                    <p class="text-muted">Опишите идею максимально подробно, по возможности, приведите картинки или собственные зарисовки. Обязательно укажите, что нужно <strong>знать</strong>, чтобы реализовать проект (например, <i>списки в питоне</i> или <i>реверс-инжиниринг</i>), добавьте ссылки на учебные материалы.<br> Для разметки текста используется <b>markdown</b>, описание - <a target="_blank"
+                                                                                       href="https://simplemde.com/markdown-guide">тут</a>, кроме этого можно использовать некоторые html тэги, например, таблицы.
+                    </p>
                     <textarea id="description"  class="form-control"  name="description">{{old('description')}}</textarea>
                     @if ($errors->has('description'))
                         <span class="help-block error-block">
