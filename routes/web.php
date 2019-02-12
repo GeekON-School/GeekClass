@@ -44,7 +44,7 @@ Route::prefix('open')->group(function () {
     Route::get('/steps/{id}', 'OpenStepsController@details');
 });
 
-Route::prefix('insider')->middleware(['auth', 'verified'])->group(function () {
+Route::prefix('insider')->middleware('verified')->group(function () {
 
     #TODO Check
     Route::get('/', function () {

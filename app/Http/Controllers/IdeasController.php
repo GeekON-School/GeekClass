@@ -83,7 +83,7 @@ class IdeasController extends Controller
             'name' => 'required|string',
             'short_description' => 'nullable|string',
             'description' => 'required|string',
-            'g-recaptcha-response' => 'required|captcha'
+            'g-recaptcha-response' => app('App\Services\Recaptcha')->getValidationString()
 
         ]);
         $user = User::findOrFail(Auth::User()->id);

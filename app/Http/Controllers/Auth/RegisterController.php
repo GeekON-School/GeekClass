@@ -62,7 +62,7 @@ class RegisterController extends Controller
             'hobbies' => 'required|string',
             'interests' => 'required|string',
             'image' => 'image|max:1000',
-            'g-recaptcha-response' => 'required|captcha'
+            'g-recaptcha-response' => app('App\Services\Recaptcha')->getValidationString()
         ]);
     }
 
@@ -80,6 +80,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'email_verified_at' => app('\App\Services\EmailVerify')->getDate()
         ]);
         $user->vk = $data->vk;
         $user->git = $data->git;

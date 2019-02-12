@@ -36,6 +36,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        //Recaptcha service
+        app()->singleton('App\Services\Recaptcha', function () {
+            return new \App\Services\Recaptcha();
+        });
+        app()->singleton('App\Services\EmailVerify', function () {
+            return new \App\Services\EmailVerify();
+        });
     }
 }

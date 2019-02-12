@@ -13,7 +13,6 @@
             </div>
 
             <div class="float-right">
-                @if($event->userOrgs->contains(Auth::User()->id) && \Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now()))
                 <form class="form-inline" method="GET" action="{{url('insider/events/'.$event->id.'/add_org')}}">
                     {{csrf_field()}}
                     <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0"
@@ -21,7 +20,6 @@
 
                         <input type="submit" value="Добавить" class="btn btn-success btn-sm">
                     </form>
-                    @endif
                 </div>
             </div>
         </div>
@@ -42,21 +40,18 @@
                             <div class="row">
                                 <div class="col">
                                     <div style="margin: 5px;">
-                                        @if($event->userPartis->contains(Auth::User()->id) && \Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now()))
                                             <a role="button" class="btn btn-danger" href={{"/insider/events/$event->id/left"}}>Я не иду</a>
-                                        @elseif($event->max_people == count($event->userPartis) && ($event->max_people != null) && \Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now()))
-                                            <button role="button" class="btn btn-secondary">Я иду!</button>
-                                        @elseif(\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now()))
                                             <a role="button" class="btn btn-primary" href={{"/insider/events/$event->id/go"}}>Я иду!</a>
-                                        @endif
                                         <div class="float-right">
                                             <h3>
-                                            @if($event->userLikes->contains(Auth::User()->id))
+                                            @if ($event->hasLiked(Auth::User()->id))
+
                                                 <a href={{"/insider/events/$event->id/dislike"}}>
                                                     <img src="https://png.icons8.com/color/50/000000/hearts.png" width="35px"></a>
                                             @else
                                                 <a href={{"/insider/events/$event->id/like"}}>
                                                     <img src="https://png.icons8.com/ios/50/000000/hearts.png" width="35px"></a>
+
                                             @endif
                                             {{count($event->userLikes)}}</h3>
                                         </div>
@@ -91,7 +86,6 @@
                         </div>
                     @endif
                 @endforeach
-                @if(\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now()))
                 <div>
                     <form method="POST" action="{{url('insider/events/'.$event->id)}}">
                         {{csrf_field()}}
@@ -99,7 +93,6 @@
                         <input role="button" class="btn btn-success" value="Отправить комментарий" type="submit"/>
                     </form>
                 </div>
-                    @endif
             </div>
             <div class="col-md-4">
                 <div class="card">
@@ -152,9 +145,7 @@
                         </p>
                     </div>
                 </div>
-                @if($event->userOrgs->contains(Auth::User()->id) && \Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now()))
                 <a role = "buttton" class="btn btn-success" href="{{url('insider/events/'.$event->id.'/edit')}}">Редактировать</a>
-                @endif
             </div>
 
         </div>

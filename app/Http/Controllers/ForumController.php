@@ -124,11 +124,12 @@ class ForumController extends Controller
 
     public function createThread(Request $request)
     {
+
         $this->validate($request, [
             'name' => 'required|string',
             'text' => 'required|string',
             'tags' => 'required|string',
-            'g-recaptcha-response' => 'required|captcha'
+            'g-recaptcha-response' => app('App\Services\Recaptcha')->getValidationString()
 
         ]);
         $user = User::findOrFail(Auth::User()->id);
