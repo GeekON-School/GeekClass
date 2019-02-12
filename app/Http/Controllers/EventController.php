@@ -28,7 +28,7 @@ class EventController extends Controller
 
     public function event_view(Request $request)
     {
-        $events = Event::all()->sortBy('date');
+        $events = Event::all();
         $tags = Tags::all();
         $s_tags = [];
         if(isset($request->sel_tags))
@@ -104,7 +104,10 @@ class EventController extends Controller
 
     {
     	$event = Event::findOrFail($id);
-    	$event->userPartis()->attach(Auth::User()->id);
+      if($event->userPartis()->where('id', Auth::User()->id)->count() == 0)
+      {
+          $event->userPartis()->attach(Auth::User()->id);
+      }
     	return redirect('/insider/events/'.$id);
     }
 
@@ -141,7 +144,10 @@ class EventController extends Controller
     public function like_event($id)
     {
         $event = Event::findOrFail($id);
-        $event->userLikes()->attach(Auth::User()->id);
+        if(!$event->hasLiked(Auth::User()->id))
+        {
+          $event->userLikes()->attach(Auth::User()->id);
+        }
         return redirect('/insider/events/'.$id);
     }
 

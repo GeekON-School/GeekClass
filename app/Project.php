@@ -28,7 +28,7 @@ class Project extends Model
 
     public static function createProject($data)
     {
-        $project = Project::create(['name' => $data['name'], 'short_description' => clean($data['short_description']), 'description' => clean($data['description'])]);
+        $project = Project::create(['author_id' => \Auth::id(), 'name' => $data['name'], 'short_description' => clean($data['short_description']), 'description' => clean($data['description'])]);
 
         return $project;
     }

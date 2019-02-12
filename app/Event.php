@@ -13,6 +13,10 @@ class Event extends Model
         return $this->belongsToMany('App\User', 'event_orgs');
     }
 
+    public function hasLiked($userId)
+    {
+        return $this->userLikes()->where('id', $userId)->count() > 0;
+    }
     public function userPartis()
     {
         return $this->belongsToMany('App\User', 'event_partis');

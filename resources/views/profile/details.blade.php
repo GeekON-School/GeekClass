@@ -237,7 +237,7 @@
                 </div>
             @endif
 
-            @foreach($events as $event)
+            {{-- @foreach($events as $event)
                 @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->lt(\Carbon\Carbon::now())))
                     <div class="row">
                         <div class="col-md-8">
@@ -248,10 +248,10 @@
                     </div>
                     @break
                 @endif
-            @endforeach
+            @endforeach --}}
 
             <div class="row">
-                @foreach($events as $event)
+                {{-- @foreach($events as $event)
                     @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->lt(\Carbon\Carbon::now())))
                         <div class="col-md-6">
                             <div class="card" style="width: 100%; margin-bottom: 10px;">
@@ -273,10 +273,10 @@
                             </div>
                         </div>
                     @endif
-                @endforeach
+                @endforeach --}}
             </div>
 
-            @foreach($events as $event)
+            {{-- @foreach($events as $event)
                 @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now())))
                     <div class="row">
                         <div class="col-md-8">
@@ -287,10 +287,10 @@
                     </div>
                     @break
                 @endif
-            @endforeach
+            @endforeach --}}
 
             <div class="row">
-                @foreach($events as $event)
+                {{-- @foreach($events as $event)
                     @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now())))
                         <div class="col-md-6">
                             <div class="card" style="width: 100%; margin-bottom: 10px;">
@@ -312,7 +312,7 @@
                             </div>
                         </div>
                     @endif
-                @endforeach
+                @endforeach --}}
             </div>
             @if ($user->orders->count()!=0)
                 <div class="row">
@@ -500,7 +500,6 @@
                         </div>
                     <!--  <div class="form-group{{ $errors->has('projectType') ? ' has-error' : '' }}">
     <label for="short_description" class="col-md-4">Тип</label>
-
     <div class="col-md-12">
         <select name="projectType" class="form-control" id="projectType"/>
             <option value="None selected">Выберите тип проекта</option>

@@ -18,9 +18,7 @@
         <div class="row" style = "margin-top: 10px">
             <div class="col-md-8">
             @foreach($events as $event)
-                @if(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $event->date)->gt(\Carbon\Carbon::now()))
-                @foreach($event->tags as $tag)
-                        @if(in_array($tag->id, $s_tags))
+                {{'wooho'}}
                     <div class="card-group">
                         <div class="card" style="border: 1px solid grey">
                             <div class="card-footer">
@@ -28,7 +26,7 @@
                                     <h4><b>{{$event->name}}, ({{$event->type}})</b></h4>
                                 </div>
                                 <div class="float-left">
-                                    @if($event->userLikes->contains(Auth::User()->id))
+                                    @if($event->hasLiked(Auth::User()->id))
                                         <a href={{"/insider/events/$event->id/dislike_from_events"}}>
                                             <img src="https://png.icons8.com/color/50/000000/hearts.png" width="35px"></a>
                                     @else
@@ -54,10 +52,6 @@
                             </div>
                         </div>
                     </div>
-                    @break
-                        @endif
-                   @endforeach
-                    @endif
                 @endforeach
             </div>
             <div class="col-md-4">
