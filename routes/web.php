@@ -171,7 +171,8 @@ Route::prefix('insider')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/ideas/create', 'IdeasController@createView');
     Route::post('/ideas/create', 'IdeasController@create');
     Route::get('/ideas/{id}', 'IdeasController@details');
-    Route::post('/idea/{id}/edit', 'IdeasController@edit');
+    Route::get('/ideas/{id}/approve', 'IdeasController@approve');
+    Route::get('/ideas/{id}/decline', 'IdeasController@decline');
 
     Route::get('/ideas/{id}/edit', 'IdeasController@editView');
     Route::post('/ideas/{id}/edit', 'IdeasController@edit');
@@ -215,6 +216,7 @@ Route::prefix('insider')->middleware(['auth', 'verified'])->group(function () {
     Route::post('/events/{id}', 'EventController@add_comment');
 
     Route::get('/core/{id}', 'CoreController@index');
+    Route::get('/core/{id}/node/{node_id}', 'CoreController@subcore');
     Route::get('/core/network/{id}', 'CoreController@get_core');
     Route::get('/core/import', 'CoreController@import_core_form');
     Route::post('/core/import', 'CoreController@import_core');
