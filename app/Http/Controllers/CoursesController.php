@@ -223,7 +223,6 @@ class CoursesController extends Controller
                     return $item->id;
                 })->values();
 
-
                 $records = ActionLog::where('created_at', '>', Carbon::now()->addWeeks(-2))->whereIn('user_id', $ids)->get()->filter(function ($item) use ($steps_ids, $course) {
                     return ($item->type == 'course' and $item->object_id == $course->id) or ($item->type == 'step' and $steps_ids->contains($item->object_id));
                 })->groupBy(function ($item) {

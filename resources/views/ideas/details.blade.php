@@ -12,7 +12,54 @@
 @section('content')
 
     <div class="row">
-        {{ csrf_field() }}
+        <link rel="stylesheet" href="{{url('css/alchemy-white.css')}}"/>
+        <style>
+            .alchemy text {
+                display: block !important;
+            }
+
+            .alchemy g.active {
+                opacity: 1;
+            }
+
+            g.use > circle {
+                opacity: 0.8 !important;
+                stroke: green !important;
+                stroke-opacity: 0.8;
+                fill: green !important;
+            }
+
+            g.target > circle {
+                opacity: 0.8 !important;
+                stroke: orange !important;
+                stroke-opacity: 0.8;
+                fill: orange !important;
+            }
+
+            g.exists > circle {
+                opacity: 0.8;
+
+            }
+
+            .alchemy > svg {
+                background: white !important;
+            }
+
+            g.exists > text {
+                fill: black;
+                text-shadow: none;
+            }
+
+            g.use > text {
+                fill: black !important;
+                text-shadow: none;
+            }
+
+            g.target > text {
+                fill: black !important;
+                text-shadow: none;
+            }
+        </style>
 
         <div class="col-md-12">
             @if (!$idea->is_approved and $user->id == $idea->author->id)
