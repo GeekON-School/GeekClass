@@ -17,7 +17,8 @@
         <div class="col-md-12">
             @if (!$idea->is_approved and $user->id == $idea->author->id)
                 <div class="alert alert-warning" role="alert">
-                    Ваша идея ожидает утверждения. Скоро один из преподавателей ознакомится с ней, утвердит ее или предложит доработки.
+                    Ваша идея ожидает утверждения. Скоро один из преподавателей ознакомится с ней, утвердит ее или
+                    предложит доработки.
                 </div>
             @endif
             <div class="card">
@@ -32,7 +33,7 @@
                             @if ($idea->is_approved) <p class="text-muted">
                                 Автор идеи - <a
                                         href="{{url('insider/profile/'.$idea->author->id)}}">{{$idea->author->name}}</a>
-                            </h4> @endif
+                                </h4> @endif
 
                         </div>
                         <div class="col">
@@ -63,7 +64,71 @@
 
                         @parsedown($idea->description)
                     </div>
+                    @if ($idea->sdl_node_id != null)
+                        <blockquote class="bd-callout bd-callout-primary">
+                            <p><i>Псс, кажется, для это проекта есть готовый сценарий обучения. Учебные программы, в которых он доступен перечислены ниже.</i></p>
+                            <ul>
+                                <li>Самоуправляемые курсы (SDL).</li>
+                                @foreach($idea->sdl_node->lessons as $lesson)
+                                    <li>{{$lesson->program->name}}.</li>
+                                @endforeach
+                            </ul>
+                        </blockquote>
+
+                    @endif
+
                 </div>
+                @if ($idea->sdl_node_id != null)
+
+                    <div class="alchemy" id="alchemy"></div>
+
+                    <script src="{{url('js/vendor.js')}}"></script>
+                    <script src="{{url('js/alchemy.js')}}"></script>
+                    <script type="text/javascript">
+                        config = {
+                            directedEdges: true,
+                            fixRootNodes: false,
+                            dataSource: "{{url('/insider/core/'.$user->id.'/node/'.$idea->sdl_node_id)}}",
+                            nodeCaption: 'title',
+                            graphHeight: function () {
+                                return 700;
+                            },
+                            nodeClick: function (d) {
+                                edges = alchemy.getEdges(d.id);
+                                edges.forEach(function (edge) {
+
+                                    alchemy._edges[edge.id][0]._state = 'highlighted';
+                                    //alchemy._edges[edge.id][0]._style['opacity']='1';
+                                    alchemy._nodes[edge._properties.source]._state = 'highlighted';
+                                    //alchemy._nodes[edge._properties.source]._style['opacity']='1';
+                                    //console.log(alchemy._nodes[edge._properties.source]);
+
+                                    alchemy._edges[edge.id][0].setStyles()
+                                    alchemy._nodes[edge._properties.source].setStyles();
+                                })
+                            },
+
+                            cluster: false,
+                            alpha: 0,
+                            curvedEdges: true,
+                            forceLocked: true,
+                            nodeTypes: {"nodeType": ["use", "exists", "target"]},
+                            nodeStyle: {
+                                "all": {
+                                    "radius": function (d) {
+                                        return 40;
+                                    }
+
+                                }
+                            },
+                            clusterColours: ["#1B9E77", "#D95F02", "#7570B3", "#E7298A", "#66A61E", "#E6AB02", "#12AB02", "#99AB02"]
+                        };
+                        alchemy = new Alchemy(config);
+
+
+                    </script>
+                @endif
+
             </div>
 
         </div>

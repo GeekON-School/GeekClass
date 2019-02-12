@@ -71,7 +71,8 @@ class IdeasController extends Controller
     public function editView($id)
     {
         $idea = Idea::findOrFail($id);
-        return view('ideas.edit', compact('idea'));
+        $user = User::findOrFail(Auth::User()->id);
+        return view('ideas.edit', compact('idea', 'user'));
     }
 
     public function edit($id, Request $request)

@@ -11,7 +11,11 @@ class CoreNode extends Model
 
     public function lessons()
     {
-        return $this->belongsToMany('App\Lesson', 'core_prerequisites', "node_id", "lesson_id");
+        if ($this->version == 1)
+        {
+            return $this->belongsToMany('App\Lesson', 'core_prerequisites', "node_id", "lesson_id");
+        }
+        return $this->hasMany('App\Lesson',  "id", "sdl_node_id");
     }
 
     public function tasks()
@@ -91,5 +95,7 @@ class CoreNode extends Model
         $result .= '</small></ul></p>';
         return $result;
     }
+
+
 
 }

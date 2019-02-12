@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable  implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -71,6 +71,7 @@ class User extends Authenticatable  implements MustVerifyEmail
     {
         return $this->hasMany('App\ForumPost', 'user_id', 'id');
     }
+
     public function grade()
     {
         $current_year = Carbon::now()->year;
@@ -95,11 +96,20 @@ class User extends Authenticatable  implements MustVerifyEmail
 
     public function checkPrerequisite(CoreNode $prerequisite)
     {
-        foreach ($this->solutions as $solution) {
-            foreach ($solution->task->consequences as $consequence) {
-                if ($prerequisite->id == $consequence->id and $solution->mark != null and $solution->mark >= $consequence->pivot->cutscore) {
+        if ($prerequisite->version == 1)
+            foreach ($this->solutions as $solution) {
+                foreach ($solution->task->consequences as $consequence) {
+                    if ($prerequisite->id == $consequence->id and $solution->mark != null and $solution->mark >= $consequence->pivot->cutscore) {
+                        return true;
+                    }
+                }
+            }
+        else {
+            foreach (Lesson::where('sdl_node_id', $prerequisite->id)->get() as $lesson) {
+                if ($lesson->percent($this) >= 90) {
                     return true;
                 }
+
             }
         }
         return false;
@@ -119,8 +129,7 @@ class User extends Authenticatable  implements MustVerifyEmail
             $this->score += $task->max('mark');
         }
 
-        foreach ($this->posts as $post)
-        {
+        foreach ($this->posts as $post) {
             $this->score += 5 * $post->getVotes();
         }
 

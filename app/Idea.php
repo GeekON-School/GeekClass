@@ -10,4 +10,9 @@ class Idea extends Model
     {
         return $this->belongsTo('App\User', 'author_id', 'id');
     }
+
+    public function sdl_node()
+    {
+        return $this->belongsTo('App\CoreNode', 'sdl_node_id', 'id');
+    }
 }

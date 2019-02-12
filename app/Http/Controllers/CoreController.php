@@ -56,8 +56,6 @@ class CoreController extends Controller
                 $node->nodeType='exists';
             }
             $node->root = $node->is_root;
-
-
         }
         $edges = CoreEdge::whereIn('from_id', $nodes->pluck('id'))->orWhereIn('to_id', $nodes->pluck('id'))->get();
 
@@ -77,11 +75,11 @@ class CoreController extends Controller
     {
         $version=1;
         $user = User::findOrFail($id);
-        $node = CoreNode::findOrFail($node_id);
+        $start_node = CoreNode::findOrFail($node_id);
         $nodes = collect([]);
-        $nodes->push($node);
+        $nodes->push($start_node);
 
-        $nodes_to_look = $node->children;
+        $nodes_to_look = $start_node->children;
 
         while ($nodes_to_look->count() != 0)
         {
@@ -97,7 +95,11 @@ class CoreController extends Controller
 
         foreach ($nodes as $node)
         {
-            if ($user->checkPrerequisite($node))
+            if ($node == $start_node)
+            {
+                $node->nodeType='target';
+            }
+            else if ($user->checkPrerequisite($node))
             {
                 $node->nodeType='use';
             }
@@ -105,10 +107,12 @@ class CoreController extends Controller
                 $node->nodeType='exists';
             }
             $node->root = $node->is_root;
+            unset($node->children);
+            unset($node->pivot);
 
 
         }
-        $edges = CoreEdge::whereIn('from_id', $nodes->pluck('id'))->orWhereIn('to_id', $nodes->pluck('id'))->get();
+        $edges = CoreEdge::whereIn('from_id', $nodes->pluck('id'))->whereIn('to_id', $nodes->pluck('id'))->get();
 
         foreach ($edges as $edge)
         {
