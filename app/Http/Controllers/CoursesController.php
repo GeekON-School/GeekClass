@@ -178,6 +178,8 @@ class CoursesController extends Controller
         if (!$course->is_sdl) {
             $marks = CompletedCourse::where('course_id', $id)->get();
 
+            //Made this due to some issues on my local server
+            $cstudent = [];
             if ($request->has('chapter')) {
                 $chapter = ProgramChapter::findOrFail($request->chapter);
             } else {

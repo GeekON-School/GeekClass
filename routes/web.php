@@ -11,6 +11,7 @@
 |
 */
 Route::get('/home', function () {
+
     if (\Illuminate\Support\Facades\Auth::check()) {
         return redirect('/insider');
     }
@@ -199,6 +200,13 @@ Route::prefix('insider')->middleware('verified')->group(function () {
     Route::get('/events/add_event', 'EventController@add_event_view');
     Route::post('/events/add_event', 'EventController@add_event');
     Route::get('/events/{id}', 'EventController@current_event');
+    Route::get('/events/{id}/api', function($ev){
+        $ev = \App\Event::find($ev);
+        return json_encode([
+            'id' => $ev->id,
+            'likes' => $ev->userLikes()->count()
+        ]);
+    });
     Route::get('/events/{id}/go', 'EventController@go_event');
     Route::get('/events/{id}/left', 'EventController@left_event');
     Route::get('/events/{id}/like', 'EventController@like_event');
