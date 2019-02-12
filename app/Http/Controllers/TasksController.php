@@ -53,13 +53,16 @@ class TasksController extends Controller
         if ($step->lesson->steps->count() != 0)
             $order = $step->lesson->steps->last()->sort_index + 1;
 
+        if (!$request->has('price') or $request->price == null) $price = 0;
+        else $price = $request->price;
+
         $task = Task::create(['text' => $request->text, 'step_id' => $step->id, 'name' => $request->name, 'max_mark' => $request->max_mark, 'sort_index' => $order,
             'is_star' => $request->is_star == 'on' ? true : false,
             'only_remote' => $request->only_remote == 'on' ? true : false,
             'only_class' => $request->only_class == 'on' ? true : false]);
         $task->solution = $request->solution;
-        if (!$request->has('price')) $request->price = 0;
-        $task->price = $request->price;
+        $task->price = $price;
+
 
         if ($request->has('answer') and $request->answer != "") {
             $task->is_quiz = true;
