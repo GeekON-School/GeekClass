@@ -195,7 +195,7 @@
                                             @endforeach
                                         </p>
                                     </div>
-                                    @if ($user->role!='teacher' || $lesson->percent($cstudent) > 90)
+                                    @if ($user->role!='teacher' and $lesson->percent($cstudent) > 90)
                                         <div class="col-sm-auto">
                                             <img src="{{url($lesson->sticker)}}" style="max-width: 200px;"/>
                                         </div>
