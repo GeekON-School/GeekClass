@@ -17,7 +17,6 @@ class CreateProjectsTable extends Migration
             $table->increments('id');
             $table->string("name");
             $table->string ("short_description");
-            $table->integer("author_id");
             $table->string("description")->nullable();
             $table->string("tags")->nullable();
             $table->string("type")->nullable();

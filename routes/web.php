@@ -45,8 +45,7 @@ Route::prefix('open')->group(function () {
     Route::get('/steps/{id}', 'OpenStepsController@details');
 });
 
-Route::get('/aesthethics', function()
-{
+Route::get('/aesthethics', function () {
     return view('aesthethics');
 });
 
@@ -167,11 +166,12 @@ Route::prefix('insider')->middleware('verified')->group(function () {
     Route::get('/projects/create', 'ProjectsController@createView');
     Route::post('/projects/create', 'ProjectsController@create');
     Route::get('/projects/{id}', 'ProjectsController@details');
-    Route::post('/project/{id}/edit', 'ProjectsController@edit');
+
 
     Route::get('/projects/{id}/edit', 'ProjectsController@editView');
     Route::post('/projects/{id}/edit', 'ProjectsController@edit');
     Route::get('/projects/{id}/delete', 'ProjectsController@deleteProject');
+    Route::post('/projects/{id}/review', 'ProjectsController@review');
     Route::get('/projects', 'ProjectsController@index');
 
     Route::get('/ideas/create', 'IdeasController@createView');
@@ -205,7 +205,7 @@ Route::prefix('insider')->middleware('verified')->group(function () {
     Route::get('/events/add_event', 'EventController@add_event_view');
     Route::post('/events/add_event', 'EventController@add_event');
     Route::get('/events/{id}', 'EventController@current_event');
-    Route::get('/events/{id}/api', function($ev){
+    Route::get('/events/{id}/api', function ($ev) {
         $ev = \App\Event::find($ev);
         return json_encode([
             'id' => $ev->id,

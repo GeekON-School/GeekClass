@@ -21,7 +21,7 @@ class Project extends Model
         'name', 'short_description', 'description', 'type', 'url', 'author_id', 'image'
     ];
 
-    public function students()
+    public function team()
     {
         return $this->belongsToMany('App\User', 'project_students', 'project_id', 'user_id');
     }
@@ -35,7 +35,16 @@ class Project extends Model
 
     public function author()
     {
-        return $this->author_id;
+        return $this->belongsTo('App\User', 'user_id', 'id');
+    }
+
+    public function task()
+    {
+        return $this->belongsTo('App\Task', 'task_id', 'id');
+    }
+    public function task_course()
+    {
+        return $this->belongsTo('App\Course', 'course_id', 'id');
     }
 
     public function editProject($data)

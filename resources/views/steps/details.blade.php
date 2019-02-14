@@ -489,9 +489,9 @@
 
                                     @endif
 
-                                    @foreach ($task->solutions as $key => $solution)
+                                    @foreach ($task->solutions->where('user_id', Auth::User()->id) as $key => $solution)
 
-                                        @if ($solution->user_id == Auth::User()->id && ($solution->checked == null || $solution->mark == $task->solutions->max('mark') || $viewall))
+                                        @if ($solution->checked == null || $solution->mark == $task->solutions->max('mark') || $viewall)
                                             <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
 
                                                 <div class="col">
