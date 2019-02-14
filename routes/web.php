@@ -45,6 +45,11 @@ Route::prefix('open')->group(function () {
     Route::get('/steps/{id}', 'OpenStepsController@details');
 });
 
+Route::get('/aesthethics', function()
+{
+    return view('aesthethics');
+});
+
 Route::prefix('insider')->middleware('verified')->group(function () {
 
     #TODO Check
