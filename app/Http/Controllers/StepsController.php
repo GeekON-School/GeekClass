@@ -42,8 +42,9 @@ class StepsController extends Controller
         $user  = User::findOrFail(Auth::User()->id);
         $course = Course::findOrFail($course_id);
         $step = ProgramStep::findOrFail($id);
-
+        $tasks = [];
         \App\ActionLog::record(Auth::User()->id, 'step', $id);
+
 
         if ($user->role=='teacher')
         {
@@ -69,9 +70,14 @@ class StepsController extends Controller
         $quizer = true;
         foreach ($tasks as $task)
             if (!$task->is_quiz) $quizer = false;
+        
+        //View all solutions
+        $viewall = false;
+        if (request('viewall')) $viewall = true;
+
         $quizer = $quizer && $zero_theory && !$empty;
 
-        return view('steps.details', compact('step', 'user', 'tasks', 'zero_theory', 'one_tasker', 'empty', 'quizer', 'course'));
+        return view('steps.details', compact('step', 'user', 'viewall', 'tasks', 'zero_theory', 'one_tasker', 'empty', 'quizer', 'course'));
     }
 
     public function perform($course_id, $id)

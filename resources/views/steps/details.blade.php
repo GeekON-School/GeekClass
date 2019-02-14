@@ -488,8 +488,10 @@
                                         </div>
 
                                     @endif
+
                                     @foreach ($task->solutions as $key => $solution)
-                                        @if ($solution->user_id == Auth::User()->id)
+
+                                        @if ($solution->user_id == Auth::User()->id && $solution->checked == null || $solution->mark == $task->solutions->max('mark') || $viewall)
                                             <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
 
                                                 <div class="col">
@@ -529,6 +531,12 @@
                                             </div>
                                         @endif
                                     @endforeach
+                                    {{-- Don't show view all if $viewall is not set --}}
+                                    @if(!$viewall)
+                                        <a href="?viewall=1#task{{$task->id}}"> Посмотреть все</a>
+                                    @else
+                                        <a href="?viewall=0#task{{$task->id}}"> Показать только важные</a>
+                                    @endif
                                 @endif
                                 @if (!$task->is_quiz)
                                     <div class="row" style="margin-top: 15px; margin-bottom: 15px;">

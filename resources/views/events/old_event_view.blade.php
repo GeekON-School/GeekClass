@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    @extends('events.event_layout')
     <br>
     <div class="row" style = "margin-top: -30px">
         <div class="col" style="margin: -10px">
@@ -15,22 +16,13 @@
     <div class="row" style = "margin-top: 10px">
         <div class="col-md-8">
             @foreach($events as $event)
-                    <div class="card-group">
+                    <div class="card-group ev">
                         <div class="card" style="border: none;">
                             <div class="row" style="display: flex; justify-content: space-between;">
                                 <div class="text-center">
                                     <h4><b>{{$event->name}}, ({{$event->type}})</b></h4>
                                 </div>
-                                <div onclick="toggleLike({{$event->id}}, $(this));" style="cursor: pointer;" data-liked="{{$event->hasLiked(Auth::id()) ? 'true' : 'false'}}" data-likes="{{$event->userLikes()->count()}}">
-                                    @if($event->hasLiked(Auth::User()->id))
-                 
-                                            <img src="https://png.icons8.com/color/50/000000/hearts.png" width="35px"></a>
-                                    @else
-                                        
-                                            <img src="https://png.icons8.com/ios/50/000000/hearts.png" width="35px"></a>
-                                    @endif
-                                    <span class="likes1">{{count($event->userLikes)}}</span>
-                                </div>
+                                @include('event_likes', ['event' => $event])
                                 <div style="margin-right:15px">
                                     <b>{{$event->date}}</b>
                                 </div>
@@ -79,42 +71,5 @@
         </div>
     </div>
         </div>
-        <script>
-        function dislike(id, el) {
-            el.attr('data-likes', parseInt(el.attr('data-likes')) - 1);
-
-            el.children('img').attr('src', 'https://png.icons8.com/ios/50/000000/hearts.png');
-            $.ajax({
-                url: '/insider/events/'+id+'/dislike_from_events',
-            });
-            el.children('.likes1').html(el.attr('data-likes'));
-
-        }
-        function like(id, el) {
-            el.attr('data-likes', parseInt(el.attr('data-likes')) + 1);
-
-            el.children('img').attr('src', 'https://png.icons8.com/color/50/000000/hearts.png');
-
-            $.ajax({
-                url: '/insider/events/'+id+'/like_from_events',
-            });
-
-            el.children('.likes1').html(el.attr('data-likes'));
-
-        }
-        function toggleLike(id, el)
-        {
-            if (el.attr('data-liked') == 'true')
-            {
-                dislike(id, el);
-                el.attr('data-liked', 'false');
-            }
-            else
-            {
-                like(id, el);
-                el.attr('data-liked', 'true');
-            }
-
-        }
-    </script>
+    @include('events.event_likes_script')
 @endsection

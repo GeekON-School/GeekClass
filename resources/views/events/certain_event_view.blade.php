@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    @extends('events.event_layout')
     <br>
     <div class="row" style = "margin-top: -30px">
         <div class="col">
@@ -26,8 +27,8 @@
         </div>
         <div class="row" style = "margin-top: 10px">
             <div class="col-md-8">
-                <div class="card-group">
-                    <div class="card" style="border: 1px solid grey">
+                <div class="card-group ev">
+                    <div class="card">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
@@ -44,17 +45,8 @@
                                             <a role="button" class="btn btn-danger" href={{"/insider/events/$event->id/left"}}>Я не иду</a>
                                             <a role="button" class="btn btn-primary" href={{"/insider/events/$event->id/go"}}>Я иду!</a>
                                         <div class="float-right">
-                                            <h3>
-                                            @if ($event->hasLiked(Auth::User()->id))
 
-                                                <a href={{"/insider/events/$event->id/dislike"}}>
-                                                    <img src="https://png.icons8.com/color/50/000000/hearts.png" width="35px"></a>
-                                            @else
-                                                <a href={{"/insider/events/$event->id/like"}}>
-                                                    <img src="https://png.icons8.com/ios/50/000000/hearts.png" width="35px"></a>
-
-                                            @endif
-                                            {{count($event->userLikes)}}</h3>
+                                            @include('events.event_likes', ['event' => $event])
                                         </div>
                                     </div>
                                 </div>
@@ -67,8 +59,8 @@
                 </div>
                 @foreach($comments as $comment)
                     @if($comment->event_id == $event->id)
-                        <div class="card-group" style = "margin-top: 30px">
-                            <div class="card" style="border: 1px solid grey">
+                        <div class="card-group" style = "margin-top: 30px; border: none;">
+                            <div class="card" style="border: none;">
                                 <div class="card-footer">
                                     <div class="float-left" style="margin-left:5px">
                                         {{$comment->created_at}}, <b>{{$comment->user->name}}</b>
@@ -150,4 +142,5 @@
             </div>
 
         </div>
+    @include('events.event_likes_script')
 @endsection
