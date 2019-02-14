@@ -69,7 +69,7 @@ class MarketController extends Controller
 
         $good = MarketGood::findOrFail($id);
         $good->name = $request->name;
-        $good->description = $request->description;
+        $good->description = clean($request->description);
         $good->image = $request->image;
         $good->number = $request->number;
         $good->price = $request->price;
@@ -97,7 +97,7 @@ class MarketController extends Controller
 
         $good = new MarketGood();
         $good->name = $request->name;
-        $good->description = $request->description;
+        $good->description = clean($request->description);
         $good->image = $request->image;
         $good->number = $request->number;
         $good->price = $request->price;

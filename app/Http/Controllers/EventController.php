@@ -66,7 +66,7 @@ class EventController extends Controller
     {
     	$event = new Event;
     	$event->name = $request->name;
-    	$event->text = $request->text;
+    	$event->text = clean($request->text);
     	$event->date = $request->date;
     	$event->location = $request->location;
     	$event->type = $request->type;
@@ -186,7 +186,7 @@ class EventController extends Controller
         $comment = new EventComments;
         $comment->user_id = Auth::User()->id;
         $comment->event_id = $id;
-        $comment->text = $request->text;
+        $comment->text = clean($request->text);
         $comment->save();
         return redirect('/insider/events/'.$comment->event_id);
     }
@@ -212,7 +212,7 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($request->id);
         $event->name = $request->name;
-        $event->text = $request->text;
+        $event->text = clean($request->text);
         $event->date = $request->date;
         $event->location = $request->location;
         $event->type = $request->type;

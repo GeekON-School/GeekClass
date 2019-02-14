@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="{{url('js/jquery-ui.min.js')}}"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    
+
     {!! \NoCaptcha::renderJs() !!}
     <script>
         $(function () {
@@ -113,7 +113,7 @@
             </ul>
 
             <ul class="navbar-nav" style="width: 260px;">
-            <span style="margin-top: 8px; color: white;">
+            <span style="margin-top: 8px; color: white;" data-container="body" data-placement="bottom" data-content="{!! Auth::user()->getHtmlTransactions() !!}" data-html="true" data-toggle="popover">
                <img src="https://png.icons8.com/color/50/000000/coins.png"
                     style="height: 23px;">&nbsp;{{Auth::user()->balance()}}&nbsp;&nbsp;
 
@@ -124,10 +124,13 @@
                         {{ Auth::user()->name }}</a>
 
                     <div class="dropdown-menu" aria-labelledby="dropdown01">
-                        <a class="dropdown-item" href="{{url('insider/profile')}}"><i class="icon ion-person"></i> Профиль</a>
-                        <a class="dropdown-item" href="{{url('insider/core/'.\Auth::User()->id)}}"><i class="icon ion-map"></i> Карта</a>
+                        <a class="dropdown-item" href="{{url('insider/profile')}}"><i class="icon ion-person"></i>
+                            Профиль</a>
+                        <a class="dropdown-item" href="{{url('insider/core/'.\Auth::User()->id)}}"><i
+                                    class="icon ion-map"></i> Карта</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="icon ion-reply"></i>Выход</a>
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                    class="icon ion-reply"></i>Выход</a>
 
                     </div>
                 </li>
@@ -187,7 +190,10 @@ function doc_keyUp(e) {
 }
 // register the handler 
 document.addEventListener('keyup', doc_keyUp, false);
-
+    $(document).popover({
+        selector: '[data-toggle=popover]',
+        trigger: 'hover'
+    });
 </script>
 
 </body>

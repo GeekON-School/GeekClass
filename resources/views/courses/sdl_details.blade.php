@@ -205,49 +205,6 @@
 
                 </div>
 
-                <div class="card-footer">
-
-                    <div class="row">
-                        <div class="col">fdf
-                        </div>
-                        <div class="col">
-
-                            <div class="progress" style="margin: 5px;">
-                                @if ($lesson->percent($user) < 40)
-                                    <div class="progress-bar progress-bar-striped bg-danger"
-                                         role="progressbar"
-                                         style="width: {{$lesson->percent($user)}}%"
-                                         aria-valuenow="{{$lesson->percent($user)}}"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100">{{$lesson->points($user)}}
-                                        / {{$lesson->max_points($user)}}</div>
-
-                                @elseif($lesson->percent($user) < 60)
-                                    <div class="progress-bar progress-bar-striped bg-warning"
-                                         role="progressbar"
-                                         style="width: {{$lesson->percent($user)}}%"
-                                         aria-valuenow="{{$lesson->percent($user)}}"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100">
-                                        Успеваемость: {{$lesson->points($user)}}
-                                        / {{$lesson->max_points($user)}}</div>
-
-                                @else
-                                    <div class="progress-bar progress-bar-striped bg-success"
-                                         role="progressbar"
-                                         style="width: {{$lesson->percent($user)}}%"
-                                         aria-valuenow="{{$lesson->percent($user)}}"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100">
-                                        Успеваемость: {{$lesson->points($user)}}
-                                        / {{$lesson->max_points($user)}}</div>
-
-                                @endif
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <script>

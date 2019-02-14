@@ -66,7 +66,7 @@ class ProgramsController extends Controller
 
         $program = Program::findOrFail($id);
         $program->name = $request->name;
-        $program->description = $request->description;
+        $program->description = clean($request->description);
         $program->save();
         return redirect('/insider/programs/' . $program->id);
     }
@@ -81,7 +81,7 @@ class ProgramsController extends Controller
         ]);
         $program = new Program();
         $program->name = $request->name;
-        $program->description = $request->description;
+        $program->description = clean($request->description);
         $program->save();
 
         $program->authors()->attach($user->id);

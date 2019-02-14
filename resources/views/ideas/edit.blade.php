@@ -54,7 +54,7 @@
                         <label for="sdl_node_id">Связанная вершина из Core</label>
                         <select class="selectpicker form-control" data-live-search="true" id="sdl_node_id"
                                 name="sdl_node_id" data-width="auto">
-                            <option data-tokens="-1" value="-1">Нет</option>
+                            <option data-tokens="-1" value="">Нет</option>
                             @foreach (\App\CoreNode::where('is_root', false)->get() as $node)
                                 <option data-tokens="{{ $node->id }}" value="{{ $node->id }}" data-subtext="Версия Core - {{$node->version}}">{{$node->title}}</option>
                             @endforeach
