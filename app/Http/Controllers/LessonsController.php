@@ -67,7 +67,7 @@ class LessonsController extends Controller
         $lesson->name = $request->name;
         $lesson->program_id = $program->id;
         $lesson->sort_index = $order;
-        $lesson->description = $request->description;
+        $lesson->description = clean($request->description);
         $lesson->sticker = "/stickers/" . random_int(1, 40) . ".png";
         $lesson->chapter_id = $chapter->id;
 
@@ -111,7 +111,7 @@ class LessonsController extends Controller
             }
         $lesson->name = $request->name;
         $lesson->setStartDate($course, $request->start_date);
-        $lesson->description = $request->description;
+        $lesson->description = clean($request->description);
         $lesson->chapter_id = $request->chapter;
         if ($request->open == "yes")
             $lesson->is_open = true;
