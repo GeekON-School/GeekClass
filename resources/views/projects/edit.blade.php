@@ -30,10 +30,9 @@
                     <label for="url">URL Обложки</label>
 
                     @if (old('url')!="")
-                        <input id="url" type="text" class="form-control" name="url" value="{{old('url')}}" required>
+                        <input id="url" type="text" class="form-control" name="url" value="{{old('url')}}">
                     @else
-                        <input id="url" type="text" class="form-control" name="url" value="{{$project->url}}"
-                               required>
+                        <input id="url" type="text" class="form-control" name="url" value="{{$project->url}}">
                     @endif
                     @if ($errors->has('url'))
                         <span class="help-block error-block">
@@ -62,6 +61,45 @@
                     @endif
                 </div>
 
+                <div class="form-group">
+                    <label for="students" style="padding-bottom: 10px;">Команда (кроме вас):</label><br>
+                    <select class="selectpicker2  form-control" data-live-search="true" id="team" name="team[]" multiple
+                            data-width="auto">
+                        @foreach (\App\User::all() as $student)
+                            <option data-tokens="{{ $student->id }}"
+                                    value="{{ $student->id }}">{{$student->name}}</option>
+                        @endforeach
+                    </select>
+
+                    <script>
+                        $('.selectpicker2').selectpicker('val', [{{implode(',', $project->team->pluck('id')->toArray())}}]);
+                    </script>
+                </div>
+
+                <div class="form-group">
+                    <label for="students" style="padding-bottom: 10px;">Привязать к заданию:</label><br>
+                    <select class="selectpicker  form-control" data-live-search="true" id="task" name="task"
+                            data-width="auto">
+                        <option data-tokens="-1"
+                                value="">Не привязывать к задаче
+                        </option>
+                        @foreach ($user->courses->where('state', 'started') as $course)
+                            @foreach ($course->lessons as $lesson)
+                                @foreach ($lesson->steps as $step)
+                                    @foreach ($step->tasks->where('answer', null)->where('is_code', false) as $task)
+                                        <option data-tokens="{{ $course->id }}_{{ $task->id }}"
+                                                value="{{ $course->id }}_{{ $task->id }}"
+                                                data-subtext="{{$lesson->name}} ({{$course->name}})">{{$task->name}}</option>
+                                    @endforeach
+                                @endforeach
+                            @endforeach
+                        @endforeach
+                    </select>
+
+                    <script>
+                        $('.selectpicker').selectpicker('val', '{{ $course->id }}_{{ $task->id }}');
+                    </script>
+                </div>
 
 
                 <button type="submit" class="btn btn-success">Сохранить</button>

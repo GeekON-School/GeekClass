@@ -7,8 +7,12 @@
  */
 
 namespace App\Http\Controllers;
+
+use App\Course;
 use App\Project;
 use App\Http\Controllers\Controller;
+use App\Solution;
+use App\Task;
 use App\User;
 use Illuminate\Http\Request;
 use Auth;
@@ -26,34 +30,35 @@ class ProjectsController extends Controller
 
     public function index()
     {
-        $user  = User::findOrFail(Auth::User()->id);
+        $user = User::findOrFail(Auth::User()->id);
         $projects = Project::all();
         return view('projects.index', compact('projects', 'user'));
     }
 
     public function details($id)
     {
-        $user  = User::findOrFail(Auth::User()->id);
+        $user = User::findOrFail(Auth::User()->id);
         $project = Project::findOrFail($id);
         $author = $project->author();
         $guest_projects = $user->projects;
-        $is_in_project = false;
-        $is_author = false;
-        if ($author == $user->id )
-            $is_author = true;
-        $is_in_project = $project->Students->contains($user);
+        $is_in_project = $project->team->contains($user);
         $tags = explode(" ", $project->tags);
         return view('projects.details', compact('project', 'user', 'is_in_project', 'is_author', 'tags'));
     }
+
     public function createView()
     {
-        return view('projects.create');
+        $user = User::findOrFail(Auth::User()->id);
+        return view('projects.create', compact('user'));
     }
+
     public function editView($id)
     {
+        $user = User::findOrFail(Auth::User()->id);
         $project = Project::findOrFail($id);
         return view('projects.edit', compact('project', 'user'));
     }
+
     public function edit($id, Request $request)
     {
 
@@ -70,31 +75,112 @@ class ProjectsController extends Controller
 
 
         $project = Project::findOrFail($id);
-        $user  = User::findOrFail(Auth::User()->id);
-        if ($project->author->id != $user->id && !$project->Students->contains($user)) abort(503);
+        $user = User::findOrFail(Auth::User()->id);
+        if (!$project->team->contains($user)) abort(503);
         $project->editProject($request);
 
+        foreach ($project->team as $member) {
+            if ($member == $project->author) continue;
+            $project->team()->detach($member->id);
+        }
+        if ($request->team != null)
+            foreach ($request->team as $member_id) {
+                $project->team()->attach($member_id);
+            }
 
-        return redirect('/insider/projects/'.$project->id);
+        if ($request->has('task')) {
+            $parts = explode('_', $request->task);
+            $task_id = $parts[1];
+            $course_id = $parts[0];
+
+            $task = Task::findOrFail($task_id);
+            $course = Course::findOrFail($course_id);
+
+            if (!$course->students->contains($user)) abort(503);
+            $project->task_id = $task_id;
+            $project->course_id = $course_id;
+            $project->save();
+            # TODO: уведомление преподавателю
+        }
+
+
+        return redirect('/insider/projects/' . $project->id);
     }
+
     public function create(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'short_description' => 'required|string',
-            'g-recaptcha-response' => app('App\Services\Recaptcha')->getValidationString()
+            'short_description' => 'required|string'
 
         ]);
-        $user  = User::findOrFail(Auth::User()->id);
+        $user = User::findOrFail(Auth::User()->id);
         $project = Project::createProject($request);
-        $project->students()->attach($user->id);
+        $project->team()->attach($user->id);
+
+        if ($request->has('task')) {
+            $parts = explode('_', $request->task);
+            $task_id = $parts[1];
+            $course_id = $parts[0];
+
+            $task = Task::findOrFail($task_id);
+            $course = Course::findOrFail($course_id);
+
+            if (!$course->students->contains($user)) abort(503);
+            $project->task_id = $task_id;
+            $project->course_id = $course_id;
+            $project->save();
+            # TODO: уведомление преподавателю
+        }
+
+        if ($request->team != null)
+            foreach ($request->team as $member_id) {
+                $project->team()->attach($member_id);
+            }
+
+
         return redirect('/insider/projects/' . $project->id);
     }
+
     public function deleteProject($id)
     {
+        $user = User::findOrFail(Auth::User()->id);
         $project = Project::findOrFail($id);
-        if ($project->author->id == Auth::User()->id ) abort(503);
+        if (!$project->team->contains($user)) abort(503);
         $project->delete();
         return redirect('/insider/profile/');
+    }
+
+    public function review($id, Request $request)
+    {
+        $user = User::findOrFail(Auth::User()->id);
+        $project = Project::findOrFail($id);
+        if ($user->role == 'student') abort(503);
+        if ($project->task == null) abort(503);
+
+        $this->validate($request, [
+            'mark' => 'required|integer|min:0|max:' . $project->task->max_mark
+        ]);
+
+        $when = \Carbon\Carbon::now()->addSeconds(1);
+
+        foreach ($project->team as $member) {
+            $solution = new Solution();
+            $solution->task_id = $project->task_id;
+            $solution->user_id = $member->id;
+            $solution->course_id = $project->course_id;
+            $solution->submitted = Carbon::now();
+            $solution->text = url('/insider/projects/' . $project->id);
+            $solution->mark = $request->mark;
+            $solution->comment = $request->comment;
+            $solution->teacher_id = Auth::User()->id;
+            $solution->checked = Carbon::now();
+            $solution->save();
+
+            \Notification::send($solution->user, (new \App\Notifications\NewMark($solution))->delay($when));
+        }
+
+        return redirect('/insider/projects/' . $project->id);
+
     }
 }

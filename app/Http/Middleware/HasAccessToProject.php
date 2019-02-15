@@ -27,7 +27,7 @@ class HasAccessToProject
             $user = User::findOrFail(Auth::User()->id);
             $project = Project::findOrFail($request->id);
 
-            if ($project->students->contains($user))
+            if ($project->team->contains($user))
             {
                 return $next($request);
             }
