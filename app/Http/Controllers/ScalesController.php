@@ -71,7 +71,7 @@ class ScalesController extends Controller
 
         $scale = ResultScale::findOrFail($id);
         $scale->name = $request->name;
-        $scale->description = $request->description;
+        $scale->description = clean($request->description);
         $scale->save();
         return redirect('/insider/scales/');
     }
@@ -85,7 +85,7 @@ class ScalesController extends Controller
 
         $scale = new ResultScale();
         $scale->name = $request->name;
-        $scale->description = $request->description;
+        $scale->description = clean($request->description);
         $scale->save();
         return redirect('/insider/scales/');
     }
@@ -108,7 +108,7 @@ class ScalesController extends Controller
 
         $result = new EducationalResult();
         $result->name = $request->name;
-        $result->description = $request->description;
+        $result->description = clean($request->description);
         $result->level = $request->level;
         $result->scale_id = $scale->id;
         $result->save();
@@ -134,7 +134,7 @@ class ScalesController extends Controller
         $scale = ResultScale::findOrFail($id);
         $result = EducationalResult::findOrFail($result_id);
         $result->name = $request->name;
-        $result->description = $request->description;
+        $result->description = clean($request->description);
         $result->level = $request->level;
         $result->save();
         return redirect('/insider/scales/' . $scale->id);
@@ -166,7 +166,7 @@ class ScalesController extends Controller
         ]);
 
         $task = new Task();
-        $task->text = $request->text;
+        $task->text = clean($request->text);
         $task->name = $request->name;
 
         if ($request->is_demo == "yes") {
@@ -211,7 +211,7 @@ class ScalesController extends Controller
             'name' => 'required|string',
             'solution' => 'required_if:is_demo,yes'
         ]);
-        $task->text = $request->text;
+        $task->text = clean($request->text);
         $task->name = $request->name;
 
         if ($request->is_demo == "yes") {

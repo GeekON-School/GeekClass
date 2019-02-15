@@ -288,10 +288,11 @@
         function rmc_input() {
             charmap[cury][curx-1] = 0;
             curx--;
-            if (curx <= 0)
+            if (curx < 0)
             {
                 curx = width-1;
-                cury++;
+                cury--;
+                charmap[cury][curx] = 0;
             }
         }
 

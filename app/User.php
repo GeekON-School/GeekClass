@@ -224,6 +224,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->transactions()->sum('price');
     }
 
+    public function getHtmlTransactions()
+    {
+        $html = "<strong>История начислений GC</strong><ul>";
+
+        foreach ($this->transactions as $transaction) {
+            $html .= '<li><strong>' . $transaction->price . '</strong> - ' . $transaction->comment . '</li>';
+        }
+        $html .= "</ul>";
+
+        return $html;
+    }
+
     public function goods()
     {
         return $this->belongsToMany('App\MarketGood', 'market_deals', 'user_id', 'good_id');

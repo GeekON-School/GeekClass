@@ -145,7 +145,7 @@ class ProfileController extends Controller
             'amount' => 'integer|min:-100|max:100|required'
         ]);
 
-        CoinTransaction::register($id, $request->amount, $request->description);
+        CoinTransaction::register($id, $request->amount, clean($request->description));
 
         $this->make_success_alert('Успех!', 'Деньги начислены.');
 
@@ -209,7 +209,7 @@ class ProfileController extends Controller
         ]);
         $project = new Project();
         $project->name = $request->name;
-        $project->description = $request->description;
+        $project->description = clean($request->description);
         $project->type = $request->type;
         $project->url = $request->url;
 

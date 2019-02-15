@@ -386,7 +386,7 @@ class CoursesController extends Controller
 
         $chapter = ProgramChapter::findOrFail($chapter_id);
         $chapter->name = $request->name;
-        $chapter->description = $request->description;
+        $chapter->description = clean($request->description);
         $chapter->save();
 
         return redirect('/insider/courses/' . $course_id . '?chapter=' . $chapter_id);
@@ -412,7 +412,7 @@ class CoursesController extends Controller
         $chapter->name = $request->name;
         $chapter->program_id = $program->id;
         $chapter->sort_index = $order;
-        $chapter->description = $request->description;
+        $chapter->description = clean($request->description);
 
         $chapter->save();
 
@@ -444,7 +444,7 @@ class CoursesController extends Controller
 
         $course = Course::findOrFail($id);
         $course->name = $request->name;
-        $course->description = $request->description;
+        $course->description = clean($request->description);
         $course->git = $request->git;
         $course->site = $request->site;
         $course->image = $request->image;
@@ -523,7 +523,7 @@ class CoursesController extends Controller
                 $chapter->name = $request->name;
                 $chapter->program_id = $program->id;
                 $chapter->sort_index = $order;
-                $chapter->description = $request->description;
+                $chapter->description = clean($request->description);
 
                 $chapter->save();
             } else if ($request->program == -2) {
@@ -539,7 +539,7 @@ class CoursesController extends Controller
 
 
         $course->name = $request->name;
-        $course->description = $request->description;
+        $course->description = clean($request->description);
         $course->save();
         $course->teachers()->attach($user->id);
 
