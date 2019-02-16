@@ -172,6 +172,7 @@ Route::prefix('insider')->middleware('verified')->group(function () {
     Route::post('/projects/{id}/edit', 'ProjectsController@edit');
     Route::get('/projects/{id}/delete', 'ProjectsController@deleteProject');
     Route::post('/projects/{id}/review', 'ProjectsController@review');
+    Route::get('/projects/{id}/ask_review', 'ProjectsController@ask_review');
     Route::get('/projects', 'ProjectsController@index');
 
     Route::get('/ideas/create', 'IdeasController@createView');

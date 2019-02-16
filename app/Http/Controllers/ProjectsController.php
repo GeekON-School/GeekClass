@@ -183,4 +183,19 @@ class ProjectsController extends Controller
         return redirect('/insider/projects/' . $project->id);
 
     }
+
+    public function ask_review($id, Request $request)
+    {
+        $project = Project::findOrFail($id);
+        if ($project->task == null) abort(503);
+
+        $when = \Carbon\Carbon::now()->addSeconds(1);
+
+        foreach ($project->task_course->teachers as $teacher) {
+            \Notification::send($teacher, (new \App\Notifications\NewProjectSolution($project))->delay($when));
+        }
+        \Session::flash('message', 'Уведомления отправлены!');
+        return redirect('/insider/projects/' . $project->id);
+
+    }
 }

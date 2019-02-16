@@ -54,7 +54,8 @@
 
             @else
                 <div class="float-right">
-                    <form class="form-inline" method="get" action="{{url('insider/invite')}}">
+                    <form autocomplete="off" class="form-inline" method="get" action="{{url('insider/invite')}}">
+                        <input autocomplete="false" name="hidden" type="text" style="display:none;">
                         {{csrf_field()}}
                         <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0" id="invite"
                                name="invite" placeholder="Инвайт на курс">
