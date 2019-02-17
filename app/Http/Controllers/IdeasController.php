@@ -138,4 +138,28 @@ class IdeasController extends Controller
         $idea->delete();
         return redirect('/insider/ideas/');
     }
+
+    public function approve($id)
+    {
+        $idea = Idea::findOrFail($id);
+        $idea->is_approved = true;
+        $idea->reviewer_id = Auth::User()->id;
+        $idea->save();
+
+        $when = Carbon::now()->addSeconds(1);
+        $idea->author->notify((new IdeaApproved($idea))->delay($when));
+
+        CoinTransaction::register($idea->author->id, 5, "Idea #" . $idea->id);
+        return redirect('/insider/ideas/');
+    }
+
+    public function decline($id)
+    {
+        $idea = Idea::findOrFail($id);
+
+        $when = Carbon::now()->addSeconds(1);
+        $idea->author->notify((new IdeaDeclined($idea))->delay($when));
+
+        return redirect('/insider/ideas/');
+    }
 }
