@@ -124,7 +124,7 @@ class IdeasController extends Controller
             $teachers = User::where('role', 'teacher')->get();
             $when = Carbon::now()->addSeconds(1);
             foreach ($teachers as $teacher) {
-                $idea->author->notify((new NewIdea($idea))->delay($when));
+                $teacher->notify((new NewIdea($idea))->delay($when));
             }
         }
 
