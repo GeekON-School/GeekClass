@@ -27,6 +27,16 @@
         <div class="tab-pane fade show active" id="projects" role="tabpanel" aria-labelledby="projects">
             <div class="row">
                 <div class="col-12">
+                    @if ($user->projects->count() == 0)
+                        <div class="jumbotron">
+                            <h1 class="display-4">Вместе веселее!</h1>
+                            <p class="lead" style="margin-top: 15px;">Часто большие задачи гораздо приятнее решать в небольшой команде. В этом разделе вы можете создать командный проект, добавить участников в команду и привязать проект к одной из учебных задач. А преподаватель сможет оценить всех участников команды одновременно. Попробуйте!</p>
+                            <a class="btn btn-primary btn-lg" style="margin-top: 15px;"
+                               href="{{url('/insider/projects/create/')}}"
+                               role="button">Создать проект</a>
+                        </div>
+                    @endif
+
                     <div class="card-deck">
                         @foreach($user->projects as $project)
 
