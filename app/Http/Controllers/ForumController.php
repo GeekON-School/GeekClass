@@ -41,8 +41,8 @@ class ForumController extends Controller
         }
         if ($request->has('q') and $request->q != "") {
             $q = mb_strtolower($request->q);
-            $threads = ForumThread::whereRaw('LOWER(name) LIKE \'%' . $request->q . '%\'')->orderBy('created_at', 'DESC')->get();
-            $posts = ForumPost::whereRaw('LOWER(text) LIKE \'%' . $request->q . '%\'')->with('thread')->orderBy('created_at', 'DESC')->get();
+            $threads = ForumThread::whereRaw('LOWER(name) LIKE :query')->orderBy('created_at', 'DESC')->setBindings(['query' => '%' . $request->q . '%'])->get();
+            $posts = ForumPost::whereRaw('LOWER(text) LIKE :query ')->with('thread')->orderBy('created_at', 'DESC')->setBindings(['query' => '%' . $request->q . '%'])->get();
             foreach ($posts as $post) {
                 if (!$threads->contains($post->thread)) {
                     $threads->push($post->thread);
@@ -97,8 +97,7 @@ class ForumController extends Controller
 
             $thread->name = $request->name;
 
-            foreach ($thread->tags as $tag)
-            {
+            foreach ($thread->tags as $tag) {
                 $thread->tags()->detach($tag->id);
             }
             $parts = explode(';', $request->tags);
@@ -166,8 +165,7 @@ class ForumController extends Controller
         $thread = ForumThread::findOrFail($id);
         $user = User::findOrFail(Auth::User()->id);
 
-        if (!$thread->subscribers->has($user->id))
-        {
+        if (!$thread->subscribers->has($user->id)) {
             $thread->subscribers()->attach($user->id);
         }
 
@@ -266,8 +264,7 @@ class ForumController extends Controller
         $user = User::findOrFail(Auth::User()->id);
         $thread = ForumThread::findOrFail($thread_id);
 
-        if (!$thread->subscribers->has($user->id))
-        {
+        if (!$thread->subscribers->has($user->id)) {
             $thread->subscribers()->attach($user->id);
         }
 
@@ -280,8 +277,7 @@ class ForumController extends Controller
 
         $when = Carbon::now()->addSeconds(1);
         foreach ($thread->subscribers as $subscriber) {
-            if ($subscriber->id != $user->id)
-            {
+            if ($subscriber->id != $user->id) {
                 $subscriber->notify((new NewForumAnswer($post))->delay($when));
             }
 
