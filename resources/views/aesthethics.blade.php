@@ -7,27 +7,9 @@
     <style>
         @font-face {
           font-family: 'PressStart2P';
-          font-style: normal;
-          font-weight: 400;
-          src: local('Press Start 2P Regular'), local('PressStart2P-Regular'), url(https://fonts.gstatic.com/s/pressstart2p/v7/e3t4euO8T-267oIAQAu6jDQyK3nVivM.woff2) format('woff2');
-          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+          src: url("/PxPlus_AmstradPC1512.ttf");
         }
-                /* cyrillic-ext */
-        @font-face {
-          font-family: 'PressStart2P';
-          font-style: normal;
-          font-weight: 400;
-          src: local('Press Start 2P Regular'), local('PressStart2P-Regular'), url(https://fonts.gstatic.com/s/pressstart2p/v7/e3t4euO8T-267oIAQAu6jDQyK3nYivN04w.woff2) format('woff2');
-          unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-        }
-        /* cyrillic */
-        @font-face {
-          font-family: 'PressStart2P';
-          font-style: normal;
-          font-weight: 400;
-          src: local('Press Start 2P Regular'), local('PressStart2P-Regular'), url(https://fonts.gstatic.com/s/pressstart2p/v7/e3t4euO8T-267oIAQAu6jDQyK3nRivN04w.woff2) format('woff2');
-          unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-        }
+
         body
         {
             font-family: 'PressStart2P';
@@ -97,6 +79,7 @@
                     if (argv.length < 3) 
                     {
                         writestr('Incorrect amount of parameters');
+
                         return;
                     }
 
@@ -116,7 +99,6 @@
                 process: function(argv)
                 {
                     writestr("Aesthethic shell v1.0")
-                    cury++;
                     printHelp();
                 },
                 'desc': "Prints help"
@@ -180,11 +162,28 @@
                 },
                 'desc': "Greets you"
             },
+            'scroll':
+            {
+                process: function(argv)
+                {
+                    cury--;
+
+                    for (let i = 0; i < width; i++)
+                    {
+                        for (let j = 0; j < height-1; j++)
+                        {
+                            charmap[j][i] = charmap[j+1][i];
+                            
+                        }
+                        charmap[height-1][i] = 0;
+                    }
+                },
+                'desc': "Scrolls screen"
+            },
             'clear':
             {
                 process: function(argv)
                 {
-                    curx = 0;
                     cury = 0;
                     for (let i = 0; i < height; i++)
                     {
@@ -192,6 +191,7 @@
                         {
                             charmap[i][j] = 0;
                         }
+
                     }
                 },
                 'desc': "Clears screen"
@@ -203,6 +203,11 @@
                     if (argv.length <= 1)
                     {
                         writestr('Incorrect amount of parameters');
+                        return;
+                    }
+                    if (argv[1] == "--list")
+                    {
+                        writestr('macintosh_plus');
                         return;
                     }
                     if (argv[1] == "stop")
@@ -223,11 +228,11 @@
                     }
                     else
                     {
-                        writestr('song not found');
+                        writestr('song not found, type --list to list all');
                     }
 
                 },
-                'desc': "Play song"
+                'desc': "Play song, type --list to list all"
             }
         }
 
@@ -237,7 +242,6 @@
             for (var key in commands) 
             {
                 writestr(key + ": " + commands[key]['desc']);
-                cury++;
             }
         }
 
@@ -255,25 +259,29 @@
             }
         }
 
-        function writestr(str) {
-            let offsety = 0;
-            let offsetx = 0;
+        function writestr(str, nl) {
+            nl = (nl == undefined ? 1 : nl);
             curx = 0;
             for (let i = 0; i < str.length; i++)
             {
-                charmap[cury+offsety][curx+offsetx] = str[i];
-                offsetx++;
-                if (curx+offsetx >= width)
+                
+                if (curx >= width)
                 {
                     cury++;
-                    offsetx = 0;
+                    curx = 0;
                 }
-                if (cury >= height-1)
+                if (cury >= height)
                 {
-                    commands['clear'].process(0);
-                    break;
+                    curx = 0;
+                    commands['scroll'].process(0);
+                                        
                 }
+                charmap[cury][curx] = str[i];
+                curx++;
+
             }
+
+            if (nl) cury++;
         }
 
         function putc_input(c) {
@@ -283,6 +291,10 @@
             {
                 curx = 0;
                 cury++;
+            }
+            if (cury >= height)
+            {
+                commands['scroll'].process(0);
             }
         }
         function rmc_input() {
@@ -312,21 +324,20 @@
         }
 
         function writeAsh() {         
-            cury++;   
-            writestr('/bin/ash#=>');
-            curx = 12;
+            var ashStr = '[root]/bin/ash#=> ';
+            writestr(ashStr, 0);
         }
 
 
         writestr('Aesthethic Shell version 1.0, type `help` for help');
-        cury += 2;
+
         writeAsh();
 
         function render()
         {
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (blink) ctx.fillRect(10+curx*w, (50-h)+cury*h, w, h);
+            if (blink) ctx.fillRect(10+curx*w, cury*h, w, h);
         
 
             let realmap = '';
@@ -334,17 +345,19 @@
             {
                 for (let j = 0; j < width; j++)
                 {
-                    if (charmap[i][j] === 0 || charmap[i][j] === undefined) {ctx.fillText(' ', 10+j*20, w+i*h); continue;};
+
+                    if (charmap[i][j] === 0 || charmap[i][j] === undefined || charmap[i][j] === '\n') {realmap += ' '; continue;};
                     //if (charmap[i][j] === '\n') {realmap+='<br>'; continue;};
-                    ctx.fillText(charmap[i][j], 10+j*w, 50+i*h);
+                    // ctx.fillText(charmap[i][j], 10+j*w, 50+i*h);
                     realmap += charmap[i][j];
                 }
-
+                ctx.fillText(realmap, 10, h+i*h);
+                realmap = '';
             }
         }
 
         function parseCommand(input) {
-            let formatted = input.split(' ');
+            let formatted = input.trim().split(' ');
             if (input.trim() == '') return;
             try
             {

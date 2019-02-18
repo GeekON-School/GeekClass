@@ -92,13 +92,14 @@
                                                 data-subtext="{{$lesson->name}} ({{$course->name}})">{{$task->name}}</option>
                                     @endforeach
                                 @endforeach
-                            @endforeach
+                            @endforeach    
+
                         @endforeach
+    {{--                                             <script>
+                            $('.selectpicker').selectpicker('val', '{{ $course->id }}_{{ $task->id }}');
+                        </script> --}}
                     </select>
 
-                    <script>
-                        $('.selectpicker').selectpicker('val', '{{ $course->id }}_{{ $task->id }}');
-                    </script>
                 </div>
 
 

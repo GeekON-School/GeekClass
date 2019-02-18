@@ -42,6 +42,7 @@ class ProjectsController extends Controller
         $author = $project->author();
         $guest_projects = $user->projects;
         $is_in_project = $project->team->contains($user);
+        $is_author = $author->get() == Auth::User();
         $tags = explode(" ", $project->tags);
         return view('projects.details', compact('project', 'user', 'is_in_project', 'is_author', 'tags'));
     }
@@ -88,7 +89,7 @@ class ProjectsController extends Controller
                 $project->team()->attach($member_id);
             }
 
-        if ($request->has('task')) {
+        if ($request['task'] != "") {
             $parts = explode('_', $request->task);
             $task_id = $parts[1];
             $course_id = $parts[0];
@@ -101,6 +102,12 @@ class ProjectsController extends Controller
             $project->course_id = $course_id;
             $project->save();
             # TODO: уведомление преподавателю
+        }
+        else
+        {
+            $project->task_id = NULL;
+            $project->course_id = NULL;
+            $project->save();
         }
 
 
@@ -118,7 +125,7 @@ class ProjectsController extends Controller
         $project = Project::createProject($request);
         $project->team()->attach($user->id);
 
-        if ($request->has('task')) {
+        if ($request['task'] != "") {
             $parts = explode('_', $request->task);
             $task_id = $parts[1];
             $course_id = $parts[0];
