@@ -489,9 +489,91 @@
 
                                     @endif
                                     @foreach ($task->solutions->where('user_id', Auth::User()->id) as $key => $solution)
+<<<<<<< HEAD
                                         
                                         @if ($solution->checked == null || $solution->mark == $task->solutions->max('mark'))
                                             @include('steps.solution_partial')
+||||||| merged common ancestors
+
+                                        @if ($solution->checked == null || $solution->mark == $task->solutions->max('mark') || $viewall)
+                                            <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
+
+                                                <div class="col">
+
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            Дата сдачи: {{ $solution->submitted->format('d.M.Y H:i')}}
+                                                            <div class="float-right">
+                                                                @if ($solution->mark!=null)
+                                                                    <span class="badge badge-primary">Оценка: {{$solution->mark}}</span>
+                                                                    <br>
+                                                                @else
+                                                                    <span class="badge badge-secondary">Решение еще не проверено</span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            @if ($task->is_code)
+                                                                <pre><code class="hljs python">{{$solution->text}}</code></pre>
+                                                            @else
+                                                                {!! nl2br(e(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->text)), false))  !!}
+                                                            @endif
+                                                            <br><br>
+                                                            @if ($solution->mark!=null)
+                                                                <p>
+                                                    <span class="badge badge-light">Проверено: {{$solution->checked}}
+                                                        , {{$solution->teacher->name}}</span>
+                                                                </p>
+                                                                <p class="small">
+                                                                    {!!  nl2br(e(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->comment)))) !!}
+                                                                </p>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+=======
+
+                                        @if ($solution->checked == null || $solution->mark == $task->solutions->max('mark') || $viewall)
+                                            <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
+
+                                                <div class="col">
+
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            Дата сдачи: {{ $solution->submitted->format('d.M.Y H:i')}}
+                                                            <div class="float-right">
+                                                                @if ($solution->mark!=null)
+                                                                    <span class="badge badge-primary">Оценка: {{$solution->mark}}</span>
+                                                                    <br>
+                                                                @else
+                                                                    <span class="badge badge-secondary">Решение еще не проверено</span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            @if ($task->is_code)
+                                                                <pre><code class="hljs python">{{$solution->text}}</code></pre>
+                                                            @else
+                                                                {!! nl2br(e(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->text)), false))  !!}
+                                                            @endif
+                                                            <br><br>
+                                                            @if ($solution->mark!=null)
+                                                                <p>
+                                                    <span class="badge badge-light">Проверено: {{$solution->checked}}
+                                                        , {{$solution->teacher->name}}</span>
+                                                                </p>
+                                                                <p class="small">
+                                                                    {!!  nl2br(e(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->comment)), false)) !!}
+                                                                </p>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+>>>>>>> 7973134679f9781a305672b50237e1792ecd852c
                                         @endif
                                     @endforeach
                                     <a data-toggle="collapse" href="#solutionCollapse">Показать остальные</a>
