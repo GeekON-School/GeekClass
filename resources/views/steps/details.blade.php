@@ -521,7 +521,7 @@
                                                         , {{$solution->teacher->name}}</span>
                                                                 </p>
                                                                 <p class="small">
-                                                                    {!!  nl2br(e(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->comment)))) !!}
+                                                                    {!!  nl2br(e(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->comment)), false)) !!}
                                                                 </p>
                                                             @endif
                                                         </div>
