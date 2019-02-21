@@ -98,6 +98,8 @@ Route::prefix('insider')->middleware('verified')->group(function () {
     Route::get('/courses/{id}/chapter', 'CoursesController@createChapterView');
     Route::post('/courses/{id}/chapter', 'CoursesController@createChapter');
     Route::get('/courses/{id}/add_sdl_lesson', 'CoursesController@addSdlLesson');
+    Route::post('/courses/{id}/sdl_idea', 'CoursesController@setSdlIdea');
+    Route::get('/courses/{id}/sdl_idea', 'CoursesController@setSdlIdea');
 
     Route::get('/courses/{course_id}/chapters/{chapter_id}/edit', 'CoursesController@editChapterView');
     Route::get('/courses/{course_id}/chapters/{chapter_id}/upper', 'CoursesController@makeChapterUpper');

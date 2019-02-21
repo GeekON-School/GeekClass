@@ -202,9 +202,7 @@
             </div>
             <div class="tab-pane fade" id="archive" role="tabpanel" aria-labelledby="archive">
                 <div class="row" style="margin-top: 15px;">
-
                     @foreach($courses->where('state', 'ended')->sortByDesc('start_date') as $course)
-
                         <div class="col-6">
                             <div class="card">
                                 <div class="card-body">

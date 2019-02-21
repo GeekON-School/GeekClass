@@ -30,9 +30,9 @@
                 <div class="form-group">
                     <label for="description">Описание</label>
                     @if (old('description')!='')
-                    <textarea id="description"  class="form-control"  name="description" required>{{old('description')}}</textarea>
+                    <textarea id="description"  class="form-control"  name="description">{{old('description')}}</textarea>
                     @else
-                        <textarea id="description"  class="form-control"  name="description" required>{{$scale->description}}</textarea>
+                        <textarea id="description"  class="form-control"  name="description">{{$scale->description}}</textarea>
                     @endif
                     @if ($errors->has('description'))
                         <span class="help-block error-block">

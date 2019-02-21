@@ -136,6 +136,33 @@
                     @endif
                 </script>
 
+                <div class="form-group">
+                    <label for="scale_id">Шкала образовательных результатов</label>
+                    <select class="selectpicker2 form-control" data-live-search="true" id="scale_id"
+                            name="scale_id" data-width="auto">
+                        <option data-tokens="-1" value="-1">Нет</option>
+                        @foreach (\App\ResultScale::all() as $scale)
+                            <option data-tokens="{{ $scale->id }}" value="{{ $scale->id }}">{{$scale->name}}</option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('scale_id'))
+                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('scale_id') }}</strong>
+                                    </span>
+                    @endif
+                </div>
+
+                <script>
+                    @if ($lesson->scale_id != null)
+                    $('.selectpicker2').selectpicker('val', '{{$lesson->scale_id}}');
+                    @else
+                    $('.selectpicker2').selectpicker();
+                    @endif
+                </script>
+
+
+
+
                 <div class="form-check">
                     <label class="form-check-label">
                         <input type="checkbox" class="form-check-input" name="open" value="yes"

@@ -66,7 +66,7 @@ class ScalesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
         ]);
 
         $scale = ResultScale::findOrFail($id);
@@ -80,7 +80,7 @@ class ScalesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
         ]);
 
         $scale = new ResultScale();
@@ -100,7 +100,7 @@ class ScalesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
             'level' => 'required|integer',
         ]);
 
@@ -127,7 +127,7 @@ class ScalesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
             'level' => 'required|integer',
         ]);
 

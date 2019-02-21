@@ -137,6 +137,18 @@ class LessonsController extends Controller
             }
         }
 
+        if ($request->has('scale_id'))
+        {
+            if ($request->scale_id == -1)
+            {
+                $lesson->scale_id = null;
+            }
+            else {
+                $this->validate($request, ['scale_id' => 'nullable|exists:result_scales,id']);
+                $lesson->scale_id = $request->scale_id;
+            }
+        }
+
         $lesson->save();
 
         if ($request->hasFile('import') && $request->file('import')->getClientMimeType() == 'application/json') {

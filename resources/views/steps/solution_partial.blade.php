@@ -23,8 +23,8 @@
                 <br><br>
                 @if ($solution->mark!=null)
                     <p>
-                                                                <span class="badge badge-light">Проверено: {{$solution->checked}}
-                                                                    , {{$solution->teacher->name}}</span>
+                        <span class="badge badge-light">Проверено: {{$solution->checked}}
+                            , {{$solution->teacher->name}}</span>
                     </p>
                     <p class="small">
                         {!!  nl2br(e(str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', str_replace(' ', '&nbsp;', $solution->comment)), false)) !!}

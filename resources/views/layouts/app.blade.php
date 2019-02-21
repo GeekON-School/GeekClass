@@ -49,6 +49,11 @@
     {!! \NoCaptcha::renderJs() !!}
     <script>
         $(function () {
+            $(".nav-link").click(function () {
+                $(".nav-link.active").removeClass('active');
+            });
+        });
+        $(function () {
             $(".date").datepicker({
                 changeMonth: true,
                 changeYear: true,
@@ -113,7 +118,8 @@
             </ul>
 
             <ul class="navbar-nav" style="width: 260px;">
-            <span style="margin-top: 8px; color: white;" data-container="body" data-placement="bottom" data-content="{!! Auth::user()->getHtmlTransactions() !!}" data-html="true" data-toggle="popover">
+            <span style="margin-top: 8px; color: white;" data-container="body" data-placement="bottom"
+                  data-content="{!! Auth::user()->getHtmlTransactions() !!}" data-html="true" data-toggle="popover">
                <img src="https://png.icons8.com/color/50/000000/coins.png"
                     style="height: 23px;">&nbsp;{{Auth::user()->balance()}}&nbsp;&nbsp;
 
@@ -126,6 +132,10 @@
                     <div class="dropdown-menu" aria-labelledby="dropdown01">
                         <a class="dropdown-item" href="{{url('insider/profile')}}"><i class="icon ion-person"></i>
                             Профиль</a>
+                        @if (\Auth::User()->role != 'student')
+                            <a class="dropdown-item" href="{{url('insider/scales')}}"><i
+                                        class="icon ion-university"></i> Шкалы</a>
+                        @endif
                         <a class="dropdown-item" href="{{url('insider/core/'.\Auth::User()->id)}}"><i
                                     class="icon ion-map"></i> Карта</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
@@ -162,6 +172,8 @@
 <script>
     var url = document.location.toString();
 
+
+
     if (url.match('#')) {
         $('a[href="#' + url.split('#')[1] + '"]').tab('show');
         console.log(url.split('#')[1]);
@@ -179,21 +191,25 @@
     $(document).ready(function () {
         $('.selectpicker').selectpicker();
     });
-// define a handler
-function doc_keyUp(e) {
 
-    // this would test for whichever key is 40 and the ctrl key at the same time
-    if (e.ctrlKey && e.keyCode == 81) {
-        // call your function to do the thing
-        location.href = "/aesthethics"
+    // define a handler
+    function doc_keyUp(e) {
+
+        // this would test for whichever key is 40 and the ctrl key at the same time
+        if (e.ctrlKey && e.keyCode == 81) {
+            // call your function to do the thing
+            location.href = "/aesthethics"
+        }
     }
-}
-// register the handler 
-document.addEventListener('keyup', doc_keyUp, false);
+
+    // register the handler
+    document.addEventListener('keyup', doc_keyUp, false);
     $(document).popover({
         selector: '[data-toggle=popover]',
         trigger: 'hover'
     });
+
+
 </script>
 
 </body>

@@ -30,7 +30,7 @@ class HasAccessToTask
             $user = User::findOrFail(Auth::User()->id);
             $task = Task::findOrFail($request->id);
             $course = Course::findOrFail($request->course_id);
-            if ($course->students->contains($user) and $course->steps->contains($task->step))
+            if ($course->students->contains($user) and ($course->is_sdl or $course->steps->contains($task->step)))
             {
                 return $next($request);
             }

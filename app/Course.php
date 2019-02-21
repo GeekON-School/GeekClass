@@ -31,7 +31,7 @@ class Course extends Model
 
     public function students()
     {
-        return $this->belongsToMany('App\User', 'course_students', 'course_id', 'user_id')->withPivot('is_remote')->orderBy('name');
+        return $this->belongsToMany('App\User', 'course_students', 'course_id', 'user_id')->withPivot(['is_remote', 'idea_id'])->orderBy('name');
     }
 
     public function provider()
@@ -80,9 +80,8 @@ class Course extends Model
     {
         $user = User::findOrFail(\Auth::User()->id);
         if (!$this->isStarted($lesson)) return false;
-        if ($user->role=='teacher') return true;
-        foreach ($lesson->prerequisites as $prerequisite)
-        {
+        if ($user->role == 'teacher') return true;
+        foreach ($lesson->prerequisites as $prerequisite) {
             if (!$user->checkPrerequisite($prerequisite)) return false;
         }
         return true;
@@ -136,7 +135,6 @@ class Course extends Model
             'body' => json_encode($cert_request)
         ]);
         $cert_result = json_decode($res->getBody()->getContents());
-
 
 
         foreach ($this->students as $student) {

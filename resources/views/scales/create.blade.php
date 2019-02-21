@@ -24,7 +24,7 @@
 
                 <div class="form-group">
                     <label for="description">Описание</label>
-                    <textarea id="description"  class="form-control"  name="description" required>{{old('description')}}</textarea>
+                    <textarea id="description"  class="form-control"  name="description">{{old('description')}}</textarea>
                     @if ($errors->has('description'))
                         <span class="help-block error-block">
                                         <strong>{{ $errors->first('description') }}</strong>
