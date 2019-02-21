@@ -60,7 +60,7 @@
                             data-width="auto">
                         <option data-tokens="-1"
                                 value="">Не привязывать к задаче</option>
-                        @foreach ($user->courses->where('state', 'started') as $course)
+                        @foreach ($user->courses->where('state', 'started')->where('is_sdl', false) as $course)
                             @foreach ($course->lessons as $lesson)
                                 @foreach ($lesson->steps as $step)
                                     @foreach ($step->tasks->where('answer', null)->where('is_code', false) as $task)
