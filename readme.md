@@ -5,7 +5,10 @@
 
 
 ```bash
+# Если Linux/MacOS
 cp .env.example .env
+# Если Windows
+copy .env.example .env
 composer install # у вас должен быть установлен composer
 php artisan key:generate # у вас должен установлен php
 docker-compose up
