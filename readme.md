@@ -3,8 +3,9 @@
 
 ## Как запустить
 
+
 ```bash
-#переименовать .env.example в .env
+cp .env.example .env
 composer install # у вас должен быть установлен composer
 php artisan key:generate # у вас должен установлен php
 docker-compose up
