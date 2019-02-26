@@ -488,22 +488,26 @@
                                         </div>
 
                                     @endif
+                                    @php($mlen=0)
                                     @foreach ($task->solutions->where('user_id', Auth::User()->id) as $key => $solution)
-
-                                        @if ($solution->checked == null || $solution->mark == $task->solutions->max('mark'))
+                                        @if ($solution->checked == null || $solution->mark == 0 || $solution->mark == $task->solutions->max('mark'))
                                             @include('steps.solution_partial')
+                                        @else
+                                            @php($mlen+=1)
                                         @endif
                                     @endforeach
-                                    <a data-toggle="collapse" href="#solutionCollapse">Показать остальные</a>
-                                    <div class="collapse" id="solutionCollapse">
-                                        @foreach ($task->solutions->where('user_id', Auth::User()->id) as $key => $solution)
+                                    @if($mlen != 0)
+                                        <a data-toggle="collapse" href="#solutionCollapse">Показать остальные</a>
+                                        <div class="collapse" id="solutionCollapse">
+                                            @foreach ($task->solutions->where('user_id', Auth::User()->id) as $key => $solution)
 
-                                            @if ($solution->checked == null || $solution->mark == $task->solutions->max('mark'))
-                                                @include('steps.solution_partial')
-                                            @endif
+                                                @if ($solution->checked != null && $solution->mark != 0 && $solution->mark != $task->solutions->max('mark'))
+                                                    @include('steps.solution_partial')
+                                                @endif
 
-                                        @endforeach
-                                    </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 @endif
                                 @if (!$task->is_quiz)
                                     <div class="row" style="margin-top: 15px; margin-bottom: 15px;">

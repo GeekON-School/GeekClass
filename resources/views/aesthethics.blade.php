@@ -218,7 +218,7 @@
                             return;
                         }
                         snd.pause();
-                        return;
+                        return;dsafk;asdfkj;sdlkfjskldjflksjdfklsjdflkjsdkfjksjdf
                     }
                     if (argv[1] == "macintosh_plus")
                     {
