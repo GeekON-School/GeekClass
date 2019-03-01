@@ -490,7 +490,7 @@
                                     @endif
                                     @php($mlen=0)
                                     @foreach ($task->solutions->where('user_id', Auth::User()->id) as $key => $solution)
-                                        @if ($solution->checked == null || $solution->mark == 0 || $solution->mark == $task->solutions->max('mark'))
+                                        @if ($solution->checked == null || $solution->mark == 0 || $solution->mark == $task->solutions->where('user_id', Auth::User()->id)->max('mark'))
                                             @include('steps.solution_partial')
                                         @else
                                             @php($mlen+=1)
@@ -501,7 +501,7 @@
                                         <div class="collapse" id="solutionCollapse">
                                             @foreach ($task->solutions->where('user_id', Auth::User()->id) as $key => $solution)
 
-                                                @if ($solution->checked != null && $solution->mark != 0 && $solution->mark != $task->solutions->max('mark'))
+                                                @if ($solution->checked != null && $solution->mark != 0 && $solution->mark != $task->solutions->where('user_id', Auth::User()->id)->max('mark'))
                                                     @include('steps.solution_partial')
                                                 @endif
 
