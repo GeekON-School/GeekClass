@@ -57,6 +57,7 @@ class ProfileController extends Controller
         $sticker_description = [];
 
         foreach($user->courses as $course) {
+            if ($course->is_sdl) continue;
             foreach($course->lessons as $lesson) {
                 if ($lesson->percent($user)>90)
                 {
