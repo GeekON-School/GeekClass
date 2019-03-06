@@ -166,9 +166,15 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col">
+                                                    @if ($lessons->contains($lesson))
                                                     <h5>{{$key+1}}. <a class="collection-item"
                                                                        href="{{url('/insider/courses/'.$course->id.'/steps/'.$lesson->steps->first()->id)}}">{{$lesson->name}}</a>
                                                     </h5>
+                                                    @else
+                                                        <h5>{{$key+1}}. <a class="collection-item text-muted"
+                                                                           href="#">{{$lesson->name}}</a>
+                                                        </h5>
+                                                    @endif
                                                 </div>
                                             </div>
 
