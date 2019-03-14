@@ -16,7 +16,7 @@ docker-compose up
 ```bash
 docker exec -it <имя контейнера php>
 ``` 
-Имя контейнера можно посмотреть набрать `docker-compose ps`
+Имя контейнера можно посмотреть набрав `docker-compose ps`
 
 Пример
 
