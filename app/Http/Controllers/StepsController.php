@@ -76,6 +76,7 @@ class StepsController extends Controller
         if (request('viewall')) $viewall = true;
 
         $quizer = $quizer && $zero_theory && !$empty;
+        
 
         return view('steps.details', compact('step', 'user', 'viewall', 'tasks', 'zero_theory', 'one_tasker', 'empty', 'quizer', 'course'));
     }
