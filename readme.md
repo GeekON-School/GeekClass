@@ -3,26 +3,33 @@
 
 ## Как запустить
 
+Для запуска требуется `docker` и `docker-compose`
 
 ```bash
-# Если Linux/MacOS
-cp .env.example .env
-# Если Windows
-copy .env.example .env
-composer install # у вас должен быть установлен composer
-php artisan key:generate # у вас должен установлен php
 docker-compose up
-docker inspect database-geekclass
-# находим свойство IPAddress и вставляем его значение (без кавычек) в .env
-docker-compose exec php bash
-apt update
-apt install libpq-dev
-docker-php-ext-install pdo_pgsql
-php artisan migrate
 ```
+
+## Выполнение команд в контейнере
+
+Это полезно если вам нужно мигрировать базу данных, что в данном случае невозможно сделать на хост-машине
+
+```bash
+docker exec -it <имя контейнера php>
+``` 
+Имя контейнера можно посмотреть набрать `docker-compose ps`
+
+Пример
+
+```bash
+docker exec -it geekclass_php_1
+```
+
 ## Доступ к сайту
 Сайт будет доступен по адресу `localhost:8050`
+
 Adminer будет доступен по адресу `localhost:8080`
+
+Порты можно настроить в `docker-compose.yml`, убедитесь что при перемене портов в контейнере с базой данных вы так-же меняете их в `.env` 
 
 ### Регистрация учителя
 Создайте новое поле в таблице `providers` с помощью `Adminer` и введите в поле `invite` любое значение, затем используйте его на регистрации
