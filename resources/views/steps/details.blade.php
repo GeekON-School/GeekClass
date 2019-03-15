@@ -488,23 +488,14 @@
                                         </div>
 
                                     @endif
-                                    @php($mlen=0)
-                                    @foreach ($task->solutions->where('user_id', Auth::User()->id) as $key => $solution)
-                                        @if ($solution->checked == null || $solution->mark == 0 || $solution->mark == $task->solutions->where('user_id', Auth::User()->id)->max('mark'))
-                                            @include('steps.solution_partial')
-                                        @else
-                                            @php($mlen+=1)
-                                        @endif
+                                    @foreach ($tasksSolutions[$key]->shownSolutions as $sol_key => $solution)
+                                        @include('steps.solution_partial')
                                     @endforeach
-                                    @if($mlen != 0)
+                                    @if(sizeof($tasksSolutions[$key]->hiddenSolutions) > 0)
                                         <a data-toggle="collapse" href="#solutionCollapse">Показать остальные</a>
                                         <div class="collapse" id="solutionCollapse">
-                                            @foreach ($task->solutions->where('user_id', Auth::User()->id) as $key => $solution)
-
-                                                @if ($solution->checked != null && $solution->mark != 0 && $solution->mark != $task->solutions->where('user_id', Auth::User()->id)->max('mark'))
-                                                    @include('steps.solution_partial')
-                                                @endif
-
+                                            @foreach ($tasksSolutions[$key]->hiddenSolutions as $sol_key => $solution)
+                                                @include('steps.solution_partial')
                                             @endforeach
                                         </div>
                                     @endif

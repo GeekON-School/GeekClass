@@ -1,7 +1,6 @@
+{{-- Will be replaced by solution.vue --}}
 <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
-
     <div class="col">
-
         <div class="card">
             <div class="card-header">
                 Дата сдачи: {{ $solution->submitted->format('d.M.Y H:i')}}
@@ -32,6 +31,5 @@
                 @endif
             </div>
         </div>
-
     </div>
 </div>

@@ -71,14 +71,29 @@ class StepsController extends Controller
         foreach ($tasks as $task)
             if (!$task->is_quiz) $quizer = false;
         
-        //View all solutions
-        $viewall = false;
-        if (request('viewall')) $viewall = true;
-
         $quizer = $quizer && $zero_theory && !$empty;
-        
 
-        return view('steps.details', compact('step', 'user', 'viewall', 'tasks', 'zero_theory', 'one_tasker', 'empty', 'quizer', 'course'));
+        //Tasks Solutions
+        $tasksSolutions = [];
+        foreach ($tasks as $key => $task) {
+            //Make a class
+            $tasksSolutions[$key] = new \stdClass();
+            //User solutions
+            $tasksSolutions[$key]->userSolutions = $task->solutions->where('user_id', Auth::User()->id);
+            //Shown solutions
+            $tasksSolutions[$key]->shownSolutions = $tasksSolutions[$key]->userSolutions
+            ->filter(function($sol) use ($tasksSolutions, $key) {
+                return $sol->checked == null || $sol->mark == 0 || $sol->mark == $tasksSolutions[$key]->userSolutions->max('mark');
+            });
+            //Hidden solutions
+            $tasksSolutions[$key]->hiddenSolutions =  $tasksSolutions[$key]->userSolutions
+            ->filter(function($sol, $k) use ($tasksSolutions, $key){
+                return !isset($tasksSolutions[$key]->shownSolutions[$k]);
+            });
+        }
+
+            
+        return view('steps.details', compact('tasksSolutions', 'step', 'user', 'tasks', 'zero_theory', 'one_tasker', 'empty', 'quizer', 'course'));
     }
 
     public function perform($course_id, $id)
