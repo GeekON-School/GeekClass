@@ -56,6 +56,24 @@ Route::prefix('insider')->middleware('verified')->group(function () {
         return redirect('/insider/courses');
     });
 
+
+    Route::get('/games', 'GamesController@index');
+    Route::post('/games', 'GamesController@store');
+    Route::get('/games/{id}', 'GamesController@play');
+    Route::get('/games/{id}/upvote', 'GamesController@upvote');
+    Route::get('/games/{id}/downvote', 'GamesController@downvote');
+    Route::post('/games/{id}/comment', 'GamesController@comment');
+    Route::get('/games/{id}/reward', 'GamesController@reward')->middleware('noysreward');
+    Route::post('/games/{id}/reward', 'GamesController@sendReward')->middleware('noysreward');
+    Route::get('/games/comments/{cid}/delete', 'GamesController@commentDelete')->middleware('gameowncomment');
+    Route::post('/games/{id}', 'GamesController@update')->middleware('gameown');
+
+    Route::get('/games/{id}/frame', 'GamesController@frame');
+    Route::get('/games/{id}/edit', 'GamesController@edit')->middleware('gameown');
+    Route::get('/games/{id}/delete', 'GamesController@delete')->middleware('gameown');
+    Route::get('/games/{id}/viewsource', 'GamesController@viewsource');
+    Route::get('/games/create', 'GamesController@create');
+
     Route::get('/market', 'MarketController@index');
     Route::get('/market/create', 'MarketController@createView');
     Route::post('/market/create', 'MarketController@create');
