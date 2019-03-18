@@ -40,6 +40,7 @@ class GamesController extends Controller
             'game_id' => $id,
             'comment' => $request->comment
         ]);
+        
         return redirect('insider/games/'.$id.'/#comment');
     }
 
@@ -172,7 +173,7 @@ class GamesController extends Controller
     public function viewsource($id)
     {
         $game = \App\Game::findOrFail($id);
-        return $game->file();
+        return response($game->file(), 200)->header('Content-Type', 'text/javascript');
     }
 
     public function play($id)

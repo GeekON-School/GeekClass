@@ -23,12 +23,14 @@
     </div>
     <div class="card col">
         <div class="card-body">
+  <a href="/insider/games/{{$game->id}}/viewsource">Смотреть код</a>
             <div class="d-flex justify-content-between" style="margin-bottom: 20px">
                 <div>@include('games/upvoteswidget', ['game' => $game])</div>
                             
             @if (\Auth::id()==$game->user->id || \Auth::user()->role == 'teacher')
                             <a href="/insider/games/{{$game->id}}/edit">Изменить</a>
                         @endif 
+                      
                          @if (\Auth::id()!=$game->user->id || \Auth::user()->role == 'teacher')
                     <a href="/insider/games/{{$game->id}}/reward" class="meta">Наградить</a>
                     @endif
