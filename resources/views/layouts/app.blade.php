@@ -38,7 +38,6 @@
     <link rel="stylesheet"
           href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/styles/atom-one-light.min.css">
     <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/highlight.min.js"></script>
-    <link rel="stylesheet" href="{{asset('codemirror.css')}}">
     <script>hljs.initHighlightingOnLoad();</script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="{{url('css/bootstrap-select.min.css')}}">
@@ -81,7 +80,7 @@
         }
 
     </style>
-
+    @yield('head')
 
 </head>
 <body>

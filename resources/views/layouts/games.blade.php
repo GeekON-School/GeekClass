@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('head')
+    <link rel="stylesheet" href="{{asset('codemirror.css')}}">
+@endsection
+
 @section('content')
 <div class="row" style="margin-bottom: 50px;">
     <h1 class="col">@yield('heading', 'N/A')</h1>
