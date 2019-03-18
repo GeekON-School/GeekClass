@@ -84,7 +84,7 @@
         <p class="col-sm-11 text-secondary">
             Возвращает текущий статус кнопок клавиатуры (нажата, не нажата), доступ через <code>engine.keys[key_code]</code> где <code>key_code</code> это код клавишы  
         </p>
-        <p class="col-sm-11 text-secondary">Пример: <code>engine.keys[String.fromCharCode('a')]</code> вернет нажата ли клавиша <code>a</code></p>
+        <p class="col-sm-11 text-secondary">Пример: <code>engine.keys['a']</code> вернет нажата ли клавиша <code>a</code></p>
     </div>
 </div>
 <div class="row-sm col" style="margin-bottom: 300px;">
