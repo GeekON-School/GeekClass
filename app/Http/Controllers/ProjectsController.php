@@ -121,6 +121,7 @@ class ProjectsController extends Controller
             'short_description' => 'required|string'
 
         ]);
+
         $user = User::findOrFail(Auth::User()->id);
         $project = Project::createProject($request);
         $project->team()->attach($user->id);

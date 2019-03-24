@@ -68,6 +68,7 @@
     <style>
         .card {
             border: 1px solid rgba(220, 220, 220, 1);
+            border-radius: 5px;
         }
 
         .card-footer {
@@ -79,7 +80,7 @@
         }
 
     </style>
-
+    @yield('head')
 
 </head>
 <body>
@@ -114,6 +115,9 @@
                 </li>
                 <li class="nav-item {{(Request::is('insider/market*') ? 'active' : '') }}">
                     <a class="nav-link" href="{{url('insider/market')}}">Магазин</a>
+                </li>
+                <li class="nav-item {{(Request::is('insider/game*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/games')}}">Игры</a>
                 </li>
             </ul>
 
