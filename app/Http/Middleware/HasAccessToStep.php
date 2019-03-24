@@ -29,7 +29,7 @@ class HasAccessToStep
             $user = User::findOrFail(Auth::User()->id);
             $step = ProgramStep::findOrFail($request->id);
             $course = Course::findOrFail($request->course_id);
-            if ($course->students->contains($user) and ($course->is_sdl or $course->steps->contains($step)))
+            if ($course->students->contains($user) and ($course->is_sdl or $course->steps->contains($step)) and $step->lesson->isStarted($course))
             {
 
                 return $next($request);
