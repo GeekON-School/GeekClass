@@ -29,7 +29,7 @@
     </div>
     <div>
         <h4><label for="title">Описание:</label></h4>
-        <textarea class="form-control" rows="10" type="text" name="description" id="description">{{old('description')}}</textarea>
+        <textarea class="form-control" rows="10" type="text" name="description" id="text">{{old('description')}}</textarea>
     </div>
 
         <h4>Код:</h4>
@@ -105,7 +105,11 @@
         mode:  "javascript"
     });
     cm.setOption("lineWrapping", true);
-
+    var simplemde_text = new EasyMDE({
+        spellChecker: false,
+        autosave: true,
+        element: document.getElementById("text")
+    });
 
 </script>
 @endsection
