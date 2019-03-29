@@ -65,21 +65,6 @@
     </script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="{{url('/js/bootstrap-select.min.js')}}"></script>
-    <style>
-        .card {
-            border: 1px solid rgba(220, 220, 220, 1);
-            border-radius: 5px;
-        }
-
-        .card-footer {
-            border-radius: 0 !important;
-        }
-
-        .modebar {
-            display: none !important;
-        }
-
-    </style>
     @yield('head')
 
 </head>

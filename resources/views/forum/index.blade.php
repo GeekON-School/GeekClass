@@ -16,7 +16,7 @@
             <form>
                 <div class="form-row">
                     <div class="col-12 col-md-9">
-                        <input type="text" class="form-control" name="q" placeholder="Как работает...">
+                        <input style="border-radius: 0; border: 0;" type="text" class="form-control" name="q" placeholder="Как работает...">
                     </div>
                     <div class="col-auto">
                         <input type="submit" class="btn btn-success" value="Найти" style="margin-right: 5px;"/>
