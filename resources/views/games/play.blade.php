@@ -1,16 +1,56 @@
-@extends('layouts.games', ['page' => 1])
+@extends('layouts.games', ['page' => 1, 'game' => $game])
 
-@section('heading')
-Играть
-@endsection
 
 @section('content_p')
 <style>
-    .row
-    {
+    .row {
         margin: 0;
     }
+
+    .iframe-cont,
+    .iframe-cont>* {
+        overflow: hidden;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+
+    }
+
+    .iframe-cont {
+        height: 450px;
+    }
+
+    .iframe {
+        height: 100%;
+    }
+    .heading
+    {
+        display: flex;
+    }
 </style>
+<div class="container" id="root" style="word-wrap: break-word;">
+    <div style="float:left; margin-right:20px;">
+        @include('games/upvoteswidget', ['game' => $game])
+    </div>
+    <div class="heading" style="float:left">
+        <h1>{{$game->title}}</h1>    
+
+        @if ($game->getReward() > 0)
+        <div class="d-flex" style="margin: 10px;">
+        <img src="https://png.icons8.com/color/50/000000/coins.png" width="20" height="20"
+            alt="Rewarded: ">
+        <p>{{$game->getReward()}}</p></div>
+        @endif
+        
+    </div>
+    <div style="clear:both"></div>
+
+    <p style="float:left">
+        {!!clean(parsedown($game->description))!!}
+    </p>
+    <div style="clear:both"></div>
+
+</div>
 <div class="row">
     <style scoped>
         .card {
@@ -21,60 +61,14 @@
             padding-left: 20px;
         }
     </style>
-    <div class="card col-md-7">
+    <div class="card col-md iframe-cont">
         <div class="card-body">
-            <iframe src="/insider/games/{{$game->id}}/frame" width="100%" height="450px" frameborder="0"
-                sandbox="allow-same-origin allow-scripts"></iframe>
+            <iframe class="iframe" onload="this.contentWindow.focus()" src="/insider/games/{{$game->id}}/frame"
+                width="100%" height="450px" frameborder="0" sandbox="allow-same-origin allow-scripts"></iframe>
         </div>
     </div>
-    <div class="card col" style="height:500px;">
-        <div class="card-body" style="height:100%;">
-            <div class="d-flex" style="height:100%;">
-                <div>@include('games/upvoteswidget', ['game' => $game])</div>
-
-                <div class="flex-1 d-flex flex-column" style="min-height:100%;max-height:100%;height:100%;">
-
-                    {{-- <a href="/insider/games/{{$game->id}}/viewsource">Смотреть код</a> --}}
-                    <div style="overflow:auto; flex:1;">
-                        <h4>{{ $game->title }}</h4>
-                        <div class="d-flex justify-content-between flex-column">
-                            <p class="text-secondary">{!!clean(parsedown($game->description))!!}</p>
-                            <div class="d-flex">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-between" style="margin-top: 20px">
-                        <div class="row">
-
-                        <p>Автор: {{$game->user->name}}</p>
-
-                        @if (\Auth::id()==$game->user->id || \Auth::user()->role == 'teacher')
-                        <a href="/insider/games/{{$game->id}}/edit" class="meta">Изменить</a>
-                        @endif
-
-                        @if (\Auth::id()!=$game->user->id || \Auth::user()->role == 'teacher')
-                        <a href="/insider/games/{{$game->id}}/reward" class="meta">Наградить</a>
-                        @endif
-                    </div>
-
-                        @if ($game->getReward() > 0)
-                        <div class="meta row">
-
-                            <img src="https://png.icons8.com/color/50/000000/coins.png" width="20" height="20"
-                                alt="Rewarded: ">
-                            <p>{{$game->getReward()}}</p>
-                        </div>
-                        @endif
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-
 </div>
+
 <form action="/insider/games/{{$game->id}}/comment" method="POST">
     @csrf
 
@@ -90,7 +84,8 @@
             </div>
         </div>
         @endif
-        <textarea class="form-control" id="commentArea" rows="10" type="text" name="comment">{{old('comment')}}</textarea>
+        <textarea class="form-control" id="commentArea" rows="10" type="text"
+            name="comment">{{old('comment')}}</textarea>
         <input class="btn btn-primary" type="submit" style="margin:10px 0;" value="Оставить комментарий">
     </div>
 </form>
@@ -108,17 +103,17 @@
                         class="ion-close-round"></i></a>
                 @endcan
             </div>
-            <blockquote>{!!clean(parsedown($comment->comment))!!}</blockquote>
+            <blockquote>{!!parsedown(clean($comment->comment))!!}</blockquote>
         </div>
     </div>
 </div>
 @endforeach
-
+<script src="{{asset('js/games.js')}}"></script>
 <script>
-        var simplemde_text = new EasyMDE({
-               spellChecker: false,
-               autosave: true,
-               element: document.getElementById("commentArea")
-           });
-           </script>
+    var simplemde_text = new EasyMDE({
+        spellChecker: false,
+        autosave: true,
+        element: document.getElementById("commentArea")
+    });
+</script>
 @endsection

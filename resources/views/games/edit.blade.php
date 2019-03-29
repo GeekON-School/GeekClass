@@ -22,7 +22,6 @@
             </div>
         </div>
     @endif
-    <a class="nav-link btn btn-danger" style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;" href="/insider/games/{{$game->id}}/delete" onclick="return confirm('Вы уверены?')"><i class="ion-close-round"></i></a>
     <div style="margin-bottom: 5px;">
         <h4><label for="title">Название:</label></h4>
         <input class="form-control col" type="text" name="title" id="title" value="{{$game->title}}">
@@ -52,7 +51,7 @@
         </style>
         <div class="card col-md-6" id="pivot">
             <div class="card-body"  style="margin:0; padding:0;">
-                <iframe src="/insider/games/{{$game->id}}/frame" width="100%" height="450px" frameborder="0" sandbox="allow-same-origin allow-scripts" style="margin-bottom: -7px;"></iframe>
+                <iframe onload="this.contentWindow.focus()" src="/insider/games/{{$game->id}}/frame" width="100%" height="450px" frameborder="0" sandbox="allow-same-origin allow-scripts" style="margin-bottom: -7px;"></iframe>
             </div>
         </div>
         <div class="card col ed">
