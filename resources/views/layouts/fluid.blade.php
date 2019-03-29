@@ -45,7 +45,7 @@
 
 
 </head>
-<body style="min-height: 100%; height: 100%;">
+<body style="min-height: 100%; height: 100%; background-color: white;">
 
 <div class="container-fluid" style="min-height: calc(100% - 56px);">
     @if(Session::has('alert-class') and Session::get('alert-destination')=='head')

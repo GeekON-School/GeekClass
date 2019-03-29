@@ -245,7 +245,8 @@ sup > i {
     padding-top: 10px;
     min-height: 100%;
     /* background-color: #0A6187;*/
-    background-color: #1098D4;
+    /*background-color: #1098D4;*/
+    background-color: #fafafa;
 }
 
 .nav-pills .nav-link.active {
@@ -261,6 +262,12 @@ sup > i {
 }
 
 #stepsSidebar a {
+    /*color: white;*/
+    color: #555;
+}
+
+#stepsSidebar a.btn {
+    /*color: white;*/
     color: white;
 }
 
