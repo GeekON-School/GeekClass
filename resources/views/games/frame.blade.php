@@ -54,7 +54,7 @@
 </head>
 
 <body>
-    <canvas id="cv" width="100" height="1002"></canvas>
+    <canvas id="cv"></canvas>
     <div id="console">
     </div>
     <script>
@@ -94,6 +94,7 @@
         var canvas = document.getElementById('cv');
         var context = canvas.getContext('2d');
         var dpr = window.devicePixelRatio || 1;
+        console.log(dpr);
         canvas.width = window.innerWidth * dpr;
         canvas.height = window.innerHeight * dpr;
         context.scale(dpr, dpr);
@@ -107,10 +108,12 @@
 
         context.clearColor = "black";
 
+        
+
         context.clear = function () {
             var tempFill = context.fillStyle;
             context.fillStyle = context.clearColor;
-            context.fillRect(0, 0, canvas.width, canvas.height)
+            context.fillRect(0, 0, engine.width(), engine.height())
             context.fillStyle = tempFill;
         };
 
@@ -142,7 +145,16 @@
         engine.keys = {};
         engine.____fps____ = 60;
         engine.____ivnum____ = setInterval(update, 1000 / engine.____fps____);
-
+        engine.width = function ()
+        {
+            var dpr = window.devicePixelRatio || 1;
+            return canvas.width/dpr;
+        }
+        engine.height = function ()
+        {
+            var dpr = window.devicePixelRatio || 1;
+            return canvas.height/dpr;
+        }
 
         onkeydown = onkeyup = function (e) {
             e.preventDefault();
