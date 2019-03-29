@@ -27,8 +27,12 @@
     {
         display: flex;
     }
+    #root
+    {
+
+    }
 </style>
-<div class="container" id="root" style="word-wrap: break-word;">
+<div id="root" style="word-wrap: break-word;">
     <div style="float:left; margin-right:20px;">
         @include('games/upvoteswidget', ['game' => $game])
     </div>
