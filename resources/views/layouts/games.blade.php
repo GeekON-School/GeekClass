@@ -54,7 +54,7 @@
             <a class="nav-link btn btn-warning" href="/insider/games/{{$game->id}}/reward">Наградить</a>
         </li>
         @endif
-        @if ($page == 1 && (\Auth::id()!=$game->user->id || \Auth::user()->role == 'teacher'))
+        @if ($page == 1)
         <li class="nav-item controls col-xs">
             <a class="nav-link btn btn-primary" href="/insider/games/{{$game->id}}/viewsource">Исходный код</a>
         </li>
