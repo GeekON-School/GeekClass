@@ -8,6 +8,8 @@
     <h2>Изменение главы</h2>
     <div class="row" style="margin-top: 15px;">
         <div class="col">
+            <div class="card">
+                <div class="card-body">
             <form method="POST" class="form-horizontal" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="form-group">
@@ -33,6 +35,8 @@
 
                 <button type="submit" class="btn btn-success">Сохранить</button>
             </form>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

@@ -8,6 +8,8 @@
     <h2>Создание результата</h2>
     <div class="row" style="margin-top: 15px;">
         <div class="col">
+            <div class="card">
+                <div class="card-body">
             <form method="POST" class="form-horizontal" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="form-group">
@@ -47,6 +49,8 @@
 
                 <button type="submit" class="btn btn-success">Создать</button>
             </form>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

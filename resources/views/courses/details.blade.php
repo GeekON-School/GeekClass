@@ -92,7 +92,11 @@
             @endif
 
             @if ($course->state=="started")
-                <div id="pulse" style="width:100%; height: 100px; margin-bottom: 10px;"></div>
+
+                <div class="card" style="padding-top: 10px;">
+                    <div id="pulse" style="width:100%; height: 100px; margin-bottom: 10px;"></div>
+                </div>
+
 
                 <script>
                     var data = [
@@ -325,8 +329,9 @@
             @endforeach
         </div>
         <div class="col-md-4">
-            <ul class="list-group">
-                @if ($course->program->chapters->count()>1)
+            @if ($course->program->chapters->count()>1)
+                <ul style="margin-bottom: 15px;" class="list-group">
+
                     @foreach($course->program->chapters as $current_chapter)
                         @if ($user->role == 'teacher' or $current_chapter->isStarted($course))
                             <li class="list-group-item @if ($current_chapter->id == $chapter->id)  list-group-item-success @endif"
@@ -358,18 +363,20 @@
                                 @else
                                     @if ($current_chapter->isDone($course) and $user->role!='teacher')
                                         <span class="float-right">
-                                        <i class="icon ion-checkmark-circled" style="color:green;"></i> <span style="color: green;">выполнено</span>
+                                        <i class="icon ion-checkmark-circled" style="color:green;"></i> <span
+                                                    style="color: green;">выполнено</span>
                                         </span>
                                     @endif
                                 @endif
                             </li>
                         @endif
                     @endforeach
-                @endif
-            </ul>
+
+                </ul>
+            @endif
 
 
-            <div class="card" style="margin-top: 15px;">
+            <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Информация <img src="https://png.icons8.com/info/color/30/000000"></h4>
                     <p>
@@ -512,9 +519,11 @@
                                     <tr>
                                         <td>
                                             @if ($task->step->lesson->isAvailable($course))
-                                                <a href="{{url('/insider/courses/'.$course->id.'/steps/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}} @if ($task->is_star)(*)@endif</a>
+                                                <a href="{{url('/insider/courses/'.$course->id.'/steps/'.$task->step_id.'#task'.$task->id)}}">{{$task->name}} @if ($task->is_star)
+                                                        (*)@endif</a>
                                             @else
-                                                <a href="#" class="text-muted">{{$task->name}} @if ($task->is_star)(*)@endif</a>
+                                                <a href="#" class="text-muted">{{$task->name}} @if ($task->is_star)
+                                                        (*)@endif</a>
                                             @endif
                                         </td>
 

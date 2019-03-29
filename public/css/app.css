@@ -154,6 +154,10 @@ a[disabled] {
 .card {
     margin-bottom: 15px;
     border: 0;
+    box-shadow: 0 0 2px rgba(0,0,0,0.1);
+}
+.list-group {
+    box-shadow: 0 0 2px rgba(0,0,0,0.1);
 }
 
 .markdown img {
@@ -394,4 +398,12 @@ h4 {
 .card-img:hover {
     height: 12rem;
     filter: none;
+}
+.list-group-item {
+    border: 0;
+}
+.card-footer {
+    background-color: white;
+    margin-top: -15px;
+    border-top: 1px dotted #fafafa;
 }

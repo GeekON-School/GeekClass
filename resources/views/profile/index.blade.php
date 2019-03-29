@@ -6,7 +6,7 @@
             @if (!$user->is_hidden)
                 <div class="col-md-2 col-sm-3 col-6 col-lg-2 col-xl-2" style="margin: 0; padding: 0;">
 
-                    <div class="card bg-dark text-white" style="margin: 0;">
+                    <div class="card bg-dark text-white" style="margin: 0; box-shadow: 0;">
                         @if ($user->image!=null)
                             <img src="{{url('/media/'.$user->image)}}" class="card-img" alt="..."
                                  style="border-radius: 0; object-fit: cover;">
