@@ -55,10 +55,12 @@ class GamesController extends Controller
         $game = \App\Game::findOrFail($id);
         $messages = [
             'reward.min' => 'Минимальная сумма награды - 1 GeekCoin',
-            'reward.max' => 'На вашем балансе не хватает GeekCoin'
+            'reward.max' => 'На вашем балансе не хватает GeekCoin',
+            'comment.min' => 'Комментарий обязятелен'
         ];
         $request->validate([
-            'reward' => 'numeric|min:1'.(\Auth::user()->is_teacher?'':'|max:'.\Auth::user()->balance())
+            'reward' => 'numeric|min:1'.(\Auth::user()->is_teacher?'':'|max:'.\Auth::user()->balance()),
+            'comment' => 'min:1'
         ], $messages);
         \App\GameReward::register($game->user->id, $id, $request->reward, $request->comment);
 
@@ -68,10 +70,6 @@ class GamesController extends Controller
     public function upvote($id)
     {
         $game = \App\Game::findOrFail($id);
-        if ($game->hasUpvoted(\Auth::id()))
-        {
-            return back();
-        }
         
         $game->vote(1);
         return back();
@@ -80,11 +78,7 @@ class GamesController extends Controller
     public function downvote($id)
     {
         $game = \App\Game::findOrFail($id);
-        if ($game->hasDownvoted(\Auth::id()))
-        {
-            return back();
-        }
-
+        
         $game->vote(-1);
         return back();
     }

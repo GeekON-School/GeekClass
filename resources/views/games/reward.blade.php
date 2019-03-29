@@ -1,4 +1,4 @@
-@extends('layouts.games', ['page' => 1])
+@extends('layouts.games', ['page' => 5])
 
 @section('heading', 'Наградить')
 

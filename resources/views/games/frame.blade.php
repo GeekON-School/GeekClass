@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>{{$game->title}}</title>
     <style>
-        body
-        {
+        body {
             margin: 0;
             overflow: hidden;
             font-family: sans-serif;
         }
-        #console
-        {
+
+        #console {
             display: none;
             background: #fff;
             overflow: auto;
             position: fixed;
             bottom: 0;
-            box-shadow: 0 -5px 100px rgba(0,0,0,0.05);
+            box-shadow: 0 -5px 100px rgba(0, 0, 0, 0.05);
             left: 0;
             right: 0;
             max-height: 150px;
@@ -25,45 +25,50 @@
 
             border-top: 1px solid #ccc
         }
-        .err
-        {
+
+        .err {
             color: crimson;
         }
-        .log
-        {
+
+        .log {
             color: #555;
         }
-        .warn
-        {
+
+        .warn {
             color: #f7da65;
         }
-        .msg
-        {
+
+        .msg {
             padding: 10px;
         }
-        .info
-        {
+
+        .info {
             color: teal;
+        }
+
+        canvas {
+            width: 100vw;
+            height: 100vh;
         }
     </style>
 </head>
+
 <body>
-    <canvas id="cv" width="100" height="1002"></canvas>
+    <canvas id="cv"></canvas>
     <div id="console">
     </div>
     <script>
-
-        function htmlspecialchars(str)
-        {
+        function htmlspecialchars(str) {
             return str.replace(/\</g, '&lt;')
-                      .replace(/\>/g, '&gt;')
-                      .replace(/\&/g, '&amp;');
+                .replace(/\>/g, '&gt;')
+                .replace(/\&/g, '&amp;');
         }
-        function genmsg(l, t)
-        {
+
+        function genmsg(l, t) {
             l = l.toString();
             document.getElementById('console').style.display = "block";
-            document.getElementById('console').innerHTML += "<div class='msg "+t+"'>"+htmlspecialchars(l)+"</div>";
+            document.getElementById('console').innerHTML += "<div class='msg " + t + "'>" + htmlspecialchars(l) +
+                "</div>";
             document.getElementById('console').scrollTo(0, document.getElementById('console').scrollHeight);
         }
         // console.log = function(l)
@@ -87,39 +92,50 @@
         // }
 
         var canvas = document.getElementById('cv');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        var context = canvas.getContext('2d')
+        var context = canvas.getContext('2d');
+        var dpr = window.devicePixelRatio || 1;
+        console.log(dpr);
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        context.scale(dpr, dpr);
 
-
-        window.addEventListener('resize', function(){
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        window.addEventListener('resize', function () {
+            var dpr = window.devicePixelRatio || 1;
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
+            context.scale(dpr, dpr);
         });
 
         context.clearColor = "black";
 
-        context.clear = function()
-        {
+        
+
+        context.clear = function () {
             var tempFill = context.fillStyle;
             context.fillStyle = context.clearColor;
-            context.fillRect(0, 0, canvas.width, canvas.height)
+            context.fillRect(0, 0, engine.width(), engine.height())
             context.fillStyle = tempFill;
         };
 
 
         document.cookie = null;
-        if(!document.__defineGetter__) {
+        if (!document.__defineGetter__) {
             Object.defineProperty(document, 'cookie', {
-                get: function(){return ''},
-                set: function(){return true},
+                get: function () {
+                    return ''
+                },
+                set: function () {
+                    return true
+                },
             });
         } else {
-            document.__defineGetter__("cookie", function() { return '';} );
-            document.__defineSetter__("cookie", function() {} );
+            document.__defineGetter__("cookie", function () {
+                return '';
+            });
+            document.__defineSetter__("cookie", function () {});
         }
 
-        function update(){};
+        function update() {};
 
         var engine = {};
 
@@ -128,43 +144,52 @@
         engine.mouse_y = 0;
         engine.keys = {};
         engine.____fps____ = 60;
-        engine.____ivnum____ = setInterval(update, 1000/engine.____fps____);
+        engine.____ivnum____ = setInterval(update, 1000 / engine.____fps____);
+        engine.width = function ()
+        {
+            var dpr = window.devicePixelRatio || 1;
+            return canvas.width/dpr;
+        }
+        engine.height = function ()
+        {
+            var dpr = window.devicePixelRatio || 1;
+            return canvas.height/dpr;
+        }
 
-
-        onkeydown = onkeyup = function(e){
-            e = e || event; 
+        onkeydown = onkeyup = function (e) {
+            e.preventDefault();
+            e = e || event;
             engine.keys[e.key] = e.type == 'keydown';
         }
 
-        onmouseup = onmousedown = function(e)
-        {
+        onmouseup = onmousedown = function (e) {
             e = e || event;
             engine.mouseButtons[e.button] = e.type == 'mousedown';
         }
 
-        engine.getMousePosition = function()
-        {
-            return {x: engine.mouse_x, y: engine.mouse_y};
+        engine.getMousePosition = function () {
+            return {
+                x: engine.mouse_x,
+                y: engine.mouse_y
+            };
         }
 
-        canvas.addEventListener('mousemove', function(e){
+        canvas.addEventListener('mousemove', function (e) {
             engine.mouse_x = e.clientX;
             engine.mouse_y = e.clientY;
         });
 
-        function fps(v)
-        {
-            if (v < 1)
-            {
+
+        function fps(v) {
+            if (v < 1) {
                 v = 1;
             }
-            if (v > 70)
-            {
+            if (v > 70) {
                 v = 70;
             }
             engine.____fps____ = v;
             clearInterval(engine.____ivnum____);
-            engine.____ivnum____ = setInterval(update, 1000/engine.____fps____);
+            engine.____ivnum____ = setInterval(update, 1000 / engine.____fps____);
         }
 
 
@@ -175,4 +200,5 @@
     </script>
     <script type="text/javascript" src="/insider/games/{{$game->id}}/viewsource"></script>
 </body>
+
 </html>

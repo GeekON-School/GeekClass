@@ -35,7 +35,14 @@ class Game extends Model
         if ($this->hasVoted($user_id))
         {
             $gv =  $this->hasMany('\App\GameVotes')->where('user_id', $user_id)->get()[0];
-            $gv->amount = $amount;
+            if ($gv->amount != $amount)
+            {
+                $gv->amount = $amount;
+            }
+            else
+            {
+                $gv->amount = 0;
+            }
             $gv->save();
         }
         else
@@ -51,9 +58,12 @@ class Game extends Model
 
     public function upvotes()
     {
-        return $this->hasMany('\App\GameVotes')->sum('amount');
+        return $this->hasMany('\App\GameVotes')->where('amount', '>', 0)->count();
     }
-
+    public function downvotes()
+    {
+        return $this->hasMany('\App\GameVotes')->where('amount', '<', 0)->count();
+    }
     public function hasVoted($user)
     {
         return count($this->hasMany('\App\GameVotes')->where('user_id', $user)->get()) > 0;
