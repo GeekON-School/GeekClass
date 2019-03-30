@@ -10,6 +10,8 @@
 
 
 @section('content')
+<div id="root">
+
     <h2 style="margin: 20px;"><a class="back-link" href="{{url('/insider/forum/')}}"><i
                     class="icon ion-chevron-left"></i></a>&nbsp;{{$thread->name}}</h2>
 
@@ -17,42 +19,16 @@
         <div class="card">
             <div class="card-body @if (!$post->is_question and $post->getVotes()>=3) alert-success @endif">
                 <div class="row">
-                    <div style="float: left; width: 50px; padding: 5px;" class="col">
-                        @if ($post->user->id != $user->id and $post->checkVote($user))
-                            <div style="width: 100%; font-size: 30px; font-weight: 300; text-align: center; line-height: 15px;">
-                                <a title="Проголосовать за!"
-                                   href="{{url('/insider/forum/'.$thread->id.'/upvote/'.$post->id)}}"
-                                   onclick="return confirm('Вы уверены?');"><i
-                                            class="icon ion-chevron-up"></i></a>
-                            </div>
-                            <div style="width: 100%; font-size: 30px; font-weight: 300; text-align: center;">
-                                {{$post->getVotes()}}
-                            </div>
-                            <div style="width: 100%; font-size: 30px; font-weight: 300; text-align: center; line-height: 15px;">
-                                <a title="Проголосовать против!"
-                                   href="{{url('/insider/forum/'.$thread->id.'/downvote/'.$post->id)}}"
-                                   onclick="return confirm('Вы уверены?');"><i
-                                            class="icon ion-chevron-down"></i></a>
-                            </div>
-
-                        @else
-                            <div style="width: 100%; font-size: 30px; font-weight: 300; text-align: center; line-height: 15px;">
-                                <a class="text-muted" title="Вы уже голосовали" href="#"
-                                   onclick="return confirm('Вы уверены?');"
-                                   style="@if($post->user->id != $user->id and $post->goodVote($user))color: green !important;@endif"><i
-                                            class="icon ion-chevron-up"></i></a>
-                            </div>
-                            <div style="width: 100%; font-size: 30px; font-weight: 300; text-align: center;">
-                                {{$post->getVotes()}}
-                            </div>
-                            <div style="width: 100%; font-size: 30px; font-weight: 300; text-align: center; line-height: 15px;">
-                                <a class="text-muted" title="Вы уже голосовали" href="#"
-                                   onclick="return confirm('Вы уверены?');"
-                                   style="@if($post->user->id != $user->id and !$post->goodVote($user))color: red !important;;@endif"><i
-                                            class="icon ion-chevron-down"></i></a>
-                            </div>
-                        @endif
-
+                    <div style="float: left; width: 50px; padding: 5px; text-align:center; font-size:20px;" class="col">
+                        <votes 
+                    :upvotes="{{$post->getUpvotes()-$post->hasUpvoted(\Auth::id())}}"
+                    :downvotes="{{$post->getDownvotes()-$post->hasDownvoted(\Auth::id())}}"
+                    :upvoted="{{$post->hasUpvoted(\Auth::id())?'1':'0'}}"
+                    :downvoted="{{$post->hasDownvoted(\Auth::id())?'1':'0'}}"
+                    :canvote="{{$post->user->id != \Auth::id()?'true':'false'}}"
+                    :urls="{upvote: '/insider/forum/{{$thread->id}}/upvote/{{$post->id}}',
+                            downvote: '/insider/forum/{{$thread->id}}/downvote/{{$post->id}}'}"
+                            ></votes>
                     </div>
 
                     <div style="float: left; width: calc(100% - 50px); padding-left: 5px;" class="col-auto">
@@ -170,7 +146,9 @@
             </div>
         </form>
     </div>
+</div>
 
+<script src="{{asset('js/forum.js')}}"></script>
     <script>
         var simplemde_text = new EasyMDE({
             spellChecker: false,

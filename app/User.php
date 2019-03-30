@@ -53,6 +53,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany('App\Course', 'course_students', 'user_id', 'course_id');
     }
 
+    public function games()
+    {
+        return $this->hasMany('\App\Game');
+    }
+
     public function completedCourses()
     {
         return $this->hasMany('App\CompletedCourse', 'user_id', 'id');
@@ -129,6 +134,11 @@ class User extends Authenticatable implements MustVerifyEmail
         foreach ($group as $task) {
             $this->score += $task->max('mark');
         }
+        
+        foreach($this->games as $game)
+        {
+            $this->score += ($game->upvotes()-$game->downvotes())*5;
+        }
 
         foreach ($this->posts as $post) {
             $this->score += 5 * $post->getVotes();
@@ -178,6 +188,7 @@ class User extends Authenticatable implements MustVerifyEmail
                     break;
             }
         }
+        // dd($this->score());
         return $this->score;
     }
 

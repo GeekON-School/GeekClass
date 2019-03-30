@@ -200,21 +200,10 @@ class ForumController extends Controller
     public function upvote($thread_id, $id, Request $request)
     {
         $post = ForumPost::findOrFail($id);
-        $user = User::findOrFail(Auth::User()->id);
 
-        if ($post->user_id == $user->id) abort(503);
-        if (ForumVote::where('user_id', $user->id)->where('post_id', $id)->count() != 0) abort(503);
-        $vote = new ForumVote();
-        $vote->user_id = $user->id;
-        $vote->mark = 1;
-        $vote->post_id = $id;
-        $vote->save();
-
-        if ($post->getVotes() == 3 and $post->coins_delivered == false) {
-            CoinTransaction::register($post->user->id, 3, 'QA #' . $post->id);
-            $post->cois_delivered = true;
-            $post->save();
-        }
+        if ($post->user->id == \Auth::id()) abort(403);
+        
+        $post->vote(1);
 
         return redirect('/insider/forum/' . $thread_id);
     }
@@ -222,15 +211,10 @@ class ForumController extends Controller
     public function downvote($thread_id, $id, Request $request)
     {
         $post = ForumPost::findOrFail($id);
-        $user = User::findOrFail(Auth::User()->id);
 
-        if ($post->user_id == $user->id) abort(503);
-        if (ForumVote::where('user_id', $user->id)->where('post_id', $id)->count() != 0) abort(503);
-        $vote = new ForumVote();
-        $vote->user_id = $user->id;
-        $vote->mark = -1;
-        $vote->post_id = $id;
-        $vote->save();
+        if ($post->user->id == \Auth::id()) abort(403);
+
+        $post->vote(-1);
 
         return redirect('/insider/forum/' . $thread_id);
     }

@@ -22,6 +22,10 @@
             downvotes: Number,
             upvoted: Number,
             downvoted: Number,
+            canvote: {
+                type: Boolean,
+                default: true
+            },
             urls: Object
         },
         data: function () {
@@ -34,6 +38,7 @@
                 return this.upvotes - this.downvotes + this.upvoted - this.downvoted;
             },
             upvoteClasses() {
+
                 if (this.upvoted) {
                     return "upvote green";
                 }
@@ -58,11 +63,13 @@
                 this.showed = !this.showed;
             },
             upvote() {
+                if (!this.canvote) return;
                 this.downvoted = false;
                 this.upvoted = !this.upvoted;
                 axios.get(this.urls.upvote);
             },
             downvote() {
+                if (!this.canvote) return;
                 this.upvoted = false;
                 this.downvoted = !this.downvoted;
                 axios.get(this.urls.downvote);
