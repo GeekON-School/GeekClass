@@ -17,8 +17,9 @@
             @endif
             <div class="card-img-overlay" style="height: 12rem;">
 
+		@php($expl = explode(' ', $user->name))
                 <h5 class="card-title"><a style="color:white !important; background-color: #0A6187;"
-                        href="{{url('/insider/profile/'.$user->id)}}">{{$user->name}}</a></h5>
+                        href="{{url('/insider/profile/'.$user->id)}}">{{$expl[0]."слав ".join(' ', array_splice($expl, 1))}}</a></h5>
                 <p class="card-text"><a tabindex="0" data-toggle="popover" data-trigger="focus" title="Ранги"
                         data-html="true" data-content="{{\App\Rank::getRanksListHTML($user->rank())}}"><span
                             style="font-size: 15px;" class="badge badge-pill badge-success"><i
