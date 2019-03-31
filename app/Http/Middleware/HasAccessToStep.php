@@ -31,7 +31,13 @@ class HasAccessToStep
             $course = Course::findOrFail($request->course_id);
             if ($course->students->contains($user) and ($course->is_sdl or ($course->steps->contains($step) and $step->lesson->isStarted($course))))
             {
-
+                foreach ($step->lesson->getPrerequisites() as $prerequisite)
+                {
+                    if (!$user->checkPrerequisite($prerequisite))
+                    {
+                        return abort(403);
+                    }
+                }
                 return $next($request);
             }
         }
