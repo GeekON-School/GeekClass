@@ -20,7 +20,7 @@
             <div class="card-body @if (!$post->is_question and $post->getVotes()>=3) alert-success @endif">
                 <div class="row">
                     <div style="float: left; width: 50px; padding: 5px; text-align:center; font-size:20px;" class="col">
-                        <votes 
+                        <gk-votes 
                     :upvotes="{{$post->getUpvotes()-$post->hasUpvoted(\Auth::id())}}"
                     :downvotes="{{$post->getDownvotes()-$post->hasDownvoted(\Auth::id())}}"
                     :upvoted="{{$post->hasUpvoted(\Auth::id())?'1':'0'}}"
@@ -28,7 +28,7 @@
                     :canvote="{{$post->user->id != \Auth::id()?'true':'false'}}"
                     :urls="{upvote: '/insider/forum/{{$thread->id}}/upvote/{{$post->id}}',
                             downvote: '/insider/forum/{{$thread->id}}/downvote/{{$post->id}}'}"
-                            ></votes>
+                            ></gk-votes>
                     </div>
 
                     <div style="float: left; width: calc(100% - 50px); padding-left: 5px;" class="col-auto">

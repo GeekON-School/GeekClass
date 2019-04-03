@@ -82,6 +82,7 @@
 
     </div>
     @endforeach
-    <script src="{{asset('js/games.js')}}"></script>
 </div>
+<script src="{{asset('js/games.js')}}"></script>
+
 @endsection
