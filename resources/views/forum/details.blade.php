@@ -14,7 +14,6 @@
 
     <h2 style="margin: 20px;"><a class="back-link" href="{{url('/insider/forum/')}}"><i
                     class="icon ion-chevron-left"></i></a>&nbsp;{{$thread->name}}</h2>
-
     @foreach($thread->orderedPosts() as $post)
         <div class="card">
             <div class="card-body @if (!$post->is_question and $post->getVotes()>=3) alert-success @endif">

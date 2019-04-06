@@ -14,8 +14,7 @@
                     @endif
                 <div class="card-body">
 
-		@php($expl = explode(' ', $user->name))
-                    <h4 class="card-title">{{$expl[0]."слав ".join(' ', array_splice($expl, 1))}}</h4>
+                    <h4 class="card-title">{{ $user->name }}</h4>
 
                     <p><strong>Дата
                             рождения:</strong> @if($user->birthday!=null){{$user->birthday->format('Y-m-d')}}@endif<br>
