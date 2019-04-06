@@ -1,5 +1,8 @@
 @extends('layouts.full')
 
+@section('head')
+@endsection
+
 @section('content')
 
     <div class="alchemy" id="alchemy"></div>

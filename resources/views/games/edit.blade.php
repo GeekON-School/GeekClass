@@ -2,7 +2,7 @@
 
 @section('heading', 'Редактировать')
 
-@section('content_p')
+@section('content')
 
 <form action="/insider/games/{{$game->id}}" method="POST">
     @csrf

@@ -1,7 +1,7 @@
 @extends('layouts.games', ['page' => 1, 'game' => $game])
 
 
-@section('content_p')
+@section('content')
 <style>
     .row {
         margin: 0;

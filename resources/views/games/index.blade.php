@@ -4,7 +4,7 @@
 Игры
 @endsection
 
-@section('content_p')
+@section('content')
 <style>
     .card-deck {
         width: 100%;
