@@ -64,5 +64,5 @@
 <div>
     
 </div>
-@yield('content_p')
-@endsection
+@yield('content')
+@overwrite

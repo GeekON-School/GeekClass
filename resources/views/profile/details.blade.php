@@ -13,7 +13,8 @@
                          src="https://api.adorable.io/avatars/250/{{$user->id}}.png"/>
                     @endif
                 <div class="card-body">
-                    <h4 class="card-title">{{$user->name}}</h4>
+
+                    <h4 class="card-title">{{ $user->name }}</h4>
 
                     <p><strong>Дата
                             рождения:</strong> @if($user->birthday!=null){{$user->birthday->format('Y-m-d')}}@endif<br>

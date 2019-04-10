@@ -2,7 +2,7 @@
 
 @section('heading', 'Наградить')
 
-@section('content_p')
+@section('content')
 
 <form action="/insider/games/{{$game->id}}/reward" method="POST">
     @csrf

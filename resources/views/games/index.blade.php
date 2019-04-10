@@ -4,7 +4,7 @@
 Игры
 @endsection
 
-@section('content_p')
+@section('content')
 <style>
     .card-deck {
         width: 100%;
@@ -82,6 +82,7 @@
 
     </div>
     @endforeach
-    <script src="{{asset('js/games.js')}}"></script>
 </div>
+<script src="{{asset('js/games.js')}}"></script>
+
 @endsection

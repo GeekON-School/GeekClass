@@ -7,9 +7,9 @@ services:
     networks:
       - rest
     environment:
-      POSTGRES_DB: database
+      POSTGRES_DB: larasite
       POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
+      POSTGRES_PASSWORD: pwd
   php:
     build:
       context: .

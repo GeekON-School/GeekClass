@@ -16,7 +16,7 @@
     import axios from 'axios';
 
     export default {
-        name: "votes",
+        name: "gk-votes",
         props: {
             upvotes: Number,
             downvotes: Number,

@@ -2,7 +2,7 @@
 
 @section('heading', 'Создать')
 
-@section('content_p')
+@section('content')
 
 <form action="/insider/games" method="POST">
     @csrf
