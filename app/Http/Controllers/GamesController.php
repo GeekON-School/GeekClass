@@ -19,6 +19,13 @@ class GamesController extends Controller
         return view('games/create');
     }
 
+    public function ide($id)
+    {
+        $game = \App\Game::findOrFail($id);
+        return view('games/ide', compact('game'));
+        
+    }
+
     public function comment($id, Request $request)
     {
         $messages = [
@@ -125,12 +132,12 @@ class GamesController extends Controller
             \Auth::id(), 
             $request->title, 
             $request->description, 
-            $request->code
+            \App\Game::template()
         );
 
 
 
-        return redirect('insider/games/'.$id.'/edit#editor_session');
+        return redirect('insider/games/'.$id.'/ide');
     }
 
 
@@ -155,12 +162,12 @@ class GamesController extends Controller
             $gameId, 
             $request->title, 
             $request->description, 
-            $request->code
+            \App\Game::findOrFail($gameId)->code()
         );
 
 
 
-        return redirect('insider/games/'.$gameId.'/edit#editor_session');
+        return redirect('insider/games/'.$gameId.'/ide');
     }
 
     public function viewsource($id)

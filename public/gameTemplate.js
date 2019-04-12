@@ -1,12 +1,10 @@
 // FPS игры
-fps(30);
+fps(30);ы
 
-var m = engine.getMousePosition();
 
 function update()
-{
-    m = engine.getMousePosition();
-
+{ 
+    // Функция отрисовки
     draw();
 }
 
@@ -14,8 +12,7 @@ function draw()
 {
     context.clear();
     
-    //Пример (можно удалить)
-    context.fillStyle = "green";
-    context.fillRect(m.x, m.y, 100, 100);
-    // Начинайте
+    /**
+     * Тут можно начать ваш код
+     */
 }

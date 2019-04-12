@@ -60,6 +60,7 @@ Route::prefix('insider')->middleware('verified')->group(function () {
     Route::get('/games', 'GamesController@index');
     Route::post('/games', 'GamesController@store');
     Route::get('/games/{id}', 'GamesController@play');
+    
     Route::get('/games/{id}/upvote', 'GamesController@upvote');
     Route::get('/games/{id}/downvote', 'GamesController@downvote');
     Route::post('/games/{id}/comment', 'GamesController@comment');
@@ -70,6 +71,7 @@ Route::prefix('insider')->middleware('verified')->group(function () {
 
     Route::get('/games/{id}/frame', 'GamesController@frame');
     Route::get('/games/{id}/edit', 'GamesController@edit')->middleware('gameown');
+    Route::get('/games/{id}/ide', 'GamesController@ide')->middleware('gameown');
     Route::get('/games/{id}/delete', 'GamesController@delete')->middleware('gameown');
     Route::get('/games/{id}/viewsource', 'GamesController@viewsource');
     Route::get('/games/create', 'GamesController@create');

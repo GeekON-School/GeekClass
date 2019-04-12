@@ -4,7 +4,7 @@
 
 @section('content')
 
-<form action="/insider/games/{{$game->id}}" method="POST">
+<form action="/insider/games/{{$game->id}}" method="POST" onsubmit="save()">
     @csrf
     
     <style scoped>
@@ -31,38 +31,8 @@
         <textarea class="form-control" rows="10" type="text" name="description" id="text">{{$game->description}}</textarea>
     </div>
 
-        <h4>Код:</h4>
-    <div class="row" style="padding: 10px" id="editor_session">
-        <style scoped>
-            .card
-            {
-                margin: 5px;
-                padding: 0;
-                overflow: hidden;
-            }
-            .meta
-            {
-                padding-right: 20px;
-            }
-            .ed > * > *
-            {
-                border: none;
-            }
-        </style>
-        <div class="card col-md-6" id="pivot">
-            <div class="card-body"  style="margin:0; padding:0;">
-                <iframe onload="this.contentWindow.focus()" src="/insider/games/{{$game->id}}/frame" width="100%" height="450px" frameborder="0" sandbox="allow-same-origin allow-scripts" style="margin-bottom: -7px;"></iframe>
-            </div>
-        </div>
-        <div class="card col ed">
-            <div class="card-body" style="margin:0; padding:0;" id="ed">
-                <textarea id="editor" name="code" rows="30">{{$game->code()}}</textarea>
-            </div>
-        </div>
-    </div>
     <div class="row" style="padding: 10px;">
-        
-        <input type="submit" name="submit" id="submit" value="Запустить" class="col btn btn-primary">
+        <input type="submit" name="submit" id="submit" value="Сохранить" class="col btn btn-primary">
     </div>
 </form>
 
@@ -95,24 +65,12 @@
     <p class="col-sm text-secondary">Начните здесь: <a href="https://developer.mozilla.org/ru/docs/Web/API/Canvas_API">https://developer.mozilla.org/ru/docs/Web/API/Canvas_API</a> в этих примерах вместо <code>ctx</code> используется <code>context</code>, <br> для <code>canvas</code> используется <code>canvas</code></p>
 </div>
 
-<script src="{{asset('codemirror.js')}}"></script>
-<script src="{{asset('javascript.js')}}"></script>
 
 <script>
-    var templ = '';
-    var cm = CodeMirror.fromTextArea(document.getElementById("editor"), {
-        lineNumbers: true,
-        value: templ,
-        mode:  "javascript"
-    });
-    cm.setOption("lineWrapping", true);
-    var ed = document.getElementById("ed");
-    cm.setSize(ed.innerWidth, 450);
-    var simplemde_text = new EasyMDE({
-        spellChecker: false,
-        autosave: true,
-        element: document.getElementById("text")
-    });
-
-</script>
+        var simplemde_text = new EasyMDE({
+            spellChecker: false,
+            autosave: true,
+            element: document.getElementById("text")
+        });
+        </script>
 @endsection

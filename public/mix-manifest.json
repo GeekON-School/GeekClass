@@ -1,5 +1,7 @@
 {
   "//js/games.js": "//js/games.js",
   "/js/games.js": "/js/games.js",
-  "/js/forum.js": "/js/forum.js"
+  "/js/forum.js": "/js/forum.js",
+  "/js/ide.js": "/js/ide.js",
+  "/mix.js": "/mix.js"
 }

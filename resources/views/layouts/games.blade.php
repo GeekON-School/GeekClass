@@ -36,12 +36,13 @@
 
         @if ($page == 1 && (\Auth::id()==$game->user->id || \Auth::user()->role == 'teacher'))
         <li class="nav-item controls col-xs">
-            <a class="nav-link btn btn-success" href="/insider/games/{{$game->id}}/edit">
+            <a class="nav-link btn btn-success" href="/insider/games/{{$game->id}}/ide">
                 <i class="icon text-white ion-android-create"></i>
             </a>
         </li>
         @endif
-        @if ($page == 1 || $page == 2 && (\Auth::id()==$game->user->id || \Auth::user()->role == 'teacher'))
+
+        @if (($page == 1 || $page == 2) && (\Auth::id()==$game->user->id || \Auth::user()->role == 'teacher'))
 
         <li class="nav-item controls col-xs">
             <a class="nav-link btn btn-danger" href="/insider/games/{{$game->id}}/delete"
