@@ -68,7 +68,7 @@
                         <div class="d-flex">
                             <a class="meta" href="/insider/games/{{$game->id}}">Играть</a>
                             @if (\Auth::id()==$game->user->id || \Auth::user()->role == 'teacher')
-                            <a href="/insider/games/{{$game->id}}/edit" class="meta">Изменить</a>
+                            <a href="/insider/games/{{$game->id}}/ide" class="meta">Изменить</a>
                             @endif
                             @if (\Auth::id()!=$game->user->id || \Auth::user()->role == 'teacher')
                             <a href="/insider/games/{{$game->id}}/reward" class="meta">Наградить</a>

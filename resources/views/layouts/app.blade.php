@@ -1,22 +1,8 @@
 @extends('layouts/full')
 
 @section('head')
-    <script>
-        $(function () {
-            $(".nav-link").click(function () {
-                $(".nav-link.active").removeClass('active');
-            });
-        });
-        $(function () {
-            $(".date").datepicker({
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "1940:2025",
-                dateFormat: 'yy-mm-dd'
-            });
 
-        });
-    </script>
+
     @yield('head')    
 @overwrite
 

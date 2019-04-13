@@ -15,53 +15,15 @@
     <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
-          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
     <!-- Latest compiled and minified CSS -->
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{url('css/alchemy-white.css')}}"/>
-    <style>
-        .alchemy text {
-            display: block !important;
-        }
+    <link rel="stylesheet" href="{{url('/css/app.css')}}">
 
-        .alchemy g.active {
-            opacity: 1;
-        }
 
-        g.use > circle {
-            opacity: 1 !important;
-            stroke: #fcff18 !important;
-            stroke-opacity: 0.8;
-            fill: green !important;
-        }
-
-        g.exists > circle {
-            opacity: 0.8;
-
-        }
-
-        .alchemy > svg {
-            background: white !important;
-        }
-
-        g.exists > text {
-            fill: black;
-            text-shadow: none;
-        }
-
-        g.use > text {
-            fill: white !important;
-            text-shadow: none;
-        }
-    </style>
-    
     <link rel="stylesheet" href="{{url('/css/app.css')}}">
     <script
             src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -87,8 +49,24 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 
-    {!! \NoCaptcha::renderJs() !!}
 
+    {!! \NoCaptcha::renderJs() !!}
+    <script>
+        $(function () {
+            $(".nav-link").click(function () {
+                $(".nav-link.active").removeClass('active');
+            });
+        });
+        $(function () {
+            $(".date").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1940:2025",
+                dateFormat: 'yy-mm-dd'
+            });
+
+        });
+    </script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="{{url('/js/bootstrap-select.min.js')}}"></script>
     @yield('head')

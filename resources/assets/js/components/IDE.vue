@@ -5,7 +5,7 @@
         Вернутся в GeekClass
       </a>
       <div class="right">
-        <p class="title">Проэкт: {{gameData.title}}</p>
+        <p class="title">Проект: {{gameData.title}}</p>
         <a :href="`/insider/games/${game}/edit`" class="btn secondary" @click="run">Настройки</a>
 
         <a href="javascript:void(0)" class="btn" @click="run">Запустить</a>
