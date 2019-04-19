@@ -45,13 +45,17 @@ class Task extends Model
     {
         return $this->solutions()->where('user_id', $user_id)->where('mark', '>', 1)->count() !=0;
     }
+    public function isOnCheck($user_id)
+    {
+        return $this->solutions()->where('user_id', $user_id)->where('mark',  0)->count() !=0;
+    }
     public function isSubmitted($user_id)
     {
         return $this->solutions()->where('user_id', $user_id)->count() !=0;
     }
     public function isFailed($user_id)
     {
-        return $this->isSubmitted($user_id) and !$this->isDone($user_id);
+        return $this->isSubmitted($user_id) and !$this->isDone($user_id) and !$this->isOnCheck($user_id);
     }
 
     public function isFullDone($user_id)
