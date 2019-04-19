@@ -103,18 +103,18 @@
                                         @if (\Request::is('insider/*'))
                                             @if($task->isSubmitted($user->id))
                                                 @if($task->isFailed($user->id))
-                                                    <sup><img src="https://img.icons8.com/color/48/000000/cancel.png"
+                                                    <sup><img title="Не выполнено" src="https://img.icons8.com/color/48/000000/cancel.png"
                                                               style="height: 20px;"/></sup>
                                                 @else
                                                     @if ($task->isOnCheck($user->id))
-                                                        <sup><img src="https://img.icons8.com/office/16/000000/historical.png"
+                                                        <sup><img title="Ожидает проверки" src="https://img.icons8.com/office/16/000000/historical.png"
                                                                   style="height: 20px;"/></sup>
                                                     @else
                                                         @if($task->isFullDone($user->id))
-                                                            <sup><img src="https://img.icons8.com/color/48/000000/checkmark.png"
+                                                            <sup><img title="Выполнено" src="https://img.icons8.com/color/48/000000/checkmark.png"
                                                                       style="height: 20px;"/></sup>
                                                         @else
-                                                            <sup><img src="https://img.icons8.com/color/48/000000/error.png"
+                                                            <sup><img title="Требует доработки" src="https://img.icons8.com/color/48/000000/error.png"
                                                                       style="height: 20px;"/></sup>
                                                         @endif
                                                     @endif
