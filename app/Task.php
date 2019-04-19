@@ -47,7 +47,7 @@ class Task extends Model
     }
     public function isOnCheck($user_id)
     {
-        return $this->solutions()->where('user_id', $user_id)->where('mark',  0)->count() !=0;
+        return $this->solutions()->where('user_id', $user_id)->where('mark',  null)->count() !=0;
     }
     public function isSubmitted($user_id)
     {
