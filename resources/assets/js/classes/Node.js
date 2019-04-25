@@ -12,6 +12,8 @@ export default class Node
     this.id = id;
   }
 
+
+
   // canBeChild(id, queue)
   // {
   //   for (var i = 0; i < this.children.length; i++)
@@ -36,6 +38,7 @@ export default class Node
   
   addChild(node)
   {
+    node.parents.push(this);
 
     this.children.push(node);
   }

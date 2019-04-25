@@ -1,1 +1,2170 @@
-webpackJsonp([3],{1238:function(e,n,t){"use strict";function r(e){var n=new i.a(e),t=function(e){for(var t=[],r=1;r<arguments.length;r++)t[r-1]=arguments[r];return n.getLanguageServiceWorker.apply(n,[e].concat(t))},r=e.languageId;monaco.languages.registerCompletionItemProvider(r,new o.a(t)),monaco.languages.registerHoverProvider(r,new o.b(t)),monaco.languages.registerDocumentHighlightProvider(r,new o.c(t)),monaco.languages.registerDefinitionProvider(r,new o.d(t)),monaco.languages.registerReferenceProvider(r,new o.e(t)),monaco.languages.registerDocumentSymbolProvider(r,new o.f(t)),monaco.languages.registerRenameProvider(r,new o.g(t)),monaco.languages.registerColorProvider(r,new o.h(t)),monaco.languages.registerFoldingRangeProvider(r,new o.i(t)),new o.j(r,t,e)}Object.defineProperty(n,"__esModule",{value:!0});var i=t(1247),o=t(1246);n.setupMode=r},1245:function(e,n,t){"use strict";t.d(n,"f",function(){return d}),t.d(n,"a",function(){return g}),t.d(n,"b",function(){return T}),t.d(n,"c",function(){return R}),t.d(n,"d",function(){return j}),t.d(n,"e",function(){return N});var r;!function(e){function n(e,n){return{line:e,character:n}}function t(e){var n=e;return Q.objectLiteral(n)&&Q.number(n.line)&&Q.number(n.character)}e.create=n,e.is=t}(r||(r={}));var i;!function(e){function n(e,n,t,i){if(Q.number(e)&&Q.number(n)&&Q.number(t)&&Q.number(i))return{start:r.create(e,n),end:r.create(t,i)};if(r.is(e)&&r.is(n))return{start:e,end:n};throw new Error("Range#create called with invalid arguments["+e+", "+n+", "+t+", "+i+"]")}function t(e){var n=e;return Q.objectLiteral(n)&&r.is(n.start)&&r.is(n.end)}e.create=n,e.is=t}(i||(i={}));var o;!function(e){function n(e,n){return{uri:e,range:n}}function t(e){var n=e;return Q.defined(n)&&i.is(n.range)&&(Q.string(n.uri)||Q.undefined(n.uri))}e.create=n,e.is=t}(o||(o={}));var a;!function(e){function n(e,n,t,r){return{targetUri:e,targetRange:n,targetSelectionRange:t,originSelectionRange:r}}function t(e){var n=e;return Q.defined(n)&&i.is(n.targetRange)&&Q.string(n.targetUri)&&(i.is(n.targetSelectionRange)||Q.undefined(n.targetSelectionRange))&&(i.is(n.originSelectionRange)||Q.undefined(n.originSelectionRange))}e.create=n,e.is=t}(a||(a={}));var u;!function(e){function n(e,n,t,r){return{red:e,green:n,blue:t,alpha:r}}function t(e){var n=e;return Q.number(n.red)&&Q.number(n.green)&&Q.number(n.blue)&&Q.number(n.alpha)}e.create=n,e.is=t}(u||(u={}));var c;!function(e){function n(e,n){return{range:e,color:n}}function t(e){var n=e;return i.is(n.range)&&u.is(n.color)}e.create=n,e.is=t}(c||(c={}));var s;!function(e){function n(e,n,t){return{label:e,textEdit:n,additionalTextEdits:t}}function t(e){var n=e;return Q.string(n.label)&&(Q.undefined(n.textEdit)||v.is(n))&&(Q.undefined(n.additionalTextEdits)||Q.typedArray(n.additionalTextEdits,v.is))}e.create=n,e.is=t}(s||(s={}));var d;!function(e){e.Comment="comment",e.Imports="imports",e.Region="region"}(d||(d={}));var f;!function(e){function n(e,n,t,r,i){var o={startLine:e,endLine:n};return Q.defined(t)&&(o.startCharacter=t),Q.defined(r)&&(o.endCharacter=r),Q.defined(i)&&(o.kind=i),o}function t(e){var n=e;return Q.number(n.startLine)&&Q.number(n.startLine)&&(Q.undefined(n.startCharacter)||Q.number(n.startCharacter))&&(Q.undefined(n.endCharacter)||Q.number(n.endCharacter))&&(Q.undefined(n.kind)||Q.string(n.kind))}e.create=n,e.is=t}(f||(f={}));var l;!function(e){function n(e,n){return{location:e,message:n}}function t(e){var n=e;return Q.defined(n)&&o.is(n.location)&&Q.string(n.message)}e.create=n,e.is=t}(l||(l={}));var g;!function(e){e.Error=1,e.Warning=2,e.Information=3,e.Hint=4}(g||(g={}));var h;!function(e){function n(e,n,t,r,i,o){var a={range:e,message:n};return Q.defined(t)&&(a.severity=t),Q.defined(r)&&(a.code=r),Q.defined(i)&&(a.source=i),Q.defined(o)&&(a.relatedInformation=o),a}function t(e){var n=e;return Q.defined(n)&&i.is(n.range)&&Q.string(n.message)&&(Q.number(n.severity)||Q.undefined(n.severity))&&(Q.number(n.code)||Q.string(n.code)||Q.undefined(n.code))&&(Q.string(n.source)||Q.undefined(n.source))&&(Q.undefined(n.relatedInformation)||Q.typedArray(n.relatedInformation,l.is))}e.create=n,e.is=t}(h||(h={}));var p;!function(e){function n(e,n){for(var t=[],r=2;r<arguments.length;r++)t[r-2]=arguments[r];var i={title:e,command:n};return Q.defined(t)&&t.length>0&&(i.arguments=t),i}function t(e){var n=e;return Q.defined(n)&&Q.string(n.title)&&Q.string(n.command)}e.create=n,e.is=t}(p||(p={}));var v;!function(e){function n(e,n){return{range:e,newText:n}}function t(e,n){return{range:{start:e,end:e},newText:n}}function r(e){return{range:e,newText:""}}function o(e){var n=e;return Q.objectLiteral(n)&&Q.string(n.newText)&&i.is(n.range)}e.replace=n,e.insert=t,e.del=r,e.is=o}(v||(v={}));var m;!function(e){function n(e,n){return{textDocument:e,edits:n}}function t(e){var n=e;return Q.defined(n)&&C.is(n.textDocument)&&Array.isArray(n.edits)}e.create=n,e.is=t}(m||(m={}));var b;!function(e){function n(e,n){var t={kind:"create",uri:e};return void 0===n||void 0===n.overwrite&&void 0===n.ignoreIfExists||(t.options=n),t}function t(e){var n=e;return n&&"create"===n.kind&&Q.string(n.uri)&&(void 0===n.options||(void 0===n.options.overwrite||Q.boolean(n.options.overwrite))&&(void 0===n.options.ignoreIfExists||Q.boolean(n.options.ignoreIfExists)))}e.create=n,e.is=t}(b||(b={}));var _;!function(e){function n(e,n,t){var r={kind:"rename",oldUri:e,newUri:n};return void 0===t||void 0===t.overwrite&&void 0===t.ignoreIfExists||(r.options=t),r}function t(e){var n=e;return n&&"rename"===n.kind&&Q.string(n.oldUri)&&Q.string(n.newUri)&&(void 0===n.options||(void 0===n.options.overwrite||Q.boolean(n.options.overwrite))&&(void 0===n.options.ignoreIfExists||Q.boolean(n.options.ignoreIfExists)))}e.create=n,e.is=t}(_||(_={}));var y;!function(e){function n(e,n){var t={kind:"delete",uri:e};return void 0===n||void 0===n.recursive&&void 0===n.ignoreIfNotExists||(t.options=n),t}function t(e){var n=e;return n&&"delete"===n.kind&&Q.string(n.uri)&&(void 0===n.options||(void 0===n.options.recursive||Q.boolean(n.options.recursive))&&(void 0===n.options.ignoreIfNotExists||Q.boolean(n.options.ignoreIfNotExists)))}e.create=n,e.is=t}(y||(y={}));var k;!function(e){function n(e){var n=e;return n&&(void 0!==n.changes||void 0!==n.documentChanges)&&(void 0===n.documentChanges||n.documentChanges.every(function(e){return Q.string(e.kind)?b.is(e)||_.is(e)||y.is(e):m.is(e)}))}e.is=n}(k||(k={}));var w,x=function(){function e(e){this.edits=e}return e.prototype.insert=function(e,n){this.edits.push(v.insert(e,n))},e.prototype.replace=function(e,n){this.edits.push(v.replace(e,n))},e.prototype.delete=function(e){this.edits.push(v.del(e))},e.prototype.add=function(e){this.edits.push(e)},e.prototype.all=function(){return this.edits},e.prototype.clear=function(){this.edits.splice(0,this.edits.length)},e}();!function(){function e(e){var n=this;this._textEditChanges=Object.create(null),e&&(this._workspaceEdit=e,e.documentChanges?e.documentChanges.forEach(function(e){if(m.is(e)){var t=new x(e.edits);n._textEditChanges[e.textDocument.uri]=t}}):e.changes&&Object.keys(e.changes).forEach(function(t){var r=new x(e.changes[t]);n._textEditChanges[t]=r}))}Object.defineProperty(e.prototype,"edit",{get:function(){return this._workspaceEdit},enumerable:!0,configurable:!0}),e.prototype.getTextEditChange=function(e){if(C.is(e)){if(this._workspaceEdit||(this._workspaceEdit={documentChanges:[]}),!this._workspaceEdit.documentChanges)throw new Error("Workspace edit is not configured for document changes.");var n=e,t=this._textEditChanges[n.uri];if(!t){var r=[],i={textDocument:n,edits:r};this._workspaceEdit.documentChanges.push(i),t=new x(r),this._textEditChanges[n.uri]=t}return t}if(this._workspaceEdit||(this._workspaceEdit={changes:Object.create(null)}),!this._workspaceEdit.changes)throw new Error("Workspace edit is not configured for normal text edit changes.");var t=this._textEditChanges[e];if(!t){var r=[];this._workspaceEdit.changes[e]=r,t=new x(r),this._textEditChanges[e]=t}return t},e.prototype.createFile=function(e,n){this.checkDocumentChanges(),this._workspaceEdit.documentChanges.push(b.create(e,n))},e.prototype.renameFile=function(e,n,t){this.checkDocumentChanges(),this._workspaceEdit.documentChanges.push(_.create(e,n,t))},e.prototype.deleteFile=function(e,n){this.checkDocumentChanges(),this._workspaceEdit.documentChanges.push(y.create(e,n))},e.prototype.checkDocumentChanges=function(){if(!this._workspaceEdit||!this._workspaceEdit.documentChanges)throw new Error("Workspace edit is not configured for document changes.")}}();!function(e){function n(e){return{uri:e}}function t(e){var n=e;return Q.defined(n)&&Q.string(n.uri)}e.create=n,e.is=t}(w||(w={}));var C;!function(e){function n(e,n){return{uri:e,version:n}}function t(e){var n=e;return Q.defined(n)&&Q.string(n.uri)&&(null===n.version||Q.number(n.version))}e.create=n,e.is=t}(C||(C={}));var E;!function(e){function n(e,n,t,r){return{uri:e,languageId:n,version:t,text:r}}function t(e){var n=e;return Q.defined(n)&&Q.string(n.uri)&&Q.string(n.languageId)&&Q.number(n.version)&&Q.string(n.text)}e.create=n,e.is=t}(E||(E={}));var I;!function(e){e.PlainText="plaintext",e.Markdown="markdown"}(I||(I={})),function(e){function n(n){var t=n;return t===e.PlainText||t===e.Markdown}e.is=n}(I||(I={}));var S;!function(e){function n(e){var n=e;return Q.objectLiteral(e)&&I.is(n.kind)&&Q.string(n.value)}e.is=n}(S||(S={}));var T;!function(e){e.Text=1,e.Method=2,e.Function=3,e.Constructor=4,e.Field=5,e.Variable=6,e.Class=7,e.Interface=8,e.Module=9,e.Property=10,e.Unit=11,e.Value=12,e.Enum=13,e.Keyword=14,e.Snippet=15,e.Color=16,e.File=17,e.Reference=18,e.Folder=19,e.EnumMember=20,e.Constant=21,e.Struct=22,e.Event=23,e.Operator=24,e.TypeParameter=25}(T||(T={}));var R;!function(e){e.PlainText=1,e.Snippet=2}(R||(R={}));var M;!function(e){function n(e){return{label:e}}e.create=n}(M||(M={}));var P;!function(e){function n(e,n){return{items:e||[],isIncomplete:!!n}}e.create=n}(P||(P={}));var D;!function(e){function n(e){return e.replace(/[\\`*_{}[\]()#+\-.!]/g,"\\$&")}function t(e){var n=e;return Q.string(n)||Q.objectLiteral(n)&&Q.string(n.language)&&Q.string(n.value)}e.fromPlainText=n,e.is=t}(D||(D={}));var F;!function(e){function n(e){var n=e;return!!n&&Q.objectLiteral(n)&&(S.is(n.contents)||D.is(n.contents)||Q.typedArray(n.contents,D.is))&&(void 0===e.range||i.is(e.range))}e.is=n}(F||(F={}));var A;!function(e){function n(e,n){return n?{label:e,documentation:n}:{label:e}}e.create=n}(A||(A={}));var O;!function(e){function n(e,n){for(var t=[],r=2;r<arguments.length;r++)t[r-2]=arguments[r];var i={label:e};return Q.defined(n)&&(i.documentation=n),Q.defined(t)?i.parameters=t:i.parameters=[],i}e.create=n}(O||(O={}));var j;!function(e){e.Text=1,e.Read=2,e.Write=3}(j||(j={}));var L;!function(e){function n(e,n){var t={range:e};return Q.number(n)&&(t.kind=n),t}e.create=n}(L||(L={}));var N;!function(e){e.File=1,e.Module=2,e.Namespace=3,e.Package=4,e.Class=5,e.Method=6,e.Property=7,e.Field=8,e.Constructor=9,e.Enum=10,e.Interface=11,e.Function=12,e.Variable=13,e.Constant=14,e.String=15,e.Number=16,e.Boolean=17,e.Array=18,e.Object=19,e.Key=20,e.Null=21,e.EnumMember=22,e.Struct=23,e.Event=24,e.Operator=25,e.TypeParameter=26}(N||(N={}));var W;!function(e){function n(e,n,t,r,i){var o={name:e,kind:n,location:{uri:r,range:t}};return i&&(o.containerName=i),o}e.create=n}(W||(W={}));var U=function(){function e(){}return e}();!function(e){function n(e,n,t,r,i,o){var a={name:e,detail:n,kind:t,range:r,selectionRange:i};return void 0!==o&&(a.children=o),a}function t(e){var n=e;return n&&Q.string(n.name)&&Q.number(n.kind)&&i.is(n.range)&&i.is(n.selectionRange)&&(void 0===n.detail||Q.string(n.detail))&&(void 0===n.deprecated||Q.boolean(n.deprecated))&&(void 0===n.children||Array.isArray(n.children))}e.create=n,e.is=t}(U||(U={}));var H;!function(e){e.QuickFix="quickfix",e.Refactor="refactor",e.RefactorExtract="refactor.extract",e.RefactorInline="refactor.inline",e.RefactorRewrite="refactor.rewrite",e.Source="source",e.SourceOrganizeImports="source.organizeImports"}(H||(H={}));var K;!function(e){function n(e,n){var t={diagnostics:e};return void 0!==n&&null!==n&&(t.only=n),t}function t(e){var n=e;return Q.defined(n)&&Q.typedArray(n.diagnostics,h.is)&&(void 0===n.only||Q.typedArray(n.only,Q.string))}e.create=n,e.is=t}(K||(K={}));var V;!function(e){function n(e,n,t){var r={title:e};return p.is(n)?r.command=n:r.edit=n,void 0!==t&&(r.kind=t),r}function t(e){var n=e;return n&&Q.string(n.title)&&(void 0===n.diagnostics||Q.typedArray(n.diagnostics,h.is))&&(void 0===n.kind||Q.string(n.kind))&&(void 0!==n.edit||void 0!==n.command)&&(void 0===n.command||p.is(n.command))&&(void 0===n.edit||k.is(n.edit))}e.create=n,e.is=t}(V||(V={}));var z;!function(e){function n(e,n){var t={range:e};return Q.defined(n)&&(t.data=n),t}function t(e){var n=e;return Q.defined(n)&&i.is(n.range)&&(Q.undefined(n.command)||p.is(n.command))}e.create=n,e.is=t}(z||(z={}));var B;!function(e){function n(e,n){return{tabSize:e,insertSpaces:n}}function t(e){var n=e;return Q.defined(n)&&Q.number(n.tabSize)&&Q.boolean(n.insertSpaces)}e.create=n,e.is=t}(B||(B={}));var $=function(){function e(){}return e}();!function(e){function n(e,n,t){return{range:e,target:n,data:t}}function t(e){var n=e;return Q.defined(n)&&i.is(n.range)&&(Q.undefined(n.target)||Q.string(n.target))}e.create=n,e.is=t}($||($={}));var q;!function(e){function n(e,n,t,r){return new G(e,n,t,r)}function t(e){var n=e;return!!(Q.defined(n)&&Q.string(n.uri)&&(Q.undefined(n.languageId)||Q.string(n.languageId))&&Q.number(n.lineCount)&&Q.func(n.getText)&&Q.func(n.positionAt)&&Q.func(n.offsetAt))}function r(e,n){for(var t=e.getText(),r=i(n,function(e,n){var t=e.range.start.line-n.range.start.line;return 0===t?e.range.start.character-n.range.start.character:t}),o=t.length,a=r.length-1;a>=0;a--){var u=r[a],c=e.offsetAt(u.range.start),s=e.offsetAt(u.range.end);if(!(s<=o))throw new Error("Overlapping edit");t=t.substring(0,c)+u.newText+t.substring(s,t.length),o=c}return t}function i(e,n){if(e.length<=1)return e;var t=e.length/2|0,r=e.slice(0,t),o=e.slice(t);i(r,n),i(o,n);for(var a=0,u=0,c=0;a<r.length&&u<o.length;){var s=n(r[a],o[u]);e[c++]=s<=0?r[a++]:o[u++]}for(;a<r.length;)e[c++]=r[a++];for(;u<o.length;)e[c++]=o[u++];return e}e.create=n,e.is=t,e.applyEdits=r}(q||(q={}));var J;!function(e){e.Manual=1,e.AfterDelay=2,e.FocusOut=3}(J||(J={}));var Q,G=function(){function e(e,n,t,r){this._uri=e,this._languageId=n,this._version=t,this._content=r,this._lineOffsets=null}return Object.defineProperty(e.prototype,"uri",{get:function(){return this._uri},enumerable:!0,configurable:!0}),Object.defineProperty(e.prototype,"languageId",{get:function(){return this._languageId},enumerable:!0,configurable:!0}),Object.defineProperty(e.prototype,"version",{get:function(){return this._version},enumerable:!0,configurable:!0}),e.prototype.getText=function(e){if(e){var n=this.offsetAt(e.start),t=this.offsetAt(e.end);return this._content.substring(n,t)}return this._content},e.prototype.update=function(e,n){this._content=e.text,this._version=n,this._lineOffsets=null},e.prototype.getLineOffsets=function(){if(null===this._lineOffsets){for(var e=[],n=this._content,t=!0,r=0;r<n.length;r++){t&&(e.push(r),t=!1);var i=n.charAt(r);t="\r"===i||"\n"===i,"\r"===i&&r+1<n.length&&"\n"===n.charAt(r+1)&&r++}t&&n.length>0&&e.push(n.length),this._lineOffsets=e}return this._lineOffsets},e.prototype.positionAt=function(e){e=Math.max(Math.min(e,this._content.length),0);var n=this.getLineOffsets(),t=0,i=n.length;if(0===i)return r.create(0,e);for(;t<i;){var o=Math.floor((t+i)/2);n[o]>e?i=o:t=o+1}var a=t-1;return r.create(a,e-n[a])},e.prototype.offsetAt=function(e){var n=this.getLineOffsets();if(e.line>=n.length)return this._content.length;if(e.line<0)return 0;var t=n[e.line],r=e.line+1<n.length?n[e.line+1]:this._content.length;return Math.max(Math.min(t+e.character,r),t)},Object.defineProperty(e.prototype,"lineCount",{get:function(){return this.getLineOffsets().length},enumerable:!0,configurable:!0}),e}();!function(e){function n(e){return void 0!==e}function t(e){return void 0===e}function r(e){return!0===e||!1===e}function i(e){return"[object String]"===s.call(e)}function o(e){return"[object Number]"===s.call(e)}function a(e){return"[object Function]"===s.call(e)}function u(e){return null!==e&&"object"==typeof e}function c(e,n){return Array.isArray(e)&&e.every(n)}var s=Object.prototype.toString;e.defined=n,e.undefined=t,e.boolean=r,e.string=i,e.number=o,e.func=a,e.objectLiteral=u,e.typedArray=c}(Q||(Q={}))},1246:function(e,n,t){"use strict";function r(e){switch(e){case b.a.Error:return monaco.MarkerSeverity.Error;case b.a.Warning:return monaco.MarkerSeverity.Warning;case b.a.Information:return monaco.MarkerSeverity.Info;case b.a.Hint:return monaco.MarkerSeverity.Hint;default:return monaco.MarkerSeverity.Info}}function i(e,n){var t="number"==typeof n.code?String(n.code):n.code;return{severity:r(n.severity),startLineNumber:n.range.start.line+1,startColumn:n.range.start.character+1,endLineNumber:n.range.end.line+1,endColumn:n.range.end.character+1,message:n.message,code:t,source:n.source}}function o(e){if(e)return{character:e.column-1,line:e.lineNumber-1}}function a(e){if(e)return{start:{line:e.startLineNumber-1,character:e.startColumn-1},end:{line:e.endLineNumber-1,character:e.endColumn-1}}}function u(e){if(e)return new monaco.Range(e.start.line+1,e.start.character+1,e.end.line+1,e.end.character+1)}function c(e){var n=monaco.languages.CompletionItemKind;switch(e){case b.b.Text:return n.Text;case b.b.Method:return n.Method;case b.b.Function:return n.Function;case b.b.Constructor:return n.Constructor;case b.b.Field:return n.Field;case b.b.Variable:return n.Variable;case b.b.Class:return n.Class;case b.b.Interface:return n.Interface;case b.b.Module:return n.Module;case b.b.Property:return n.Property;case b.b.Unit:return n.Unit;case b.b.Value:return n.Value;case b.b.Enum:return n.Enum;case b.b.Keyword:return n.Keyword;case b.b.Snippet:return n.Snippet;case b.b.Color:return n.Color;case b.b.File:return n.File;case b.b.Reference:return n.Reference}return n.Property}function s(e){if(e)return{range:u(e.range),text:e.newText}}function d(e){return e&&"object"==typeof e&&"string"==typeof e.kind}function f(e){return"string"==typeof e?{value:e}:d(e)?"plaintext"===e.kind?{value:e.value.replace(/[\\`*_{}[\]()#+\-.!]/g,"\\$&")}:{value:e.value}:{value:"```"+e.language+"\n"+e.value+"\n```\n"}}function l(e){if(e)return Array.isArray(e)?e.map(f):[f(e)]}function g(e){switch(e){case b.d.Read:return monaco.languages.DocumentHighlightKind.Read;case b.d.Write:return monaco.languages.DocumentHighlightKind.Write;case b.d.Text:return monaco.languages.DocumentHighlightKind.Text}return monaco.languages.DocumentHighlightKind.Text}function h(e){return{uri:_.parse(e.uri),range:u(e.range)}}function p(e){if(e&&e.changes){var n=[];for(var t in e.changes){for(var r=[],i=0,o=e.changes[t];i<o.length;i++){var a=o[i];r.push({range:u(a.range),text:a.newText})}n.push({resource:_.parse(t),edits:r})}return{edits:n}}}function v(e){var n=monaco.languages.SymbolKind;switch(e){case b.e.File:return n.Array;case b.e.Module:return n.Module;case b.e.Namespace:return n.Namespace;case b.e.Package:return n.Package;case b.e.Class:return n.Class;case b.e.Method:return n.Method;case b.e.Property:return n.Property;case b.e.Field:return n.Field;case b.e.Constructor:return n.Constructor;case b.e.Enum:return n.Enum;case b.e.Interface:return n.Interface;case b.e.Function:return n.Function;case b.e.Variable:return n.Variable;case b.e.Constant:return n.Constant;case b.e.String:return n.String;case b.e.Number:return n.Number;case b.e.Boolean:return n.Boolean;case b.e.Array:return n.Array}return n.Function}function m(e){switch(e){case b.f.Comment:return monaco.languages.FoldingRangeKind.Comment;case b.f.Imports:return monaco.languages.FoldingRangeKind.Imports;case b.f.Region:return monaco.languages.FoldingRangeKind.Region}}var b=t(1245);t.d(n,"j",function(){return k}),t.d(n,"a",function(){return w}),t.d(n,"b",function(){return x}),t.d(n,"c",function(){return C}),t.d(n,"d",function(){return E}),t.d(n,"e",function(){return I}),t.d(n,"g",function(){return S}),t.d(n,"f",function(){return T}),t.d(n,"h",function(){return R}),t.d(n,"i",function(){return M});var _=monaco.Uri,y=monaco.Range,k=function(){function e(e,n,t){var r=this;this._languageId=e,this._worker=n,this._disposables=[],this._listener=Object.create(null);var i=function(e){var n=e.getModeId();if(n===r._languageId){var t;r._listener[e.uri.toString()]=e.onDidChangeContent(function(){clearTimeout(t),t=setTimeout(function(){return r._doValidate(e.uri,n)},500)}),r._doValidate(e.uri,n)}},o=function(e){monaco.editor.setModelMarkers(e,r._languageId,[]);var n=e.uri.toString(),t=r._listener[n];t&&(t.dispose(),delete r._listener[n])};this._disposables.push(monaco.editor.onDidCreateModel(i)),this._disposables.push(monaco.editor.onWillDisposeModel(o)),this._disposables.push(monaco.editor.onDidChangeModelLanguage(function(e){o(e.model),i(e.model)})),t.onDidChange(function(e){monaco.editor.getModels().forEach(function(e){e.getModeId()===r._languageId&&(o(e),i(e))})}),this._disposables.push({dispose:function(){for(var e in r._listener)r._listener[e].dispose()}}),monaco.editor.getModels().forEach(i)}return e.prototype.dispose=function(){this._disposables.forEach(function(e){return e&&e.dispose()}),this._disposables=[]},e.prototype._doValidate=function(e,n){this._worker(e).then(function(n){return n.doValidation(e.toString())}).then(function(t){var r=t.map(function(n){return i(e,n)}),o=monaco.editor.getModel(e);o.getModeId()===n&&monaco.editor.setModelMarkers(o,n,r)}).then(void 0,function(e){})},e}(),w=function(){function e(e){this._worker=e}return Object.defineProperty(e.prototype,"triggerCharacters",{get:function(){return[" ",":"]},enumerable:!0,configurable:!0}),e.prototype.provideCompletionItems=function(e,n,t,r){var i=e.uri;return this._worker(i).then(function(e){return e.doComplete(i.toString(),o(n))}).then(function(t){if(t){var r=e.getWordUntilPosition(n),i=new y(n.lineNumber,r.startColumn,n.lineNumber,r.endColumn),o=t.items.map(function(e){var n={label:e.label,insertText:e.insertText||e.label,sortText:e.sortText,filterText:e.filterText,documentation:e.documentation,detail:e.detail,range:i,kind:c(e.kind)};return e.textEdit&&(n.range=u(e.textEdit.range),n.insertText=e.textEdit.newText),e.additionalTextEdits&&(n.additionalTextEdits=e.additionalTextEdits.map(s)),e.insertTextFormat===b.c.Snippet&&(n.insertTextRules=monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet),n});return{isIncomplete:t.isIncomplete,suggestions:o}}})},e}(),x=function(){function e(e){this._worker=e}return e.prototype.provideHover=function(e,n,t){var r=e.uri;return this._worker(r).then(function(e){return e.doHover(r.toString(),o(n))}).then(function(e){if(e)return{range:u(e.range),contents:l(e.contents)}})},e}(),C=function(){function e(e){this._worker=e}return e.prototype.provideDocumentHighlights=function(e,n,t){var r=e.uri;return this._worker(r).then(function(e){return e.findDocumentHighlights(r.toString(),o(n))}).then(function(e){if(e)return e.map(function(e){return{range:u(e.range),kind:g(e.kind)}})})},e}(),E=function(){function e(e){this._worker=e}return e.prototype.provideDefinition=function(e,n,t){var r=e.uri;return this._worker(r).then(function(e){return e.findDefinition(r.toString(),o(n))}).then(function(e){if(e)return[h(e)]})},e}(),I=function(){function e(e){this._worker=e}return e.prototype.provideReferences=function(e,n,t,r){var i=e.uri;return this._worker(i).then(function(e){return e.findReferences(i.toString(),o(n))}).then(function(e){if(e)return e.map(h)})},e}(),S=function(){function e(e){this._worker=e}return e.prototype.provideRenameEdits=function(e,n,t,r){var i=e.uri;return this._worker(i).then(function(e){return e.doRename(i.toString(),o(n),t)}).then(function(e){return p(e)})},e}(),T=function(){function e(e){this._worker=e}return e.prototype.provideDocumentSymbols=function(e,n){var t=e.uri;return this._worker(t).then(function(e){return e.findDocumentSymbols(t.toString())}).then(function(e){if(e)return e.map(function(e){return{name:e.name,detail:"",containerName:e.containerName,kind:v(e.kind),range:u(e.location.range),selectionRange:u(e.location.range)}})})},e}(),R=function(){function e(e){this._worker=e}return e.prototype.provideDocumentColors=function(e,n){var t=e.uri;return this._worker(t).then(function(e){return e.findDocumentColors(t.toString())}).then(function(e){if(e)return e.map(function(e){return{color:e.color,range:u(e.range)}})})},e.prototype.provideColorPresentations=function(e,n,t){var r=e.uri;return this._worker(r).then(function(e){return e.getColorPresentations(r.toString(),n.color,a(n.range))}).then(function(e){if(e)return e.map(function(e){var n={label:e.label};return e.textEdit&&(n.textEdit=s(e.textEdit)),e.additionalTextEdits&&(n.additionalTextEdits=e.additionalTextEdits.map(s)),n})})},e}(),M=function(){function e(e){this._worker=e}return e.prototype.provideFoldingRanges=function(e,n,t){var r=e.uri;return this._worker(r).then(function(e){return e.provideFoldingRanges(r.toString(),n)}).then(function(e){if(e)return e.map(function(e){var n={start:e.startLine+1,end:e.endLine+1};return void 0!==e.kind&&(n.kind=m(e.kind)),n})})},e}()},1247:function(e,n,t){"use strict";t.d(n,"a",function(){return r});var r=function(){function e(e){var n=this;this._defaults=e,this._worker=null,this._idleCheckInterval=setInterval(function(){return n._checkIfIdle()},3e4),this._lastUsedTime=0,this._configChangeListener=this._defaults.onDidChange(function(){return n._stopWorker()})}return e.prototype._stopWorker=function(){this._worker&&(this._worker.dispose(),this._worker=null),this._client=null},e.prototype.dispose=function(){clearInterval(this._idleCheckInterval),this._configChangeListener.dispose(),this._stopWorker()},e.prototype._checkIfIdle=function(){if(this._worker){Date.now()-this._lastUsedTime>12e4&&this._stopWorker()}},e.prototype._getClient=function(){return this._lastUsedTime=Date.now(),this._client||(this._worker=monaco.editor.createWebWorker({moduleId:"vs/language/css/cssWorker",label:this._defaults.languageId,createData:{languageSettings:this._defaults.diagnosticsOptions,languageId:this._defaults.languageId}}),this._client=this._worker.getProxy()),this._client},e.prototype.getLanguageServiceWorker=function(){for(var e=this,n=[],t=0;t<arguments.length;t++)n[t]=arguments[t];var r;return this._getClient().then(function(e){r=e}).then(function(t){return e._worker.withSyncedResources(n)}).then(function(e){return r})},e}()}});
+webpackJsonp([3],{
+
+/***/ 1188:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["setupMode"] = setupMode;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__workerManager_js__ = __webpack_require__(1247);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__languageFeatures_js__ = __webpack_require__(1248);
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+
+
+function setupMode(defaults) {
+    var client = new __WEBPACK_IMPORTED_MODULE_0__workerManager_js__["a" /* WorkerManager */](defaults);
+    var worker = function (first) {
+        var more = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            more[_i - 1] = arguments[_i];
+        }
+        return client.getLanguageServiceWorker.apply(client, [first].concat(more));
+    };
+    var languageId = defaults.languageId;
+    monaco.languages.registerCompletionItemProvider(languageId, new __WEBPACK_IMPORTED_MODULE_1__languageFeatures_js__["a" /* CompletionAdapter */](worker));
+    monaco.languages.registerHoverProvider(languageId, new __WEBPACK_IMPORTED_MODULE_1__languageFeatures_js__["h" /* HoverAdapter */](worker));
+    monaco.languages.registerDocumentHighlightProvider(languageId, new __WEBPACK_IMPORTED_MODULE_1__languageFeatures_js__["e" /* DocumentHighlightAdapter */](worker));
+    monaco.languages.registerDefinitionProvider(languageId, new __WEBPACK_IMPORTED_MODULE_1__languageFeatures_js__["b" /* DefinitionAdapter */](worker));
+    monaco.languages.registerReferenceProvider(languageId, new __WEBPACK_IMPORTED_MODULE_1__languageFeatures_js__["i" /* ReferenceAdapter */](worker));
+    monaco.languages.registerDocumentSymbolProvider(languageId, new __WEBPACK_IMPORTED_MODULE_1__languageFeatures_js__["f" /* DocumentSymbolAdapter */](worker));
+    monaco.languages.registerRenameProvider(languageId, new __WEBPACK_IMPORTED_MODULE_1__languageFeatures_js__["j" /* RenameAdapter */](worker));
+    monaco.languages.registerColorProvider(languageId, new __WEBPACK_IMPORTED_MODULE_1__languageFeatures_js__["d" /* DocumentColorAdapter */](worker));
+    monaco.languages.registerFoldingRangeProvider(languageId, new __WEBPACK_IMPORTED_MODULE_1__languageFeatures_js__["g" /* FoldingRangeAdapter */](worker));
+    new __WEBPACK_IMPORTED_MODULE_1__languageFeatures_js__["c" /* DiagnosticsAdapter */](languageId, worker, defaults);
+}
+
+
+/***/ }),
+
+/***/ 1247:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WorkerManager; });
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+var STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
+var WorkerManager = /** @class */ (function () {
+    function WorkerManager(defaults) {
+        var _this = this;
+        this._defaults = defaults;
+        this._worker = null;
+        this._idleCheckInterval = setInterval(function () { return _this._checkIfIdle(); }, 30 * 1000);
+        this._lastUsedTime = 0;
+        this._configChangeListener = this._defaults.onDidChange(function () { return _this._stopWorker(); });
+    }
+    WorkerManager.prototype._stopWorker = function () {
+        if (this._worker) {
+            this._worker.dispose();
+            this._worker = null;
+        }
+        this._client = null;
+    };
+    WorkerManager.prototype.dispose = function () {
+        clearInterval(this._idleCheckInterval);
+        this._configChangeListener.dispose();
+        this._stopWorker();
+    };
+    WorkerManager.prototype._checkIfIdle = function () {
+        if (!this._worker) {
+            return;
+        }
+        var timePassedSinceLastUsed = Date.now() - this._lastUsedTime;
+        if (timePassedSinceLastUsed > STOP_WHEN_IDLE_FOR) {
+            this._stopWorker();
+        }
+    };
+    WorkerManager.prototype._getClient = function () {
+        this._lastUsedTime = Date.now();
+        if (!this._client) {
+            this._worker = monaco.editor.createWebWorker({
+                // module that exports the create() method and returns a `CSSWorker` instance
+                moduleId: 'vs/language/css/cssWorker',
+                label: this._defaults.languageId,
+                // passed in to the create() method
+                createData: {
+                    languageSettings: this._defaults.diagnosticsOptions,
+                    languageId: this._defaults.languageId
+                }
+            });
+            this._client = this._worker.getProxy();
+        }
+        return this._client;
+    };
+    WorkerManager.prototype.getLanguageServiceWorker = function () {
+        var _this = this;
+        var resources = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            resources[_i] = arguments[_i];
+        }
+        var _client;
+        return this._getClient().then(function (client) {
+            _client = client;
+        }).then(function (_) {
+            return _this._worker.withSyncedResources(resources);
+        }).then(function (_) { return _client; });
+    };
+    return WorkerManager;
+}());
+
+
+
+/***/ }),
+
+/***/ 1248:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return DiagnosticsAdapter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompletionAdapter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return HoverAdapter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return DocumentHighlightAdapter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DefinitionAdapter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return ReferenceAdapter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return RenameAdapter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return DocumentSymbolAdapter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return DocumentColorAdapter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return FoldingRangeAdapter; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__ = __webpack_require__(1249);
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+
+var Uri = monaco.Uri;
+var Range = monaco.Range;
+// --- diagnostics --- ---
+var DiagnosticsAdapter = /** @class */ (function () {
+    function DiagnosticsAdapter(_languageId, _worker, defaults) {
+        var _this = this;
+        this._languageId = _languageId;
+        this._worker = _worker;
+        this._disposables = [];
+        this._listener = Object.create(null);
+        var onModelAdd = function (model) {
+            var modeId = model.getModeId();
+            if (modeId !== _this._languageId) {
+                return;
+            }
+            var handle;
+            _this._listener[model.uri.toString()] = model.onDidChangeContent(function () {
+                clearTimeout(handle);
+                handle = setTimeout(function () { return _this._doValidate(model.uri, modeId); }, 500);
+            });
+            _this._doValidate(model.uri, modeId);
+        };
+        var onModelRemoved = function (model) {
+            monaco.editor.setModelMarkers(model, _this._languageId, []);
+            var uriStr = model.uri.toString();
+            var listener = _this._listener[uriStr];
+            if (listener) {
+                listener.dispose();
+                delete _this._listener[uriStr];
+            }
+        };
+        this._disposables.push(monaco.editor.onDidCreateModel(onModelAdd));
+        this._disposables.push(monaco.editor.onWillDisposeModel(onModelRemoved));
+        this._disposables.push(monaco.editor.onDidChangeModelLanguage(function (event) {
+            onModelRemoved(event.model);
+            onModelAdd(event.model);
+        }));
+        defaults.onDidChange(function (_) {
+            monaco.editor.getModels().forEach(function (model) {
+                if (model.getModeId() === _this._languageId) {
+                    onModelRemoved(model);
+                    onModelAdd(model);
+                }
+            });
+        });
+        this._disposables.push({
+            dispose: function () {
+                for (var key in _this._listener) {
+                    _this._listener[key].dispose();
+                }
+            }
+        });
+        monaco.editor.getModels().forEach(onModelAdd);
+    }
+    DiagnosticsAdapter.prototype.dispose = function () {
+        this._disposables.forEach(function (d) { return d && d.dispose(); });
+        this._disposables = [];
+    };
+    DiagnosticsAdapter.prototype._doValidate = function (resource, languageId) {
+        this._worker(resource).then(function (worker) {
+            return worker.doValidation(resource.toString());
+        }).then(function (diagnostics) {
+            var markers = diagnostics.map(function (d) { return toDiagnostics(resource, d); });
+            var model = monaco.editor.getModel(resource);
+            if (model.getModeId() === languageId) {
+                monaco.editor.setModelMarkers(model, languageId, markers);
+            }
+        }).then(undefined, function (err) {
+            console.error(err);
+        });
+    };
+    return DiagnosticsAdapter;
+}());
+
+function toSeverity(lsSeverity) {
+    switch (lsSeverity) {
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["b" /* DiagnosticSeverity */].Error: return monaco.MarkerSeverity.Error;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["b" /* DiagnosticSeverity */].Warning: return monaco.MarkerSeverity.Warning;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["b" /* DiagnosticSeverity */].Information: return monaco.MarkerSeverity.Info;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["b" /* DiagnosticSeverity */].Hint: return monaco.MarkerSeverity.Hint;
+        default:
+            return monaco.MarkerSeverity.Info;
+    }
+}
+function toDiagnostics(resource, diag) {
+    var code = typeof diag.code === 'number' ? String(diag.code) : diag.code;
+    return {
+        severity: toSeverity(diag.severity),
+        startLineNumber: diag.range.start.line + 1,
+        startColumn: diag.range.start.character + 1,
+        endLineNumber: diag.range.end.line + 1,
+        endColumn: diag.range.end.character + 1,
+        message: diag.message,
+        code: code,
+        source: diag.source
+    };
+}
+// --- completion ------
+function fromPosition(position) {
+    if (!position) {
+        return void 0;
+    }
+    return { character: position.column - 1, line: position.lineNumber - 1 };
+}
+function fromRange(range) {
+    if (!range) {
+        return void 0;
+    }
+    return { start: { line: range.startLineNumber - 1, character: range.startColumn - 1 }, end: { line: range.endLineNumber - 1, character: range.endColumn - 1 } };
+}
+function toRange(range) {
+    if (!range) {
+        return void 0;
+    }
+    return new monaco.Range(range.start.line + 1, range.start.character + 1, range.end.line + 1, range.end.character + 1);
+}
+function toCompletionItemKind(kind) {
+    var mItemKind = monaco.languages.CompletionItemKind;
+    switch (kind) {
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Text: return mItemKind.Text;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Method: return mItemKind.Method;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Function: return mItemKind.Function;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Constructor: return mItemKind.Constructor;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Field: return mItemKind.Field;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Variable: return mItemKind.Variable;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Class: return mItemKind.Class;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Interface: return mItemKind.Interface;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Module: return mItemKind.Module;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Property: return mItemKind.Property;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Unit: return mItemKind.Unit;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Value: return mItemKind.Value;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Enum: return mItemKind.Enum;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Keyword: return mItemKind.Keyword;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Snippet: return mItemKind.Snippet;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Color: return mItemKind.Color;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].File: return mItemKind.File;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["a" /* CompletionItemKind */].Reference: return mItemKind.Reference;
+    }
+    return mItemKind.Property;
+}
+function toTextEdit(textEdit) {
+    if (!textEdit) {
+        return void 0;
+    }
+    return {
+        range: toRange(textEdit.range),
+        text: textEdit.newText
+    };
+}
+var CompletionAdapter = /** @class */ (function () {
+    function CompletionAdapter(_worker) {
+        this._worker = _worker;
+    }
+    Object.defineProperty(CompletionAdapter.prototype, "triggerCharacters", {
+        get: function () {
+            return [' ', ':'];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CompletionAdapter.prototype.provideCompletionItems = function (model, position, context, token) {
+        var resource = model.uri;
+        return this._worker(resource).then(function (worker) {
+            return worker.doComplete(resource.toString(), fromPosition(position));
+        }).then(function (info) {
+            if (!info) {
+                return;
+            }
+            var wordInfo = model.getWordUntilPosition(position);
+            var wordRange = new Range(position.lineNumber, wordInfo.startColumn, position.lineNumber, wordInfo.endColumn);
+            var items = info.items.map(function (entry) {
+                var item = {
+                    label: entry.label,
+                    insertText: entry.insertText || entry.label,
+                    sortText: entry.sortText,
+                    filterText: entry.filterText,
+                    documentation: entry.documentation,
+                    detail: entry.detail,
+                    range: wordRange,
+                    kind: toCompletionItemKind(entry.kind),
+                };
+                if (entry.textEdit) {
+                    item.range = toRange(entry.textEdit.range);
+                    item.insertText = entry.textEdit.newText;
+                }
+                if (entry.additionalTextEdits) {
+                    item.additionalTextEdits = entry.additionalTextEdits.map(toTextEdit);
+                }
+                if (entry.insertTextFormat === __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["e" /* InsertTextFormat */].Snippet) {
+                    item.insertTextRules = monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet;
+                }
+                return item;
+            });
+            return {
+                isIncomplete: info.isIncomplete,
+                suggestions: items
+            };
+        });
+    };
+    return CompletionAdapter;
+}());
+
+function isMarkupContent(thing) {
+    return thing && typeof thing === 'object' && typeof thing.kind === 'string';
+}
+function toMarkdownString(entry) {
+    if (typeof entry === 'string') {
+        return {
+            value: entry
+        };
+    }
+    if (isMarkupContent(entry)) {
+        if (entry.kind === 'plaintext') {
+            return {
+                value: entry.value.replace(/[\\`*_{}[\]()#+\-.!]/g, '\\$&')
+            };
+        }
+        return {
+            value: entry.value
+        };
+    }
+    return { value: '```' + entry.language + '\n' + entry.value + '\n```\n' };
+}
+function toMarkedStringArray(contents) {
+    if (!contents) {
+        return void 0;
+    }
+    if (Array.isArray(contents)) {
+        return contents.map(toMarkdownString);
+    }
+    return [toMarkdownString(contents)];
+}
+// --- hover ------
+var HoverAdapter = /** @class */ (function () {
+    function HoverAdapter(_worker) {
+        this._worker = _worker;
+    }
+    HoverAdapter.prototype.provideHover = function (model, position, token) {
+        var resource = model.uri;
+        return this._worker(resource).then(function (worker) {
+            return worker.doHover(resource.toString(), fromPosition(position));
+        }).then(function (info) {
+            if (!info) {
+                return;
+            }
+            return {
+                range: toRange(info.range),
+                contents: toMarkedStringArray(info.contents)
+            };
+        });
+    };
+    return HoverAdapter;
+}());
+
+// --- document highlights ------
+function toDocumentHighlightKind(kind) {
+    switch (kind) {
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["c" /* DocumentHighlightKind */].Read: return monaco.languages.DocumentHighlightKind.Read;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["c" /* DocumentHighlightKind */].Write: return monaco.languages.DocumentHighlightKind.Write;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["c" /* DocumentHighlightKind */].Text: return monaco.languages.DocumentHighlightKind.Text;
+    }
+    return monaco.languages.DocumentHighlightKind.Text;
+}
+var DocumentHighlightAdapter = /** @class */ (function () {
+    function DocumentHighlightAdapter(_worker) {
+        this._worker = _worker;
+    }
+    DocumentHighlightAdapter.prototype.provideDocumentHighlights = function (model, position, token) {
+        var resource = model.uri;
+        return this._worker(resource).then(function (worker) {
+            return worker.findDocumentHighlights(resource.toString(), fromPosition(position));
+        }).then(function (entries) {
+            if (!entries) {
+                return;
+            }
+            return entries.map(function (entry) {
+                return {
+                    range: toRange(entry.range),
+                    kind: toDocumentHighlightKind(entry.kind)
+                };
+            });
+        });
+    };
+    return DocumentHighlightAdapter;
+}());
+
+// --- definition ------
+function toLocation(location) {
+    return {
+        uri: Uri.parse(location.uri),
+        range: toRange(location.range)
+    };
+}
+var DefinitionAdapter = /** @class */ (function () {
+    function DefinitionAdapter(_worker) {
+        this._worker = _worker;
+    }
+    DefinitionAdapter.prototype.provideDefinition = function (model, position, token) {
+        var resource = model.uri;
+        return this._worker(resource).then(function (worker) {
+            return worker.findDefinition(resource.toString(), fromPosition(position));
+        }).then(function (definition) {
+            if (!definition) {
+                return;
+            }
+            return [toLocation(definition)];
+        });
+    };
+    return DefinitionAdapter;
+}());
+
+// --- references ------
+var ReferenceAdapter = /** @class */ (function () {
+    function ReferenceAdapter(_worker) {
+        this._worker = _worker;
+    }
+    ReferenceAdapter.prototype.provideReferences = function (model, position, context, token) {
+        var resource = model.uri;
+        return this._worker(resource).then(function (worker) {
+            return worker.findReferences(resource.toString(), fromPosition(position));
+        }).then(function (entries) {
+            if (!entries) {
+                return;
+            }
+            return entries.map(toLocation);
+        });
+    };
+    return ReferenceAdapter;
+}());
+
+// --- rename ------
+function toWorkspaceEdit(edit) {
+    if (!edit || !edit.changes) {
+        return void 0;
+    }
+    var resourceEdits = [];
+    for (var uri in edit.changes) {
+        var edits = [];
+        for (var _i = 0, _a = edit.changes[uri]; _i < _a.length; _i++) {
+            var e = _a[_i];
+            edits.push({
+                range: toRange(e.range),
+                text: e.newText
+            });
+        }
+        resourceEdits.push({ resource: Uri.parse(uri), edits: edits });
+    }
+    return {
+        edits: resourceEdits
+    };
+}
+var RenameAdapter = /** @class */ (function () {
+    function RenameAdapter(_worker) {
+        this._worker = _worker;
+    }
+    RenameAdapter.prototype.provideRenameEdits = function (model, position, newName, token) {
+        var resource = model.uri;
+        return this._worker(resource).then(function (worker) {
+            return worker.doRename(resource.toString(), fromPosition(position), newName);
+        }).then(function (edit) {
+            return toWorkspaceEdit(edit);
+        });
+    };
+    return RenameAdapter;
+}());
+
+// --- document symbols ------
+function toSymbolKind(kind) {
+    var mKind = monaco.languages.SymbolKind;
+    switch (kind) {
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].File: return mKind.Array;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Module: return mKind.Module;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Namespace: return mKind.Namespace;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Package: return mKind.Package;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Class: return mKind.Class;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Method: return mKind.Method;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Property: return mKind.Property;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Field: return mKind.Field;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Constructor: return mKind.Constructor;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Enum: return mKind.Enum;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Interface: return mKind.Interface;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Function: return mKind.Function;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Variable: return mKind.Variable;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Constant: return mKind.Constant;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].String: return mKind.String;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Number: return mKind.Number;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Boolean: return mKind.Boolean;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["f" /* SymbolKind */].Array: return mKind.Array;
+    }
+    return mKind.Function;
+}
+var DocumentSymbolAdapter = /** @class */ (function () {
+    function DocumentSymbolAdapter(_worker) {
+        this._worker = _worker;
+    }
+    DocumentSymbolAdapter.prototype.provideDocumentSymbols = function (model, token) {
+        var resource = model.uri;
+        return this._worker(resource).then(function (worker) { return worker.findDocumentSymbols(resource.toString()); }).then(function (items) {
+            if (!items) {
+                return;
+            }
+            return items.map(function (item) { return ({
+                name: item.name,
+                detail: '',
+                containerName: item.containerName,
+                kind: toSymbolKind(item.kind),
+                range: toRange(item.location.range),
+                selectionRange: toRange(item.location.range)
+            }); });
+        });
+    };
+    return DocumentSymbolAdapter;
+}());
+
+var DocumentColorAdapter = /** @class */ (function () {
+    function DocumentColorAdapter(_worker) {
+        this._worker = _worker;
+    }
+    DocumentColorAdapter.prototype.provideDocumentColors = function (model, token) {
+        var resource = model.uri;
+        return this._worker(resource).then(function (worker) { return worker.findDocumentColors(resource.toString()); }).then(function (infos) {
+            if (!infos) {
+                return;
+            }
+            return infos.map(function (item) { return ({
+                color: item.color,
+                range: toRange(item.range)
+            }); });
+        });
+    };
+    DocumentColorAdapter.prototype.provideColorPresentations = function (model, info, token) {
+        var resource = model.uri;
+        return this._worker(resource).then(function (worker) { return worker.getColorPresentations(resource.toString(), info.color, fromRange(info.range)); }).then(function (presentations) {
+            if (!presentations) {
+                return;
+            }
+            return presentations.map(function (presentation) {
+                var item = {
+                    label: presentation.label,
+                };
+                if (presentation.textEdit) {
+                    item.textEdit = toTextEdit(presentation.textEdit);
+                }
+                if (presentation.additionalTextEdits) {
+                    item.additionalTextEdits = presentation.additionalTextEdits.map(toTextEdit);
+                }
+                return item;
+            });
+        });
+    };
+    return DocumentColorAdapter;
+}());
+
+var FoldingRangeAdapter = /** @class */ (function () {
+    function FoldingRangeAdapter(_worker) {
+        this._worker = _worker;
+    }
+    FoldingRangeAdapter.prototype.provideFoldingRanges = function (model, context, token) {
+        var resource = model.uri;
+        return this._worker(resource).then(function (worker) { return worker.provideFoldingRanges(resource.toString(), context); }).then(function (ranges) {
+            if (!ranges) {
+                return;
+            }
+            return ranges.map(function (range) {
+                var result = {
+                    start: range.startLine + 1,
+                    end: range.endLine + 1
+                };
+                if (typeof range.kind !== 'undefined') {
+                    result.kind = toFoldingRangeKind(range.kind);
+                }
+                return result;
+            });
+        });
+    };
+    return FoldingRangeAdapter;
+}());
+
+function toFoldingRangeKind(kind) {
+    switch (kind) {
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["d" /* FoldingRangeKind */].Comment: return monaco.languages.FoldingRangeKind.Comment;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["d" /* FoldingRangeKind */].Imports: return monaco.languages.FoldingRangeKind.Imports;
+        case __WEBPACK_IMPORTED_MODULE_0__deps_vscode_languageserver_types_main_js__["d" /* FoldingRangeKind */].Region: return monaco.languages.FoldingRangeKind.Region;
+    }
+    return void 0;
+}
+
+
+/***/ }),
+
+/***/ 1249:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export Position */
+/* unused harmony export Range */
+/* unused harmony export Location */
+/* unused harmony export LocationLink */
+/* unused harmony export Color */
+/* unused harmony export ColorInformation */
+/* unused harmony export ColorPresentation */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return FoldingRangeKind; });
+/* unused harmony export FoldingRange */
+/* unused harmony export DiagnosticRelatedInformation */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DiagnosticSeverity; });
+/* unused harmony export Diagnostic */
+/* unused harmony export Command */
+/* unused harmony export TextEdit */
+/* unused harmony export TextDocumentEdit */
+/* unused harmony export CreateFile */
+/* unused harmony export RenameFile */
+/* unused harmony export DeleteFile */
+/* unused harmony export WorkspaceEdit */
+/* unused harmony export WorkspaceChange */
+/* unused harmony export TextDocumentIdentifier */
+/* unused harmony export VersionedTextDocumentIdentifier */
+/* unused harmony export TextDocumentItem */
+/* unused harmony export MarkupKind */
+/* unused harmony export MarkupContent */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompletionItemKind; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return InsertTextFormat; });
+/* unused harmony export CompletionItem */
+/* unused harmony export CompletionList */
+/* unused harmony export MarkedString */
+/* unused harmony export Hover */
+/* unused harmony export ParameterInformation */
+/* unused harmony export SignatureInformation */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return DocumentHighlightKind; });
+/* unused harmony export DocumentHighlight */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return SymbolKind; });
+/* unused harmony export SymbolInformation */
+/* unused harmony export DocumentSymbol */
+/* unused harmony export CodeActionKind */
+/* unused harmony export CodeActionContext */
+/* unused harmony export CodeAction */
+/* unused harmony export CodeLens */
+/* unused harmony export FormattingOptions */
+/* unused harmony export DocumentLink */
+/* unused harmony export EOL */
+/* unused harmony export TextDocument */
+/* unused harmony export TextDocumentSaveReason */
+/* --------------------------------------------------------------------------------------------
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
+ * ------------------------------------------------------------------------------------------ */
+
+/**
+ * The Position namespace provides helper functions to work with
+ * [Position](#Position) literals.
+ */
+var Position;
+(function (Position) {
+    /**
+     * Creates a new Position literal from the given line and character.
+     * @param line The position's line.
+     * @param character The position's character.
+     */
+    function create(line, character) {
+        return { line: line, character: character };
+    }
+    Position.create = create;
+    /**
+     * Checks whether the given liternal conforms to the [Position](#Position) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.objectLiteral(candidate) && Is.number(candidate.line) && Is.number(candidate.character);
+    }
+    Position.is = is;
+})(Position || (Position = {}));
+/**
+ * The Range namespace provides helper functions to work with
+ * [Range](#Range) literals.
+ */
+var Range;
+(function (Range) {
+    function create(one, two, three, four) {
+        if (Is.number(one) && Is.number(two) && Is.number(three) && Is.number(four)) {
+            return { start: Position.create(one, two), end: Position.create(three, four) };
+        }
+        else if (Position.is(one) && Position.is(two)) {
+            return { start: one, end: two };
+        }
+        else {
+            throw new Error("Range#create called with invalid arguments[" + one + ", " + two + ", " + three + ", " + four + "]");
+        }
+    }
+    Range.create = create;
+    /**
+     * Checks whether the given literal conforms to the [Range](#Range) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.objectLiteral(candidate) && Position.is(candidate.start) && Position.is(candidate.end);
+    }
+    Range.is = is;
+})(Range || (Range = {}));
+/**
+ * The Location namespace provides helper functions to work with
+ * [Location](#Location) literals.
+ */
+var Location;
+(function (Location) {
+    /**
+     * Creates a Location literal.
+     * @param uri The location's uri.
+     * @param range The location's range.
+     */
+    function create(uri, range) {
+        return { uri: uri, range: range };
+    }
+    Location.create = create;
+    /**
+     * Checks whether the given literal conforms to the [Location](#Location) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.defined(candidate) && Range.is(candidate.range) && (Is.string(candidate.uri) || Is.undefined(candidate.uri));
+    }
+    Location.is = is;
+})(Location || (Location = {}));
+/**
+ * The LocationLink namespace provides helper functions to work with
+ * [LocationLink](#LocationLink) literals.
+ */
+var LocationLink;
+(function (LocationLink) {
+    /**
+     * Creates a LocationLink literal.
+     * @param targetUri The definition's uri.
+     * @param targetRange The full range of the definition.
+     * @param targetSelectionRange The span of the symbol definition at the target.
+     * @param originSelectionRange The span of the symbol being defined in the originating source file.
+     */
+    function create(targetUri, targetRange, targetSelectionRange, originSelectionRange) {
+        return { targetUri: targetUri, targetRange: targetRange, targetSelectionRange: targetSelectionRange, originSelectionRange: originSelectionRange };
+    }
+    LocationLink.create = create;
+    /**
+     * Checks whether the given literal conforms to the [LocationLink](#LocationLink) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.defined(candidate) && Range.is(candidate.targetRange) && Is.string(candidate.targetUri)
+            && (Range.is(candidate.targetSelectionRange) || Is.undefined(candidate.targetSelectionRange))
+            && (Range.is(candidate.originSelectionRange) || Is.undefined(candidate.originSelectionRange));
+    }
+    LocationLink.is = is;
+})(LocationLink || (LocationLink = {}));
+/**
+ * The Color namespace provides helper functions to work with
+ * [Color](#Color) literals.
+ */
+var Color;
+(function (Color) {
+    /**
+     * Creates a new Color literal.
+     */
+    function create(red, green, blue, alpha) {
+        return {
+            red: red,
+            green: green,
+            blue: blue,
+            alpha: alpha,
+        };
+    }
+    Color.create = create;
+    /**
+     * Checks whether the given literal conforms to the [Color](#Color) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.number(candidate.red)
+            && Is.number(candidate.green)
+            && Is.number(candidate.blue)
+            && Is.number(candidate.alpha);
+    }
+    Color.is = is;
+})(Color || (Color = {}));
+/**
+ * The ColorInformation namespace provides helper functions to work with
+ * [ColorInformation](#ColorInformation) literals.
+ */
+var ColorInformation;
+(function (ColorInformation) {
+    /**
+     * Creates a new ColorInformation literal.
+     */
+    function create(range, color) {
+        return {
+            range: range,
+            color: color,
+        };
+    }
+    ColorInformation.create = create;
+    /**
+     * Checks whether the given literal conforms to the [ColorInformation](#ColorInformation) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Range.is(candidate.range) && Color.is(candidate.color);
+    }
+    ColorInformation.is = is;
+})(ColorInformation || (ColorInformation = {}));
+/**
+ * The Color namespace provides helper functions to work with
+ * [ColorPresentation](#ColorPresentation) literals.
+ */
+var ColorPresentation;
+(function (ColorPresentation) {
+    /**
+     * Creates a new ColorInformation literal.
+     */
+    function create(label, textEdit, additionalTextEdits) {
+        return {
+            label: label,
+            textEdit: textEdit,
+            additionalTextEdits: additionalTextEdits,
+        };
+    }
+    ColorPresentation.create = create;
+    /**
+     * Checks whether the given literal conforms to the [ColorInformation](#ColorInformation) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.string(candidate.label)
+            && (Is.undefined(candidate.textEdit) || TextEdit.is(candidate))
+            && (Is.undefined(candidate.additionalTextEdits) || Is.typedArray(candidate.additionalTextEdits, TextEdit.is));
+    }
+    ColorPresentation.is = is;
+})(ColorPresentation || (ColorPresentation = {}));
+/**
+ * Enum of known range kinds
+ */
+var FoldingRangeKind;
+(function (FoldingRangeKind) {
+    /**
+     * Folding range for a comment
+     */
+    FoldingRangeKind["Comment"] = "comment";
+    /**
+     * Folding range for a imports or includes
+     */
+    FoldingRangeKind["Imports"] = "imports";
+    /**
+     * Folding range for a region (e.g. `#region`)
+     */
+    FoldingRangeKind["Region"] = "region";
+})(FoldingRangeKind || (FoldingRangeKind = {}));
+/**
+ * The folding range namespace provides helper functions to work with
+ * [FoldingRange](#FoldingRange) literals.
+ */
+var FoldingRange;
+(function (FoldingRange) {
+    /**
+     * Creates a new FoldingRange literal.
+     */
+    function create(startLine, endLine, startCharacter, endCharacter, kind) {
+        var result = {
+            startLine: startLine,
+            endLine: endLine
+        };
+        if (Is.defined(startCharacter)) {
+            result.startCharacter = startCharacter;
+        }
+        if (Is.defined(endCharacter)) {
+            result.endCharacter = endCharacter;
+        }
+        if (Is.defined(kind)) {
+            result.kind = kind;
+        }
+        return result;
+    }
+    FoldingRange.create = create;
+    /**
+     * Checks whether the given literal conforms to the [FoldingRange](#FoldingRange) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.number(candidate.startLine) && Is.number(candidate.startLine)
+            && (Is.undefined(candidate.startCharacter) || Is.number(candidate.startCharacter))
+            && (Is.undefined(candidate.endCharacter) || Is.number(candidate.endCharacter))
+            && (Is.undefined(candidate.kind) || Is.string(candidate.kind));
+    }
+    FoldingRange.is = is;
+})(FoldingRange || (FoldingRange = {}));
+/**
+ * The DiagnosticRelatedInformation namespace provides helper functions to work with
+ * [DiagnosticRelatedInformation](#DiagnosticRelatedInformation) literals.
+ */
+var DiagnosticRelatedInformation;
+(function (DiagnosticRelatedInformation) {
+    /**
+     * Creates a new DiagnosticRelatedInformation literal.
+     */
+    function create(location, message) {
+        return {
+            location: location,
+            message: message
+        };
+    }
+    DiagnosticRelatedInformation.create = create;
+    /**
+     * Checks whether the given literal conforms to the [DiagnosticRelatedInformation](#DiagnosticRelatedInformation) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.defined(candidate) && Location.is(candidate.location) && Is.string(candidate.message);
+    }
+    DiagnosticRelatedInformation.is = is;
+})(DiagnosticRelatedInformation || (DiagnosticRelatedInformation = {}));
+/**
+ * The diagnostic's severity.
+ */
+var DiagnosticSeverity;
+(function (DiagnosticSeverity) {
+    /**
+     * Reports an error.
+     */
+    DiagnosticSeverity.Error = 1;
+    /**
+     * Reports a warning.
+     */
+    DiagnosticSeverity.Warning = 2;
+    /**
+     * Reports an information.
+     */
+    DiagnosticSeverity.Information = 3;
+    /**
+     * Reports a hint.
+     */
+    DiagnosticSeverity.Hint = 4;
+})(DiagnosticSeverity || (DiagnosticSeverity = {}));
+/**
+ * The Diagnostic namespace provides helper functions to work with
+ * [Diagnostic](#Diagnostic) literals.
+ */
+var Diagnostic;
+(function (Diagnostic) {
+    /**
+     * Creates a new Diagnostic literal.
+     */
+    function create(range, message, severity, code, source, relatedInformation) {
+        var result = { range: range, message: message };
+        if (Is.defined(severity)) {
+            result.severity = severity;
+        }
+        if (Is.defined(code)) {
+            result.code = code;
+        }
+        if (Is.defined(source)) {
+            result.source = source;
+        }
+        if (Is.defined(relatedInformation)) {
+            result.relatedInformation = relatedInformation;
+        }
+        return result;
+    }
+    Diagnostic.create = create;
+    /**
+     * Checks whether the given literal conforms to the [Diagnostic](#Diagnostic) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.defined(candidate)
+            && Range.is(candidate.range)
+            && Is.string(candidate.message)
+            && (Is.number(candidate.severity) || Is.undefined(candidate.severity))
+            && (Is.number(candidate.code) || Is.string(candidate.code) || Is.undefined(candidate.code))
+            && (Is.string(candidate.source) || Is.undefined(candidate.source))
+            && (Is.undefined(candidate.relatedInformation) || Is.typedArray(candidate.relatedInformation, DiagnosticRelatedInformation.is));
+    }
+    Diagnostic.is = is;
+})(Diagnostic || (Diagnostic = {}));
+/**
+ * The Command namespace provides helper functions to work with
+ * [Command](#Command) literals.
+ */
+var Command;
+(function (Command) {
+    /**
+     * Creates a new Command literal.
+     */
+    function create(title, command) {
+        var args = [];
+        for (var _i = 2; _i < arguments.length; _i++) {
+            args[_i - 2] = arguments[_i];
+        }
+        var result = { title: title, command: command };
+        if (Is.defined(args) && args.length > 0) {
+            result.arguments = args;
+        }
+        return result;
+    }
+    Command.create = create;
+    /**
+     * Checks whether the given literal conforms to the [Command](#Command) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.defined(candidate) && Is.string(candidate.title) && Is.string(candidate.command);
+    }
+    Command.is = is;
+})(Command || (Command = {}));
+/**
+ * The TextEdit namespace provides helper function to create replace,
+ * insert and delete edits more easily.
+ */
+var TextEdit;
+(function (TextEdit) {
+    /**
+     * Creates a replace text edit.
+     * @param range The range of text to be replaced.
+     * @param newText The new text.
+     */
+    function replace(range, newText) {
+        return { range: range, newText: newText };
+    }
+    TextEdit.replace = replace;
+    /**
+     * Creates a insert text edit.
+     * @param position The position to insert the text at.
+     * @param newText The text to be inserted.
+     */
+    function insert(position, newText) {
+        return { range: { start: position, end: position }, newText: newText };
+    }
+    TextEdit.insert = insert;
+    /**
+     * Creates a delete text edit.
+     * @param range The range of text to be deleted.
+     */
+    function del(range) {
+        return { range: range, newText: '' };
+    }
+    TextEdit.del = del;
+    function is(value) {
+        var candidate = value;
+        return Is.objectLiteral(candidate)
+            && Is.string(candidate.newText)
+            && Range.is(candidate.range);
+    }
+    TextEdit.is = is;
+})(TextEdit || (TextEdit = {}));
+/**
+ * The TextDocumentEdit namespace provides helper function to create
+ * an edit that manipulates a text document.
+ */
+var TextDocumentEdit;
+(function (TextDocumentEdit) {
+    /**
+     * Creates a new `TextDocumentEdit`
+     */
+    function create(textDocument, edits) {
+        return { textDocument: textDocument, edits: edits };
+    }
+    TextDocumentEdit.create = create;
+    function is(value) {
+        var candidate = value;
+        return Is.defined(candidate)
+            && VersionedTextDocumentIdentifier.is(candidate.textDocument)
+            && Array.isArray(candidate.edits);
+    }
+    TextDocumentEdit.is = is;
+})(TextDocumentEdit || (TextDocumentEdit = {}));
+var CreateFile;
+(function (CreateFile) {
+    function create(uri, options) {
+        var result = {
+            kind: 'create',
+            uri: uri
+        };
+        if (options !== void 0 && (options.overwrite !== void 0 || options.ignoreIfExists !== void 0)) {
+            result.options = options;
+        }
+        return result;
+    }
+    CreateFile.create = create;
+    function is(value) {
+        var candidate = value;
+        return candidate && candidate.kind === 'create' && Is.string(candidate.uri) &&
+            (candidate.options === void 0 ||
+                ((candidate.options.overwrite === void 0 || Is.boolean(candidate.options.overwrite)) && (candidate.options.ignoreIfExists === void 0 || Is.boolean(candidate.options.ignoreIfExists))));
+    }
+    CreateFile.is = is;
+})(CreateFile || (CreateFile = {}));
+var RenameFile;
+(function (RenameFile) {
+    function create(oldUri, newUri, options) {
+        var result = {
+            kind: 'rename',
+            oldUri: oldUri,
+            newUri: newUri
+        };
+        if (options !== void 0 && (options.overwrite !== void 0 || options.ignoreIfExists !== void 0)) {
+            result.options = options;
+        }
+        return result;
+    }
+    RenameFile.create = create;
+    function is(value) {
+        var candidate = value;
+        return candidate && candidate.kind === 'rename' && Is.string(candidate.oldUri) && Is.string(candidate.newUri) &&
+            (candidate.options === void 0 ||
+                ((candidate.options.overwrite === void 0 || Is.boolean(candidate.options.overwrite)) && (candidate.options.ignoreIfExists === void 0 || Is.boolean(candidate.options.ignoreIfExists))));
+    }
+    RenameFile.is = is;
+})(RenameFile || (RenameFile = {}));
+var DeleteFile;
+(function (DeleteFile) {
+    function create(uri, options) {
+        var result = {
+            kind: 'delete',
+            uri: uri
+        };
+        if (options !== void 0 && (options.recursive !== void 0 || options.ignoreIfNotExists !== void 0)) {
+            result.options = options;
+        }
+        return result;
+    }
+    DeleteFile.create = create;
+    function is(value) {
+        var candidate = value;
+        return candidate && candidate.kind === 'delete' && Is.string(candidate.uri) &&
+            (candidate.options === void 0 ||
+                ((candidate.options.recursive === void 0 || Is.boolean(candidate.options.recursive)) && (candidate.options.ignoreIfNotExists === void 0 || Is.boolean(candidate.options.ignoreIfNotExists))));
+    }
+    DeleteFile.is = is;
+})(DeleteFile || (DeleteFile = {}));
+var WorkspaceEdit;
+(function (WorkspaceEdit) {
+    function is(value) {
+        var candidate = value;
+        return candidate &&
+            (candidate.changes !== void 0 || candidate.documentChanges !== void 0) &&
+            (candidate.documentChanges === void 0 || candidate.documentChanges.every(function (change) {
+                if (Is.string(change.kind)) {
+                    return CreateFile.is(change) || RenameFile.is(change) || DeleteFile.is(change);
+                }
+                else {
+                    return TextDocumentEdit.is(change);
+                }
+            }));
+    }
+    WorkspaceEdit.is = is;
+})(WorkspaceEdit || (WorkspaceEdit = {}));
+var TextEditChangeImpl = /** @class */ (function () {
+    function TextEditChangeImpl(edits) {
+        this.edits = edits;
+    }
+    TextEditChangeImpl.prototype.insert = function (position, newText) {
+        this.edits.push(TextEdit.insert(position, newText));
+    };
+    TextEditChangeImpl.prototype.replace = function (range, newText) {
+        this.edits.push(TextEdit.replace(range, newText));
+    };
+    TextEditChangeImpl.prototype.delete = function (range) {
+        this.edits.push(TextEdit.del(range));
+    };
+    TextEditChangeImpl.prototype.add = function (edit) {
+        this.edits.push(edit);
+    };
+    TextEditChangeImpl.prototype.all = function () {
+        return this.edits;
+    };
+    TextEditChangeImpl.prototype.clear = function () {
+        this.edits.splice(0, this.edits.length);
+    };
+    return TextEditChangeImpl;
+}());
+/**
+ * A workspace change helps constructing changes to a workspace.
+ */
+var WorkspaceChange = /** @class */ (function () {
+    function WorkspaceChange(workspaceEdit) {
+        var _this = this;
+        this._textEditChanges = Object.create(null);
+        if (workspaceEdit) {
+            this._workspaceEdit = workspaceEdit;
+            if (workspaceEdit.documentChanges) {
+                workspaceEdit.documentChanges.forEach(function (change) {
+                    if (TextDocumentEdit.is(change)) {
+                        var textEditChange = new TextEditChangeImpl(change.edits);
+                        _this._textEditChanges[change.textDocument.uri] = textEditChange;
+                    }
+                });
+            }
+            else if (workspaceEdit.changes) {
+                Object.keys(workspaceEdit.changes).forEach(function (key) {
+                    var textEditChange = new TextEditChangeImpl(workspaceEdit.changes[key]);
+                    _this._textEditChanges[key] = textEditChange;
+                });
+            }
+        }
+    }
+    Object.defineProperty(WorkspaceChange.prototype, "edit", {
+        /**
+         * Returns the underlying [WorkspaceEdit](#WorkspaceEdit) literal
+         * use to be returned from a workspace edit operation like rename.
+         */
+        get: function () {
+            return this._workspaceEdit;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    WorkspaceChange.prototype.getTextEditChange = function (key) {
+        if (VersionedTextDocumentIdentifier.is(key)) {
+            if (!this._workspaceEdit) {
+                this._workspaceEdit = {
+                    documentChanges: []
+                };
+            }
+            if (!this._workspaceEdit.documentChanges) {
+                throw new Error('Workspace edit is not configured for document changes.');
+            }
+            var textDocument = key;
+            var result = this._textEditChanges[textDocument.uri];
+            if (!result) {
+                var edits = [];
+                var textDocumentEdit = {
+                    textDocument: textDocument,
+                    edits: edits
+                };
+                this._workspaceEdit.documentChanges.push(textDocumentEdit);
+                result = new TextEditChangeImpl(edits);
+                this._textEditChanges[textDocument.uri] = result;
+            }
+            return result;
+        }
+        else {
+            if (!this._workspaceEdit) {
+                this._workspaceEdit = {
+                    changes: Object.create(null)
+                };
+            }
+            if (!this._workspaceEdit.changes) {
+                throw new Error('Workspace edit is not configured for normal text edit changes.');
+            }
+            var result = this._textEditChanges[key];
+            if (!result) {
+                var edits = [];
+                this._workspaceEdit.changes[key] = edits;
+                result = new TextEditChangeImpl(edits);
+                this._textEditChanges[key] = result;
+            }
+            return result;
+        }
+    };
+    WorkspaceChange.prototype.createFile = function (uri, options) {
+        this.checkDocumentChanges();
+        this._workspaceEdit.documentChanges.push(CreateFile.create(uri, options));
+    };
+    WorkspaceChange.prototype.renameFile = function (oldUri, newUri, options) {
+        this.checkDocumentChanges();
+        this._workspaceEdit.documentChanges.push(RenameFile.create(oldUri, newUri, options));
+    };
+    WorkspaceChange.prototype.deleteFile = function (uri, options) {
+        this.checkDocumentChanges();
+        this._workspaceEdit.documentChanges.push(DeleteFile.create(uri, options));
+    };
+    WorkspaceChange.prototype.checkDocumentChanges = function () {
+        if (!this._workspaceEdit || !this._workspaceEdit.documentChanges) {
+            throw new Error('Workspace edit is not configured for document changes.');
+        }
+    };
+    return WorkspaceChange;
+}());
+
+/**
+ * The TextDocumentIdentifier namespace provides helper functions to work with
+ * [TextDocumentIdentifier](#TextDocumentIdentifier) literals.
+ */
+var TextDocumentIdentifier;
+(function (TextDocumentIdentifier) {
+    /**
+     * Creates a new TextDocumentIdentifier literal.
+     * @param uri The document's uri.
+     */
+    function create(uri) {
+        return { uri: uri };
+    }
+    TextDocumentIdentifier.create = create;
+    /**
+     * Checks whether the given literal conforms to the [TextDocumentIdentifier](#TextDocumentIdentifier) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.defined(candidate) && Is.string(candidate.uri);
+    }
+    TextDocumentIdentifier.is = is;
+})(TextDocumentIdentifier || (TextDocumentIdentifier = {}));
+/**
+ * The VersionedTextDocumentIdentifier namespace provides helper functions to work with
+ * [VersionedTextDocumentIdentifier](#VersionedTextDocumentIdentifier) literals.
+ */
+var VersionedTextDocumentIdentifier;
+(function (VersionedTextDocumentIdentifier) {
+    /**
+     * Creates a new VersionedTextDocumentIdentifier literal.
+     * @param uri The document's uri.
+     * @param uri The document's text.
+     */
+    function create(uri, version) {
+        return { uri: uri, version: version };
+    }
+    VersionedTextDocumentIdentifier.create = create;
+    /**
+     * Checks whether the given literal conforms to the [VersionedTextDocumentIdentifier](#VersionedTextDocumentIdentifier) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.defined(candidate) && Is.string(candidate.uri) && (candidate.version === null || Is.number(candidate.version));
+    }
+    VersionedTextDocumentIdentifier.is = is;
+})(VersionedTextDocumentIdentifier || (VersionedTextDocumentIdentifier = {}));
+/**
+ * The TextDocumentItem namespace provides helper functions to work with
+ * [TextDocumentItem](#TextDocumentItem) literals.
+ */
+var TextDocumentItem;
+(function (TextDocumentItem) {
+    /**
+     * Creates a new TextDocumentItem literal.
+     * @param uri The document's uri.
+     * @param languageId The document's language identifier.
+     * @param version The document's version number.
+     * @param text The document's text.
+     */
+    function create(uri, languageId, version, text) {
+        return { uri: uri, languageId: languageId, version: version, text: text };
+    }
+    TextDocumentItem.create = create;
+    /**
+     * Checks whether the given literal conforms to the [TextDocumentItem](#TextDocumentItem) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.defined(candidate) && Is.string(candidate.uri) && Is.string(candidate.languageId) && Is.number(candidate.version) && Is.string(candidate.text);
+    }
+    TextDocumentItem.is = is;
+})(TextDocumentItem || (TextDocumentItem = {}));
+/**
+ * Describes the content type that a client supports in various
+ * result literals like `Hover`, `ParameterInfo` or `CompletionItem`.
+ *
+ * Please note that `MarkupKinds` must not start with a `$`. This kinds
+ * are reserved for internal usage.
+ */
+var MarkupKind;
+(function (MarkupKind) {
+    /**
+     * Plain text is supported as a content format
+     */
+    MarkupKind.PlainText = 'plaintext';
+    /**
+     * Markdown is supported as a content format
+     */
+    MarkupKind.Markdown = 'markdown';
+})(MarkupKind || (MarkupKind = {}));
+(function (MarkupKind) {
+    /**
+     * Checks whether the given value is a value of the [MarkupKind](#MarkupKind) type.
+     */
+    function is(value) {
+        var candidate = value;
+        return candidate === MarkupKind.PlainText || candidate === MarkupKind.Markdown;
+    }
+    MarkupKind.is = is;
+})(MarkupKind || (MarkupKind = {}));
+var MarkupContent;
+(function (MarkupContent) {
+    /**
+     * Checks whether the given value conforms to the [MarkupContent](#MarkupContent) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.objectLiteral(value) && MarkupKind.is(candidate.kind) && Is.string(candidate.value);
+    }
+    MarkupContent.is = is;
+})(MarkupContent || (MarkupContent = {}));
+/**
+ * The kind of a completion entry.
+ */
+var CompletionItemKind;
+(function (CompletionItemKind) {
+    CompletionItemKind.Text = 1;
+    CompletionItemKind.Method = 2;
+    CompletionItemKind.Function = 3;
+    CompletionItemKind.Constructor = 4;
+    CompletionItemKind.Field = 5;
+    CompletionItemKind.Variable = 6;
+    CompletionItemKind.Class = 7;
+    CompletionItemKind.Interface = 8;
+    CompletionItemKind.Module = 9;
+    CompletionItemKind.Property = 10;
+    CompletionItemKind.Unit = 11;
+    CompletionItemKind.Value = 12;
+    CompletionItemKind.Enum = 13;
+    CompletionItemKind.Keyword = 14;
+    CompletionItemKind.Snippet = 15;
+    CompletionItemKind.Color = 16;
+    CompletionItemKind.File = 17;
+    CompletionItemKind.Reference = 18;
+    CompletionItemKind.Folder = 19;
+    CompletionItemKind.EnumMember = 20;
+    CompletionItemKind.Constant = 21;
+    CompletionItemKind.Struct = 22;
+    CompletionItemKind.Event = 23;
+    CompletionItemKind.Operator = 24;
+    CompletionItemKind.TypeParameter = 25;
+})(CompletionItemKind || (CompletionItemKind = {}));
+/**
+ * Defines whether the insert text in a completion item should be interpreted as
+ * plain text or a snippet.
+ */
+var InsertTextFormat;
+(function (InsertTextFormat) {
+    /**
+     * The primary text to be inserted is treated as a plain string.
+     */
+    InsertTextFormat.PlainText = 1;
+    /**
+     * The primary text to be inserted is treated as a snippet.
+     *
+     * A snippet can define tab stops and placeholders with `$1`, `$2`
+     * and `${3:foo}`. `$0` defines the final tab stop, it defaults to
+     * the end of the snippet. Placeholders with equal identifiers are linked,
+     * that is typing in one will update others too.
+     *
+     * See also: https://github.com/Microsoft/vscode/blob/master/src/vs/editor/contrib/snippet/common/snippet.md
+     */
+    InsertTextFormat.Snippet = 2;
+})(InsertTextFormat || (InsertTextFormat = {}));
+/**
+ * The CompletionItem namespace provides functions to deal with
+ * completion items.
+ */
+var CompletionItem;
+(function (CompletionItem) {
+    /**
+     * Create a completion item and seed it with a label.
+     * @param label The completion item's label
+     */
+    function create(label) {
+        return { label: label };
+    }
+    CompletionItem.create = create;
+})(CompletionItem || (CompletionItem = {}));
+/**
+ * The CompletionList namespace provides functions to deal with
+ * completion lists.
+ */
+var CompletionList;
+(function (CompletionList) {
+    /**
+     * Creates a new completion list.
+     *
+     * @param items The completion items.
+     * @param isIncomplete The list is not complete.
+     */
+    function create(items, isIncomplete) {
+        return { items: items ? items : [], isIncomplete: !!isIncomplete };
+    }
+    CompletionList.create = create;
+})(CompletionList || (CompletionList = {}));
+var MarkedString;
+(function (MarkedString) {
+    /**
+     * Creates a marked string from plain text.
+     *
+     * @param plainText The plain text.
+     */
+    function fromPlainText(plainText) {
+        return plainText.replace(/[\\`*_{}[\]()#+\-.!]/g, "\\$&"); // escape markdown syntax tokens: http://daringfireball.net/projects/markdown/syntax#backslash
+    }
+    MarkedString.fromPlainText = fromPlainText;
+    /**
+     * Checks whether the given value conforms to the [MarkedString](#MarkedString) type.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.string(candidate) || (Is.objectLiteral(candidate) && Is.string(candidate.language) && Is.string(candidate.value));
+    }
+    MarkedString.is = is;
+})(MarkedString || (MarkedString = {}));
+var Hover;
+(function (Hover) {
+    /**
+     * Checks whether the given value conforms to the [Hover](#Hover) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return !!candidate && Is.objectLiteral(candidate) && (MarkupContent.is(candidate.contents) ||
+            MarkedString.is(candidate.contents) ||
+            Is.typedArray(candidate.contents, MarkedString.is)) && (value.range === void 0 || Range.is(value.range));
+    }
+    Hover.is = is;
+})(Hover || (Hover = {}));
+/**
+ * The ParameterInformation namespace provides helper functions to work with
+ * [ParameterInformation](#ParameterInformation) literals.
+ */
+var ParameterInformation;
+(function (ParameterInformation) {
+    /**
+     * Creates a new parameter information literal.
+     *
+     * @param label A label string.
+     * @param documentation A doc string.
+     */
+    function create(label, documentation) {
+        return documentation ? { label: label, documentation: documentation } : { label: label };
+    }
+    ParameterInformation.create = create;
+    ;
+})(ParameterInformation || (ParameterInformation = {}));
+/**
+ * The SignatureInformation namespace provides helper functions to work with
+ * [SignatureInformation](#SignatureInformation) literals.
+ */
+var SignatureInformation;
+(function (SignatureInformation) {
+    function create(label, documentation) {
+        var parameters = [];
+        for (var _i = 2; _i < arguments.length; _i++) {
+            parameters[_i - 2] = arguments[_i];
+        }
+        var result = { label: label };
+        if (Is.defined(documentation)) {
+            result.documentation = documentation;
+        }
+        if (Is.defined(parameters)) {
+            result.parameters = parameters;
+        }
+        else {
+            result.parameters = [];
+        }
+        return result;
+    }
+    SignatureInformation.create = create;
+})(SignatureInformation || (SignatureInformation = {}));
+/**
+ * A document highlight kind.
+ */
+var DocumentHighlightKind;
+(function (DocumentHighlightKind) {
+    /**
+     * A textual occurrence.
+     */
+    DocumentHighlightKind.Text = 1;
+    /**
+     * Read-access of a symbol, like reading a variable.
+     */
+    DocumentHighlightKind.Read = 2;
+    /**
+     * Write-access of a symbol, like writing to a variable.
+     */
+    DocumentHighlightKind.Write = 3;
+})(DocumentHighlightKind || (DocumentHighlightKind = {}));
+/**
+ * DocumentHighlight namespace to provide helper functions to work with
+ * [DocumentHighlight](#DocumentHighlight) literals.
+ */
+var DocumentHighlight;
+(function (DocumentHighlight) {
+    /**
+     * Create a DocumentHighlight object.
+     * @param range The range the highlight applies to.
+     */
+    function create(range, kind) {
+        var result = { range: range };
+        if (Is.number(kind)) {
+            result.kind = kind;
+        }
+        return result;
+    }
+    DocumentHighlight.create = create;
+})(DocumentHighlight || (DocumentHighlight = {}));
+/**
+ * A symbol kind.
+ */
+var SymbolKind;
+(function (SymbolKind) {
+    SymbolKind.File = 1;
+    SymbolKind.Module = 2;
+    SymbolKind.Namespace = 3;
+    SymbolKind.Package = 4;
+    SymbolKind.Class = 5;
+    SymbolKind.Method = 6;
+    SymbolKind.Property = 7;
+    SymbolKind.Field = 8;
+    SymbolKind.Constructor = 9;
+    SymbolKind.Enum = 10;
+    SymbolKind.Interface = 11;
+    SymbolKind.Function = 12;
+    SymbolKind.Variable = 13;
+    SymbolKind.Constant = 14;
+    SymbolKind.String = 15;
+    SymbolKind.Number = 16;
+    SymbolKind.Boolean = 17;
+    SymbolKind.Array = 18;
+    SymbolKind.Object = 19;
+    SymbolKind.Key = 20;
+    SymbolKind.Null = 21;
+    SymbolKind.EnumMember = 22;
+    SymbolKind.Struct = 23;
+    SymbolKind.Event = 24;
+    SymbolKind.Operator = 25;
+    SymbolKind.TypeParameter = 26;
+})(SymbolKind || (SymbolKind = {}));
+var SymbolInformation;
+(function (SymbolInformation) {
+    /**
+     * Creates a new symbol information literal.
+     *
+     * @param name The name of the symbol.
+     * @param kind The kind of the symbol.
+     * @param range The range of the location of the symbol.
+     * @param uri The resource of the location of symbol, defaults to the current document.
+     * @param containerName The name of the symbol containing the symbol.
+     */
+    function create(name, kind, range, uri, containerName) {
+        var result = {
+            name: name,
+            kind: kind,
+            location: { uri: uri, range: range }
+        };
+        if (containerName) {
+            result.containerName = containerName;
+        }
+        return result;
+    }
+    SymbolInformation.create = create;
+})(SymbolInformation || (SymbolInformation = {}));
+/**
+ * Represents programming constructs like variables, classes, interfaces etc.
+ * that appear in a document. Document symbols can be hierarchical and they
+ * have two ranges: one that encloses its definition and one that points to
+ * its most interesting range, e.g. the range of an identifier.
+ */
+var DocumentSymbol = /** @class */ (function () {
+    function DocumentSymbol() {
+    }
+    return DocumentSymbol;
+}());
+
+(function (DocumentSymbol) {
+    /**
+     * Creates a new symbol information literal.
+     *
+     * @param name The name of the symbol.
+     * @param detail The detail of the symbol.
+     * @param kind The kind of the symbol.
+     * @param range The range of the symbol.
+     * @param selectionRange The selectionRange of the symbol.
+     * @param children Children of the symbol.
+     */
+    function create(name, detail, kind, range, selectionRange, children) {
+        var result = {
+            name: name,
+            detail: detail,
+            kind: kind,
+            range: range,
+            selectionRange: selectionRange
+        };
+        if (children !== void 0) {
+            result.children = children;
+        }
+        return result;
+    }
+    DocumentSymbol.create = create;
+    /**
+     * Checks whether the given literal conforms to the [DocumentSymbol](#DocumentSymbol) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return candidate &&
+            Is.string(candidate.name) && Is.number(candidate.kind) &&
+            Range.is(candidate.range) && Range.is(candidate.selectionRange) &&
+            (candidate.detail === void 0 || Is.string(candidate.detail)) &&
+            (candidate.deprecated === void 0 || Is.boolean(candidate.deprecated)) &&
+            (candidate.children === void 0 || Array.isArray(candidate.children));
+    }
+    DocumentSymbol.is = is;
+})(DocumentSymbol || (DocumentSymbol = {}));
+/**
+ * A set of predefined code action kinds
+ */
+var CodeActionKind;
+(function (CodeActionKind) {
+    /**
+     * Base kind for quickfix actions: 'quickfix'
+     */
+    CodeActionKind.QuickFix = 'quickfix';
+    /**
+     * Base kind for refactoring actions: 'refactor'
+     */
+    CodeActionKind.Refactor = 'refactor';
+    /**
+     * Base kind for refactoring extraction actions: 'refactor.extract'
+     *
+     * Example extract actions:
+     *
+     * - Extract method
+     * - Extract function
+     * - Extract variable
+     * - Extract interface from class
+     * - ...
+     */
+    CodeActionKind.RefactorExtract = 'refactor.extract';
+    /**
+     * Base kind for refactoring inline actions: 'refactor.inline'
+     *
+     * Example inline actions:
+     *
+     * - Inline function
+     * - Inline variable
+     * - Inline constant
+     * - ...
+     */
+    CodeActionKind.RefactorInline = 'refactor.inline';
+    /**
+     * Base kind for refactoring rewrite actions: 'refactor.rewrite'
+     *
+     * Example rewrite actions:
+     *
+     * - Convert JavaScript function to class
+     * - Add or remove parameter
+     * - Encapsulate field
+     * - Make method static
+     * - Move method to base class
+     * - ...
+     */
+    CodeActionKind.RefactorRewrite = 'refactor.rewrite';
+    /**
+     * Base kind for source actions: `source`
+     *
+     * Source code actions apply to the entire file.
+     */
+    CodeActionKind.Source = 'source';
+    /**
+     * Base kind for an organize imports source action: `source.organizeImports`
+     */
+    CodeActionKind.SourceOrganizeImports = 'source.organizeImports';
+})(CodeActionKind || (CodeActionKind = {}));
+/**
+ * The CodeActionContext namespace provides helper functions to work with
+ * [CodeActionContext](#CodeActionContext) literals.
+ */
+var CodeActionContext;
+(function (CodeActionContext) {
+    /**
+     * Creates a new CodeActionContext literal.
+     */
+    function create(diagnostics, only) {
+        var result = { diagnostics: diagnostics };
+        if (only !== void 0 && only !== null) {
+            result.only = only;
+        }
+        return result;
+    }
+    CodeActionContext.create = create;
+    /**
+     * Checks whether the given literal conforms to the [CodeActionContext](#CodeActionContext) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.defined(candidate) && Is.typedArray(candidate.diagnostics, Diagnostic.is) && (candidate.only === void 0 || Is.typedArray(candidate.only, Is.string));
+    }
+    CodeActionContext.is = is;
+})(CodeActionContext || (CodeActionContext = {}));
+var CodeAction;
+(function (CodeAction) {
+    function create(title, commandOrEdit, kind) {
+        var result = { title: title };
+        if (Command.is(commandOrEdit)) {
+            result.command = commandOrEdit;
+        }
+        else {
+            result.edit = commandOrEdit;
+        }
+        if (kind !== void null) {
+            result.kind = kind;
+        }
+        return result;
+    }
+    CodeAction.create = create;
+    function is(value) {
+        var candidate = value;
+        return candidate && Is.string(candidate.title) &&
+            (candidate.diagnostics === void 0 || Is.typedArray(candidate.diagnostics, Diagnostic.is)) &&
+            (candidate.kind === void 0 || Is.string(candidate.kind)) &&
+            (candidate.edit !== void 0 || candidate.command !== void 0) &&
+            (candidate.command === void 0 || Command.is(candidate.command)) &&
+            (candidate.edit === void 0 || WorkspaceEdit.is(candidate.edit));
+    }
+    CodeAction.is = is;
+})(CodeAction || (CodeAction = {}));
+/**
+ * The CodeLens namespace provides helper functions to work with
+ * [CodeLens](#CodeLens) literals.
+ */
+var CodeLens;
+(function (CodeLens) {
+    /**
+     * Creates a new CodeLens literal.
+     */
+    function create(range, data) {
+        var result = { range: range };
+        if (Is.defined(data))
+            result.data = data;
+        return result;
+    }
+    CodeLens.create = create;
+    /**
+     * Checks whether the given literal conforms to the [CodeLens](#CodeLens) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.defined(candidate) && Range.is(candidate.range) && (Is.undefined(candidate.command) || Command.is(candidate.command));
+    }
+    CodeLens.is = is;
+})(CodeLens || (CodeLens = {}));
+/**
+ * The FormattingOptions namespace provides helper functions to work with
+ * [FormattingOptions](#FormattingOptions) literals.
+ */
+var FormattingOptions;
+(function (FormattingOptions) {
+    /**
+     * Creates a new FormattingOptions literal.
+     */
+    function create(tabSize, insertSpaces) {
+        return { tabSize: tabSize, insertSpaces: insertSpaces };
+    }
+    FormattingOptions.create = create;
+    /**
+     * Checks whether the given literal conforms to the [FormattingOptions](#FormattingOptions) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.defined(candidate) && Is.number(candidate.tabSize) && Is.boolean(candidate.insertSpaces);
+    }
+    FormattingOptions.is = is;
+})(FormattingOptions || (FormattingOptions = {}));
+/**
+ * A document link is a range in a text document that links to an internal or external resource, like another
+ * text document or a web site.
+ */
+var DocumentLink = /** @class */ (function () {
+    function DocumentLink() {
+    }
+    return DocumentLink;
+}());
+
+/**
+ * The DocumentLink namespace provides helper functions to work with
+ * [DocumentLink](#DocumentLink) literals.
+ */
+(function (DocumentLink) {
+    /**
+     * Creates a new DocumentLink literal.
+     */
+    function create(range, target, data) {
+        return { range: range, target: target, data: data };
+    }
+    DocumentLink.create = create;
+    /**
+     * Checks whether the given literal conforms to the [DocumentLink](#DocumentLink) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.defined(candidate) && Range.is(candidate.range) && (Is.undefined(candidate.target) || Is.string(candidate.target));
+    }
+    DocumentLink.is = is;
+})(DocumentLink || (DocumentLink = {}));
+var EOL = ['\n', '\r\n', '\r'];
+var TextDocument;
+(function (TextDocument) {
+    /**
+     * Creates a new ITextDocument literal from the given uri and content.
+     * @param uri The document's uri.
+     * @param languageId  The document's language Id.
+     * @param content The document's content.
+     */
+    function create(uri, languageId, version, content) {
+        return new FullTextDocument(uri, languageId, version, content);
+    }
+    TextDocument.create = create;
+    /**
+     * Checks whether the given literal conforms to the [ITextDocument](#ITextDocument) interface.
+     */
+    function is(value) {
+        var candidate = value;
+        return Is.defined(candidate) && Is.string(candidate.uri) && (Is.undefined(candidate.languageId) || Is.string(candidate.languageId)) && Is.number(candidate.lineCount)
+            && Is.func(candidate.getText) && Is.func(candidate.positionAt) && Is.func(candidate.offsetAt) ? true : false;
+    }
+    TextDocument.is = is;
+    function applyEdits(document, edits) {
+        var text = document.getText();
+        var sortedEdits = mergeSort(edits, function (a, b) {
+            var diff = a.range.start.line - b.range.start.line;
+            if (diff === 0) {
+                return a.range.start.character - b.range.start.character;
+            }
+            return diff;
+        });
+        var lastModifiedOffset = text.length;
+        for (var i = sortedEdits.length - 1; i >= 0; i--) {
+            var e = sortedEdits[i];
+            var startOffset = document.offsetAt(e.range.start);
+            var endOffset = document.offsetAt(e.range.end);
+            if (endOffset <= lastModifiedOffset) {
+                text = text.substring(0, startOffset) + e.newText + text.substring(endOffset, text.length);
+            }
+            else {
+                throw new Error('Overlapping edit');
+            }
+            lastModifiedOffset = startOffset;
+        }
+        return text;
+    }
+    TextDocument.applyEdits = applyEdits;
+    function mergeSort(data, compare) {
+        if (data.length <= 1) {
+            // sorted
+            return data;
+        }
+        var p = (data.length / 2) | 0;
+        var left = data.slice(0, p);
+        var right = data.slice(p);
+        mergeSort(left, compare);
+        mergeSort(right, compare);
+        var leftIdx = 0;
+        var rightIdx = 0;
+        var i = 0;
+        while (leftIdx < left.length && rightIdx < right.length) {
+            var ret = compare(left[leftIdx], right[rightIdx]);
+            if (ret <= 0) {
+                // smaller_equal -> take left to preserve order
+                data[i++] = left[leftIdx++];
+            }
+            else {
+                // greater -> take right
+                data[i++] = right[rightIdx++];
+            }
+        }
+        while (leftIdx < left.length) {
+            data[i++] = left[leftIdx++];
+        }
+        while (rightIdx < right.length) {
+            data[i++] = right[rightIdx++];
+        }
+        return data;
+    }
+})(TextDocument || (TextDocument = {}));
+/**
+ * Represents reasons why a text document is saved.
+ */
+var TextDocumentSaveReason;
+(function (TextDocumentSaveReason) {
+    /**
+     * Manually triggered, e.g. by the user pressing save, by starting debugging,
+     * or by an API call.
+     */
+    TextDocumentSaveReason.Manual = 1;
+    /**
+     * Automatic after a delay.
+     */
+    TextDocumentSaveReason.AfterDelay = 2;
+    /**
+     * When the editor lost focus.
+     */
+    TextDocumentSaveReason.FocusOut = 3;
+})(TextDocumentSaveReason || (TextDocumentSaveReason = {}));
+var FullTextDocument = /** @class */ (function () {
+    function FullTextDocument(uri, languageId, version, content) {
+        this._uri = uri;
+        this._languageId = languageId;
+        this._version = version;
+        this._content = content;
+        this._lineOffsets = null;
+    }
+    Object.defineProperty(FullTextDocument.prototype, "uri", {
+        get: function () {
+            return this._uri;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FullTextDocument.prototype, "languageId", {
+        get: function () {
+            return this._languageId;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FullTextDocument.prototype, "version", {
+        get: function () {
+            return this._version;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    FullTextDocument.prototype.getText = function (range) {
+        if (range) {
+            var start = this.offsetAt(range.start);
+            var end = this.offsetAt(range.end);
+            return this._content.substring(start, end);
+        }
+        return this._content;
+    };
+    FullTextDocument.prototype.update = function (event, version) {
+        this._content = event.text;
+        this._version = version;
+        this._lineOffsets = null;
+    };
+    FullTextDocument.prototype.getLineOffsets = function () {
+        if (this._lineOffsets === null) {
+            var lineOffsets = [];
+            var text = this._content;
+            var isLineStart = true;
+            for (var i = 0; i < text.length; i++) {
+                if (isLineStart) {
+                    lineOffsets.push(i);
+                    isLineStart = false;
+                }
+                var ch = text.charAt(i);
+                isLineStart = (ch === '\r' || ch === '\n');
+                if (ch === '\r' && i + 1 < text.length && text.charAt(i + 1) === '\n') {
+                    i++;
+                }
+            }
+            if (isLineStart && text.length > 0) {
+                lineOffsets.push(text.length);
+            }
+            this._lineOffsets = lineOffsets;
+        }
+        return this._lineOffsets;
+    };
+    FullTextDocument.prototype.positionAt = function (offset) {
+        offset = Math.max(Math.min(offset, this._content.length), 0);
+        var lineOffsets = this.getLineOffsets();
+        var low = 0, high = lineOffsets.length;
+        if (high === 0) {
+            return Position.create(0, offset);
+        }
+        while (low < high) {
+            var mid = Math.floor((low + high) / 2);
+            if (lineOffsets[mid] > offset) {
+                high = mid;
+            }
+            else {
+                low = mid + 1;
+            }
+        }
+        // low is the least x for which the line offset is larger than the current offset
+        // or array.length if no line offset is larger than the current offset
+        var line = low - 1;
+        return Position.create(line, offset - lineOffsets[line]);
+    };
+    FullTextDocument.prototype.offsetAt = function (position) {
+        var lineOffsets = this.getLineOffsets();
+        if (position.line >= lineOffsets.length) {
+            return this._content.length;
+        }
+        else if (position.line < 0) {
+            return 0;
+        }
+        var lineOffset = lineOffsets[position.line];
+        var nextLineOffset = (position.line + 1 < lineOffsets.length) ? lineOffsets[position.line + 1] : this._content.length;
+        return Math.max(Math.min(lineOffset + position.character, nextLineOffset), lineOffset);
+    };
+    Object.defineProperty(FullTextDocument.prototype, "lineCount", {
+        get: function () {
+            return this.getLineOffsets().length;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return FullTextDocument;
+}());
+var Is;
+(function (Is) {
+    var toString = Object.prototype.toString;
+    function defined(value) {
+        return typeof value !== 'undefined';
+    }
+    Is.defined = defined;
+    function undefined(value) {
+        return typeof value === 'undefined';
+    }
+    Is.undefined = undefined;
+    function boolean(value) {
+        return value === true || value === false;
+    }
+    Is.boolean = boolean;
+    function string(value) {
+        return toString.call(value) === '[object String]';
+    }
+    Is.string = string;
+    function number(value) {
+        return toString.call(value) === '[object Number]';
+    }
+    Is.number = number;
+    function func(value) {
+        return toString.call(value) === '[object Function]';
+    }
+    Is.func = func;
+    function objectLiteral(value) {
+        // Strictly speaking class instances pass this check as well. Since the LSP
+        // doesn't use classes we ignore this for now. If we do we need to add something
+        // like this: `Object.getPrototypeOf(Object.getPrototypeOf(x)) === null`
+        return value !== null && typeof value === 'object';
+    }
+    Is.objectLiteral = objectLiteral;
+    function typedArray(value, check) {
+        return Array.isArray(value) && value.every(check);
+    }
+    Is.typedArray = typedArray;
+})(Is || (Is = {}));
+
+
+/***/ })
+
+});
