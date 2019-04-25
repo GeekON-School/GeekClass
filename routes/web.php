@@ -254,8 +254,12 @@ Route::prefix('insider')->middleware('verified')->group(function () {
     Route::get('/core/{id}', 'CoreController@index');
     Route::get('/core/{id}/node/{node_id}', 'CoreController@subcore');
     Route::get('/core/network/{id}', 'CoreController@get_core');
+    Route::get('/core/network/', 'CoreController@get_versions');
+
     Route::get('/core/import', 'CoreController@import_core_form');
     Route::post('/core/import', 'CoreController@import_core');
+    Route::get('/core/editor', 'CoreController@editor');
+
 
 
     Route::get('/testmail', function () {

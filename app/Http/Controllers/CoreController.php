@@ -15,7 +15,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Auth;
 use Carbon\Carbon;
-
+use function GuzzleHttp\json_encode;
 
 class CoreController extends Controller
 {
@@ -34,6 +34,11 @@ class CoreController extends Controller
             $version = $request->version;
         }
         return view('core.index', compact('id', 'version'));
+    }
+
+    public function get_versions()
+    {
+        return json_encode(\App\CoreNode::All()->groupBy('version')->keys());
     }
 
     public function get_core($id, Request $request)
@@ -69,6 +74,11 @@ class CoreController extends Controller
 
         $result = ['nodes' => $nodes, 'edges' => $edges];
         return json_encode($result);
+    }
+
+    public function editor()
+    {
+        return view('core/editor');
     }
 
     public function subcore($id, $node_id, Request $request)
