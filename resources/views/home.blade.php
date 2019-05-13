@@ -79,8 +79,7 @@
                         </div>
                     </div>
                     <div class="row" style="margin-top: 15px;">
-                        <div class="col-12 col-md-9">
-
+                        <div class="col-12 col-md-6">
                             <div class="card-deck">
 
 
@@ -115,6 +114,15 @@
                                     </div>
                                 @endforeach
                             </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <script type="text/javascript" src="https://vk.com/js/api/openapi.js?160"></script>
+
+                            <!-- VK Widget -->
+                            <div id="vk_groups"></div>
+                            <script type="text/javascript">
+                                VK.Widgets.Group("vk_groups", {mode: 4, wide: 1, height: "600", color3: '28A745'}, 149395318);
+                            </script>
                         </div>
                         <div class="col-12 col-md-3">
                             <div class="card"
