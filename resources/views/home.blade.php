@@ -120,12 +120,13 @@
                             <div class="card"
                                  style="min-width: 280px; border-left: 5px solid #5bc0de;">
                                 <div class="card-body">
+                                    <!--
                                     @if ($provider->logo != null)
                                         <img src="{{$course->Provider->logo}}"
                                              style="margin-top: 15px;height: 60px"/>
-                                    @endif
+                                    @endif-->
 
-                                    <h5 style="margin-top: 15px; font-weight: 300;"
+                                    <h5 style="margin-top: 15px; font-weight: 400; font-size: 1.1rem;"
                                         class="card-title">Празднуем день рождения:</h5>
                                     <p class="card-text" style="font-size: 0.8rem;">
                                     <ul>
@@ -148,9 +149,7 @@
                             <div class="card"
                                  style="min-width: 280px; border-left: 5px solid #007bff">
                                 <div class="card-body">
-
-
-                                    <h5 style="margin-top: 15px; font-weight: 300;"
+                                    <h5 style="margin-top: 15px; font-weight: 400; font-size: 1.1rem;"
                                         class="card-title">Последние вопросы:</h5>
                                     <p class="card-text" style="font-size: 0.8rem;">
                                     <ul>
