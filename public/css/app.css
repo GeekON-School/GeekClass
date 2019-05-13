@@ -410,3 +410,8 @@ h4 {
     margin-top: -15px;
     border-top: 1px dotted #fafafa;
 }
+
+#vk_groups,
+#vk_groups iframe {
+    width: 100% !important;
+}
