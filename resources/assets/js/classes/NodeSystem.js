@@ -7,48 +7,71 @@ export default class NodeSystem
   {
     this.nodes = [];
     this.current = null;
+    this.versionBinding = 0;
+    this.deletedNodes = [];
+    this.lastLocalId = 1;
   }
 
   setCurrent(id)
   {
-    this.current = this.nodes.find((e) => e.id == id);
+    this.current = this.nodes.find((e) => e.localId == id);
   }
 
   find(id)
   {
-    return this.nodes.find((e) => e.id == id)
+    return this.nodes.find((e) => e.localId == id)
   }
-
-  addNode(title, id)
+  findIndex(id)
   {
-    this.nodes.push(new Node(title, id));
+    return this.nodes.findIndex((e) => e.localId == id)
+  }
+  addNode(title)
+  {
+    this.nodes.push(new Node(title, -1, this.lastLocalId));
+    this.lastLocalId++;
   }
 
   removeNode(id)
   {
-    this.nodes.splice(find(id).id, 1);
+    this.deletedNodes.push(id);
+
+    this.nodes.forEach((e) => {
+      e.removeChild(id);
+      e.removeParent(id);
+    })
+    this.nodes.splice(this.findIndex(id), 1);
   }
 
   toObject()
   {
     var obj = {
       nodes: [],
-      edges: []
+      edges: [],
+      deletedNodes: this.deletedNodes
     };
+
+    var lastEdge = 1;
+
     this.nodes.forEach((e) => {
       obj.nodes.push({
         title: e.title,
+        localId: e.localId,
         id: e.id,
         nodeType: "exists",
-
+        level: 6,
+        root: false,
+        cluster: 6
       });
-      e.children.forEach((i) => {
+      e.children().forEach((i, d) => {
         obj.edges.push({
-          source: e.id,
-          target: i.id,
+          id: i.id,
+          source: e.localId,
+          target: i.target.localId,
           type: "partOf"
 
-        })
+        });
+        i.target.parents().splice( i.target.parents().findIndex((h) => h.source.localId == e.localId), 1);
+        lastEdge++;
       });
     })
     return obj;
@@ -59,27 +82,23 @@ export default class NodeSystem
     console.log(obj.nodes.length);
     console.log(obj.edges.length);
     this.nodes = [];
-    var parents = [];
-    var children = [];
+    var connections = [];
 
+    
     obj.nodes.forEach((e) => {
-      this.nodes.push(new Node(e.title, e.id));
+      this.nodes.push(new Node(e.title, e.id, this.lastLocalId));
+      this.lastLocalId++;
     });
 
     obj.edges.forEach((e) => {
       var parent = this.nodes.find((i) => e.from_id == i.id);
       var child = this.nodes.find((i) => e.to_id == i.id);
-      children.push(new Connection(parent, child));
-      parents.push(new Connection(child, parent));
-
-
+      connections.push(new Connection(parent, child, e.id));
     });
     
-    parents.forEach((e) => {
+    connections.forEach((e) => {
       e.source.addParent(e.target);
-    })
-    children.forEach((e) => {
-      e.source.addChild(e.target);
+      e.target.addChild(e.source, true);
     })
 
 

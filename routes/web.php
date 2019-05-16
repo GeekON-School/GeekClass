@@ -258,6 +258,8 @@ Route::prefix('insider')->middleware('verified')->group(function () {
 
     Route::get('/core/import', 'CoreController@import_core_form');
     Route::post('/core/import', 'CoreController@import_core');
+    Route::get('/core/importa', 'CoreController@import_core');
+
     Route::get('/core/editor', 'CoreController@editor');
 
 

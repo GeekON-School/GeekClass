@@ -1,26 +1,31 @@
 <template>
   <div id="editor">
     <h2>Выберите версию</h2>
-    <ul class="select">
+    <ul class="select" v-if="ready">
       <li v-for="(version, index) in coreVersions" :key="index"
          :class="versionSelected == index?'selected option':'option'" @click="versionSelected = index">{{version}}</li>
+         <li @click="allocVersion" class="addVer">+</li>
   <li @click="save" class="option selected">Сохранить данную версию</li>
 
     </ul>
-
-    <div class="graph" v-if="ready">
+    <div style="display: flex; border-bottom: 1px solid #ccc; padding: 10px;">
+      <div>
+        <div class="btn btn-danger" @click="removeVersion">&times;</div> <span style="padding:10px;">Удалить версию</span>
+      </div>
+    </div>
+    <div class="graph" v-if="ready && system">
       <div class="nodes" v-if="ready">
 
         <input type="text" v-model="nodeFilter" placeholder="Фильтр">
         <div ref="nedit" class="nodelist">
-          <div v-for="(node, index) in nodes" :class="selected.id == node.id?'selected node':'node'" :key="index">
-            <div class="f" @click="system.setCurrent(node.id)">
+          <div v-for="(node, index) in nodes" :class="isSelected(node.localId)?'selected node':'node'" :key="index">
+            <div class="f" @click="select(node.localId)">
               {{node.title}}
             </div>
             <div>
-              <div class="btn btn-danger" @click="removeNode(node.id)">&times;</div>
+              <div class="btn btn-danger" @click="removeNode(node.localId)">&times;</div>
               <!-- <div class="btn btn-success" v-if="!haveParent(node.id)" @click="addParent(node)">Р</div> -->
-              <div class="btn btn-primary" v-show="system.current.id != node.id" @click="addChild(node)">+</div>
+              <div class="btn btn-primary" v-show="!isSelected(node.localId)" @click="addChild(node)">→</div>
             </div>
           </div>
         </div>
@@ -31,17 +36,17 @@
         </div>
       </div>
       <div  class="node_edit" v-if="ready && selected">
-        <input type="text" v-model="system.current.title" placeholder="Новое имя">
+        <input type="text" v-model="selected.title" placeholder="Новое имя">
         <div class="split">
           <div class="wrap">
             <h4>Родители</h4>
             <div class="parents">
               <div class="node" v-for="(node, index) in parents" :key="index">
-                <div class="f" @click="system.setCurrent(node.id)">
-                  {{node.title}}
+                <div class="f" @click="select(node.localId)">
+                  {{node.source.title}}
                 </div>
                 <div class="fieldset">
-                  <div class="btn btn-danger float-right" @click="removeParent(node.id)">&times;</div>
+                  <div class="btn btn-danger float-right" @click="removeParent(node.source.localId)">&times;</div>
                 </div>
 
               </div>
@@ -52,11 +57,11 @@
             <div class="children">
 
               <div class="node" v-for="(node, index) in children" :key="index">
-                <div class="f" @click="system.setCurrent(node.id)">
-                  {{node.title}}
+                <div class="f" @click="select(node.localId)">
+                  {{node.target.title}}
                 </div>
                 <div class="fieldset">
-                  <div class="btn btn-danger float-right" @click="removeChild(node.id)">&times;
+                  <div class="btn btn-danger float-right" @click="removeChild(node.target.localId)">&times;
                   </div>
                 </div>
               </div>
@@ -65,6 +70,16 @@
         </div>
       </div>
     </div>
+    <h3 style="margin: 10px;">Справка</h3>
+        <div style="display: flex; border-bottom: 1px solid #ccc; padding: 10px;">
+      <div>
+        <div class="btn btn-primary">→</div> <span style="padding:10px"> - Добавить ребенка</span>
+      </div>
+      <div>
+        <div class="btn btn-danger">&times;</div> <span style="padding:10px;"> - Удалить</span>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -72,7 +87,8 @@
   import axios from 'axios';
   import _ from 'lodash';
   import NodeSystem from '../classes/NodeSystem';
-import { constants } from 'crypto';
+
+  import qstr from "querystring";
 
   export default {
 
@@ -101,16 +117,17 @@ import { constants } from 'crypto';
         var nodes = this.system.nodes;
         var reg = new RegExp(
           this.nodeFilter.replace(/[^sStTnNvVfFrR0]/g, (e) => `\\${e}`),
-          'i'
+          'gi'
         );      
 
         return this.system.nodes.filter((e) => e.title.match(reg));
       },
       children() {
-        return this.system.current.children;
+        return this.selected.children();
       },
       parents() {
-        return this.system.current.parents;
+
+        return this.selected.parents();
       },
       system()
       {
@@ -118,31 +135,56 @@ import { constants } from 'crypto';
       }
     },
     methods: {
+      select(id)
+      {
+        this.system.setCurrent(id);
+      },
       removeChild(id) {
-        return this.system.current.removeChild(id);
+        return this.selected.removeChild(id);
       },
       removeParent(id) {
-        return this.system.current.removeParent(id);
+        return this.selected.removeParent(id);
       },
       removeNode(id) {
         this.system.removeNode(id);
       },
       addParent(node) {
-        return this.system.current.addParent(node);
+        return this.selected.addParent(node);
       },
       addChild(node) {
-        return this.system.current.addChild(node);
+        return this.selected.addChild(node);
+      },
+      isSelected(id)
+      {
+        return this.selected.localId == id;
+      },
+      removeVersion() 
+      {
+        if (confirm("Вы правда хотите данную эту версию?"))
+        {
+          this.coreVersions.splice(this.versionSelected, 1);
+          this.systems.splice(this.systems.indexOf(this.system), 1);
+          this.versionSelected = 0;
+        }
       },
       allocId()
       {
-        var max = this.system.nodes[0];
-        for (var i = 0; i < this.systems.length; i++)
-        {
-          max =  _.maxBy(this.systems[i].nodes, 'id');
-        }
-        console.log(max.id+1);
-        return max.id+1;
+        var max;
+        
+        max =  _.maxBy(this.system.nodes, 'localId');
+        if (max === undefined) max = {localId: 0};
+        console.log(max.localId+1);
+        return max.localId+1;
 
+      },
+      allocVersion()
+      {
+        var m = _.max(this.coreVersions)+1 || 0;
+
+        this.coreVersions.push(m);
+        var s = new NodeSystem();
+        s.fromObject({"nodes": [], "edges": []});
+        this.systems.push(s);
       },
       // haveParent(id)
       // {
@@ -154,13 +196,27 @@ import { constants } from 'crypto';
       // },
       addNode() {
         var title = this.$refs.nname.value;
-        this.system.addNode(title, this.allocId());
 
+        this.system.addNode(title);
+        if (this.selected == undefined)
+        {
+          this.select(this.system.nodes[0].localId);
+        }
+        this.$refs.nname.value = "";
         setTimeout(() => {this.$refs.nedit.scrollTop =  this.$refs.nedit.scrollHeight+123}, 100);
       },
       save()
       {
-        console.log(this.system.toObject());
+        var jsond = this.system.toObject(); 
+        var fdata = qstr.stringify({version: this.coreVersions[this.versionSelected], data: JSON.stringify(jsond)});
+        console.log(fdata);
+        console.log(jsond);
+        axios.post('/insider/core/import', fdata).then(async (res) => {
+          console.log(res.data);
+          document.write(res.data);
+        }).catch((e) => {
+          console.error(e.data);
+        })
       }
     },
     data() {
@@ -168,6 +224,7 @@ import { constants } from 'crypto';
         coreVersions: [],
         systems: [],
         versionSelected: 2,
+        selectedNode: 0,
         nodeFilter: "",
         lastNodeId: 0,
         ready: false,
@@ -196,6 +253,24 @@ import { constants } from 'crypto';
 
   }
 
+  .addVer
+  {
+
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    list-style: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    flex-direction: column;
+    transition: .1s all;
+    color: #2c78c9;
+    border: 2px dashed #2c78c9;
+  }
+  .addVer:hover
+  {
+    transform: scale(1.1);
+  }
   .f {
     flex: 1;
     padding: 10px 20px;

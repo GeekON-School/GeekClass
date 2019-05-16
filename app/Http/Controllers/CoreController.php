@@ -142,28 +142,82 @@ class CoreController extends Controller
     public function import_core(Request $request)
     {
         $data = json_decode($request->data);
+        $nodeAutoIdc = [];
 
-        CoreNode::where('version', $request->version)->delete();
+        $nodeIdc = collect($data->nodes)->map(function ($item, $index) { 
+            return $item->id; 
+        })->filter(function($item, $key) {
+            return $item != -1;
+        });
+        CoreNode::where("version", $request->version)->whereNotIn("id", $nodeIdc)->delete();
+
+        $edgeIdc = collect($data->edges)->map(function ($item, $index) { 
+            return $item->id; 
+        })->filter(function($item, $key) {
+            return $item != -1;
+        });
+        CoreEdge::where("from_id", $request->version)->whereNotIn("id", $edgeIdc)->delete();
+
         foreach ($data->nodes as $node)
         {
-            $record = new CoreNode();
-            $record->title = $node->name;
-            $record->id = $node->id;
-            $record->cluster = $node->cluster;
-            $record->level = $node->level;
-            $record->is_root = $node->root;
-            $record->version = $request->version;
-            $record->save();
+            $fnode = null;
+            if($node->id != -1)
+            {
+                $fnode = CoreNode::all()->find($node->id);
+                
+            }
+            if (!empty($fnode))
+            {
+                $fnode->title = $node->title;
+                $fnode->level = $node->level;
+                $fnode->cluster = $node->cluster;
+                $fnode->is_root = $node->root;
+                $fnode->version = $request->version;
+                $fnode->save();
+
+                $nodeAutoIdc[$node->localId] = $fnode->id; 
+                
+            }
+            else
+            {
+                $record = new CoreNode();
+                $record->title = $node->title;
+                $record->cluster = $node->cluster;
+                $record->level = $node->level;
+                $record->is_root = $node->root;
+                $record->version = $request->version;
+                $record->save();
+                $nodeAutoIdc[$node->localId] = $record->id;
+            }
         }
 
+    
         foreach ($data->edges as $edge)
         {
-            $record = new CoreEdge();
-            $record->from_id = $edge->source;
-            $record->to_id = $edge->target;
-            $record->save();
+           
+            $fnode = null;
+            if($node->id != -1)
+            {
+                $fnode = CoreEdge::all()->find($edge->id);    
+            }
+            if (!empty($fnode))
+            {
+                $fnode->to_id = $nodeAutoIdc[$edge->source];
+                $fnode->from_id = $nodeAutoIdc[$edge->target];
+                $fnode->save();
+        
+            }
+            else
+            {
+                $record = new CoreEdge();
+                
+                $record->to_id = $nodeAutoIdc[$edge->source];
+                $record->from_id = $nodeAutoIdc[$edge->target];
+                $record->save();
+            }
         }
-        echo 'ok';
+
+        echo "{ ok: true }";
 
     }
 }
