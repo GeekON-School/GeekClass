@@ -66,8 +66,8 @@ class CoreController extends Controller
 
         foreach ($edges as $edge)
         {
-            $edge->source = $edge->from_id;
-            $edge->target = $edge->to_id;
+            $edge->source = $edge->to_id;
+            $edge->target = $edge->from_id;
             unset($edge->id);
         }
 
