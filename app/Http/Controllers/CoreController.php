@@ -66,8 +66,8 @@ class CoreController extends Controller
 
         foreach ($edges as $edge)
         {
-            $edge->source = $edge->to_id;
-            $edge->target = $edge->from_id;
+            $edge->source = $edge->from_id;
+            $edge->target = $edge->to_id;
             unset($edge->id);
         }
 
@@ -199,14 +199,11 @@ class CoreController extends Controller
         foreach ($data->edges as $edge)
         {
             $fnode = null;
-            if($node->id != -1)
-            {
-                $fnode = $allEdges->find($edge->id);    
-            }
+            $fnode = $allEdges->where('to_id', $nodeAutoIdc[$edge->target])->where('from_id',  $nodeAutoIdc[$edge->source])->first();    
             if (!empty($fnode))
             {
-                $fnode->to_id = $nodeAutoIdc[$edge->source];
-                $fnode->from_id = $nodeAutoIdc[$edge->target];
+                $fnode->to_id = $nodeAutoIdc[$edge->target];
+                $fnode->from_id = $nodeAutoIdc[$edge->source];
                 $fnode->save();
         
             }
@@ -214,8 +211,8 @@ class CoreController extends Controller
             {
                 $record = new CoreEdge();
                 
-                $record->to_id = $nodeAutoIdc[$edge->source];
-                $record->from_id = $nodeAutoIdc[$edge->target];
+                $record->to_id = $nodeAutoIdc[$edge->target];
+                $record->from_id = $nodeAutoIdc[$edge->source];
                 $record->save();
             }
         }

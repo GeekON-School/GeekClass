@@ -50,7 +50,6 @@ export default class NodeSystem
       deletedNodes: this.deletedNodes
     };
 
-    var lastEdge = 1;
 
     this.nodes.forEach((e) => {
       obj.nodes.push({
@@ -60,7 +59,7 @@ export default class NodeSystem
         nodeType: "exists",
         level: 6,
         root: false,
-        cluster: 6
+        cluster: 0
       });
       e.children().forEach((i, d) => {
         obj.edges.push({
@@ -71,7 +70,6 @@ export default class NodeSystem
 
         });
         i.target.parents().splice( i.target.parents().findIndex((h) => h.source.localId == e.localId), 1);
-        lastEdge++;
       });
     })
     return obj;
@@ -93,7 +91,7 @@ export default class NodeSystem
     obj.edges.forEach((e) => {
       var parent = this.nodes.find((i) => e.from_id == i.id);
       var child = this.nodes.find((i) => e.to_id == i.id);
-      connections.push(new Connection(parent, child, e.id));
+      connections.push(new Connection(child, parent, e.id));
     });
     
     connections.forEach((e) => {
