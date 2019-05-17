@@ -4,11 +4,13 @@
     <ul class="select" v-if="ready">
       <li v-for="(version, index) in coreVersions" :key="index"
          :class="versionSelected == index?'selected option':'option'" @click="versionSelected = index">{{version}}</li>
-         <li @click="allocVersion" class="addVer">+</li>
-  <li @click="save" class="option selected">Сохранить данную версию</li>
-
+      <li @click="allocVersion" class="addVer">+</li>
+      <li @click="save" class="option selected">Сохранить данную версию</li>
+      <li v-if="savedState == 'success'" class="ico-li"><i class="ico success ion ion-checkmark"></i></li>
+      <li v-if="savedState == 'pending'" class="ico-li"><i class="ico pending ion ion-clock"></i></li>
+      <li v-if="savedState == 'error'"  class="ico-li"><i class="ico fail"> &times; </i></li>
     </ul>
-    <div style="display: flex; border-bottom: 1px solid #ccc; padding: 10px;">
+    <div style="display: flex; border: 1px solid #ccc; padding: 10px;">
       <div>
         <div class="btn btn-danger" @click="removeVersion">&times;</div> <span style="padding:10px;">Удалить версию</span>
       </div>
@@ -70,8 +72,8 @@
         </div>
       </div>
     </div>
-    <h3 style="margin: 10px;">Справка</h3>
-        <div style="display: flex; border-bottom: 1px solid #ccc; padding: 10px;">
+    <h3 style="padding: 10px; border-left: 1px solid #ccc; border-left: 1px solid #ccc;border-right: 1px solid #ccc;">Справка</h3>
+        <div style="display: flex; border: 1px solid #ccc; border-top: none; padding: 10px;">
       <div>
         <div class="btn btn-primary">→</div> <span style="padding:10px"> - Добавить ребенка</span>
       </div>
@@ -89,6 +91,7 @@
   import NodeSystem from '../classes/NodeSystem';
 
   import qstr from "querystring";
+import { setTimeout } from 'timers';
 
   export default {
 
@@ -211,11 +214,16 @@
         var fdata = qstr.stringify({version: this.coreVersions[this.versionSelected], data: JSON.stringify(jsond)});
         console.log(fdata);
         console.log(jsond);
+        this.savedState = "pending";
         axios.post('/insider/core/import', fdata).then(async (res) => {
           console.log(res.data);
-          document.write(res.data);
+          // document.write(res.data);
+          this.savedState = "success";
+          setTimeout(() => {this.savedState = "nothing"}, 3000);
         }).catch((e) => {
           console.error(e.data);
+          this.savedState = "error";
+          setTimeout(() => {this.savedState = "nothing"}, 3000);
         })
       }
     },
@@ -223,12 +231,13 @@
       return {
         coreVersions: [],
         systems: [],
+        savedState: "nothing",
         versionSelected: 2,
         selectedNode: 0,
         nodeFilter: "",
         lastNodeId: 0,
         ready: false,
-        newTitle: ""
+        newTitle: "",
       }
     },
     name: 'core-editor'
@@ -241,7 +250,8 @@
     border-bottom: 1px solid #CCC;
     display: flex;
     max-height: 400px;
-
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
   }
 
   .nodes {
@@ -267,6 +277,23 @@
     color: #2c78c9;
     border: 2px dashed #2c78c9;
   }
+  .ico-li
+  {
+    list-style: none;
+    padding: 10px;
+  }
+  .ico.success
+  {
+    color: green;
+  }
+  .ico.pending
+  {
+    color: #2c78c9;
+  }
+  .ico.fail
+  {
+    color: crimson;
+  }
   .addVer:hover
   {
     transform: scale(1.1);
@@ -283,6 +310,11 @@
   .parents .node,
   .children .node {
     border: none !important;
+  }
+
+  .ico
+  {
+    font-size: 30px;
   }
 
   .nodelist {
@@ -348,7 +380,6 @@
     padding-bottom: 20px;
     flex-wrap: wrap;
     display: flex;
-    border-bottom: 1px solid #ccc;
   }
 
   h2 {

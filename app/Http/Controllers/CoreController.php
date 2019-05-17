@@ -156,7 +156,8 @@ class CoreController extends Controller
         })->filter(function($item, $key) {
             return $item != -1;
         });
-        CoreEdge::where("from_id", $request->version)->whereNotIn("id", $edgeIdc)->delete();
+
+        CoreEdge::all()->filter(function($i) use ($request) { $i->from->version = $request->version; })->whereNotIn("id", $edgeIdc)->each->delete();
 
         foreach ($data->nodes as $node)
         {
@@ -164,7 +165,6 @@ class CoreController extends Controller
             if($node->id != -1)
             {
                 $fnode = CoreNode::all()->find($node->id);
-                
             }
             if (!empty($fnode))
             {
@@ -191,10 +191,8 @@ class CoreController extends Controller
             }
         }
 
-    
         foreach ($data->edges as $edge)
         {
-           
             $fnode = null;
             if($node->id != -1)
             {

@@ -14,6 +14,7 @@ class CoreEdge extends Model
         return $this->hasOne('App\CoreNode', 'id', 'from_id');
     }
 
+
     public function to()
     {
         return $this->hasOne('App\CoreNode', 'id', 'to_id');

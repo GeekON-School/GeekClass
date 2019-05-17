@@ -128,7 +128,11 @@
                         @if (\Auth::User()->role != 'student')
                             <a class="dropdown-item" href="{{url('insider/scales')}}"><i
                                         class="icon ion-university"></i> Шкалы</a>
+                            <a class="dropdown-item" href="{{url('insider/core/editor')}}"><i
+                                        class="icon ion-edit"></i> Редактор карт</a>
                         @endif
+
+
                         <a class="dropdown-item" href="{{url('insider/core/'.\Auth::User()->id)}}"><i
                                     class="icon ion-map"></i> Карта</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
