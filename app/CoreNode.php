@@ -25,7 +25,7 @@ class CoreNode extends Model
 
     public function children()
     {
-        return $this->belongsToMany('App\CoreNode', 'core_edges', "to_id", "from_id");
+        return $this->belongsToMany('App\CoreNode', 'core_edges', "from_id", "to_id");
     }
 
     public function connections()
@@ -35,7 +35,7 @@ class CoreNode extends Model
 
     public function parents()
     {
-        return $this->belongsToMany('App\CoreNode', 'core_edges', "from_id", "to_id");
+        return $this->belongsToMany('App\CoreNode', 'core_edges', "to_id", "from_id");
     }
 
     public function getCluster()
@@ -61,7 +61,13 @@ class CoreNode extends Model
         for ($i = 0; $i < 2; $i++)
         {
             if ($node->level == 2) return $line.$node->parents[0]->title;
-            $node = $node->parents[0];
+            try {
+                $node = $node->parents[0];
+            }
+            catch (\Exception $e)
+            {
+                dd($node);
+            }
             $line .= $node->title.'&nbsp;&raquo;&nbsp;';
         }
         $line .= $node->parents[0]->title;
