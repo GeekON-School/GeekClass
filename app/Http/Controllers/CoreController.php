@@ -143,6 +143,7 @@ class CoreController extends Controller
     {
         $data = json_decode($request->data);
         $nodeAutoIdc = [];
+        // dd($data->nodes);
 
         $nodeIdc = collect($data->nodes)->map(function ($item, $index) { 
             return $item->id; 
@@ -158,13 +159,15 @@ class CoreController extends Controller
         });
 
         CoreEdge::all()->filter(function($i) use ($request) { $i->from->version = $request->version; })->whereNotIn("id", $edgeIdc)->each->delete();
+    
+        $allNodes = CoreNode::all();
 
         foreach ($data->nodes as $node)
         {
             $fnode = null;
             if($node->id != -1)
             {
-                $fnode = CoreNode::all()->find($node->id);
+                $fnode = $allNodes->find($node->id);
             }
             if (!empty($fnode))
             {
@@ -191,12 +194,14 @@ class CoreController extends Controller
             }
         }
 
+        $allEdges = CoreEdge::all();
+
         foreach ($data->edges as $edge)
         {
             $fnode = null;
             if($node->id != -1)
             {
-                $fnode = CoreEdge::all()->find($edge->id);    
+                $fnode = $allEdges->find($edge->id);    
             }
             if (!empty($fnode))
             {
