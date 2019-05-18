@@ -89,17 +89,17 @@ class CoreController extends Controller
         $nodes = collect([]);
         $nodes->push($start_node);
 
-        $nodes_to_look = $start_node->children;
+        $nodes_to_look = $start_node->parents;
 
         while ($nodes_to_look->count() != 0)
         {
             $current_node = $nodes_to_look->pop();
             $nodes->push($current_node);
 
-            foreach ($current_node->children as $child)
+            foreach ($current_node->parents as $parent)
             {
-                if ($nodes->contains($child) or $nodes_to_look->contains($child)) continue;
-                $nodes_to_look->push($child);
+                if ($nodes->contains($parent) or $nodes_to_look->contains($parent)) continue;
+                $nodes_to_look->push($parent);
             }
         }
 
@@ -117,7 +117,7 @@ class CoreController extends Controller
                 $node->nodeType='exists';
             }
             $node->root = $node->is_root;
-            unset($node->children);
+            unset($node->parents);
             unset($node->pivot);
 
 

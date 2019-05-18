@@ -233,17 +233,17 @@ class Lesson extends Model
             $nodes = collect([]);
             $nodes->push($start_node);
 
-            $nodes_to_look = $start_node->children;
+            $nodes_to_look = $start_node->parents;
 
             while ($nodes_to_look->count() != 0)
             {
                 $current_node = $nodes_to_look->pop();
                 $nodes->push($current_node);
 
-                foreach ($current_node->children as $child)
+                foreach ($current_node->parents as $parent)
                 {
-                    if ($nodes->contains($child) or $nodes_to_look->contains($child)) continue;
-                    $nodes_to_look->push($child);
+                    if ($nodes->contains($parent) or $nodes_to_look->contains($parent)) continue;
+                    $nodes_to_look->push($parent);
                 }
             }
         }
@@ -251,7 +251,7 @@ class Lesson extends Model
         $lessons = Lesson::whereIn('sdl_node_id', $nodes->pluck('id'))->where('is_sdl', true)->with('sdl_node', 'sdl_node.children', 'sdl_node.parents')->get();
         $available_lessons = $lessons->filter(function ($lesson) use ($current_lessons) {
             // TODO: fix children to parents
-            if ($lesson->sdl_node->children()->count() == 0 and !$current_lessons->contains($lesson)) return true;
+            if ($lesson->sdl_node->parents()->count() == 0 and !$current_lessons->contains($lesson)) return true;
             return false;
         });
 
@@ -264,8 +264,8 @@ class Lesson extends Model
         }
         foreach ($lessons as $lesson) {
             if ($current_lessons->contains($lesson) or $available_lessons->contains($lesson)) continue;
-            if ($completed_nodes->count() == 0 and $lesson->sdl_node->children->count() != 0) continue;
-            if ($lesson->sdl_node->children->pluck('id')->diff($completed_nodes->pluck('id'))->intersect($lesson->sdl_node->children->pluck('id'))->count() != 0) continue;
+            if ($completed_nodes->count() == 0 and $lesson->sdl_node->parents->count() != 0) continue;
+            if ($lesson->sdl_node->parents->pluck('id')->diff($completed_nodes->pluck('id'))->intersect($lesson->sdl_node->parents->pluck('id'))->count() != 0) continue;
             $available_lessons->push($lesson);
         }
 
