@@ -205,7 +205,15 @@ class TasksController extends Controller
                 $solution->mark = 0;
                 $solution->comment = "Неверный ответ.";
             }
-            $solution->teacher_id = $course->Teachers->first()->id;
+
+            if (count($course->Teachers) > 0)
+            {
+                $solution->teacher_id = $course->Teachers->first()->id;
+            }
+            else
+            {
+                $solution->teacher_id = 1;
+            }
             $solution->checked = Carbon::now();
         }
         if ($task->is_code) {
@@ -247,7 +255,10 @@ class TasksController extends Controller
             Notification::send($course->teachers, (new \App\Notifications\NewSolution($solution))->delay($when));
         }
 
-        return redirect('/insider/courses/' . $course_id . '/steps/' . $step_id . '#task' . $id);
+        return [
+            "mark" => $solution->mark,
+            "comment" => $solution->comment
+        ];
     }
 
     public function reviewSolutions($course_id, $id, $student_id, Request $request)

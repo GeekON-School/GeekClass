@@ -4,5 +4,6 @@
   "/js/forum.js": "/js/forum.js",
   "/js/ide.js": "/js/ide.js",
   "/mix.js": "/mix.js",
-  "/js/coreEditor.js": "/js/coreEditor.js"
+  "/js/coreEditor.js": "/js/coreEditor.js",
+  "/js/steps_details.js": "/js/steps_details.js"
 }

@@ -42,7 +42,7 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="{{url('/js/bootstrap-select.min.js')}}"></script>
     <link rel="stylesheet" href="{{url('css/bootstrap-select.min.css')}}">
-
+    <script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>
 
 </head>
 <body style="min-height: 100%; height: 100%; background-color: white;">
