@@ -107,8 +107,21 @@ GeekClass: "{{$step->name}}"
         var date = new Date();
         e.preventDefault();
         var text = e.target.querySelector("[name=text]").value;
+        e.target.querySelector("[name=text]").value = "";
+        console.log(e.target.querySelector("#sbtn"))
+        e.target.querySelector("#sbtn").classList.remove("btn-success");
+        e.target.querySelector("#sbtn").classList.add("btn-disabled");
+        e.target.querySelector("#sbtn").disabled = "true";
+        e.target.querySelector("#sbtn").innerHTML = "Подождите ...";
+
         axios.post(`/insider/courses/{{$course->id}}/tasks/${taskId}/solution`, `text=`+encodeURI(text))
             .then((res) => {
+
+                e.target.querySelector("#sbtn").classList.add("btn-success");
+                e.target.querySelector("#sbtn").classList.remove("btn-disabled");
+                e.target.querySelector("#sbtn").removeAttribute("disabled");
+                e.target.querySelector("#sbtn").innerHTML = "Ответить";
+
                 var toAdd = thtml.replace("__DATE_PLACEHOLDER__", 
                     `${date.getDate()}.${months[date.getMonth()]}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`)
                 toAdd = toAdd.replace("__TEXT_PLACEHOLDER__", text);
