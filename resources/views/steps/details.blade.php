@@ -125,7 +125,7 @@ GeekClass: "{{$step->name}}"
                 var toAdd = thtml.replace("__DATE_PLACEHOLDER__", 
                     `${date.getDate()}.${months[date.getMonth()]}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`)
                 toAdd = toAdd.replace("__TEXT_PLACEHOLDER__", text);
-                document.getElementById("soluitons_ajax").innerHTML += toAdd;
+                document.getElementById("solutions_ajax").innerHTML += toAdd;
             })
     }
 </script>

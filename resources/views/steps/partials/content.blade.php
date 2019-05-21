@@ -208,7 +208,7 @@
    @endif
    @endif
 
-   <div id="soluitons_ajax">
+   <div id="solutions_ajax">
 
    </div>
    @if (!$task->is_quiz)
