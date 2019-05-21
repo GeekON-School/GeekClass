@@ -128,6 +128,9 @@ GeekClass: "{{$step->name}}"
 
                 var toAdd = thtml.replace("__DATE_PLACEHOLDER__", 
                     `${date.getDate()}.${months[date.getMonth()]}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`)
+                text = text.replace(/\n/g, "<br>");
+                text = text.replace(/\s/g, "&nbsp;");
+                text = text.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
                 toAdd = toAdd.replace("__TEXT_PLACEHOLDER__", text);
                 document.getElementById("solutions_ajax").innerHTML += toAdd;
             })
