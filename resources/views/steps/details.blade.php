@@ -107,6 +107,10 @@ GeekClass: "{{$step->name}}"
         var date = new Date();
         e.preventDefault();
         var text = e.target.querySelector("[name=text]").value;
+        if (text == "") {
+            alert("Нельзя сдать пустое решение!");
+            return;
+        }
         e.target.querySelector("[name=text]").value = "";
         console.log(e.target.querySelector("#sbtn"))
         e.target.querySelector("#sbtn").classList.remove("btn-success");
