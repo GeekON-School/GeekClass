@@ -118,7 +118,7 @@ GeekClass: "{{$step->name}}"
         e.target.querySelector("#sbtn").disabled = "true";
         e.target.querySelector("#sbtn").innerHTML = "Подождите ...";
 
-        axios.post(`/insider/courses/{{$course->id}}/tasks/${taskId}/solution`, `text=`+encodeURI(text))
+        axios.post(`/insider/courses/{{$course->id}}/tasks/${taskId}/solution`, `text=`+encodeURIComponent(text))
             .then((res) => {
 
                 e.target.querySelector("#sbtn").classList.add("btn-success");
