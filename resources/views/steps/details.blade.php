@@ -71,6 +71,7 @@ GeekClass: "{{$step->name}}"
 
     $('table').addClass('table table-striped');
 </script>
+@if (\Request::is('insider/*'))
 <script>
     var thtml = `   
     <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
@@ -136,6 +137,6 @@ GeekClass: "{{$step->name}}"
             })
     }
 </script>
-
+@endif
 
 @endsection
