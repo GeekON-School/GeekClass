@@ -71,6 +71,7 @@ GeekClass: "{{$step->name}}"
 
     $('table').addClass('table table-striped');
 </script>
+@if (\Request::is('insider/*'))
 <script>
     var thtml = `   
     <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
@@ -107,15 +108,35 @@ GeekClass: "{{$step->name}}"
         var date = new Date();
         e.preventDefault();
         var text = e.target.querySelector("[name=text]").value;
-        axios.post(`/insider/courses/{{$course->id}}/tasks/${taskId}/solution`, `text=`+encodeURI(text))
+        if (text == "") {
+            alert("Нельзя сдать пустое решение!");
+            return;
+        }
+        e.target.querySelector("[name=text]").value = "";
+        console.log(e.target.querySelector("#sbtn"))
+        e.target.querySelector("#sbtn").classList.remove("btn-success");
+        e.target.querySelector("#sbtn").classList.add("btn-disabled");
+        e.target.querySelector("#sbtn").disabled = "true";
+        e.target.querySelector("#sbtn").innerHTML = "Подождите ...";
+
+        axios.post(`/insider/courses/{{$course->id}}/tasks/${taskId}/solution`, `text=`+encodeURIComponent(text))
             .then((res) => {
+
+                e.target.querySelector("#sbtn").classList.add("btn-success");
+                e.target.querySelector("#sbtn").classList.remove("btn-disabled");
+                e.target.querySelector("#sbtn").removeAttribute("disabled");
+                e.target.querySelector("#sbtn").innerHTML = "Ответить";
+
                 var toAdd = thtml.replace("__DATE_PLACEHOLDER__", 
                     `${date.getDate()}.${months[date.getMonth()]}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`)
+                text = text.replace(/\n/g, "<br>");
+                text = text.replace(/\s/g, "&nbsp;");
+                text = text.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
                 toAdd = toAdd.replace("__TEXT_PLACEHOLDER__", text);
-                document.getElementById("soluitons_ajax").innerHTML += toAdd;
+                document.getElementById("solutions_ajax").innerHTML += toAdd;
             })
     }
 </script>
-
+@endif
 
 @endsection

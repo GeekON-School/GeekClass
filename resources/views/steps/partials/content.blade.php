@@ -208,7 +208,7 @@
    @endif
    @endif
 
-   <div id="soluitons_ajax">
+   <div id="solutions_ajax">
 
    </div>
    @if (!$task->is_quiz)
@@ -281,7 +281,7 @@
                   </div>
                   <div class="form-group">
                      <div class="col-md-12">
-                        <button type="submit" class="btn btn-success">Отправить
+                        <button type="submit" class="btn btn-success" id="sbtn">Отправить
                         </button>
                      </div>
                   </div>
