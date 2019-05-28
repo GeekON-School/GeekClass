@@ -133,7 +133,7 @@ GeekClass: "{{$step->name}}"
                 text = text.replace(/\s/g, "&nbsp;");
                 text = text.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
                 toAdd = toAdd.replace("__TEXT_PLACEHOLDER__", text);
-                document.getElementById("solutions_ajax").innerHTML += toAdd;
+                document.getElementById("solutions_ajax" + taskId).innerHTML += toAdd;
             })
     }
 </script>
