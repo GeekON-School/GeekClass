@@ -199,8 +199,8 @@
    @include('steps.solution_partial')
    @endforeach
    @if(sizeof($tasksSolutions[$key]->hiddenSolutions) > 0)
-   <a data-toggle="collapse" href="#solutionCollapse">Показать остальные</a>
-   <div class="collapse" id="solutionCollapse">
+   <a data-toggle="collapse" href="#solutionCollapse{{$task->id}}">Показать остальные</a>
+   <div class="collapse" id="solutionCollapse{{$task->id}}">
       @foreach ($tasksSolutions[$key]->hiddenSolutions as $sol_key => $solution)
       @include('steps.solution_partial')
       @endforeach
@@ -221,8 +221,7 @@
             <div class="card-body" style="padding: 0">
                <form action="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/solution')}}" method="POST"
                   class="form-horizontal"
-                  onsubmit="sendSolution(event, {{json_encode($task->id)}})"
-                  >
+                  onsubmit="sendSolution(event, {{json_encode($task->id)}})">
                   {{ csrf_field() }}
                   <div class="form-group{{ $errors->has('text') ? ' has-error' : '' }}">
                      <div class="col-md-12">
