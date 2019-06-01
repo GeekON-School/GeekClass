@@ -128,12 +128,22 @@ class GamesController extends Controller
             'description' => 'required|min:5'
         ], $messages);
 
+        $template = '';
 
+        if ($request->type == 'webgl')
+        {
+            $template = \App\Game::webglTemplate();
+        }
+        else if ($request->type == 'canvas')
+        {
+            $template = \App\Game::template();
+
+        }
         $id = \App\Game::make(
             \Auth::id(), 
             $request->title, 
             $request->description, 
-            \App\Game::template(),
+            $template,
             $request->type
         );
 

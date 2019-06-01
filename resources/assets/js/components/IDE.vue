@@ -149,7 +149,7 @@
 
   .btn {
     padding: 10px 20px;
-    background: teal;
+    background: #16c2cc;
     border-radius: 5px;
     display: block;
     color: #1e1e1e;

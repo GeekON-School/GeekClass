@@ -1,5 +1,5 @@
 // FPS игры
-fps(30);ы
+fps(30);
 
 
 function update()

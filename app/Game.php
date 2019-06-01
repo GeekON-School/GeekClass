@@ -90,10 +90,17 @@ class Game extends Model
         return \File::get(base_path().'/public/gameTemplate.js');
     }
 
+    public static function webglTemplate()
+    {
+        return \File::get(base_path().'/public/js/gamewebgltemplate.js');
+    }
+
     public static function projectJsonTemplate()
     {
         return '{"entrypoint": "index.js"}';
     }
+
+
 
     public function editCode($code)
     {
