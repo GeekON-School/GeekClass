@@ -73,6 +73,8 @@
     </div>
 </div>
 
+{{$game->type}}
+
 <form action="/insider/games/{{$game->id}}/comment" method="POST">
     @csrf
 

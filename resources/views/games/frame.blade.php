@@ -57,6 +57,7 @@
     <canvas id="cv"></canvas>
     <div id="console">
     </div>
+    @if ($game->type == "canvas")
     <script>
         function htmlspecialchars(str) {
             return str.replace(/\</g, '&lt;')
@@ -198,6 +199,10 @@
         window.comfirm = null;
         window.prompt = null;
     </script>
+    @elseif ($game->type == "webgl")
+    <script src="{{asset('/js/agl.js')}}"></script>
+    @endif
+
     <script type="text/javascript" src="/insider/games/{{$game->id}}/viewsource"></script>
 </body>
 

@@ -123,6 +123,7 @@ class GamesController extends Controller
             'title.max' => 'Слишком длинное название, его длина не должна превышать 255 символов'
         ];
         $request->validate([
+            'type' => 'required',
             'title' => 'required|min:3|max:255',
             'description' => 'required|min:5'
         ], $messages);
@@ -132,7 +133,8 @@ class GamesController extends Controller
             \Auth::id(), 
             $request->title, 
             $request->description, 
-            \App\Game::template()
+            \App\Game::template(),
+            $request->type
         );
 
 

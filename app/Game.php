@@ -107,13 +107,16 @@ class Game extends Model
         \Storage::disk('local')->put('games/'.$id.'/project.json', \App\Game::projectJsonTemplate());
     }
 
-    public static function make($user_id, $title, $description, $code)
+    public static function make($user_id, $title, $description, $code, $type)
     {
         $game = \App\Game::create([
             'user_id' => $user_id,
             'title' => $title,
-            'description' => $description
+            'description' => $description,
         ]);
+
+        $game->type = $type;
+
 
         \App\Game::initGame($game->id, $code);
         $game->save();
