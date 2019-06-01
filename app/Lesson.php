@@ -250,7 +250,6 @@ class Lesson extends Model
 
         $lessons = Lesson::whereIn('sdl_node_id', $nodes->pluck('id'))->where('is_sdl', true)->with('sdl_node', 'sdl_node.children', 'sdl_node.parents')->get();
         $available_lessons = $lessons->filter(function ($lesson) use ($current_lessons) {
-            // TODO: fix children to parents
             if ($lesson->sdl_node->parents()->count() == 0 and !$current_lessons->contains($lesson)) return true;
             return false;
         });
