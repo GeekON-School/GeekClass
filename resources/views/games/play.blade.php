@@ -68,10 +68,12 @@
     <div class="card col-md iframe-cont">
         <div class="card-body">
             <iframe class="iframe" onload="this.contentWindow.focus()" src="/insider/games/{{$game->id}}/frame"
-                width="100%" height="450px" frameborder="0" sandbox="allow-same-origin allow-scripts"></iframe>
+                width="100%" height="450px" frameborder="0" sandbox="allow-same-origin allow-scripts allow-pointer-lock"></iframe>
         </div>
     </div>
 </div>
+
+{{$game->type}}
 
 <form action="/insider/games/{{$game->id}}/comment" method="POST">
     @csrf

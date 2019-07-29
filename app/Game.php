@@ -90,10 +90,17 @@ class Game extends Model
         return \File::get(base_path().'/public/gameTemplate.js');
     }
 
+    public static function webglTemplate()
+    {
+        return \File::get(base_path().'/public/js/gamewebgltemplate.js');
+    }
+
     public static function projectJsonTemplate()
     {
         return '{"entrypoint": "index.js"}';
     }
+
+
 
     public function editCode($code)
     {
@@ -107,13 +114,16 @@ class Game extends Model
         \Storage::disk('local')->put('games/'.$id.'/project.json', \App\Game::projectJsonTemplate());
     }
 
-    public static function make($user_id, $title, $description, $code)
+    public static function make($user_id, $title, $description, $code, $type)
     {
         $game = \App\Game::create([
             'user_id' => $user_id,
             'title' => $title,
-            'description' => $description
+            'description' => $description,
         ]);
+
+        $game->type = $type;
+
 
         \App\Game::initGame($game->id, $code);
         $game->save();
