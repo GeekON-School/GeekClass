@@ -83,7 +83,7 @@
                             </div>
                         </div>
                         <div class="row" style="margin-top: 15px;">
-                            <div class="col-12 col-xl-3">
+                            <div class="hidden-md hidden-xs col-xl-3">
                                 <script type="text/javascript" src="https://vk.com/js/api/openapi.js?160"></script>
 
                                 <!-- VK Widget -->
