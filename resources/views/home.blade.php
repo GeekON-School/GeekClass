@@ -83,6 +83,21 @@
                             </div>
                         </div>
                         <div class="row" style="margin-top: 15px;">
+                            <div class="col-12 col-xl-3">
+                                <script type="text/javascript" src="https://vk.com/js/api/openapi.js?160"></script>
+
+                                <!-- VK Widget -->
+                                <div id="vk_groups"></div>
+                                <script type="text/javascript">
+                                    VK.Widgets.Group("vk_groups", {
+                                        mode: 4,
+                                        wide: 1,
+                                        width: 'auto',
+                                        height: "800",
+                                        color3: '28A745'
+                                    }, 149395318);
+                                </script>
+                            </div>
                             <div class="col-12 col-lg-8 col-xl-6">
                                 <div class="card-deck">
 
@@ -171,21 +186,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-12 col-xl-3">
-                                <script type="text/javascript" src="https://vk.com/js/api/openapi.js?160"></script>
 
-                                <!-- VK Widget -->
-                                <div id="vk_groups"></div>
-                                <script type="text/javascript">
-                                    VK.Widgets.Group("vk_groups", {
-                                        mode: 4,
-                                        wide: 1,
-                                        width: 'auto',
-                                        height: "800",
-                                        color3: '28A745'
-                                    }, 149395318);
-                                </script>
-                            </div>
 
 
                         </div>
