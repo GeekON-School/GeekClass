@@ -29,9 +29,9 @@ class CoursesController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('course')->only(['details']);
-        $this->middleware('teacher')->only(['createView', 'editView', 'start', 'stop', 'edit', 'create', 'assessments', 'report', 'createChapter', 'editChapter', 'createChapterView', 'editChapterView
-       ']);
+        $this->middleware('course')->only(['details', 'editView', 'start', 'stop', 'edit', 'assessments', 'report', 'createChapter', 'editChapter', 'createChapterView', 'editChapterView']);
+        $this->middleware('teacher')->only(['editView', 'start', 'stop', 'edit', 'assessments', 'report', 'createChapter', 'editChapter', 'createChapterView', 'editChapterView']);
+        $this->middleware('admin')->only(['createView', 'create']);
     }
 
     /**

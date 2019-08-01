@@ -221,7 +221,7 @@
                                     </span>
                             @endif
                         </div>
-                        @if ($guest->role=='teacher')
+                        @if ($guest->role=='teacher' || $guest->role=='admin')
                             <h4>Информация</h4>
                             <div class="form-group">
                                 <label for='comments'>Комментарий</label>

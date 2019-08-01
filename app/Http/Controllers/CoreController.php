@@ -23,7 +23,7 @@ class CoreController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('teacher')->only(['import_core']);
+        $this->middleware('admin')->only(['import_core']);
     }
 
     public function index($id, Request $request)

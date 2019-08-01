@@ -32,9 +32,9 @@
                             <h3 class="card-title">{{$project->name}}</h3>
                         </div>
                         <div class="col">
-                            @if ($user->role=='teacher' || $is_in_project)
+                            @if ($user->role=='teacher' || $user->role=='admin' || $is_in_project)
                                 <div class="float-right">
-                                    @if ($user->role != 'student' && $project->task != null)
+                                    @if ($user->role != 'student' && $user->role != 'novice' && $project->task != null)
                                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                                 data-target="#reviewModal">
                                             Оценить решение
@@ -46,7 +46,7 @@
                                     @endif
                                     <a href="{{url('/insider/projects/'.$project->id.'/edit')}}"
                                        class="btn btn-success btn-sm"><i class="icon ion-android-create"></i></a>
-                                    @if ($user->role=='teacher' || ($project->author == null || $user->id == $project->author->id))
+                                    @if ($user->role=='teacher' || $user->role=='admin' ||($project->author == null || $user->id == $project->author->id))
                                         <a href="{{url('/insider/projects/'.$project->id.'/delete')}}"
                                            class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены?')"><i
                                                     class="ion-close-round"></i></a>

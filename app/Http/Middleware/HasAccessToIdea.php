@@ -20,7 +20,7 @@ class HasAccessToIdea
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::User()->role=='teacher') {
+        if (Auth::User()->role=='teacher' or Auth::User()->role=='admin') {
             return $next($request);
         }
 

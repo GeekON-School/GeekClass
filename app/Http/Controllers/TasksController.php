@@ -28,7 +28,7 @@ class TasksController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('task')->only(['postSolution']);
+        $this->middleware('task');
         $this->middleware('teacher')->only(['create', 'delete', 'editForm', 'edit', 'reviewSolutions', 'estimateSolution', 'phantomSolution']);
     }
 

@@ -26,7 +26,7 @@
                @if ($task->price > 0)
                <img src="https://png.icons8.com/color/50/000000/coins.png" style="height: 23px;">&nbsp;{{$task->price}}
                @endif
-               @if (\Request::is('insider/*') && $user->role=='teacher')
+               @if (\Request::is('insider/*') && ($user->role=='teacher' || $user->role=='admin'))
                <a class="float-right btn btn-danger btn-sm"
                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"
                   onclick="return confirm('Вы уверены?')"><i class="icon ion-android-close"></i></a>
@@ -64,7 +64,7 @@
                <h3>Авторское решение</h3>
                @parsedown($task->solution)
                @endif
-               @if ($user->role=='teacher' and $task->solution != null)
+               @if (($user->role=='teacher' || $user->role=='admin') and $task->solution != null)
                <p>
                   <a class="" data-toggle="collapse" href="#solution{{$task->id}}" role="button" aria-expanded="false"
                      aria-controls="collapseExample">

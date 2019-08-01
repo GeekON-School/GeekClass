@@ -2,13 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Course;
-use App\ProgramStep;
-use App\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class SelfAccess
+class IsNovice
 {
     /**
      * Handle an incoming request.
@@ -20,18 +17,10 @@ class SelfAccess
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::User()->role=='admin') {
-            return $next($request);
+        if (Auth::User()->role!='novice') {
+            return abort(403);
         }
 
-        if (Auth::User()->role=='student') {
-
-            if (Auth::User()->id == $request->id)
-            {
-                return $next($request);
-            }
-        }
-        return abort(403);
-
+        return $next($request);
     }
 }

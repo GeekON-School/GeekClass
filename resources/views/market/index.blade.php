@@ -10,7 +10,7 @@
             <h2> Магазин</h2>
         </div>
         <div class="col">
-            @if ($user->role=='teacher')
+            @if ($user->role=='admin')
                 <a class="float-right btn btn-success btn-sm" href="{{url('/insider/market/create/')}}"><i
                             class="icon ion-plus-round"></i>&nbsp;Добавить товар</a>
             @endif
@@ -54,7 +54,7 @@
         </div>
 
     </div>
-    @if ($user->role=='teacher')
+    @if ($user->role=='admin')
 
         <div class="row" style="margin-top: 15px;">
             <div class="col">

@@ -84,11 +84,11 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">О себе
-                        @if ($guest->role=='teacher' || $guest->id==$user->id)
+                        @if ($guest->role=='admin' || $guest->id==$user->id)
                             <a class="btn btn-sm btn-success float-right"
                                href="{{'/insider/profile/'.$user->id.'/edit'}}"><i class="icon ion-android-create"></i>
                                 Редактировать</a>
-                            @if ($guest->role=='teacher')
+                            @if ($guest->role=='teacher' || $guest->role=='admin')
                                 <button style="margin-right: 4px;" class="btn btn-sm btn-success float-right"
                                         type="button"
                                         data-toggle="modal" data-target="#addMoney">
@@ -102,7 +102,7 @@
                     </h4>
                     <p><strong>Технологические интересы:</strong><br>{{$user->interests}}</p>
                     <p><strong>Увлечения:</strong><br>{{$user->hobbies}}</p>
-                    @if ($guest->role=='teacher')
+                    @if ($guest->role=='teacher' || $guest->role=='admin')
                         <p><strong>Комментарий:</strong><br>{{$user->comments}}</p>
                     @endif
                 </div>
@@ -120,7 +120,7 @@
                                         <p>
                                             <span class="badge badge-pill badge-{{$course->provider->color}}">{{$course->provider->short_name}}</span>
                                         </p>
-                                        @if ($guest->role=='teacher' || $course->students->contains($guest))
+                                        @if ($guest->role=='admin' || $course->students->contains($guest) || $course->teachers->contains($guest))
                                             <a href="{{url('insider/courses/'.$course->id)}}" class="card-link">Страница
                                                 курса</a>
                                         @endif
@@ -144,11 +144,11 @@
                                         <p>
                                             <span class="badge badge-pill badge-{{$course->provider->color}}">{{$course->provider->short_name}}</span>
                                         </p>
-                                        @if ($guest->role=='teacher' || $course->students->contains($guest))
+                                        @if ($guest->role=='admin' || $course->students->contains($guest) || $course->teachers->contains($guest))
                                             <a href="{{url('insider/courses/'.$course->id)}}" class="card-link">Страница
                                                 курса</a>
                                         @endif
-                                        @if ($guest->role=='teacher')
+                                        @if ($guest->role=='admin')
                                             <br>
                                             <a href="{{url('insider/profile/'.$user->id.'/delete-course/'.$course->id)}}"
                                                style="color: red;" class="card-link" onclick="return confirm('Вы уверены?')">Отчислить</a>
@@ -161,14 +161,14 @@
                 </div>
             @endif
 
-            @if($user->completedCourses->count()!=0 || $guest->role=='teacher')
+            @if($user->completedCourses->count()!=0 || $guest->role=='admin')
                 <div class="row">
                     <div class="col-md-8">
                         <h4 style="margin: 20px;" class="card-title">Завершенные курсы <img
                                     src="https://png.icons8.com/gold-medal/color/30/000000"></h4>
                     </div>
                     <div class="col" style="padding-top: 19px;">
-                        @if ($guest->role=='teacher')
+                        @if ($guest->role=='admin')
                             <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-success"
                                     data-toggle="modal" data-target="#exampleModal">
                                 <i class="icon ion-plus-round"></i> Добавить
@@ -182,7 +182,7 @@
                             <div class="card" style="width: 100%; margin-bottom: 10px;">
                                 <div class="card-body">
                                     <h5 class="card-title">{{$course->name}}
-                                        @if ($guest->role=='teacher')
+                                        @if ($guest->role=='admin')
                                             <a class="float-right"
                                                href="{{url('/insider/profile/delete-course/'.$course->id)}}"  onclick="return confirm('Вы уверены?')"><span
                                                         aria-hidden="true">&times;</span></a>
@@ -205,14 +205,14 @@
                 </div>
             @endif
 
-            @if ($user->projects->count()!=0 || $guest->role=='teacher')
+            @if ($user->projects->count()!=0 || $guest->role=='teacher' || $guest->role=='admin')
                 <div class="row">
                     <div class="col-md-8">
                         <h4 style="margin: 20px;" class="card-title">Проекты <img
                                     src="https://png.icons8.com/microsoft-project/color/30/000000"></h4>
                     </div>
                     <div class="col" style="padding-top: 19px;">
-                        @if ($guest->role=='teacher' || $guest->id==$user->id)
+                        @if ($guest->role=='admin' || $guest->role=='teacher' || $guest->id==$user->id)
                             <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-success"
                                     data-toggle="modal" data-target="#createProject">
                                 <i class="icon ion-plus-round"></i> Добавить

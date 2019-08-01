@@ -82,7 +82,7 @@ class CoreNode extends Model
         $result = '<p><small><ul>';
         foreach ($tasks as $task)
         {
-            if ($user->role=='teacher')
+            if ($user->role=='teacher' || $user->role=='admin')
             {
                 $course = Course::where('program_id', $task->step->program->id)->orderBy('id', 'DESC')->first();
 

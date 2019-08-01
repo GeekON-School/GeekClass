@@ -30,7 +30,7 @@ class ScalesController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('teacher');
+        $this->middleware('admin');
     }
 
     /**

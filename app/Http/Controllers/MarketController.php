@@ -27,7 +27,7 @@ class MarketController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('teacher')->only(['createView', 'editView', 'edit', 'create', 'ship']);
+        $this->middleware('admin')->only(['createView', 'editView', 'edit', 'create', 'ship']);
     }
 
     /**

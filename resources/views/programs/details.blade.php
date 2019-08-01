@@ -16,7 +16,7 @@
             <h2 style="font-weight: 300;">{{$program->name}}</h2>
             <p>{{$program->description}}</p>
         </div>
-        @if ($user->role=='teacher')
+        @if ($user->role=='teacher' || $user->role=='admin')
             <div class="col">
                 <div class="float-right">
                     <a href="{{url('/insider/programs/'.$program->id.'/create')}}" class="btn btn-primary btn-sm"><i
@@ -40,7 +40,7 @@
                                                        href="{{url('/insider/steps/'.$lesson->steps->first()->id)}}">{{$lesson->name}}</a>
                                     </h5>
                                 </div>
-                                @if ($user->role=='teacher')
+                                @if ($user->role=='teacher' || $user->role=='admin')
                                     <div class="col-sm-auto">
                                         <a href="{{url('insider/lessons/'.$lesson->id.'/edit')}}"
                                            class="btn btn-success btn-sm"><i

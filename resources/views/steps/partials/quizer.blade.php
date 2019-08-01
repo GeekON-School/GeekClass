@@ -16,7 +16,7 @@
          &nbsp;{{$task->price}}
          @endif
 
-         @if ($user->role=='teacher')
+         @if ($user->role=='teacher' || $user->role=='admin')
          <a class="float-right btn btn-danger btn-sm"
            href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"
            onclick="return confirm('Вы уверены?')"><i class="icon ion-android-close"></i></a>

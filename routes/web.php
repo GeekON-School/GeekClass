@@ -49,6 +49,14 @@ Route::get('/aesthethics', function () {
     return view('aesthethics');
 });
 
+Route::get('/articles', 'ArticlesController@index');
+Route::get('/articles/create', 'ArticlesController@createView');
+Route::post('/articles/create', 'ArticlesController@create');
+Route::get('/articles/{id}', 'ArticlesController@details');
+Route::get('/articles/{id}/edit', 'ArticlesController@editView');
+Route::post('/articles/{id}/edit', 'ArticlesController@edit');
+Route::get('/articles/{id}/delete', 'ArticlesController@delete');
+
 Route::prefix('insider')->middleware('verified')->group(function () {
 
     #TODO Check
@@ -60,7 +68,7 @@ Route::prefix('insider')->middleware('verified')->group(function () {
     Route::get('/games', 'GamesController@index');
     Route::post('/games', 'GamesController@store');
     Route::get('/games/{id}', 'GamesController@play');
-    
+
     Route::get('/games/{id}/upvote', 'GamesController@upvote');
     Route::get('/games/{id}/downvote', 'GamesController@downvote');
     Route::post('/games/{id}/comment', 'GamesController@comment');
@@ -261,7 +269,6 @@ Route::prefix('insider')->middleware('verified')->group(function () {
     Route::get('/core/importa', 'CoreController@import_core')->middleware('teacher');
 
     Route::get('/core/editor', 'CoreController@editor')->middleware('teacher');
-
 
 
     Route::get('/testmail', function () {

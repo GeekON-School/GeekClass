@@ -28,7 +28,8 @@ class ProfileController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('self')->except(['index', 'details', 'project', 'editProject']);
-        $this->middleware('teacher')->only(['deleteCourse', 'course', 'deleteCurrentCourse', 'addMoney']);
+        $this->middleware('teacher')->only(['addMoney']);
+        $this->middleware('admin')->only(['deleteCourse', 'course', 'deleteCurrentCourse', 'addMoney']);
     }
 
     /**

@@ -85,9 +85,9 @@
                         </div>
                         <div class="col">
 
-                            @if ($user->role=='teacher'|| ($user->id == $idea->author->id && !$idea->is_approved))
+                            @if ($user->role=='teacher' || $user->role=='admin' || ($user->id == $idea->author->id && !$idea->is_approved))
                                 <div class="float-right">
-                                    @if ($user->role=='teacher' and !$idea->is_approved)
+                                    @if (($user->role=='teacher' || $user->role=='admin') and !$idea->is_approved)
                                         <a href="{{url('/insider/ideas/'.$idea->id.'/approve')}}"
                                            class="btn btn-primary btn-sm">Утвердить</a>
                                         <a href="{{url('/insider/ideas/'.$idea->id.'/decline')}}"

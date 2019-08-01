@@ -26,7 +26,7 @@ class StepsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('step')->only(['details']);
+        $this->middleware('step');
         $this->middleware('teacher')->only(['createView', 'create', 'editView', 'edit', 'makeLower', 'makeUpper', 'perform', 'delete']);
 
     }
@@ -46,7 +46,7 @@ class StepsController extends Controller
         \App\ActionLog::record(Auth::User()->id, 'step', $id);
 
 
-        if ($user->role=='teacher')
+        if ($user->role=='teacher' || $user->role=='admin')
         {
             $tasks = $step->tasks;
         }

@@ -68,7 +68,7 @@
                                        style="margin-right: 5px;margin-left: 5px;">Следить</a>
                                 @endif
                             @endif
-                            @if ($post->user->id == $user->id || $user->role=='teacher')
+                            @if ($post->user->id == $user->id || $user->role=='teacher' || $user->role=='admin')
                                 <a href="{{url('/insider/forum/'.$thread->id.'/edit/'.$post->id)}}"
                                    class="btn btn-sm btn-success"
                                    style="margin-right: 5px;margin-left: 5px;"><i class="icon ion-edit"></i></a>
