@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.full')
 
 @section('title')
     GeekClass: "{{$course->name}}"
@@ -93,7 +93,7 @@
 
             @if ($course->state=="started")
 
-                <div class="card" style="padding-top: 10px;">
+                <div style="padding-top: 10px;">
                     <div id="pulse" style="width:100%; height: 100px; margin-bottom: 10px;"></div>
                 </div>
 

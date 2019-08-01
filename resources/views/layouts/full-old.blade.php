@@ -75,16 +75,13 @@
 
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <img style="height: 40px;" src="https://img.icons8.com/cute-clipart/64/000000/idea.png">&nbsp;&nbsp;&nbsp;
-    <h5 class="my-0 mr-md-auto font-weight-normal"><a class="p-2 text-dark"  href='{{url('/')}}'> GeekClass</a></h5>
+    <h5 class="my-0 mr-md-auto font-weight-normal">GeekClass</h5>
     <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark {{(Request::is('insider/courses*') ? 'active' : '') }}"
-           href="{{url('/insider/courses')}}">Курсы</a>
+        <a class="p-2 text-dark {{(Request::is('insider/courses*') ? 'active' : '') }}" href="{{url('/insider/courses')}}">Курсы</a>
         <a class="p-2 text-dark {{(Request::is('insider/forum*') ? 'active' : '') }}" href="{{url('insider/forum')}}">Ответы</a>
         <a class="p-2 text-dark {{(Request::is('insider/ideas*') ? 'active' : '') }}" href="{{url('insider/ideas')}}">Идеи</a>
-        <a class="p-2 text-dark {{(Request::is('insider/community*') ? 'active' : '') }}"
-           href="{{url('insider/community')}}">Сообщество</a>
-        <a class="p-2 text-dark {{(Request::is('insider/projects*') ? 'active' : '') }}"
-           href="{{url('insider/projects')}}">Проекты</a>
+        <a class="p-2 text-dark {{(Request::is('insider/community*') ? 'active' : '') }}" href="{{url('insider/community')}}">Сообщество</a>
+        <a class="p-2 text-dark {{(Request::is('insider/projects*') ? 'active' : '') }}" href="{{url('insider/projects')}}">Проекты</a>
         <a class="p-2 text-dark {{(Request::is('insider/market*') ? 'active' : '') }}" href="{{url('insider/market')}}">Магазин</a>
         <a class="p-2 text-dark {{(Request::is('insider/games*') ? 'active' : '') }}" href="{{url('insider/games')}}">Игры</a>
     </nav>
@@ -120,6 +117,78 @@
     @endif
 </div>
 
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a href="{{url('/')}}" class="navbar-brand" href="#"><img style="height: 35px;" src="{{url('images/hlogo.png')}}"/></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        @if (Auth::check())
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item {{(Request::is('insider/courses*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('/insider/courses')}}"></a>
+                </li>
+                <li class="nav-item {{(Request::is('insider/forum*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/forum')}}">Ответы</a>
+                </li>
+                <li class="nav-item {{(Request::is('insider/ideas*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/ideas')}}">Идеи</a>
+                </li>
+                <li class="nav-item {{(Request::is('insider/community*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/community')}}">Сообщество</a>
+                </li>
+                <li class="nav-item {{(Request::is('insider/projects*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/projects')}}">Проекты</a>
+                </li>
+                <li class="nav-item {{(Request::is('insider/events*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/events')}}">События</a>
+                </li>
+                <li class="nav-item {{(Request::is('insider/market*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/market')}}">Магазин</a>
+                </li>
+                <li class="nav-item {{(Request::is('insider/game*') ? 'active' : '') }}">
+                    <a class="nav-link" href="{{url('insider/games')}}">Игры</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav" style="width: 260px;">
+            <span style="margin-top: 8px; color: white;" data-container="body" data-placement="bottom"
+                  data-content="{!! Auth::user()->getHtmlTransactions() !!}" data-html="true" data-toggle="popover">
+               <img src="https://png.icons8.com/color/50/000000/coins.png"
+                    style="height: 23px;">&nbsp;{{Auth::user()->balance()}}&nbsp;&nbsp;
+
+            </span>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        {{ Auth::user()->name }}</a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" href="{{url('insider/profile')}}"><i class="icon ion-person"></i>
+                            Профиль</a>
+                        @if (\Auth::User()->role != 'student')
+                            <a class="dropdown-item" href="{{url('insider/scales')}}"><i
+                                        class="icon ion-university"></i> Шкалы</a>
+                            <a class="dropdown-item" href="{{url('insider/core/editor')}}"><i
+                                        class="icon ion-edit"></i> Редактор карт</a>
+                        @endif
+
+
+                        <a class="dropdown-item" href="{{url('insider/core/'.\Auth::User()->id)}}"><i
+                                    class="icon ion-map"></i> Карта</a>
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                    class="icon ion-reply"></i>Выход</a>
+
+                    </div>
+                </li>
+            </ul>
+        @endif
+    </div>
+</nav>
+
 @if(Session::has('alert-class') and Session::get('alert-destination')=='head')
     <div class="alert {{ Session::get('alert-class') }} alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
@@ -128,9 +197,7 @@
         <strong>{{Session::get('alert-title')}}</strong> {{ Session::get('alert-text') }}
     </div>
 @endif
-<div class="mx-auto col-md-11 col-12" style="margin-top: 30px">
 @yield('content')
-</div>
 
 <!-- Compiled and minified JavaScript -->
 

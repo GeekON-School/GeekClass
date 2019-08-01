@@ -100,7 +100,7 @@ class ArticlesController extends Controller
     }
 
 
-    public function createThread(Request $request)
+    public function create(Request $request)
     {
         $user = User::findOrFail(Auth::User()->id);
 

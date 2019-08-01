@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.full')
 
 @section('content')
     <div class="row" style="margin-top: 15px;">
@@ -40,7 +40,7 @@
                     <div class="card-deck">
                         @foreach($user->projects as $project)
 
-                            <div class="card" style="min-width: 40%; border-left: 5px solid #28a745;">
+                            <div class="card" style="min-width: 40%; border-left: 3px solid #28a745;">
                                 <div class="card-body">
                                     <div class="media">
                                         <div class="media-body">
@@ -67,7 +67,7 @@
                     <div class="card-deck">
                         @foreach($projects as $project)
 
-                            <div class="card" style="min-width: 40%;border-left: 5px solid #28a745;">
+                            <div class="card" style="min-width: 40%;border-left: 3px solid #28a745;">
                                 <div class="card-body">
                                     <div class="media">
                                         <div class="media-body">

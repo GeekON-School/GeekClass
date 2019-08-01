@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.full')
 
 @section('content')
     <div class="row" style="margin-top: 15px;">
@@ -42,7 +42,7 @@
             <div class="card-deck">
                 @foreach ($threads as $thread)
                     <div class="card"
-                         style="min-width:35% !important; border-left: 5px solid #28a745;">
+                         style="min-width:35% !important; border-left: 3px solid #28a745;">
 
                         <div class="card-body" style="background-color: rgba(255,255,255,0.9);">
                             <div class="row">

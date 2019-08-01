@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.full')
 
 @section('title')
     GeekClass: "{{$course->name}}"

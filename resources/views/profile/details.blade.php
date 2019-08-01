@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.full')
 
 @section('content')
     <div class="row" style="margin-top: 15px;">
@@ -42,7 +42,7 @@
                         <img src="https://png.icons8.com/color/50/000000/coins.png"
                              style="height: 23px;">&nbsp;{{$user->balance()}}&nbsp;&nbsp;
                     </p>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush" style="box-shadow: none;">
                         @if ($user->telegram!='')
                             <li class="list-group-item"><img src="https://png.icons8.com/telegram-app/win10/16"
                                                              title="Telegram App" width="16"

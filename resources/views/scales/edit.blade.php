@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.full')
 
 @section('title')
     GeekClass: Изменение шкалы "{{$scale->name}}"

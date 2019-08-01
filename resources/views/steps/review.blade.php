@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.full')
 
 @section('content')
     <h2><a class="back-link" href="{{url('/insider/courses/'.$course->id.'/assessments')}}"><i

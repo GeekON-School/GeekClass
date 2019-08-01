@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.full')
 
 @section('head')
 <link rel="stylesheet" href="{{asset('codemirror.css')}}">
