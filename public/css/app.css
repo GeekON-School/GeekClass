@@ -40,9 +40,11 @@
     margin-left: 0;
     margin-right: 0;
 }
+
 .text-dark.active {
     text-decoration: underline;
 }
+
 .perform pre {
     padding: 16px;
     overflow: auto;
@@ -182,10 +184,11 @@ p, strong {
 .card {
     margin-bottom: 15px;
     border: 0;
-    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
 }
+
 .list-group {
-    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
 .markdown img {
@@ -277,6 +280,7 @@ sup > i {
     /*background-color: #1098D4;*/
     background-color: #fafafa;
 }
+
 /*
 .nav-pills .nav-link.active {
     background-color: #D9E8F5;
@@ -422,6 +426,7 @@ h4 {
 .modebar {
     display: none !important;
 }
+
 /*
 .nav-pills .nav-link.active {
     background-color: white;
@@ -431,9 +436,12 @@ h4 {
     height: 12rem;
     /* filter: blur(3px) grayscale(.25); */
 }
+
 .list-group-item {
     border: 0;
-}/*
+}
+
+/*
 .card-footer {
     background-color: white;
     margin-top: -15px;
@@ -445,15 +453,28 @@ h4 {
     width: 100% !important;
 }
 
-.img-circle{
-    background-size:cover;
-    background-repeat:no-repeat;
-    background-position:50% 50%;
+.img-circle {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
 }
-.img-circle{
-    width:70px;
-    height:70px;
+
+.img-circle {
+    width: 70px;
+    height: 70px;
 }
+
 h5.card-title {
     margin-top: 0;
+}
+
+.tab-pane:not(.active) {
+    display: none;
+}
+
+.page-item.current .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
 }

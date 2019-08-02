@@ -30,18 +30,17 @@ class ArticlesController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except('index', 'details');
-        $this->middleware('teacher')->except('index', 'details');
+        $this->middleware('auth')->except('open_index', 'details');
     }
 
-    public function index(Request $request)
+    public function open_index(Request $request)
     {
         $tag = null;
         if ($request->has('tag') and $request->tag != "") {
             $tag = ArticleTag::where('name', $request->tag)->first();
         }
 
-        $articles = Article::orderBy('created_at', 'DESC')->get();
+        $articles = Article::where('is_draft', false)->where('is_approved', true)->orderBy('created_at', 'DESC')->get();
 
         if ($tag) {
             $articles = $articles->filter(function ($item) use ($tag) {
@@ -58,8 +57,39 @@ class ArticlesController extends Controller
 
         $articles = $articles->forPage($page, 5);
 
-        return view('articles.index', compact('articles', 'tag', 'page', 'pages'));
+        return view('articles', compact('articles', 'tag', 'page', 'pages'));
     }
+
+    public function index(Request $request)
+    {
+        $user = User::findOrFail(Auth::User()->id);
+
+        $tag = null;
+        if ($request->has('tag') and $request->tag != "") {
+            $tag = ArticleTag::where('name', $request->tag)->first();
+        }
+
+        $articles = Article::where('is_draft', false)->where('is_approved', true)->orderBy('created_at', 'DESC')->get();
+        $my_articles = Article::where('author_id', $user->id)->orderBy('created_at', 'DESC')->get();
+        $draft_articles = Article::where('is_draft', false)->where('is_approved', false)->orderBy('created_at', 'DESC')->get();
+        if ($tag) {
+            $articles = $articles->filter(function ($item) use ($tag) {
+                return $item->tags->contains($tag);
+            });
+        }
+        $count = $articles->count();
+        $page = 1;
+        $pages = ceil($count / 5);
+
+        if ($request->has('page')) {
+            $page = intval($request->page);
+        }
+
+        $articles = $articles->forPage($page, 5);
+
+        return view('articles.index', compact('articles', 'tag', 'page', 'pages', 'my_articles', 'draft_articles', 'user'));
+    }
+
 
     public function createView()
     {
@@ -96,6 +126,11 @@ class ArticlesController extends Controller
         $article->name = $request->name;
         $article->image = $request->image;
 
+        if ($user->role != 'admin') {
+            $article->is_draft = true;
+            $article->is_approved = false;
+        }
+
         foreach ($article->tags as $tag) {
             $article->tags()->detach($tag->id);
         }
@@ -106,7 +141,7 @@ class ArticlesController extends Controller
         }
         $article->save();
 
-        return redirect('/articles/' . $id);
+        return redirect('/insider/articles/' );
 
     }
 
@@ -130,6 +165,10 @@ class ArticlesController extends Controller
         $article->name = $request->name;
         $article->image = $request->image;
         $article->author_id = $user->id;
+        $article->is_draft = true;
+        if ($user->role == 'admin') {
+            $article->is_approved = true;
+        }
         $article->save();
 
         $parts = explode(';', mb_strtolower($request->tags));
@@ -139,7 +178,7 @@ class ArticlesController extends Controller
             $article->attachTag($tag);
         }
 
-        return redirect('/articles');
+        return redirect('/insider/articles/'.$article->id);
     }
 
     public function delete($id, Request $request)
@@ -150,7 +189,7 @@ class ArticlesController extends Controller
         if ($article->user_id != $user->id and $user->role != 'admin') abort(503);
         $article->delete();
 
-        return redirect('/articles');
+        return redirect('/insider/articles');
     }
 
 
@@ -162,5 +201,41 @@ class ArticlesController extends Controller
         return view('articles.details', compact('article'));
     }
 
+    public function publish($id)
+    {
+        $article = Article::findOrFail($id);
+        $user = User::findOrFail(Auth::User()->id);
+        if ($user->role != 'admin') abort(503);
+        $article->is_draft = false;
+        $article->is_approved = true;
+        $article->save();
+        return redirect('/insider/articles');
+    }
+
+    public function draft($id)
+    {
+        $article = Article::findOrFail($id);
+        $user = User::findOrFail(Auth::User()->id);
+        if ($user->role != 'admin') abort(503);
+        $article->is_draft = true;
+        $article->save();
+        return redirect('/insider/articles');
+    }
+
+    public function ask_review($id, Request $request)
+    {
+        $article = Article::findOrFail($id);
+        $article->is_draft = false;
+        $article->save();
+
+        $when = \Carbon\Carbon::now()->addSeconds(1);
+
+        foreach (User::where('role', 'admin') as $admin) {
+            \Notification::send($admin, (new \App\Notifications\NewArticle($article))->delay($when));
+        }
+        \Session::flash('message', 'Уведомления отправлены!');
+        return redirect('/insider/articles/');
+
+    }
 
 }

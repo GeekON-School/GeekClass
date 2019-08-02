@@ -49,14 +49,10 @@ Route::get('/aesthethics', function () {
     return view('aesthethics');
 });
 
-Route::get('/articles', 'ArticlesController@index');
-Route::get('/courses', 'CoursesController@open_index');
-Route::get('/articles/create', 'ArticlesController@createView');
-Route::post('/articles/create', 'ArticlesController@create');
+Route::get('/articles', 'ArticlesController@open_index');
 Route::get('/articles/{id}', 'ArticlesController@details');
-Route::get('/articles/{id}/edit', 'ArticlesController@editView');
-Route::post('/articles/{id}/edit', 'ArticlesController@edit');
-Route::get('/articles/{id}/delete', 'ArticlesController@delete');
+Route::get('/courses', 'CoursesController@open_index');
+
 Route::get('/games', 'GamesController@index');
 Route::get('/games/{id}', 'GamesController@play');
 Route::get('/games/{id}/frame', 'GamesController@frame');
@@ -69,6 +65,16 @@ Route::prefix('insider')->middleware('verified')->group(function () {
         return redirect('/insider/courses');
     });
 
+    Route::get('/articles', 'ArticlesController@index');
+    Route::get('/articles/create', 'ArticlesController@createView');
+    Route::post('/articles/create', 'ArticlesController@create');
+    Route::get('/articles/{id}', 'ArticlesController@details');
+    Route::get('/articles/{id}/edit', 'ArticlesController@editView');
+    Route::post('/articles/{id}/edit', 'ArticlesController@edit');
+    Route::get('/articles/{id}/delete', 'ArticlesController@delete');
+    Route::get('/articles/{id}/ask_review', 'ArticlesController@ask_review');
+    Route::get('/articles/{id}/publish', 'ArticlesController@publish');
+    Route::get('/articles/{id}/draft', 'ArticlesController@publish');
 
     Route::get('/games', 'GamesController@index');
     Route::post('/games', 'GamesController@store');

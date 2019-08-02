@@ -77,9 +77,15 @@
     <img style="height: 40px;" src="https://img.icons8.com/cute-clipart/64/000000/idea.png">&nbsp;&nbsp;&nbsp;
     <h5 class="my-0 mr-md-auto font-weight-normal"><a class="p-2 text-dark" href='{{url('/')}}'> GeekClass</a></h5>
     <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark {{(Request::is('articles*') ? 'active' : '') }}"
-           href="{{url('/articles')}}">Статьи</a>
+
         @if (\Auth::check())
+            @if (\Auth::User()->role != 'novice')
+                <a class="p-2 text-dark {{(Request::is('insider/articles*') ? 'active' : '') }}"
+                   href="{{url('/insider/articles')}}">Статьи</a>
+            @else
+                <a class="p-2 text-dark {{(Request::is('articles*') ? 'active' : '') }}"
+                   href="{{url('/articles')}}">Статьи</a>
+            @endif
             <a class="p-2 text-dark {{(Request::is('insider/courses*') ? 'active' : '') }}"
                href="{{url('/insider/courses')}}">Курсы</a>
             <a class="p-2 text-dark {{(Request::is('insider/forum*') ? 'active' : '') }}"
@@ -98,6 +104,8 @@
             <a class="p-2 text-dark {{(Request::is('insider/games*') ? 'active' : '') }}"
                href="{{url('insider/games')}}">Игры</a>
         @else
+            <a class="p-2 text-dark {{(Request::is('articles*') ? 'active' : '') }}"
+               href="{{url('/articles')}}">Статьи</a>
             <a class="p-2 text-dark {{(Request::is('courses*') ? 'active' : '') }}"
                href="{{url('courses')}}">Курсы</a>
             <a class="p-2 text-dark {{(Request::is('games*') ? 'active' : '') }}" href="{{url('games')}}">Игры</a>

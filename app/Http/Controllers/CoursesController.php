@@ -564,8 +564,18 @@ class CoursesController extends Controller
             $course->students()->detach($teacher->id);
         }
         if ($request->students != null)
-            foreach ($request->students as $teacher_id) {
-                $course->students()->attach($teacher_id);
+            foreach ($request->students as $student_id) {
+                $course->students()->attach($student_id);
+
+                if (!$course->is_open)
+                {
+                    $user = User::findOrFail($student_id);
+                    if ($user->role == 'novice')
+                    {
+                        $user->role = 'student';
+                        $user->save();
+                    }
+                }
             }
 
 

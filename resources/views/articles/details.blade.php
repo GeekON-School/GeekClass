@@ -20,8 +20,15 @@
                      style='background-size: contain;background-image: url("{{url($article->image)}}"); margin-bottom: 15px;'>
                     <div class="col-md-6 px-0">
                         @foreach($article->tags as $tag)
-                            <span class="badge badge-secondary badge-light"><a target="_blank"
-                                                                               href="{{url('/articles?tag='.$tag->name)}}">{{$tag->name}}</a></span>
+
+                            @if (\Auth::check())
+                                <span class="badge badge-secondary badge-light">
+                                <a target="_blank"
+                                   href="{{url('/insider/articles?tag='.$tag->name)}}">{{$tag->name}}</a></span>
+                            @else
+                                <span class="badge badge-secondary badge-light">
+                                <a target="_blank" href="{{url('/articles?tag='.$tag->name)}}">{{$tag->name}}</a></span>
+                            @endif
                         @endforeach
                         <h1 class="display-4">{{$article->name}}</h1>
 
@@ -39,15 +46,17 @@
 
     @if (\Auth::check() && (\Auth::User()->role == 'admin' || \Auth::User()->id == $article->author->id))
         <div class="row">
-            <div class="col-12" style="margin-right: 15px;">
-                <a href="{{url('/articles/'.$article->id.'/delete')}}"
-                   class="float-right"
-                   style="margin-right: 5px;margin-left: 5px;"><i class="icon ion-close-round"></i> удалить</a>
-                <a href="{{url('/articles/'.$article->id.'/edit')}}"
-                   class="float-right"
-                   style="margin-right: 5px;margin-left: 5px;"><i class="icon ion-edit"></i> изменить</a>
+            @if (\Auth::User()->role == 'admin')
+                <div class="col-12" style="margin-right: 15px;">
+                    <a href="{{url('/insider/articles/'.$article->id.'/delete')}}"
+                       class="float-right"
+                       style="margin-right: 5px;margin-left: 5px;"><i class="icon ion-close-round"></i> удалить</a>
+                    <a href="{{url('/insider/articles/'.$article->id.'/edit')}}"
+                       class="float-right"
+                       style="margin-right: 5px;margin-left: 5px;"><i class="icon ion-edit"></i> изменить</a>
 
-            </div>
+                </div>
+            @endif
         </div>
     @endif
 
@@ -97,8 +106,11 @@
                 <div style="margin-top: 15px;" class="markdown markdown-big">
                     @parsedown($article->text)
                 </div>
-
-                <a href="{{url('articles')}}">Назад</a>
+                @if (\Auth::check() && \Auth::User()->role != 'novice')
+                    <a href="{{url('insider/articles')}}">Назад</a>
+                @else
+                    <a href="{{url('articles')}}">Назад</a>
+                @endif
 
             </div>
         </div>
