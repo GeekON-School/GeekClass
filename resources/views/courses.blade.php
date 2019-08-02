@@ -44,7 +44,7 @@
                     @foreach($private_courses as $course)
 
                         <div class="card"
-                             style="min-width: 280px; background-image: url({{$course->image}}); border-left: 3px solid #f8f9fa;">
+                             style="min-width: 280px; background-image: url({{$course->image}});">
                             <div class="card-body"
                                  style="background-color: rgba(255,255,255,0.9);">
                                 <h5 style="font-weight: 300;"
@@ -52,8 +52,13 @@
                                 <p class="card-text"
                                    style="font-size: 0.8rem;">{{$course->description}}</p>
 
-                                <a href="https://goo.gl/forms/jMsLU855JBFaZRQE2" target="_blank"
-                                   class="btn btn-info btn-sm">Оставить заявку</a>
+                                <p class="card-text text-muted">
+                                    @if ($course->state != 'draft')
+                                        Курс начался {{ $course->start_date->format('d.m.Y') }}.
+                                    @else
+                                        Курс начнется {{ $course->start_date->format('d.m.Y') }}.
+                                    @endif
+                                </p>
 
                                 @if ($course->site != null)
                                     <a target="_blank" href="{{$course->site}}"
@@ -62,6 +67,10 @@
                                 @endif
 
 
+                            </div>
+                            <div class="card-footer text-center" style="padding-left:0;">
+                                <a href="https://goo.gl/forms/jMsLU855JBFaZRQE2" target="_blank"
+                                   class="btn btn-info btn-sm">Оставить заявку</a>
                             </div>
                         </div>
                     @endforeach

@@ -43,7 +43,7 @@ class CoursesController extends Controller
         });
 
         $private_courses = $courses->filter(function ($course) {
-            return $course->state == 'started' && !$course->is_open;
+            return $course->state != 'ended' && $course->start_date != null && !$course->is_open;
         });
 
         $threads = ForumThread::orderBy('id', 'DESC')->limit(5)->get();
