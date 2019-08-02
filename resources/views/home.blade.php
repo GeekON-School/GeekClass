@@ -73,7 +73,7 @@
     </div>
 
     <div class="tab-content" id="courses">
-        <div class="tab-pane fade show" id="active" role="tabpanel" aria-labelledby="active">
+        <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="active">
 
             <div class="row">
                 <div class="col-12 col-lg-8 col-xl-9">
