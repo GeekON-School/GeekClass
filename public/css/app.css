@@ -37,6 +37,8 @@
     font-size: 85%;
     line-height: 1.45;
     background-color: #ebf8ff;
+    margin-left: 0;
+    margin-right: 0;
 }
 .text-dark.active {
     text-decoration: underline;
