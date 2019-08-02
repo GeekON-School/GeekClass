@@ -99,7 +99,7 @@ class ArticlesController extends Controller
         foreach ($article->tags as $tag) {
             $article->tags()->detach($tag->id);
         }
-        $parts = explode(';', $request->tags);
+        $parts = explode(';', mb_strtolower($request->tags));
         foreach ($parts as $tag) {
             if ($tag == '') continue;
             $article->attachTag($tag);
@@ -132,7 +132,7 @@ class ArticlesController extends Controller
         $article->author_id = $user->id;
         $article->save();
 
-        $parts = explode(';', $request->tags);
+        $parts = explode(';', mb_strtolower($request->tags));
 
         foreach ($parts as $tag) {
             if ($tag == '') continue;

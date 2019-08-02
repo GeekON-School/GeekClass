@@ -72,7 +72,7 @@ class ForumController extends Controller
         $thread = ForumThread::findOrFail($thread_id);
         $user = User::findOrFail(Auth::User()->id);
 
-        if ($post->user_id != $user->id and $user->role != 'teacher') abort(503);
+        if ($post->user_id != $user->id and $user->role != 'teacher' and $user->role != 'admin') abort(503);
 
         return view('forum.edit', compact('post', 'thread'));
     }
@@ -83,7 +83,7 @@ class ForumController extends Controller
         $thread = ForumThread::findOrFail($thread_id);
         $user = User::findOrFail(Auth::User()->id);
 
-        if ($post->user_id != $user->id and $user->role != 'teacher') abort(503);
+        if ($post->user_id != $user->id and $user->role != 'teacher' and $user->role != 'admin') abort(503);
 
         if ($post->is_question) {
             $this->validate($request, [
@@ -100,7 +100,7 @@ class ForumController extends Controller
             foreach ($thread->tags as $tag) {
                 $thread->tags()->detach($tag->id);
             }
-            $parts = explode(';', $request->tags);
+            $parts = explode(';', mb_strtolower($request->tags));
             foreach ($parts as $tag) {
                 if ($tag == '') continue;
                 $thread->attachTag($tag);
@@ -138,7 +138,7 @@ class ForumController extends Controller
         $thread->user_id = $user->id;
         $thread->save();
 
-        $parts = explode(';', $request->tags);
+        $parts = explode(';', mb_strtolower($request->tags));
 
         foreach ($parts as $tag) {
             if ($tag == '') continue;
