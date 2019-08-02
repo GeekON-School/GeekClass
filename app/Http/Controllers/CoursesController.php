@@ -28,10 +28,26 @@ class CoursesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('open_index');
         $this->middleware('course')->only(['details', 'editView', 'start', 'stop', 'edit', 'assessments', 'report', 'createChapter', 'editChapter', 'createChapterView', 'editChapterView']);
         $this->middleware('teacher')->only(['editView', 'start', 'stop', 'edit', 'assessments', 'report', 'createChapter', 'editChapter', 'createChapterView', 'editChapterView']);
         $this->middleware('admin')->only(['createView', 'create']);
+    }
+
+    public function open_index()
+    {
+        $courses = Course::orderBy('id')->get();
+
+        $open_courses = $courses->filter(function ($course) {
+            return $course->state == 'started' && $course->is_open;
+        });
+
+        $private_courses = $courses->filter(function ($course) {
+            return $course->state == 'started' && !$course->is_open;
+        });
+
+        $threads = ForumThread::orderBy('id', 'DESC')->limit(5)->get();
+        return view('courses', compact('open_courses', 'private_courses'));
     }
 
     /**

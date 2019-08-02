@@ -140,6 +140,11 @@ class RegisterController extends Controller
         }
         $this->guard()->login($user);
 
+        if ($request->has('course_id'))
+        {
+
+        }
+
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
     }

@@ -472,7 +472,7 @@
                             <small class="float-right"><span class="badge badge-primary">{{$cstudent->points}}
                                     / {{$cstudent->max_points}}</span></small>
                         </h4>
-                        <div class="progress" style="margin-bottom: 15px;">
+                        <div class="progress" style="margin-bottom: 15px;height: 2px;">
                             @if ($cstudent->percent < 40)
                                 <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
                                      style="height: 2px;width: {{$cstudent->percent}}%"

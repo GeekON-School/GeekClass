@@ -43,8 +43,8 @@
                         <h3 class="mb-0"><a href="{{url('/articles/'.$article->id)}}"
                                             style="color: #212529;">{{$article->name}}</a></h3>
                         <div class="mb-1 text-muted"
-                             style="margin-top: 5px;">{{$article->created_at->format('H:i d.m.Y')}}, <a
-                                    href="{{url('/insider/profile/'.$article->author->id)}}">{{ $article->author->name }}</a>
+                             style="margin-top: 5px;">{{$article->created_at->format('H:i d.m.Y')}},@if (\Auth::check()) <a
+                                    href="{{url('/insider/profile/'.$article->author->id)}}">{{ $article->author->name }}</a>@else {{ $article->author->name }} @endif
                         </div>
                         <div class="card-text mb-auto" style="margin-top: 15px;">@parsedown($article->anounce)</div>
 

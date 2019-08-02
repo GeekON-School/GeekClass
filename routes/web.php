@@ -50,6 +50,7 @@ Route::get('/aesthethics', function () {
 });
 
 Route::get('/articles', 'ArticlesController@index');
+Route::get('/courses', 'CoursesController@open_index');
 Route::get('/articles/create', 'ArticlesController@createView');
 Route::post('/articles/create', 'ArticlesController@create');
 Route::get('/articles/{id}', 'ArticlesController@details');

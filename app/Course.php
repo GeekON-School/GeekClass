@@ -151,4 +151,24 @@ class Course extends Model
 
         $this->save();
     }
+
+    public function getPercent(User $user)
+    {
+        $temp_steps = $this->program->steps;
+        $percent = 100;
+        $max_points = 0;
+        $points = 0;
+        foreach ($temp_steps as $step) {
+            $tasks = $step->class_tasks;
+
+            foreach ($tasks as $task) {
+                if (!$task->is_star) $max_points += $task->max_mark;
+                $points += $user->submissions->where('task_id', $task->id)->max('mark');
+            }
+        }
+        if ($max_points != 0) {
+            $percent = min(100, $points * 100 / $max_points);
+        }
+        return $percent;
+    }
 }

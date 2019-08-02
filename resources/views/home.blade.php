@@ -92,6 +92,21 @@
                                         <p class="card-text"
                                            style="font-size: 0.8rem;">{{$course->description}}</p>
 
+                                        @if ($course->students->contains($user))
+                                            @php
+                                                $percent = round($course->getPercent($user));
+                                            @endphp
+                                            @if ($percent < 40)
+                                                <span class="badge badge-warning">Выполнено {{$percent}}%</span>
+                                            @else
+                                                @if ($percent < 80)
+                                                    <span class="badge badge-info">Выполнено {{$percent}}%</span>
+                                                @else
+                                                    <span class="badge badge-success">Выполнено {{$percent}}%</span>
+                                                @endif
+                                            @endif
+                                        @endif
+
                                         @if ($course->site != null)
                                             <a target="_blank" href="{{$course->site}}"
                                                style="margin-top: 6px; font-size: 0.8rem;"
@@ -174,6 +189,82 @@
                 </div>
 
                 <div class="col-12  col-lg-4 col-xl-3">
+
+                    <div class="card"
+                         style="margin-top: 15px;border-left: 3px solid #007bff;">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col" style="width: 85px; max-width: 85px;">
+                                    @if ($user->image!=null)
+                                        <div class="mr-3 rounded-circle img-circle"
+                                             style='background-image: url("{{url('/media/'.$user->image)}}");'>
+                                        </div>
+                                    @else
+                                        <div class="mr-3 rounded-circle img-circle"
+                                             style='background-image: url("http://api.adorable.io/avatars/256/{{$user->id}}");'>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="col-auto" style="width: calc(100% - 100px); max-width: calc(100% - 100px)">
+                                    <h5>
+                                        <a href="{{url('/insider/profile/'.$user->id)}}">{{ $user->name }}</a>
+                                    </h5>
+                                    <p><a tabindex="0" data-toggle="popover" data-trigger="focus" title="Ранги"
+                                          data-html="true"
+                                          data-content="{{\App\Rank::getRanksListHTML($user->rank())}}"><span
+                                                    style="font-size: 13px;" class="badge badge-pill badge-success"><i
+                                                        class="icon ion-ios-arrow-up"></i> {{$user->rank()->name}}</span></a>
+
+                                        @if ($user->is_trainee)
+                                            <span style="font-size: 13px;"
+                                                  class="badge badge-pill badge-info">Стажер</span>
+                                        @endif
+                                        @if ($user->is_teacher)
+                                            <span style="font-size: 13px;"
+                                                  class="badge badge-pill badge-info">Преподаватель</span>
+                                        @endif
+
+                                        <span style="margin-top: 8px;" data-container="body"
+                                              data-placement="bottom"
+                                              data-content="{!! $user->getHtmlTransactions() !!}"
+                                              data-html="true" data-toggle="popover">
+                                           <img src="https://png.icons8.com/color/50/000000/coins.png"
+                                                style="height: 30px;">&nbsp;{{$user->balance()}}&nbsp;&nbsp;
+
+                                        </span>
+
+                                    </p>
+
+                                </div>
+                            </div>
+
+                            <p><strong>Дата
+                                    рождения:</strong> @if($user->birthday!=null){{$user->birthday->format('Y-m-d')}}@endif
+                                <br>
+                                <strong>Место учебы:</strong> {{$user->school}}<br>
+                                <strong>Класс:</strong> {{$user->grade()}}</p>
+
+                            <div class="progress" style="margin-bottom: 15px;">
+                                <div class="progress-bar" role="progressbar"
+                                     style="width:{{100*($user->score()-$user->rank()->from)/($user->rank()->to-$user->rank()->from)}}%;"
+                                     aria-valuenow="{{$user->score()}}" aria-valuemin="{{$user->rank()->from}}"
+                                     aria-valuemax="{{$user->rank()->to}}">{{$user->score()}}</div>
+                            </div>
+
+                            @foreach($user->getStickers() as $sticker)
+                                <img src="{{url($sticker)}}"
+                                     style="max-height: 35px;"/>
+                            @endforeach
+
+
+                            <p class="card-text" style="font-size: 0.8rem;">
+                            </p>
+
+                        </div>
+
+                    </div>
+
                     <div class="card"
                          style="margin-top: 15px;border-left: 3px solid #007bff;">
                         <div class="card-body">

@@ -262,4 +262,21 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->birthday->format('d.m') == Carbon::now()->format('d.m');
     }
 
+    public function getStickers()
+    {
+        $stickers = collect([]);
+        $sticker_description = [];
+
+        foreach($this->courses as $course) {
+            if ($course->is_sdl) continue;
+            foreach($course->lessons as $lesson) {
+                if ($lesson->percent($this)>90)
+                {
+                    $stickers->push($lesson->sticker);
+                }
+            }
+        }
+        return $stickers->unique();
+    }
+
 }
