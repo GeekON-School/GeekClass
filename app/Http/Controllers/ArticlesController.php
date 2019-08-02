@@ -209,6 +209,13 @@ class ArticlesController extends Controller
         $article->is_draft = false;
         $article->is_approved = true;
         $article->save();
+
+        if (!$article->is_paid)
+        {
+            CoinTransaction::register($article->author->id, 25, "Article #".$article->id);
+        }
+
+
         return redirect('/insider/articles');
     }
 
