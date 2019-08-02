@@ -97,9 +97,9 @@
 
 
                                         <input id="invite" type="text" class="form-control" name="invite"
-                                               value="{{ old('invite') }}" required>
+                                               value="{{ old('invite') }}">
 
-                                        <span class="help-block text-muted">Инвайт на курс - код, который вы получили от преподавателя.</span>
+                                        <span class="help-block text-muted">Если вы получили от инвайт преподавателя, укажите его.</span>
 
                                         @if ($errors->has('invite'))
                                             <span class="help-block error-block"><strong>{{ $errors->first('invite') }}</strong></span>

@@ -74,134 +74,155 @@
 
     <div class="tab-content" id="courses">
         <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="active">
-            @foreach($providers as $provider)
 
-                @if ($provider->courses()->where('state', 'started')->count()!=0)
-                    <div class="row">
-                        <div class="col">
-                            <h5 style="font-weight: 300;"><a target="_blank"
-                                                             href="{{$provider->site}}">{{$provider->name}}</a></h5>
+            <div class="row">
+                <div class="col-12 col-lg-8 col-xl-9">
+                    @if ($my_courses->count()!=0)
+                        <div class="card-deck">
+                            @foreach($my_courses->where('state', 'started') as $course)
+                                <div class="card"
+                                     style="min-width: 280px; background-image: url({{$course->image}}); background-size: cover; @if (!$course->is_open) border-left: 3px solid #28a745;@else border-left: 3px solid #17a2b8; @endif">
+                                    <div class="card-body" style="background-color: rgba(255,255,255,0.9);">
+                                        <h5 style="font-weight: 300;"
+                                            class="card-title">
+                                            <a href="{{url('insider/courses/'.$course->id)}}"
+                                               style="color: #333741;">{{$course->name}}</a>
+
+                                        </h5>
+                                        <p class="card-text"
+                                           style="font-size: 0.8rem;">{{$course->description}}</p>
+
+                                        @if ($course->site != null)
+                                            <a target="_blank" href="{{$course->site}}"
+                                               style="margin-top: 6px; font-size: 0.8rem;"
+                                               class="float-right">О курсе</a>
+                                        @endif
+
+
+                                    </div>
+                                </div>
+                            @endforeach
+
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-lg-8 col-xl-9">
+                    @else
+                        <p>Вы пока не записаны на курсы.</p>
+                    @endif
+
+                    @if ($user->role!='admin' )
+                        <h5 style="margin-top: 15px;">Открытые курсы</h5>
+                        @if ($open_courses->count() != 0)
                             <div class="card-deck">
+                                @foreach($open_courses as $course)
 
-                                @foreach($provider->courses->where('state', 'started') as $course)
+                                    <div class="card"
+                                         style="min-width: 280px; background-image: url({{$course->image}}); border-left: 3px solid #17a2b8;">
+                                        <div class="card-body"
+                                             style="background-color: rgba(255,255,255,0.9);">
+                                            <h5 style="font-weight: 300;"
+                                                class="card-title">{{$course->name}}</h5>
+                                            <p class="card-text"
+                                               style="font-size: 0.8rem;">{{$course->description}}</p>
+                                            <a href="{{ url('/insider/courses/'.$course->id.'/enroll') }}"
+                                               class="btn btn-info btn-sm">Записаться</a>
 
-                                    @if ($user->role=='admin' || $course->students->contains($user) || $course->teachers->contains($user))
-                                        <div class="card"
-                                             style="min-width: 280px; background-image: url({{$course->image}}); background-size: cover; border-left: 3px solid #28a745;">
-                                            <div class="card-body" style="background-color: rgba(255,255,255,0.9);">
-                                                <h5 style="margin-top: 15px; font-weight: 300;"
-                                                    class="card-title">
-
-                                                    <a href="{{url('insider/courses/'.$course->id)}}"
-                                                       style="color: #333741;">{{$course->name}}</a>
-
-
-                                                </h5>
-                                                <p class="card-text"
-                                                   style="font-size: 0.8rem;">{{$course->description}}</p>
-
-                                                @if ($course->site != null)
-                                                    <a target="_blank" href="{{$course->site}}"
-                                                       style="margin-top: 6px; font-size: 0.8rem;"
-                                                       class="float-right">О курсе</a>
-                                                @endif
+                                            @if ($course->site != null)
+                                                <a target="_blank" href="{{$course->site}}"
+                                                   style="margin-top: 6px; font-size: 0.8rem;"
+                                                   class="float-right">О курсе</a>
+                                            @endif
 
 
-                                            </div>
                                         </div>
-                                    @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p>Сейчас нет доступных открытых курсов. Ну или вы просто записались на все! :)</p>@endif
+
+                        <h5 style="margin-top: 15px;">Приватные курсы</h5>
+                        @if ($private_courses->count() != 0)
+                            <div class="card-deck">
+                                @foreach($private_courses as $course)
+
+                                    <div class="card"
+                                         style="min-width: 280px; background-image: url({{$course->image}}); border-left: 3px solid #f8f9fa;">
+                                        <div class="card-body"
+                                             style="background-color: rgba(255,255,255,0.9);">
+                                            <h5 style="font-weight: 300;"
+                                                class="card-title">{{$course->name}}</h5>
+                                            <p class="card-text"
+                                               style="font-size: 0.8rem;">{{$course->description}}</p>
+
+                                            <a href="https://goo.gl/forms/jMsLU855JBFaZRQE2" target="_blank"
+                                               class="btn btn-info btn-sm">Оставить заявку</a>
+
+                                            @if ($course->site != null)
+                                                <a target="_blank" href="{{$course->site}}"
+                                                   style="margin-top: 6px; font-size: 0.8rem;"
+                                                   class="float-right">О курсе</a>
+                                            @endif
+
+
+                                        </div>
+                                    </div>
                                 @endforeach
 
                             </div>
-                            @if ($user->role!='admin' )
-                                <h5 style="margin-top: 15px;">Все курсы</h5>
-                                <div class="card-deck">
+                        @else
+                            <p>Сейчас нет доступных приватных курсов.</p>
+                        @endif
+                </div>
 
+                <div class="col-12  col-lg-4 col-xl-3">
+                    <div class="card"
+                         style="margin-top: 15px;border-left: 3px solid #007bff;">
+                        <div class="card-body">
 
-                                    @foreach($provider->courses->where('state', 'started') as $course)
-
-                                        @if (!($course->students->contains($user) || $course->teachers->contains($user)))
-                                            <div class="card"
-                                                 style="min-width: 280px; background-image: url({{$course->image}});">
-                                                <div class="card-body text-muted "
-                                                     style="background-color: rgba(255,255,255,0.9);">
-                                                    <h5 style="margin-top: 15px; font-weight: 300;"
-                                                        class="card-title text-muted">{{$course->name}}</h5>
-                                                    <p class="card-text"
-                                                       style="font-size: 0.8rem;">{{$course->description}}</p>
-
-                                                    @if ($course->site != null)
-                                                        <a target="_blank" href="{{$course->site}}"
-                                                           style="margin-top: 6px; font-size: 0.8rem;"
-                                                           class="float-right">О курсе</a>
-                                                    @endif
-
-
-                                                </div>
-                                            </div>
-                                        @endif
-                                    @endforeach
-
-                                </div>
-                            @endif
-                        </div>
-
-                        <div class="col-12  col-lg-4 col-xl-3">
-                            <div class="card"
-                                 style="margin-top: 15px;border-left: 3px solid #007bff;">
-                                <div class="card-body">
-
-                                    <h5 style="margin-top: 15px; font-weight: 400; font-size: 1.1rem;"
-                                        class="card-title">Празднуем день рождения:</h5>
-                                    <p class="card-text" style="font-size: 0.8rem;">
-                                    <ul>
-                                        @foreach($users->where('provider_id', $provider->id)->where('birthday', '!=', null)->sortBy(function($col){return $col->birthday->day;}) as $buser)
-                                            @if ($buser->birthday->month == \Carbon\Carbon::now()->month)
-                                                <li>
-                                                    <a style="color: black; @if ($buser->birthday->day == \Carbon\Carbon::now()->day) font-weight: bold; @endif"
-                                                       href="{{url('insider/profile/'.$buser->id)}}">{{ $buser->name }}</a>
-                                                    -
-                                                    <strong>{{$buser->birthday->format('d.m')}}</strong></li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="card"
-                                 style="border-left: 3px solid #007bff">
-                                <div class="card-body">
-                                    <h5 style="margin-top: 15px; font-weight: 400; font-size: 1.1rem;"
-                                        class="card-title">Последние вопросы:</h5>
-                                    <p class="card-text" style="font-size: 0.8rem;">
-                                    <ul>
-                                        @foreach($threads as $thread)
-                                            <li>
-                                                <a style="color: black; @if ($buser->birthday->day == \Carbon\Carbon::now()->day) font-weight: bold; @endif"
-                                                   href="{{url('insider/forum/'.$thread->id)}}">{{ $thread->name }}</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                    </p>
-                                </div>
-
-                            </div>
+                            <h5 style="margin-top: 15px; font-weight: 400; font-size: 1.1rem;"
+                                class="card-title">Празднуем день рождения:</h5>
+                            <p class="card-text" style="font-size: 0.8rem;">
+                            <ul>
+                                @foreach($users->where('birthday', '!=', null)->sortBy(function($col){return $col->birthday->day;}) as $buser)
+                                    @if ($buser->birthday->month == \Carbon\Carbon::now()->month and ($buser->birthday->day > \Carbon\Carbon::now()->day - 10 and $buser->birthday->day < \Carbon\Carbon::now()->day + 10))
+                                        <li>
+                                            <a style="color: black; @if ($buser->birthday->day == \Carbon\Carbon::now()->day and $buser->birthday->month == \Carbon\Carbon::now()->month) font-weight: bold; @endif"
+                                               href="{{url('insider/profile/'.$buser->id)}}">{{ $buser->name }}</a>
+                                            -
+                                            <strong>{{$buser->birthday->format('d.m')}}</strong></li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                            </p>
 
                         </div>
-
 
                     </div>
-                @endif
 
-            @endforeach
+
+                    <div class="card"
+                         style="border-left: 3px solid #007bff">
+                        <div class="card-body">
+                            <h5 style="margin-top: 15px; font-weight: 400; font-size: 1.1rem;"
+                                class="card-title">Последние вопросы:</h5>
+                            <p class="card-text" style="font-size: 0.8rem;">
+                            <ul>
+                                @foreach($threads as $thread)
+                                    <li>
+                                        <a style="color: black; @if ($buser->birthday->day == \Carbon\Carbon::now()->day) font-weight: bold; @endif"
+                                           href="{{url('insider/forum/'.$thread->id)}}">{{ $thread->name }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+            @endif
 
         </div>
         @if ($user->role == 'teacher' || $user->role=='admin' )

@@ -35,7 +35,7 @@ Route::get('/', function () {
     if (\Illuminate\Support\Facades\Auth::check()) {
         return redirect('/insider');
     }
-    return redirect('/login');
+    return redirect('/articles');
 
 });
 
@@ -56,6 +56,9 @@ Route::get('/articles/{id}', 'ArticlesController@details');
 Route::get('/articles/{id}/edit', 'ArticlesController@editView');
 Route::post('/articles/{id}/edit', 'ArticlesController@edit');
 Route::get('/articles/{id}/delete', 'ArticlesController@delete');
+Route::get('/games', 'GamesController@index');
+Route::get('/games/{id}', 'GamesController@play');
+Route::get('/games/{id}/frame', 'GamesController@frame');
 
 Route::prefix('insider')->middleware('verified')->group(function () {
 
@@ -116,6 +119,7 @@ Route::prefix('insider')->middleware('verified')->group(function () {
     Route::post('/courses/create', 'CoursesController@create');
 
     Route::get('/courses/{id}/', 'CoursesController@details');
+    Route::get('/courses/{id}/enroll', 'CoursesController@enroll');
     Route::get('/courses/{id}/report', 'CoursesController@report');
     Route::get('/courses/{id}/edit', 'CoursesController@editView');
     Route::get('/courses/{id}/start', 'CoursesController@start');

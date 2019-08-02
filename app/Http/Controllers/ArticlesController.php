@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\ArticleTag;
 use App\CoinTransaction;
 use App\ForumComment;
 use App\ForumPost;
@@ -37,7 +38,7 @@ class ArticlesController extends Controller
     {
         $tag = null;
         if ($request->has('tag') and $request->tag != "") {
-            $tag = ForumTag::where('name', $request->tag)->first();
+            $tag = ArticleTag::where('name', $request->tag)->first();
         }
 
         $articles = Article::orderBy('created_at', 'DESC')->get();
@@ -48,7 +49,16 @@ class ArticlesController extends Controller
             });
         }
 
-        return view('articles.index', compact('articles', 'tag'));
+        $count = $articles->count();
+        $page = 1;
+        $pages = ceil($count / 5);
+        if ($request->has('page')) {
+            $page = intval($request->page);
+        }
+
+        $articles = $articles->forPage($page, 5);
+
+        return view('articles.index', compact('articles', 'tag', 'page', 'pages'));
     }
 
     public function createView()
@@ -63,7 +73,7 @@ class ArticlesController extends Controller
 
         if ($article->author_id != $user->id and $user->role != 'admin') abort(503);
 
-        return view('article.edit', compact('article'));
+        return view('articles.edit', compact('article'));
     }
 
     public function edit($id, Request $request)
@@ -77,13 +87,14 @@ class ArticlesController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'text' => 'required|string',
+            'image' => 'required|string',
             'anounce' => 'required|string',
-            'tags' => 'required|string'
         ]);
 
         $article->text = clean($request->text);
         $article->anounce = clean($request->anounce);
         $article->name = $request->name;
+        $article->image = $request->image;
 
         foreach ($article->tags as $tag) {
             $article->tags()->detach($tag->id);
@@ -107,8 +118,8 @@ class ArticlesController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'text' => 'required|string',
+            'image' => 'required|string',
             'anounce' => 'required|string',
-            'tags' => 'required|string'
 
         ]);
         $user = User::findOrFail(Auth::User()->id);
@@ -117,6 +128,7 @@ class ArticlesController extends Controller
         $article->text = clean($request->text);
         $article->anounce = clean($request->anounce);
         $article->name = $request->name;
+        $article->image = $request->image;
         $article->author_id = $user->id;
         $article->save();
 

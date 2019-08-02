@@ -44,9 +44,21 @@ class CoursesController extends Controller
         $user = User::findOrFail(Auth::User()->id);
         $users = User::where('is_hidden', false)->get();
         $courses = Course::orderBy('id')->get();
-        $providers = Provider::orderBy('id')->get();
+
+        $my_courses = $courses->filter(function ($course) use ($user) {
+            return $course->state == 'started' && ($user->role == 'admin' || $course->students->contains($user) || $course->teachers->contains($user));
+        });
+
+        $open_courses = $courses->filter(function ($course) use ($user) {
+            return $course->state == 'started' && ($user->role != 'admin' && !$course->students->contains($user) && !$course->teachers->contains($user) && $course->is_open);
+        });
+
+        $private_courses = $courses->filter(function ($course) use ($user) {
+            return $course->state == 'started' && ($user->role != 'admin' && !$course->students->contains($user) && !$course->teachers->contains($user) && !$course->is_open);
+        });
+
         $threads = ForumThread::orderBy('id', 'DESC')->limit(5)->get();
-        return view('home', compact('courses', 'user', 'providers', 'users', 'threads'));
+        return view('home', compact('courses', 'user', 'users', 'threads', 'my_courses', 'open_courses', 'private_courses'));
     }
 
     public function report($id)
@@ -313,7 +325,7 @@ class CoursesController extends Controller
             }
 
 
-            if ($user->role == 'student') {
+            if ($course->students->contains($user)) {
                 $lessons = $course->lessons->filter(function ($lesson) use ($course, $chapter) {
                     return $lesson->isStarted($course) and $lesson->chapter_id == $chapter->id;
                 });
@@ -657,8 +669,34 @@ class CoursesController extends Controller
             $this->make_error_alert('Ошибка!', 'Вы уже зачислены на курс "' . $course->name . '".');
             return $this->backException();
         }
+        if ($user->role == 'novice') {
+            $user->role = 'student';
+            $user->save();
+        }
+
         $this->make_success_alert('Успех!', 'Вы присоединились к курсу "' . $course->name . '".');
         $course->students()->attach([$user->id => ['is_remote' => $remote]]);
+
+
+        return redirect()->back();
+    }
+
+    public function enroll($id, Request $request)
+    {
+        $user = User::findOrFail(Auth::User()->id);
+        $course = Course::findOrFail($id);
+
+        if ($course == null or !$course->is_open) {
+            $this->make_error_alert('Ошибка!', 'Вы не можете записаться на приватный курс.');
+            return $this->backException();
+        }
+
+        if ($course->students->contains($user)) {
+            $this->make_error_alert('Ошибка!', 'Вы уже зачислены на курс "' . $course->name . '".');
+            return $this->backException();
+        }
+        $this->make_success_alert('Успех!', 'Вы присоединились к курсу "' . $course->name . '".');
+        $course->students()->attach([$user->id => ['is_remote' => false]]);
 
 
         return redirect()->back();

@@ -47,7 +47,7 @@
                     </li>
                 @endforeach
             @endif
-            @if (\Request::is('insider/*') && ($user->role=='teacher' || $user->role=='admin'))
+            @if (\Request::is('insider/*') && ($course->teachers->contains($user) || $user->role=='admin'))
                 <li class="nav-item" style="max-width: 45px;">
                     <a href="{{url('/insider/courses/'.$course->id.'/steps/'.$step->id.'/edit')}}"
                        class="nav-link btn btn-success"

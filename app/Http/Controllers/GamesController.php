@@ -23,7 +23,7 @@ class GamesController extends Controller
     {
         $game = \App\Game::findOrFail($id);
         return view('games/ide', compact('game'));
-        
+
     }
 
     public function comment($id, Request $request)
@@ -36,9 +36,8 @@ class GamesController extends Controller
             'comment' => 'required|min:5'
         ], $messages);
 
-        if ($validator->fails())
-        {
-            return redirect('insider/games/'.$id.'/#comment')->withErrors($validator->errors());
+        if ($validator->fails()) {
+            return redirect('insider/games/' . $id . '/#comment')->withErrors($validator->errors());
         }
 
         \App\GameComments::create([
@@ -46,8 +45,8 @@ class GamesController extends Controller
             'game_id' => $id,
             'comment' => $request->comment
         ]);
-        
-        return redirect('insider/games/'.$id.'/#comment');
+
+        return redirect('insider/games/' . $id . '/#comment');
     }
 
     public function reward($id)
@@ -66,18 +65,18 @@ class GamesController extends Controller
             'comment.min' => 'Комментарий обязятелен'
         ];
         $request->validate([
-            'reward' => 'numeric|min:1'.(\Auth::user()->is_teacher?'':'|max:'.\Auth::user()->balance()),
+            'reward' => 'numeric|min:1' . (\Auth::user()->is_teacher ? '' : '|max:' . \Auth::user()->balance()),
             'comment' => 'min:1'
         ], $messages);
         \App\GameReward::register($game->user->id, $id, $request->reward, $request->comment);
 
-        return redirect('/insider/games/'.$game->id);
+        return redirect('/insider/games/' . $game->id);
     }
 
     public function upvote($id)
     {
         $game = \App\Game::findOrFail($id);
-        
+
         $game->vote(1);
         return back();
     }
@@ -85,7 +84,7 @@ class GamesController extends Controller
     public function downvote($id)
     {
         $game = \App\Game::findOrFail($id);
-        
+
         $game->vote(-1);
         return back();
     }
@@ -130,26 +129,22 @@ class GamesController extends Controller
 
         $template = '';
 
-        if ($request->type == 'webgl')
-        {
+        if ($request->type == 'webgl') {
             $template = \App\Game::webglTemplate();
-        }
-        else if ($request->type == 'canvas')
-        {
+        } else if ($request->type == 'canvas') {
             $template = \App\Game::template();
 
         }
         $id = \App\Game::make(
-            \Auth::id(), 
-            $request->title, 
-            $request->description, 
+            \Auth::id(),
+            $request->title,
+            $request->description,
             $template,
             $request->type
         );
 
 
-
-        return redirect('insider/games/'.$id.'/ide');
+        return redirect('insider/games/' . $id . '/ide');
     }
 
 
@@ -171,15 +166,14 @@ class GamesController extends Controller
 
 
         \App\Game::modify(
-            $gameId, 
-            $request->title, 
-            $request->description, 
+            $gameId,
+            $request->title,
+            $request->description,
             \App\Game::findOrFail($gameId)->code()
         );
 
 
-
-        return redirect('insider/games/'.$gameId.'/ide');
+        return redirect('insider/games/' . $gameId . '/ide');
     }
 
     public function viewsource($id)
@@ -196,7 +190,8 @@ class GamesController extends Controller
 
     public function index()
     {
-        $games = \App\Game::all()->sortByDesc(function($item){            $ratio = $item->upvotes()/(Carbon::now()->timestamp-$item->created_at->timestamp);
+        $games = \App\Game::all()->sortByDesc(function ($item) {
+            $ratio = $item->upvotes() / (Carbon::now()->timestamp - $item->created_at->timestamp);
             return $ratio;
         })->values();
 

@@ -21,7 +21,7 @@
         <div class="col-12">
             @if ($tag != "")
                 <p style="margin-bottom: 5px; margin-top: 5px;">Показаны результаты по тэгу
-                    <strong>{{ $tag->name }}</strong>. <a href="{{'/insider/forum'}}">Все вопросы</a>.</p>
+                    <strong>{{ $tag->name }}</strong>. <a href="{{'/articles'}}">Все статьи</a>.</p>
             @endif
         </div>
     </div>
@@ -34,34 +34,67 @@
                     <div class="col p-4 d-flex flex-column position-static">
                         <strong class="d-inline-block mb-2 text-primary">
                             @foreach($article->tags as $tag)
-                                <span class="badge badge-secondary badge-light"><a href="{{url('/insider/forum?tag='.$tag->name)}}">{{$tag->name}}</a></span>
+                                <span class="badge badge-secondary badge-light"><a
+                                            href="{{url('/articles?tag='.$tag->name)}}">{{$tag->name}}</a></span>
                             @endforeach
                         </strong>
 
 
-                        <h3 class="mb-0">{{$article->name}}</h3>
+                        <h3 class="mb-0"><a href="{{url('/articles/'.$article->id)}}"
+                                            style="color: #212529;">{{$article->name}}</a></h3>
                         <div class="mb-1 text-muted"
-                             style="margin-top: 5px;">{{$article->created_at->format('H:i d.m.Y')}}, <a href="{{url('/insider/profile/'.$article->author->id)}}">{{ $article->author->name }}</a></div>
+                             style="margin-top: 5px;">{{$article->created_at->format('H:i d.m.Y')}}, <a
+                                    href="{{url('/insider/profile/'.$article->author->id)}}">{{ $article->author->name }}</a>
+                        </div>
                         <div class="card-text mb-auto" style="margin-top: 15px;">@parsedown($article->anounce)</div>
 
-                        <a href="{{url('/articles/'.$article->id)}}" style="margin-top: 10px;" class="stretched-link">Читать
+                        <a href="{{url('/articles/'.$article->id)}}" style="margin-top: 10px;">Читать
                             полностью...</a>
                     </div>
 
-                    <div class="col-auto d-none d-lg-block">
-                        <svg class="bd-placeholder-img" width="200" height="100%" xmlns="http://www.w3.org/2000/svg"
-                             preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
-                             aria-label="Placeholder: Thumbnail"><title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#55595c"/>
-                            <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-                        </svg>
-                    </div>
+                    @if ($article->image)
+
+                        <div class="col-auto d-none d-lg-block"
+                             style='width: 20%; background-size: cover;background-image: url("{{$article->image}}")'>
+
+                        </div>
+                    @endif
                 </div>
             </div>
 
 
 
         @endforeach
+
+        <nav class="col-md-12 justify-content-center" style="text-align: center;">
+            <ul class="pagination">
+                @if ($page > 1)
+                    <li class="page-item">
+                        <a class="page-link" href="{{url('/articles?page='.($page-1))}}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                @endif
+                @for($i = 1; $i <= $pages; $i++)
+                    @if ($tag)
+                        <li class="page-item @if ($page==$i) active @endif"><a class="page-link"
+                                                                               href="{{url('/articles?tag='.$tag->name.'&page='.$i)}}">{{$i}}</a>
+                        </li>
+                    @else
+                        <li class="page-item @if ($page==$i) active @endif"><a class="page-link"
+                                                                               href="{{url('/articles?page='.$i)}}">{{$i}}</a>
+                        </li>
+                    @endif
+                @endfor
+                @if ($page < $pages)
+                    <li class="page-item">
+                        <a class="page-link" href="{{url('/articles?page='.($page+1))}}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                @endif
+            </ul>
+        </nav>
     </div>
 
 

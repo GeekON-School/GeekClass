@@ -25,6 +25,20 @@
                         </div>
 
                         <div class="form-group">
+
+                            <label for="image">Картинка</label>
+                            <input id="image" type="text" class="form-control" name="image"
+                                   value="{{old('image')}}"
+                                   required>
+                            @if ($errors->has('image'))
+                                <span class="help-block error-block">
+                                    <strong>{{ $errors->first('image') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+
+                        <div class="form-group">
                             <label for="anounce">Анонс</label>
                             <textarea id="anounce" class="form-control" name="anounce">{{old('anounce')}}</textarea>
                             @if ($errors->has('anounce'))
@@ -57,7 +71,7 @@
 
                             <input id="tags" type="text" placeholder="python;типы данных;list;" class="form-control"
                                    name="tags"
-                                   value="{{old('tags')}}" required>
+                                   value="{{old('tags')}}">
                             @if ($errors->has('tags'))
                                 <span class="help-block error-block">
                                         <strong>{{ $errors->first('tags') }}</strong>

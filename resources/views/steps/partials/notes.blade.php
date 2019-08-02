@@ -3,7 +3,7 @@
 
     @parsedown($step->theory)
 
-    @if (!$step->lesson->is_open && ($user->role=='teacher' || $user->role=='admin') && $step->notes!='')
+    @if (!$step->lesson->is_open && ($course->teachers->contains($user) || $user->role=='admin') && $step->notes!='')
 
     <div>
         <h3>Комментарий для преподавателя</h3>

@@ -16,7 +16,7 @@
             <h2 style="font-weight: 300;">{{$course->name}}</h2>
             <p>{{$course->description}}</p>
         </div>
-        @if ($user->role=='teacher' || $user->role=='admin')
+        @if ($course->teachers->contains($user) || $user->role=='admin')
             <div class="col">
                 <div class="float-right">
 
@@ -54,7 +54,7 @@
     <div class="row">
         <div class="col-md-8">
 
-            @if ($course->state=="ended" and ($user->role=='teacher' || $user->role=='admin'))
+            @if ($course->state=="ended" and ($course->teachers->contains($user) || $user->role=='admin'))
                 <div class="card-group">
                     <div class="card">
                         <div class="card-body">
@@ -137,7 +137,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
-                                        @if ($lesson->isAvailable($course) or $user->role=='teacher' or $user->role=='admin')
+                                        @if ($lesson->isAvailable($course) or $course->teachers->contains($user) or $user->role=='admin')
                                             <h5>{{$key+1}}. <a class="collection-item"
                                                                href="{{url('/insider/courses/'.$course->id.'/steps/'.$lesson->steps->first()->id)}}">{{$lesson->name}}</a>
                                             </h5>
@@ -147,7 +147,7 @@
                                             </h5>
                                         @endif
                                     </div>
-                                    @if ($user->role=='teacher' || $user->role=='admin')
+                                    @if ($course->teachers->contains($user) || $user->role=='admin')
                                         <div class="col-sm-auto">
                                             <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/edit')}}"
                                                class="btn btn-success btn-sm"><i
@@ -178,7 +178,7 @@
                                                         <a tabindex="0" data-toggle="popover" data-trigger="focus"
                                                            title="{{$prerequisite->title}}" data-html="true"
                                                            data-content="<small>{{$prerequisite->getParentLine()}}</small> {{$prerequisite->getRelatedLessonsHTML()}}">
-                                                            <span class="badge @if ($user->role=='teacher' || $user->role=='admin') badge-secondary @else badge-danger @endif">{{$prerequisite->title}}</span>
+                                                            <span class="badge @if ($course->teachers->contains($user) || $user->role=='admin') badge-secondary @else badge-danger @endif">{{$prerequisite->title}}</span>
                                                         </a>
                                                     @else
                                                         <span class="badge badge-success">{{$prerequisite->title}}</span>
@@ -210,7 +210,7 @@
                             </div>
                             @if ($lesson->getStartDate($course)!=null)
                                 <div class="card-footer">
-                                    @if ($user->role=='teacher' || $user->role=='admin')
+                                    @if ($course->teachers->contains($user) || $user->role=='admin')
                                         <div class="collapse" id="marks{{$lesson->id}}">
                                             @foreach($students as $student)
                                                 <div class="row">
@@ -300,7 +300,7 @@
                                             @if ($user->role=='student' and !$lesson->isAvailable($course))
                                                 <span class="badge badge-danger float-right" style="margin: 3px;">Не выполнены требования</span>
                                             @endif
-                                            @if ($user->role=='teacher' || $user->role=='admin')
+                                            @if ($course->teachers->contains($user) || $user->role=='admin')
                                                 <small class="text-muted float-right" style="margin-right: 15px;">
                                                     @foreach($students as $student)
                                                         @if ($lesson->percent($student) < 40)
@@ -337,7 +337,7 @@
                             <li class="list-group-item @if ($current_chapter->id == $chapter->id)  list-group-item-success @endif"
                                 style="border-radius: 0 !important;"><a
                                         href="{{url('/insider/courses/'.$course->id.'?chapter='.$current_chapter->id)}}">{{$current_chapter->name}}
-                                    @if (($user->role=='teacher' || $user->role=='admin') and $current_chapter->isStarted($course))
+                                    @if (($course->teachers->contains($user) || $user->role=='admin') and $current_chapter->isStarted($course))
                                         <span class="badge badge-primary"> {{ round($current_chapter->getStudentsPercent($course)) }}
                                             % </span>
                                     @endif
@@ -347,7 +347,7 @@
                                     @endif
                                 </a>
 
-                                @if ($user->role=='teacher' || $user->role=='admin')
+                                @if ($course->teachers->contains($user) || $user->role=='admin')
                                     <span class="float-right">
                                 <a href="{{url('insider/courses/'.$course->id.'/chapters/'.$current_chapter->id.'/edit')}}"
                                    class="btn btn-success btn-sm"><i
@@ -380,7 +380,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Информация <img src="https://png.icons8.com/info/color/30/000000"></h4>
                     <p>
-                        @if ($user->role=='teacher' || $user->role=='admin')
+                        @if ($course->teachers->contains($user) || $user->role=='admin')
                             <b>Статус:</b> {{$course->state}}<br/>
                             <b>Инвайт:</b> {{$course->invite}}<br/>
 
@@ -416,7 +416,7 @@
                         @endforeach
                     </ul>
 
-                    @if ($user->role=='teacher' || $user->role=='admin')
+                    @if ($course->teachers->contains($user) || $user->role=='admin')
 
                         <div id="histogram"></div>
 

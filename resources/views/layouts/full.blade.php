@@ -75,18 +75,33 @@
 
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <img style="height: 40px;" src="https://img.icons8.com/cute-clipart/64/000000/idea.png">&nbsp;&nbsp;&nbsp;
-    <h5 class="my-0 mr-md-auto font-weight-normal"><a class="p-2 text-dark"  href='{{url('/')}}'> GeekClass</a></h5>
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a class="p-2 text-dark" href='{{url('/')}}'> GeekClass</a></h5>
     <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark {{(Request::is('insider/courses*') ? 'active' : '') }}"
-           href="{{url('/insider/courses')}}">Курсы</a>
-        <a class="p-2 text-dark {{(Request::is('insider/forum*') ? 'active' : '') }}" href="{{url('insider/forum')}}">Ответы</a>
-        <a class="p-2 text-dark {{(Request::is('insider/ideas*') ? 'active' : '') }}" href="{{url('insider/ideas')}}">Идеи</a>
-        <a class="p-2 text-dark {{(Request::is('insider/community*') ? 'active' : '') }}"
-           href="{{url('insider/community')}}">Сообщество</a>
-        <a class="p-2 text-dark {{(Request::is('insider/projects*') ? 'active' : '') }}"
-           href="{{url('insider/projects')}}">Проекты</a>
-        <a class="p-2 text-dark {{(Request::is('insider/market*') ? 'active' : '') }}" href="{{url('insider/market')}}">Магазин</a>
-        <a class="p-2 text-dark {{(Request::is('insider/games*') ? 'active' : '') }}" href="{{url('insider/games')}}">Игры</a>
+        <a class="p-2 text-dark {{(Request::is('articles*') ? 'active' : '') }}"
+           href="{{url('/articles')}}">Статьи</a>
+        @if (\Auth::check())
+            <a class="p-2 text-dark {{(Request::is('insider/courses*') ? 'active' : '') }}"
+               href="{{url('/insider/courses')}}">Курсы</a>
+            <a class="p-2 text-dark {{(Request::is('insider/forum*') ? 'active' : '') }}"
+               href="{{url('insider/forum')}}">Ответы</a>
+            <a class="p-2 text-dark {{(Request::is('insider/ideas*') ? 'active' : '') }}"
+               href="{{url('insider/ideas')}}">Идеи</a>
+            @if (\Auth::User()->role != 'novice')
+                <a class="p-2 text-dark {{(Request::is('insider/community*') ? 'active' : '') }}"
+                   href="{{url('insider/community')}}">Сообщество</a>
+                <a class="p-2 text-dark {{(Request::is('insider/projects*') ? 'active' : '') }}"
+                   href="{{url('insider/projects')}}">Проекты</a>
+                <a class="p-2 text-dark {{(Request::is('insider/market*') ? 'active' : '') }}"
+                   href="{{url('insider/market')}}">Магазин</a>
+            @endif
+
+            <a class="p-2 text-dark {{(Request::is('insider/games*') ? 'active' : '') }}"
+               href="{{url('insider/games')}}">Игры</a>
+        @else
+            <a class="p-2 text-dark {{(Request::is('courses*') ? 'active' : '') }}"
+               href="{{url('courses')}}">Курсы</a>
+            <a class="p-2 text-dark {{(Request::is('games*') ? 'active' : '') }}" href="{{url('games')}}">Игры</a>
+        @endif
     </nav>
     @if (\Auth::check())
         <ul class="navbar-nav" style="width: 260px;">
@@ -98,7 +113,7 @@
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="{{url('insider/profile')}}"><i class="icon ion-person"></i>
                         Профиль</a>
-                    @if (\Auth::User()->role != 'student')
+                    @if (\Auth::User()->role == 'admin')
                         <a class="dropdown-item" href="{{url('insider/scales')}}"><i
                                     class="icon ion-university"></i> Шкалы</a>
                         <a class="dropdown-item" href="{{url('insider/core/editor')}}"><i
@@ -120,16 +135,39 @@
     @endif
 </div>
 
-@if(Session::has('alert-class') and Session::get('alert-destination')=='head')
-    <div class="alert {{ Session::get('alert-class') }} alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                    aria-hidden="true">&times;</span>
-        </button>
-        <strong>{{Session::get('alert-title')}}</strong> {{ Session::get('alert-text') }}
-    </div>
-@endif
+
 <div class="mx-auto col-md-11 col-12" style="margin-top: 30px">
-@yield('content')
+    @if(Session::has('alert-class') and Session::get('alert-destination')=='head')
+        <div class="alert {{ Session::get('alert-class') }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span>
+            </button>
+            <strong>{{Session::get('alert-title')}}</strong> {{ Session::get('alert-text') }}
+        </div>
+    @endif
+
+    @yield('content')
+
+    <footer class="pt-4 my-md-5 border-top">
+        <div class="row">
+            <div class="col-12 col-md-3 col-lg-2">
+                <img class="mb-2 logo" src="{{url('/images/logo.png')}}" style="width: 150px;">
+                <small class="d-block mb-3 text-muted">&copy; 2016-{{ \Carbon\Carbon::now()->year }}  </small>
+            </div>
+            <div class="col-6 col-md-9 col-lg-10" style="margin-top: 15px;">
+                <h5>Школа программирования Геккон</h5>
+                <ul class="list-unstyled text-small">
+
+                    <li><a class="text-muted" target="_blank" href="https://gekkon-club.ru/programming">Сайт
+                            Геккон-клуба</a></li>
+                    <li><a class="text-muted" target="_blank" href="https://github.com/geekon-school/">GitHub</a></li>
+                    <li><a class="text-muted" target="_blank" href="https://storage.geekclass.ru">Storage</a></li>
+                    <li><a class="text-muted" target="_blank" href="https://paste.geekclass.ru">Paste</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </footer>
 </div>
 
 <!-- Compiled and minified JavaScript -->

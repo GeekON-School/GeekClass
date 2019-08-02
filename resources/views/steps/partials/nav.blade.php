@@ -40,7 +40,7 @@
                     </li>
                 @endforeach
             </ul>
-            @if (\Request::is('insider/*') && ($user->role=='teacher' || $user->role=='admin'))
+            @if (\Request::is('insider/*') && ($course->teachers->contains($user) || $user->role=='admin'))
                 <p align="center" style="margin-top: 15px;">
                     <a href="{{url('/insider/courses/'.$course->id.'/lessons/'.$step->lesson->id.'/create')}}"
                        class="btn btn-success btn-sm">Новый

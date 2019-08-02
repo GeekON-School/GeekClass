@@ -24,13 +24,11 @@ class SelfAccess
             return $next($request);
         }
 
-        if (Auth::User()->role=='student') {
-
-            if (Auth::User()->id == $request->id)
-            {
-                return $next($request);
-            }
+        if (Auth::User()->id == $request->id)
+        {
+            return $next($request);
         }
+
         return abort(403);
 
     }

@@ -47,7 +47,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -69,7 +69,7 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return User
      */
     protected function create($data)
@@ -92,10 +92,9 @@ class RegisterController extends Controller
         $user->birthday = Carbon::createFromFormat('Y-m-d', $data->birthday);
         $user->setGrade($data->grade);
 
-        if ($data->hasFile('image'))
-        {
-            $extn = '.'.$data->file('image')->guessClientExtension();
-            $path = $data->file('image')->storeAs('user_avatars', $user->id.$extn);
+        if ($data->hasFile('image')) {
+            $extn = '.' . $data->file('image')->guessClientExtension();
+            $path = $data->file('image')->storeAs('user_avatars', $user->id . $extn);
             $user->image = $path;
         }
 
@@ -106,21 +105,17 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $is_teacher = false;
+        $is_novice = false;
         $course = null;
         $provider = Provider::where('invite', $request->invite)->first();
-        if ($provider!=null)
-        {
+        if ($provider != null) {
             $is_teacher = true;
-        }
-        else {
-            if ($request->invite==null || $request->invite=="")
-            {
-                $this->make_error_alert('Ошибка!', 'Курс с таким приглашением не найден.');
-                return $this->backException();
+        } else {
+            if ($request->invite == null || $request->invite == "") {
+                $is_novice = true;
             }
             $course = Course::where('invite', $request->invite)->first();
-            if ($course==null)
-            {
+            if ($course == null) {
                 $this->make_error_alert('Ошибка!', 'Курс с таким приглашением не найден.');
                 return $this->backException();
             }
@@ -130,17 +125,19 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request)));
-        if ($is_teacher)
-        {
-            $user->role='teacher';
+        if ($is_teacher) {
+            $user->role = 'teacher';
             $user->provider_id = $provider->id;
             $user->save();
-        }
-        else {
-            $course->students()->attach($user->id);
-        }
+        } else {
+            if ($is_novice) {
+                $user->role = 'novice';
+                $user->save();
+            } else {
+                $course->students()->attach($user->id);
+            }
 
-
+        }
         $this->guard()->login($user);
 
         return $this->registered($request, $user)

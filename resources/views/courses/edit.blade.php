@@ -45,6 +45,28 @@
                             </script>
                         </div>
 
+                        @if ($course->state == 'draft')
+                            <div class="form-group{{ $errors->has("start_date") ? ' has-error' : '' }}">
+                                <label for="start_date">Дата начала:</label>
+                                @if (old('start_date')!="" || $course->start_date==null)
+                                    <input id="start_date" type="text" class="form-control date"
+                                           value="{{old("start_date")}}"
+                                           name="start_date">
+                                @else
+                                    <input id="start_date" type="text" class="form-control date"
+                                           value="{{$course->start_date->format('Y-m-d')}}"
+                                           name="start_date">
+                                @endif
+
+
+                                @if ($errors->has("start_date"))
+                                    <span class="help-block error-block">
+                                        <strong>{{ $errors->first("start_date") }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        @endif
+
                         <div class="form-group">
                             <label for="students" style="padding-bottom: 10px;">Студенты:</label><br>
                             <select class="selectpicker2  form-control" data-live-search="true" id="students"
