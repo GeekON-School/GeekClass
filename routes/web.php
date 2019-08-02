@@ -60,7 +60,7 @@ Route::get('/articles/{id}/delete', 'ArticlesController@delete');
 Route::get('/games', 'GamesController@index');
 Route::get('/games/{id}', 'GamesController@play');
 Route::get('/games/{id}/frame', 'GamesController@frame');
-Route::get('/games/{id}/viewsource', 'GamesController@viewsource');
+Route::get('/insider/games/{id}/viewsource', 'GamesController@viewsource');
 
 Route::prefix('insider')->middleware('verified')->group(function () {
 
