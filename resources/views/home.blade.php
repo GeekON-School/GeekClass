@@ -152,7 +152,8 @@
                                 @endforeach
                             </div>
                         @else
-                            <p>Сейчас нет доступных открытых курсов. Ну или вы просто записались на все! :)</p>@endif
+                            <p>Сейчас нет доступных открытых курсов. Ну или вы просто записались на все! :)</p>
+                        @endif
 
                         <h5 style="margin-top: 15px;">Приватные курсы</h5>
                         @if ($private_courses->count() != 0)
@@ -186,6 +187,7 @@
                         @else
                             <p>Сейчас нет доступных приватных курсов.</p>
                         @endif
+                    @endif
                 </div>
 
                 <div class="col-12  col-lg-4 col-xl-3">
@@ -230,7 +232,7 @@
                                               data-content="{!! $user->getHtmlTransactions() !!}"
                                               data-html="true" data-toggle="popover">
                                            <img src="https://png.icons8.com/color/50/000000/coins.png"
-                                                style="height: 30px;">&nbsp;{{$user->balance()}}&nbsp;&nbsp;
+                                                style="height: 30px;"/>&nbsp;{{$user->balance()}}&nbsp;&nbsp;
 
                                         </span>
 
@@ -313,71 +315,71 @@
 
 
             </div>
-            @endif
 
         </div>
-        @if ($user->role == 'teacher' || $user->role=='admin' )
-            <div class="tab-pane fade" id="draft" role="tabpanel" aria-labelledby="draft">
-                <div class="row" style="margin-top: 15px;">
-                    <div class="card-deck">
-                        @foreach($courses->where('state', 'draft') as $course)
-                            @if ($user->role=='admin' || $course->teachers->contains($user))
-                                <div class="card"
-                                     style="min-width: 280px; background-image: url({{$course->image}}); background-size: cover;">
-                                    <!--<img class="card-img-top" src="..." alt="Card image cap">-->
-                                    <div class="card-body" style="background-color: rgba(255,255,255,0.9);">
-                                        <h4 class="card-title">{{$course->name}}</h4>
-                                        <p class="card-text" style="font-size: 0.8rem;">{{$course->description}}</p>
-
-                                    </div>
-                                    <div class="card-footer" style="background-color: rgba(245,245,245,1);">
-                                        <a href="{{url('insider/courses/'.$course->id)}}"
-                                           class="btn btn-success btn-sm">Страница
-                                            курса</a>
-                                    </div>
-                                </div>
-                            @endif
-                        @endforeach
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="tab-pane fade" id="archive" role="tabpanel" aria-labelledby="archive">
-                <div class="row" style="margin-top: 15px;">
-                    @foreach($courses->where('state', 'ended')->sortByDesc('start_date') as $course)
+    </div>
+    @if ($user->role == 'teacher' || $user->role=='admin' )
+        <div class="tab-pane fade" id="draft" role="tabpanel" aria-labelledby="draft">
+            <div class="row" style="margin-top: 15px;">
+                <div class="card-deck">
+                    @foreach($courses->where('state', 'draft') as $course)
                         @if ($user->role=='admin' || $course->teachers->contains($user))
-                            <div class="col-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                                <h5 style="padding: 0; margin: 0;" class="card-title">{{$course->name}}
-                                                    <br>
-                                                    <small style="font-size: 70%;">{{$course->start_date->format('d.m.Y')}}
-                                                        - {{$course->end_date->format('d.m.Y')}}</small>
-                                                </h5>
+                            <div class="card"
+                                 style="min-width: 280px; background-image: url({{$course->image}}); background-size: cover;">
+                                <!--<img class="card-img-top" src="..." alt="Card image cap">-->
+                                <div class="card-body" style="background-color: rgba(255,255,255,0.9);">
+                                    <h4 class="card-title">{{$course->name}}</h4>
+                                    <p class="card-text" style="font-size: 0.8rem;">{{$course->description}}</p>
 
-                                            </div>
-                                            <div class="col-md-3">
-                                                <a href="{{url('insider/courses/'.$course->id)}}"
-                                                   class="btn btn-success btn-sm  float-right">Страница</a>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-
+                                </div>
+                                <div class="card-footer" style="background-color: rgba(245,245,245,1);">
+                                    <a href="{{url('insider/courses/'.$course->id)}}"
+                                       class="btn btn-success btn-sm">Страница
+                                        курса</a>
                                 </div>
                             </div>
                         @endif
-
                     @endforeach
                 </div>
 
-
             </div>
-        @endif
-    </div>
+
+        </div>
+        <div class="tab-pane fade" id="archive" role="tabpanel" aria-labelledby="archive">
+            <div class="row" style="margin-top: 15px;">
+                @foreach($courses->where('state', 'ended')->sortByDesc('start_date') as $course)
+                    @if ($user->role=='admin' || $course->teachers->contains($user))
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <h5 style="padding: 0; margin: 0;" class="card-title">{{$course->name}}
+                                                <br>
+                                                <small style="font-size: 70%;">{{$course->start_date->format('d.m.Y')}}
+                                                    - {{$course->end_date->format('d.m.Y')}}</small>
+                                            </h5>
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <a href="{{url('insider/courses/'.$course->id)}}"
+                                               class="btn btn-success btn-sm  float-right">Страница</a>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    @endif
+
+                @endforeach
+            </div>
+
+
+        </div>
+    @endif
+
 
 @endsection
