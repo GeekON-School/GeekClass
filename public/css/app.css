@@ -30,6 +30,14 @@
     margin-left: -30px;
     margin-right: -30px;
 }
+
+.markdown-big pre {
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #ebf8ff;
+}
 .text-dark.active {
     text-decoration: underline;
 }
