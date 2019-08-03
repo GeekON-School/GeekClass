@@ -91,18 +91,19 @@
                                         </h5>
                                         <p class="card-text"
                                            style="font-size: 0.8rem;">{{$course->description}}</p>
-
-                                        @if ($course->students->contains($user))
-                                            @php
-                                                $percent = round($course->getPercent($user));
-                                            @endphp
-                                            @if ($percent < 40)
-                                                <span class="badge badge-warning">Выполнено {{$percent}}%</span>
-                                            @else
-                                                @if ($percent < 80)
-                                                    <span class="badge badge-info">Выполнено {{$percent}}%</span>
+                                        @if (!$course->is_sdl)
+                                            @if ($course->students->contains($user))
+                                                @php
+                                                    $percent = round($course->getPercent($user));
+                                                @endphp
+                                                @if ($percent < 40)
+                                                    <span class="badge badge-warning">Выполнено {{$percent}}%</span>
                                                 @else
-                                                    <span class="badge badge-success">Выполнено {{$percent}}%</span>
+                                                    @if ($percent < 80)
+                                                        <span class="badge badge-info">Выполнено {{$percent}}%</span>
+                                                    @else
+                                                        <span class="badge badge-success">Выполнено {{$percent}}%</span>
+                                                    @endif
                                                 @endif
                                             @endif
                                         @endif
