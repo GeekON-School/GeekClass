@@ -34,7 +34,7 @@
                             <label for="teachers" style="padding-bottom: 10px;">Учителя:</label><br>
                             <select class="selectpicker1  form-control" data-live-search="true" id="teachers"
                                     name="teachers[]" multiple data-width="auto">
-                                @foreach (\App\User::where('role', 'teacher')->get() as $teacher)
+                                @foreach (\App\User::where('role', 'teacher')->orWhere('role', 'admin')->get() as $teacher)
                                     <option data-tokens="{{ $teacher->id }}"
                                             value="{{ $teacher->id }}">{{$teacher->name}}</option>
                                 @endforeach
