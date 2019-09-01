@@ -330,7 +330,7 @@
         </div>
         <div class="col-md-4">
             @if ($course->program->chapters->count()>1)
-                <ul style="margin-bottom: 15px;" class="list-group">
+                <ul style="margin-bottom: 15px;margin-top: 15px;" class="list-group">
 
                     @foreach($course->program->chapters as $current_chapter)
                         @if ($user->role == 'teacher' or $user->role == 'admin' or $current_chapter->isStarted($course))
