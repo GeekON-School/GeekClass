@@ -333,7 +333,7 @@
                 <ul style="margin-bottom: 15px;" class="list-group">
 
                     @foreach($course->program->chapters as $current_chapter)
-                        @if ($user->role == 'teacher' or $current_chapter->isStarted($course))
+                        @if ($user->role == 'teacher' or $user->role == 'admin' or $current_chapter->isStarted($course))
                             <li class="list-group-item @if ($current_chapter->id == $chapter->id)  list-group-item-success @endif"
                                 style="border-radius: 0 !important;"><a
                                         href="{{url('/insider/courses/'.$course->id.'?chapter='.$current_chapter->id)}}">{{$current_chapter->name}}

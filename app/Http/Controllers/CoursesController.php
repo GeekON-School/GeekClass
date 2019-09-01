@@ -635,8 +635,6 @@ class CoursesController extends Controller
                 $chapter->name = $request->name;
                 $chapter->program_id = $program->id;
                 $chapter->sort_index = $order;
-                $chapter->description = clean($request->description);
-
                 $chapter->save();
             } else if ($request->program == -2) {
                 $this->validate($request, ['sdl_version' => 'required|integer|exists:core_nodes,version']);
