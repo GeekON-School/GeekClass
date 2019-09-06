@@ -26,8 +26,8 @@ class StepsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('step');
-        $this->middleware('teacher')->only(['createView', 'create', 'editView', 'edit', 'makeLower', 'makeUpper', 'perform', 'delete']);
+        $this->middleware('step')->except(['createView', 'create']);
+        $this->middleware('teacher')->only(['editView', 'edit', 'makeLower', 'makeUpper', 'perform', 'delete']);
 
     }
 
