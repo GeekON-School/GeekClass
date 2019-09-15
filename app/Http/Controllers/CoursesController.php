@@ -30,8 +30,7 @@ class CoursesController extends Controller
     {
         $this->middleware('auth')->except('open_index');
         $this->middleware('course')->only(['details', 'editView', 'start', 'stop', 'edit', 'assessments', 'report', 'createChapter', 'editChapter', 'createChapterView', 'editChapterView']);
-        $this->middleware('teacher')->only(['editView', 'start', 'stop', 'edit', 'assessments', 'report', 'createChapter', 'editChapter', 'createChapterView', 'editChapterView']);
-        $this->middleware('admin')->only(['createView', 'create']);
+        $this->middleware('teacher')->only(['createView', 'create', 'editView', 'start', 'stop', 'edit', 'assessments', 'report', 'createChapter', 'editChapter', 'createChapterView', 'editChapterView']);
     }
 
     public function open_index()
