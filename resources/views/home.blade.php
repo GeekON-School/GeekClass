@@ -47,7 +47,7 @@
                         <a class="nav-link" id="archive-tab" data-toggle="tab" href="#archive" role="tab"
                            aria-controls="archive" aria-selected="false">Архив</a>
                     </li>
-                    @if ($user->role=='admin')
+                    @if ($user->role=='admin' || $user->role=='teacher')
                         <li class="nav-item" style="margin-left: 5px;">
                             <a class="btn btn-success btn-sm nav-link" href="{{url('/insider/courses/create/')}}"><i
                                         class="icon ion-plus-round"></i>&nbsp;Создать</a>
