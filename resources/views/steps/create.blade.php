@@ -86,6 +86,12 @@
                                     </span>
                             @endif
                         </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="notebook" value="yes">
+                                Это тетрадка
+                            </label>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
                                 <button type="submit" class="btn btn-success">Создать</button>

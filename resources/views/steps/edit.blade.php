@@ -56,6 +56,15 @@
                                     </span>
                             @endif
                         </div>
+
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="notebook" value="yes"
+                                       @if ($step->is_notebook) checked @endif>
+                                Это тетрадка
+                            </label>
+                        </div>
+
                         <button type="submit" class="btn btn-success">Сохранить</button>
                     </form>
                 </div>

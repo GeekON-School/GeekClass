@@ -48,7 +48,6 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 
-
     {!! \NoCaptcha::renderJs() !!}
     <script>
         $(function () {
