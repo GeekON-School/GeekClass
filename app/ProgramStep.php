@@ -117,7 +117,7 @@ class ProgramStep extends Model
         $step->notes = $data['notes'];
         $step->theory = $data['theory'];
 
-        if ($data->has('notebook')) {
+        if (array_has($data, 'notebook')) {
             $step->is_notebook = true;
             $step->theory = str_replace(array("\n","\r"), '', $data['theory']);
         } else {
