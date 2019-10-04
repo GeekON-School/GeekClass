@@ -154,7 +154,16 @@ class Course extends Model
 
     public function getPercent(User $user)
     {
-        $temp_steps = $this->program->steps;
+        $course = $this;
+        $lessons = $course->lessons->filter(function ($lesson) use ($course) {
+            return $lesson->isStarted($this);
+        });
+
+        $temp_steps = collect([]);
+        foreach ($lessons as $lesson) {
+            $temp_steps = $temp_steps->merge($lesson->steps);
+        }
+
         $percent = 100;
         $max_points = 0;
         $points = 0;
