@@ -381,7 +381,7 @@ Route::prefix('insider')->middleware('verified')->group(function () {
         }
 
     });
-*/
+
     Route::get('/set_birthdays', function () {
         $data = \Carbon\Carbon::now();
         $data = $data->addMonth(-4);
@@ -394,7 +394,7 @@ Route::prefix('insider')->middleware('verified')->group(function () {
             $age = $data->year - $student->birthday->year;
             \App\CoinTransaction::register($student->id, $age, "ДР 2019");
         }
-    });
+    });*/
 
 });
 
