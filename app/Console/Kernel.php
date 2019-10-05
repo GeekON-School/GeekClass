@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\BirthdaySender::class,
+        Commands\RequestFeedback::class
     ];
 
     /**
@@ -24,7 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
+        $schedule->command('birthdays')->daily();
+        $schedule->command('feedback')->dailyAt('21:00');
         //          ->hourly();
     }
 

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\CoinTransaction;
 use App\CompletedCourse;
 use App\Course;
 use App\EducationalResult;
+use App\FeedbackRecord;
 use App\MarketDeal;
 use App\MarketGood;
 use App\Notifications\NewOrder;
@@ -29,10 +31,42 @@ class BotController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('verified');
+        $this->middleware('auth')->except('saveFeedback');
+        $this->middleware('verified')->except('saveFeedback');
+        $this->middleware('admin')->only(['sendView', 'send']);
     }
 
+    public function sendView()
+    {
+        return view('bot.send');
+    }
+
+    public function send(Request $request)
+    {
+        try {
+            $message = $request->message;
+
+            $client = new \GuzzleHttp\Client();
+            $res = $client->post(config('bot.vk_bot').'/message', [
+                'form_params' => [
+                    'message' => $message,
+                    'key' => config('bot.vk_bot_key')
+                ]
+            ]);
+            $result = json_decode($res->getBody()->getContents());
+            if ($result->state == "ok")
+            {
+                return redirect()->back()->withErrors(array('message' => 'Сообщение отправлено'));
+            }
+            else {
+                return redirect()->back()->withErrors(array('message' => 'Проверьте правильность кода...'));
+            }
+        }
+        catch (\Exception $e)
+        {
+            return redirect()->back()->withErrors(array('message' => 'Ошибка связи с сервисом...'));
+        }
+    }
 
     public function activateView()
     {
@@ -41,29 +75,62 @@ class BotController extends Controller
 
     public function activate(Request $request)
     {
-        $code = $request->code;
+        try {
+            $code = $request->code;
 
-        $client = new \GuzzleHttp\Client();
-        $res = $client->post(config('bot.vk_bot').'/activate', [
-            'form_params' => [
-                'code' => $code,
-                'class_id' => Auth::User()->id,
-            ]
-        ]);
-        $result = $res->getBody()->getContents();
-
-        if ($result == "ok")
+            $client = new \GuzzleHttp\Client();
+            $res = $client->post(config('bot.vk_bot').'/activate', [
+                'form_params' => [
+                    'code' => $code,
+                    'class_id' => Auth::User()->id,
+                    'key' => config('bot.vk_bot_key')
+                ]
+            ]);
+            $result = json_decode($res->getBody()->getContents());
+            if ($result->state == "ok")
+            {
+                $user = User::findOrFail(Auth::User()->id);
+                $user->vk_id = intval($result->user_id);
+                $user->save();
+                return redirect('/activate/success');
+            }
+            else {
+                return redirect()->back()->withErrors(array('code' => 'Проверьте правильность кода...'));
+            }
+        }
+        catch (\Exception $e)
         {
-            return redirect('/activate/success');
+            return redirect()->back()->withErrors(array('code' => 'Ошибка связи с сервисом...'));
         }
-        else {
-            return redirect()->back()->withErrors(array('code' => 'Проверьте правильность кода...'));
-        }
+
     }
 
     public function successView()
     {
-        return view('bot.activate');
+        return view('bot.success');
+    }
+
+    public function saveFeedback(Request $request)
+    {
+        $mark = $request->mark;
+        $key = $request->key;
+        $comment = $request->comment;
+        $user_id = $request->id;
+
+        $user = User::findOrFail($user_id);
+
+        if ($key != config('vk_bot_key'))
+            return "error";
+
+        $record = new FeedbackRecord();
+        $record->mark = $mark;
+        $record->comment = $comment;
+        $record->user_id = $user->id;
+        $record->save();
+
+        CoinTransaction::register($user->id, 1, 'Обратная связь после занятий');
+
+        return "ok";
     }
 
 

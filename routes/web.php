@@ -69,6 +69,9 @@ Route::prefix('insider')->middleware('verified')->group(function () {
         return redirect('/insider/courses');
     });
 
+    Route::post('/vk/send', 'BotController@send');
+    Route::get('/vk/send', 'BotController@sendView');
+
     Route::get('/articles', 'ArticlesController@index');
     Route::get('/articles/create', 'ArticlesController@createView');
     Route::post('/articles/create', 'ArticlesController@create');

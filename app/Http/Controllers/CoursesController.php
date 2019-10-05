@@ -550,6 +550,7 @@ class CoursesController extends Controller
         $course->site = $request->site;
         $course->image = $request->image;
         $course->telegram = $request->telegram;
+        $course->weekdays = $request->weekdays;
 
         foreach ($course->teachers as $teacher) {
             $course->teachers()->detach($teacher->id);

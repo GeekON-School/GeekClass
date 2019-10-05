@@ -180,6 +180,23 @@
 
                         <hr>
 
+                        <div class="form-group">
+                            <label for="weekdays">Дни недели</label>
+
+                            @if (old('weekdays')!="")
+                                <input id="weekdays" type="text" class="form-control" name="weekdays"
+                                       value="{{old('weekdays')}}" placeholder="1;4">
+                            @else
+                                <input id="weekdays" type="text" class="form-control" name="weekdays"
+                                       value="{{$course->weekdays}}" placeholder="1;4">
+                            @endif
+                            @if ($errors->has('weekdays'))
+                                <span class="help-block error-block">
+                                        <strong>{{ $errors->first('weekdays') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+
                         <div class="form-group{{ $errors->has("import") ? ' has-error' : '' }}">
                             <label for="import">Импорт</label>
                             <input id="import" type="file" class="form-control"
