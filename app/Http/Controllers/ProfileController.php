@@ -15,7 +15,6 @@ use Auth;
 use App\Project;
 
 
-
 class ProfileController extends Controller
 {
     /**
@@ -42,26 +41,24 @@ class ProfileController extends Controller
         $users = User::orderBy('name')->get();
         return view('profile.index', compact('users'));
     }
+
     public function details($id = null)
     {
-        $guest  = User::findOrFail(Auth::User()->id);
+        $guest = User::findOrFail(Auth::User()->id);
         $user = null;
-        if ($id == null)
-        {
+        if ($id == null) {
             $user = $guest;
-        }
-        else {
+        } else {
             $user = User::findOrFail($id);
         }
 
         $stickers = collect([]);
         $sticker_description = [];
 
-        foreach($user->courses as $course) {
+        foreach ($user->courses as $course) {
             if ($course->is_sdl) continue;
-            foreach($course->lessons as $lesson) {
-                if ($lesson->percent($user)>90)
-                {
+            foreach ($course->lessons as $lesson) {
+                if ($lesson->percent($user) > 90) {
                     $stickers->push($lesson->sticker);
                     $sticker_description[$lesson->sticker] = $lesson->name;
                 }
@@ -70,20 +67,19 @@ class ProfileController extends Controller
         $stickers = $stickers->unique();
 
 
-
-
-        $projects = $user->projects ();
+        $projects = $user->projects();
         $events = Event::all();
         return view('profile.details', compact('user', 'guest', 'projects', 'events', 'stickers', 'sticker_description'));
     }
 
     public function editView($id)
     {
-        $guest  = User::findOrFail(Auth::User()->id);
+        $guest = User::findOrFail(Auth::User()->id);
         $user = User::findOrFail($id);
-        $projects = $user->projects ();
+        $projects = $user->projects();
         return view('profile.edit', compact('user', 'guest', 'projects'));
     }
+
     public function deleteCourse($id)
     {
         $course = CompletedCourse::findOrFail($id);
@@ -111,28 +107,19 @@ class ProfileController extends Controller
         $course->mark = $request->mark;
         $course->user_id = $id;
         $course->provider = $request->provider;
-        if (str_contains(mb_strtolower($course->provider), 'goto'))
-        {
+        if (str_contains(mb_strtolower($course->provider), 'goto')) {
             $course->provider = 'GoTo';
             $course->class = 'danger';
-        }
-        else if (str_contains(mb_strtolower($course->provider), 'geekon'))
-        {
+        } else if (str_contains(mb_strtolower($course->provider), 'geekon')) {
             $course->provider = 'GeekON-School';
             $course->class = 'success';
-        }
-        else if (str_contains(mb_strtolower($course->provider), 'геккон'))
-        {
+        } else if (str_contains(mb_strtolower($course->provider), 'геккон')) {
             $course->provider = 'Геккон-клуб';
             $course->class = 'info';
-        }
-        else if (str_contains(mb_strtolower($course->provider), 'polymus'))
-        {
+        } else if (str_contains(mb_strtolower($course->provider), 'polymus')) {
             $course->provider = 'Политехнический музей';
             $course->class = 'primary';
-        }
-        else if (str_contains(mb_strtolower($course->provider), 'алгоритмика'))
-        {
+        } else if (str_contains(mb_strtolower($course->provider), 'алгоритмика')) {
             $course->provider = 'Алгоритмика';
             $course->class = 'warning';
         }
@@ -156,7 +143,7 @@ class ProfileController extends Controller
 
     public function edit($id, Request $request)
     {
-        $guest  = User::findOrFail(Auth::User()->id);
+        $guest = User::findOrFail(Auth::User()->id);
         $user = User::findOrFail($id);
 
         $this->validate($request, [
@@ -177,19 +164,19 @@ class ProfileController extends Controller
         $user->hobbies = $request->hobbies;
         $user->interests = $request->interests;
         $user->school = $request->school;
-        $user->birthday = Carbon::createFromFormat('Y-m-d', $request->birthday);
+        if (Auth::User()->role == 'teacher' || Auth::User()->role == 'admin') {
+            $user->birthday = Carbon::createFromFormat('Y-m-d', $request->birthday);
+        }
         $user->setGrade($request->grade);
 
-        if ($request->password!="")
-        {
+        if ($request->password != "") {
             $this->validate($request, ['password' => 'required|string|min:6|confirmed']);
             $user->password = bcrypt($request->password);
         }
 
-        if ($request->hasFile('image'))
-        {
-            $extn = '.'.$request->file('image')->guessClientExtension();
-            $path = $request->file('image')->storeAs('user_avatars', $user->id.$extn);
+        if ($request->hasFile('image')) {
+            $extn = '.' . $request->file('image')->guessClientExtension();
+            $path = $request->file('image')->storeAs('user_avatars', $user->id . $extn);
             $user->image = $path;
         }
 
@@ -197,7 +184,7 @@ class ProfileController extends Controller
             $user->comments = $request->comments;
         $user->save();
 
-        return redirect('/insider/profile/'.$id);
+        return redirect('/insider/profile/' . $id);
     }
     #TODO do i need this?
     /*public function project ($id, Request $request)

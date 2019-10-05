@@ -40,7 +40,7 @@
     <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 
-
+    @yield('head')
 </head>
 <body>
 

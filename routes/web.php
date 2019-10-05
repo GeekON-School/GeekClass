@@ -58,6 +58,10 @@ Route::get('/games/{id}', 'GamesController@play');
 Route::get('/games/{id}/frame', 'GamesController@frame');
 Route::get('/insider/games/{id}/viewsource', 'GamesController@viewsource');
 
+Route::get('/activate', 'BotController@activateView');
+Route::get('/activate/success', 'BotController@successView');
+Route::post('/activate', 'BotController@activate');
+
 Route::prefix('insider')->middleware('verified')->group(function () {
 
     #TODO Check
@@ -281,7 +285,6 @@ Route::prefix('insider')->middleware('verified')->group(function () {
 
     Route::get('/core/editor', 'CoreController@editor')->middleware('teacher');
 
-
     Route::get('/testmail', function () {
         $user = \App\User::findOrFail(1);
         $when = \Carbon\Carbon::now()->addSeconds(1);
@@ -378,23 +381,20 @@ Route::prefix('insider')->middleware('verified')->group(function () {
         }
 
     });
+*/
+    Route::get('/set_birthdays', function () {
+        $data = \Carbon\Carbon::now();
+        $data = $data->addMonth(-4);
 
-    Route::get('/set_chapters', function () {
-        $programs = \App\Program::all();
-        foreach ($programs as $program)
-        {
-            $chapter = new \App\ProgramChapter();
-            $chapter->program_id = $program->id;
-            $chapter->name = "Глава 1";
-            $chapter->save();
+        $students = \App\User::all()->filter(function ($user) use ($data) {
+            return $user->birthday != null and $user->birthday->month == $data->month;
+        });
 
-            foreach ($program->lessons as $lesson)
-            {
-                $lesson->chapter_id = $chapter->id;
-                $lesson->save();
-            }
+        foreach ($students as $student) {
+            $age = $data->year - $student->birthday->year;
+            \App\CoinTransaction::register($student->id, $age, "ДР 2019");
         }
-    });*/
+    });
 
 });
 

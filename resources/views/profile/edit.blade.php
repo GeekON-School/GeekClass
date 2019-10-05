@@ -136,24 +136,25 @@
                             @endif
                         </div>
 
+                        @if (\Auth::User()->role == 'teacher' || \Auth::User()->role == 'admin')
+                            <div class="form-group">
+                                <label for='birthday'>Дата рождения</label>
 
-                        <div class="form-group">
-                            <label for='birthday'>Дата рождения</label>
-
-                            @if (old('birthday')!="" || $user->birthday==null)
-                                <input id='birthday' type="text" class="form-control date" name='birthday'
-                                       value="{{old('birthday')}}" required>
-                            @else
-                                <input id='birthday' type="text" class="form-control date" name='birthday'
-                                       value="{{$user->birthday->format('Y-m-d')}}"
-                                       required>
-                            @endif
-                            @if ($errors->has('birthday'))
-                                <span class="help-block error-block">
+                                @if (old('birthday')!="" || $user->birthday==null)
+                                    <input id='birthday' type="text" class="form-control date" name='birthday'
+                                           value="{{old('birthday')}}" required>
+                                @else
+                                    <input id='birthday' type="text" class="form-control date" name='birthday'
+                                           value="{{$user->birthday->format('Y-m-d')}}"
+                                           required>
+                                @endif
+                                @if ($errors->has('birthday'))
+                                    <span class="help-block error-block">
                                         <strong>{{ $errors->first('birthday') }}</strong>
                                     </span>
-                            @endif
-                        </div>
+                                @endif
+                            </div>
+                        @endif
                         <div class="form-group">
                             <label for='school'>Место учебы</label>
 
