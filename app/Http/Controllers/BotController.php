@@ -120,7 +120,7 @@ class BotController extends Controller
 
         $user = User::findOrFail($user_id);
 
-        if ($key != config('vk_bot_key')) {
+        if ($key != config('bot.vk_bot_key')) {
             Log::info("wrong key");
             return "error";
         }
