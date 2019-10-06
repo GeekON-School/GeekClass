@@ -21,6 +21,7 @@ use App\Lesson;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
+use Log;
 
 class BotController extends Controller
 {
@@ -112,6 +113,7 @@ class BotController extends Controller
 
     public function saveFeedback(Request $request)
     {
+        Log::alert("got info", $request);
         $mark = $request->mark;
         $key = $request->key;
         $comment = $request->comment;
@@ -119,8 +121,11 @@ class BotController extends Controller
 
         $user = User::findOrFail($user_id);
 
-        if ($key != config('vk_bot_key'))
+        if ($key != config('vk_bot_key')) {
+            Log::alert("wrong key");
             return "error";
+        }
+
 
         $record = new FeedbackRecord();
         $record->mark = $mark;
