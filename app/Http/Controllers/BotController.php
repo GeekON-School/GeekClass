@@ -113,7 +113,6 @@ class BotController extends Controller
 
     public function saveFeedback(Request $request)
     {
-        Log::alert("got info", $request);
         $mark = $request->mark;
         $key = $request->key;
         $comment = $request->comment;
@@ -122,7 +121,7 @@ class BotController extends Controller
         $user = User::findOrFail($user_id);
 
         if ($key != config('vk_bot_key')) {
-            Log::alert("wrong key");
+            Log::info("wrong key");
             return "error";
         }
 
