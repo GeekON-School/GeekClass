@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Channels\VkChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -31,7 +32,7 @@ class NewForumAnswer extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', VkChannel::class];
     }
 
     /**
@@ -45,6 +46,11 @@ class NewForumAnswer extends Notification implements ShouldQueue
         return (new MailMessage)->greeting('Добрый день!')->subject('Новый ответ на форуме')
             ->line("Новый ответ по теме '".$this->post->thread->name."'.")
             ->action('Подробнее', url("/insider/forum/".$this->post->thread_id));
+    }
+
+    public function toVk($notifiable)
+    {
+        return "По теме \"".$this->post->thread->name."\" добавлен новый ответ.\n\nПодробнее: ".url("/insider/forum/".$this->post->thread_id);
     }
 
     /**

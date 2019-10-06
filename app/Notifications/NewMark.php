@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Channels\VkChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -31,7 +32,7 @@ class NewMark extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', VkChannel::class];
     }
 
     /**
@@ -45,9 +46,24 @@ class NewMark extends Notification implements ShouldQueue
         return (new MailMessage)->greeting('Добрый день!')->subject('Решение проверено')
             ->line($this->solution->teacher->name . " проверил ваше решение для задачи
                      " . $this->solution->task->name . " (курс " . $this->solution->course->name . ").")
-            ->line('Оценка: '.$this->solution->mark." / ".$this->solution->task->max_mark)
-            ->line('Комментарий: '.$this->solution->comment)
-            ->action('Подробнее', url("/insider/courses/".$this->solution->course_id."/steps/".$this->solution->task->step->id."#task".$this->solution->task->id));
+            ->line('Оценка: ' . $this->solution->mark . " / " . $this->solution->task->max_mark)
+            ->line('Комментарий: ' . $this->solution->comment)
+            ->action('Подробнее', url("/insider/courses/" . $this->solution->course_id . "/steps/" . $this->solution->task->step->id . "#task" . $this->solution->task->id));
+    }
+
+    public function toVk($notifiable)
+    {
+        $message = $this->solution->teacher->name . " проверил ваше решение задачи
+                     \"" . $this->solution->task->name . "\" (курс " . $this->solution->course->name . "). Вы заработали " .
+            $this->solution->mark . " / " . $this->solution->task->max_mark . " баллов.";
+
+        if ($this->solution->comment != "") {
+            $message .= "\n\nКомментарий: " . $this->solution->comment;
+        }
+
+        $message .= "\n\nПодробнее: " . url("/insider/courses/" . $this->solution->course_id . "/steps/" . $this->solution->task->step->id . "#task" . $this->solution->task->id);
+        return $message;
+
     }
 
     /**

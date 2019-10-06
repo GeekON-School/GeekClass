@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Channels\VkChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -31,7 +32,7 @@ class IdeaDeclined extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', VkChannel::class];
     }
 
     /**
@@ -44,6 +45,11 @@ class IdeaDeclined extends Notification implements ShouldQueue
     {
         return (new MailMessage)->greeting('Добрый день!')->subject('Идея проекта нуждается в доработке')
                     ->line("Ваша идея для проекта \"".$this->idea->name."\" нуждается в доработке. Пожалуйста, внесите изменения и сообщите об этом преподавателю.")->action('Подробнее', url("/insider/ideas/".$this->idea->id));
+    }
+
+    public function toVk($notifiable)
+    {
+        return "Ваша идея для проекта \"".$this->idea->name."\" нуждается в доработке. Пожалуйста, внесите изменения и сообщите об этом преподавателю.\n\nПодробнее: ".url("/insider/ideas/".$this->idea->id);
     }
 
     /**
