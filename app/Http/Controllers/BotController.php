@@ -9,6 +9,7 @@ use App\EducationalResult;
 use App\FeedbackRecord;
 use App\MarketDeal;
 use App\MarketGood;
+use App\Notifications\NewExtremeFeedback;
 use App\Notifications\NewOrder;
 use App\Program;
 use App\ProgramStep;
@@ -131,6 +132,14 @@ class BotController extends Controller
         $record->comment = $comment;
         $record->user_id = $user->id;
         $record->save();
+
+        if ($mark < 6)
+        {
+            $admin = User::findOrFail(1);
+            $when = Carbon::now()->addSeconds(1);
+            $admin->notify((new NewExtremeFeedback($record))->delay($when));
+
+        }
 
         CoinTransaction::register($user->id, 1, 'Обратная связь после занятий');
 
