@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\NewCoinTransaction;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -31,6 +32,9 @@ class CoinTransaction extends Authenticatable
         $transaction->price = $amount;
         $transaction->comment = $comment;
         $transaction->save();
+
+        $when = Carbon::now()->addSeconds(1);
+        $transaction->user->notify((new NewCoinTransaction($transaction))->delay($when));
 
         return $transaction;
     }
