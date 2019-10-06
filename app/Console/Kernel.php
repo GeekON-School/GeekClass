@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('birthdays')->daily();
-        $schedule->command('feedback')->everyMinute();
+        $schedule->command('feedback')->dailyAt("23:15");
         //          ->hourly();
     }
 

@@ -56,8 +56,6 @@ class RequestFeedback extends Command
             }
         }
 
-        Log::info($students->pluck('id'));
-
         try {
             $client = new \GuzzleHttp\Client();
             $client->post(config('bot.vk_bot') . '/feedback', [
@@ -69,7 +67,7 @@ class RequestFeedback extends Command
         }
         catch (\Exception $e)
         {
-            Log::info($$e);
+            Log::info($e);
         }
     }
 }
