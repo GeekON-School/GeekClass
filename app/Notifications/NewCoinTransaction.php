@@ -53,10 +53,10 @@ class NewCoinTransaction extends Notification
     public function toVk($notifiable)
     {
         if ($this->transaction->price > 0) {
-            return "Вам начислено " . $this->transaction->price . " GK (" . $this->transaction->comment . ")";
+            return "🏧 Вам начислено " . $this->transaction->price . " GK (" . $this->transaction->comment . ")";
         }
         else {
-            return "Списание " . $this->transaction->price . " GK (" . $this->transaction->comment . ")";
+            return "🏧 Списание " . $this->transaction->price . " GK (" . $this->transaction->comment . ")";
         }
     }
 

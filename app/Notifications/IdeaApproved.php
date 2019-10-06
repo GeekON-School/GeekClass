@@ -49,7 +49,7 @@ class IdeaApproved extends Notification implements ShouldQueue
 
     public function toVk($notifiable)
     {
-        return "Идея для проекта \"".$this->idea->name."\" одобрена. Поздравляем!\n\nПодробнее: ".url("/insider/ideas/".$this->idea->id);
+        return "💡 Идея для проекта \"".$this->idea->name."\" одобрена. Поздравляем!\n\n🔗 Подробнее: ".url("/insider/ideas/".$this->idea->id);
     }
 
     /**

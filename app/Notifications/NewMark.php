@@ -53,15 +53,15 @@ class NewMark extends Notification implements ShouldQueue
 
     public function toVk($notifiable)
     {
-        $message = $this->solution->teacher->name . " проверил ваше решение задачи
+        $message = "✅ ".$this->solution->teacher->name . " проверил ваше решение задачи
                      \"" . $this->solution->task->name . "\" (курс " . $this->solution->course->name . "). Вы заработали " .
             $this->solution->mark . " / " . $this->solution->task->max_mark . " баллов.";
 
         if ($this->solution->comment != "") {
-            $message .= "\n\nКомментарий: " . $this->solution->comment;
+            $message .= "\n\n📃 Комментарий: " . $this->solution->comment;
         }
 
-        $message .= "\n\nПодробнее: " . url("/insider/courses/" . $this->solution->course_id . "/steps/" . $this->solution->task->step->id . "#task" . $this->solution->task->id);
+        $message .= "\n\n🔗 Подробнее: " . url("/insider/courses/" . $this->solution->course_id . "/steps/" . $this->solution->task->step->id . "#task" . $this->solution->task->id);
         return $message;
 
     }

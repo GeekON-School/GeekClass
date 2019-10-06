@@ -50,7 +50,7 @@ class NewForumAnswer extends Notification implements ShouldQueue
 
     public function toVk($notifiable)
     {
-        return "По теме \"".$this->post->thread->name."\" добавлен новый ответ.\n\nПодробнее: ".url("/insider/forum/".$this->post->thread_id);
+        return "💬 По теме \"".$this->post->thread->name."\" добавлен новый ответ.\n\n🔗 Подробнее: ".url("/insider/forum/".$this->post->thread_id);
     }
 
     /**
