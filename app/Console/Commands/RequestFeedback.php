@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Course;
 use Illuminate\Console\Command;
+use Log;
 
 class RequestFeedback extends Command
 {
@@ -55,6 +56,8 @@ class RequestFeedback extends Command
             }
         }
 
+        Log::info($students->pluck('id'));
+
         try {
             $client = new \GuzzleHttp\Client();
             $client->post(config('bot.vk_bot') . '/feedback', [
@@ -66,7 +69,7 @@ class RequestFeedback extends Command
         }
         catch (\Exception $e)
         {
-
+            Log::info($$e);
         }
     }
 }
