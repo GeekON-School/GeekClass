@@ -94,6 +94,7 @@ class BotController extends Controller
                 $user = User::findOrFail(Auth::User()->id);
                 $user->vk_id = intval($result->user_id);
                 $user->save();
+                CoinTransaction::register($user->id, 5, 'Регистрация в боте');
                 return redirect('/activate/success');
             }
             else {
