@@ -387,9 +387,9 @@ Route::prefix('insider')->middleware('verified')->group(function () {
 */
     Route::get('/set_birthdays', function () {
         $data = \Carbon\Carbon::now();
-        $data1 = $data->addMonth(-3);
-        $data2 = $data->addMonth(-2);
-        $data3 = $data->addMonth(-1);
+        $data1 = $data->addMonth(-1)->copy();
+        $data2 = $data->addMonth(-1)->copy();
+        $data3 = $data->addMonth(-1)->copy();
 
         $students = \App\User::all()->filter(function ($user) use ($data1, $data2, $data3) {
             return $user->birthday != null and ($user->birthday->month == $data1->month or $user->birthday->month == $data2->month or $user->birthday->month == $data3->month);
