@@ -91,10 +91,15 @@ class BotController extends Controller
             $result = json_decode($res->getBody()->getContents());
             if ($result->state == "ok")
             {
+
                 $user = User::findOrFail(Auth::User()->id);
+                $dublicate = $user->vk_id != null;
                 $user->vk_id = intval($result->user_id);
                 $user->save();
-                CoinTransaction::register($user->id, 5, 'Регистрация в боте');
+                if (!$dublicate)
+                {
+                    CoinTransaction::register($user->id, 5, 'Регистрация в боте');
+                }
                 return redirect('/activate/success');
             }
             else {
