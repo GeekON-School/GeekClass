@@ -189,10 +189,10 @@
                                     @endif
                                 </div>
                                 <div class="form-group">
-                                    <label for='grade'>Класс</label>
+                                    <label for='grade'>Класс (только число)</label>
 
 
-                                    <input id='grade' type="text" class="form-control" name='grade'
+                                    <input id='grade' type="number" class="form-control" name='grade'
                                            value="{{old('grade')}}"
                                            required>
                                     <span class="help-block text-muted">Ваш текущий класс, если сейчас лето, то класс в который вы переходите. <strong>Это обязательное поле.</strong></span>

@@ -118,32 +118,24 @@ class LessonsController extends Controller
         else
             $lesson->is_open = false;
 
-        if ($request->has('sdl_node_id'))
-        {
-            if ($request->sdl_node_id == -1)
-            {
+        if ($request->has('sdl_node_id')) {
+            if ($request->sdl_node_id == -1) {
                 $lesson->sdl_node_id = null;
-            }
-            else {
+            } else {
                 $this->validate($request, ['sdl_node_id' => 'nullable|exists:core_nodes,id']);
                 $lesson->sdl_node_id = $request->sdl_node_id;
-                if ($request->has('is_sdl'))
-                {
+                if ($request->has('is_sdl')) {
                     $lesson->is_sdl = true;
-                }
-                else {
+                } else {
                     $lesson->is_sdl = false;
                 }
             }
         }
 
-        if ($request->has('scale_id'))
-        {
-            if ($request->scale_id == -1)
-            {
+        if ($request->has('scale_id')) {
+            if ($request->scale_id == -1) {
                 $lesson->scale_id = null;
-            }
-            else {
+            } else {
                 $this->validate($request, ['scale_id' => 'nullable|exists:result_scales,id']);
                 $lesson->scale_id = $request->scale_id;
             }
@@ -156,7 +148,7 @@ class LessonsController extends Controller
             $lesson->import($json);
         }
 
-        return redirect('/insider/courses/' . $course_id);
+        return redirect('/insider/courses/' . $course_id . '?chapter=' . $request->chapter);
     }
 
     public function makeLower($course_id, $id, Request $request)
@@ -164,7 +156,7 @@ class LessonsController extends Controller
         $lesson = Lesson::findOrFail($id);
         $lesson->sort_index -= 1;
         $lesson->save();
-        return redirect('/insider/courses/' . $course_id.'?chapter='.$request->chapter);
+        return redirect('/insider/courses/' . $course_id . '?chapter=' . $request->chapter);
     }
 
     public function makeUpper($course_id, $id, Request $request)
@@ -172,7 +164,7 @@ class LessonsController extends Controller
         $lesson = Lesson::findOrFail($id);
         $lesson->sort_index += 1;
         $lesson->save();
-        return redirect('/insider/courses/' . $course_id.'?chapter='.$request->chapter);
+        return redirect('/insider/courses/' . $course_id . '?chapter=' . $request->chapter);
     }
 
     public function export($course_id, $id)
