@@ -392,7 +392,7 @@ Route::prefix('insider')->middleware('verified')->group(function () {
         $data3 = $data->addMonth(-1);
 
         $students = \App\User::all()->filter(function ($user) use ($data1, $data2, $data3) {
-            return $user->birthday != null and $user->birthday->month == $data1->month or $user->birthday->month == $data2->month or $user->birthday->month == $data3->month;
+            return $user->birthday != null and ($user->birthday->month == $data1->month or $user->birthday->month == $data2->month or $user->birthday->month == $data3->month);
         });
 
         foreach ($students as $student) {
