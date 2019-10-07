@@ -384,7 +384,7 @@ Route::prefix('insider')->middleware('verified')->group(function () {
         }
 
     });
-*/
+
     Route::get('/set_birthdays', function () {
         $data = \Carbon\Carbon::now();
         $data1 = $data->addMonth(-1)->copy();
@@ -394,12 +394,12 @@ Route::prefix('insider')->middleware('verified')->group(function () {
         $students = \App\User::all()->filter(function ($user) use ($data1, $data2, $data3) {
             return $user->birthday != null and ($user->birthday->month == $data1->month or $user->birthday->month == $data2->month or $user->birthday->month == $data3->month);
         });
-
+        dd($students);
         foreach ($students as $student) {
             $age = $data->year - $student->birthday->year;
             \App\CoinTransaction::register($student->id, $age, "ДР 2019");
         }
-    });
+    });*/
 
 });
 
