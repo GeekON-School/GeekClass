@@ -138,7 +138,8 @@ class ProgramStep extends Model
         $tasks = $this->class_tasks;
         foreach ($tasks as $task) {
             if (!$task->is_star) $results['max_points'] += $task->max_mark;
-            $results['points'] += $student->submissions()->where('task_id', $task->id)->max('mark');
+            $subm = $student->submissions()->where('task_id', $task->id)->orderBy('mark', 'desc')->first();
+        $results['points'] += $subm ? $subm->pmark() : 0;
         }
         if ($results['max_points'] != 0) {
             $results['percent'] = $results['points'] * 100 / $results['max_points'];

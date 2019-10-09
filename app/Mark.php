@@ -13,6 +13,8 @@ class Mark
         if ($max_points == 0) return 'A';
         $percent = round($points * 100 / $max_points);
 
+        if ($percent==100)
+            return 'S';
         if ($percent>=99)
             return 'A+';
         if ($percent>=90)

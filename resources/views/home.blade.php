@@ -107,7 +107,62 @@
                                                 @endif
                                             @endif
                                         @endif
-
+                                        <div style="float:right;">
+                                            @php 
+                                                $students = $course->students;
+                                                $cstudent = $students->filter(function ($value, $key) {
+                                                    return $value->id == \Auth::id();
+                                                })->first();
+                                            @endphp
+                                            @foreach($course->program->chapters as $chapter)
+                                                @foreach($chapter->lessons as $lesson)
+                                                    @foreach($lesson->steps as $step)
+                                                        @php
+                                                            if ($cstudent->pivot->is_remote)
+                                                            {
+                                                            $tasks = $step->remote_tasks;
+                                                            }
+                                                            else {
+                                                            $tasks = $step->class_tasks;
+                                                            }
+                                                        @endphp
+                                                        @foreach($tasks as $task)
+                                                            @if ($task->deadline)
+                                                                <style>
+                                                                    *[data-tooltip]
+                                                                    {
+                                                                        position: relative;
+                                                                    }
+                                                                    *[data-tooltip]::before {
+                                                                        content: attr(data-tooltip);
+                                                                        position: absolute;
+                                                                        padding: 2px 10px;
+                                                                        border-radius: 3px;
+                                                                        color:#fff;
+                                                                        background: #333741;
+                                                                        display: none;
+                                                                        top:20px;
+                                                                        left:-100%;
+                                                                    }
+                                                                    *[data-tooltip]:hover::before {
+                                                                        display: block;
+                                                                    }
+                                                                </style>
+                                                                @if (\Carbon\Carbon::now()->gt($task->deadline))
+                                                            <span class="badge badge-danger" data-tooltip="{{$task->name}}" onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'" style="cursor:pointer;">
+                                                                        !
+                                                                    </span>
+                                                                @elseif (\Carbon\Carbon::now()->addDays(1)->gt($task->deadline))
+                                                                <span class="badge badge-warning" data-tooltip="{{$task->name}}" onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'" style="cursor:pointer;">
+                                                                        !
+                                                                    </span>
+                                                                @endif
+                                                            @endif
+                                                        @endforeach
+                                                    @endforeach
+                                                @endforeach
+                                            @endforeach
+                                        </div>
                                         @if ($course->site != null)
                                             <a target="_blank" href="{{$course->site}}"
                                                style="margin-top: 6px; font-size: 0.8rem;"
@@ -382,6 +437,5 @@
             </div>
         @endif
     </div>
-
 
 @endsection

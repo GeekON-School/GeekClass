@@ -116,8 +116,30 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
+                                <label for="price" class="col-md-4">Дедлайн</label>
 
+                                <div class="col-md-12">
+                                    <input type="date" name="deadline" class="form-control" id="deadline"/>
+                                    @if ($errors->has('deadline'))
+                                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('deadline') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
+                                <label for="price" class="col-md-4">Штраф (баллы * штраф)</label>
 
+                                <div class="col-md-12">
+                                    <input type="number" step="0.01" min=0 max=1 name="penalty" class="form-control" id="penalty"/>
+                                    @if ($errors->has('penalty'))
+                                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('penalty') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-success">Создать</button>

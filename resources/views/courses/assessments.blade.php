@@ -61,7 +61,7 @@
                                         $filtered = $student->submissions->filter(function ($value) use ($task, $course) {
                                             return $value->task_id == $task->id;
                                         });
-                                        $mark = $filtered->max('mark');
+                                        $mark = $filtered->max('nmark');
                                         $mark = $mark == null?0:$mark;
                                         $need_check = false;
                                         if ($filtered->count()!=0 && $filtered->last()->mark==null)

@@ -12,9 +12,24 @@ class Solution extends Model
         'text', 'step_id', 'submitted', 'user_id'
     ];
 
+    protected $appends = ['nmark'];
+
     protected $dates = [
         'submitted', 'checked'
     ];
+
+    public function pmark()
+    {
+        $taskd = \App\Task::find($this->task_id);
+            $tasktimeout = false;
+            if ($taskd->deadline != null)
+                $tasktimeout = $taskd->deadline->lt($this->created_at); 
+        return round($this->mark*($tasktimeout ? $taskd->penalty : 1.0));;
+    }
+    public function getNmarkAttribute()
+    {
+        return $this->pmark();
+    }
 
     public function user()
     {

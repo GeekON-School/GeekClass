@@ -162,7 +162,7 @@
                                                                 $filtered = $task->solutions->filter(function ($value) use ($student) {
                                                                     return $value->user_id == $student->id;
                                                                 });
-                                                                $mark = $filtered->max('mark');
+                                                                $mark = $filtered->max('nmark');
                                                                 $mark = $mark == null?0:$mark;
                                                                 $should_check = false;
                                                                 if (count($filtered)!=0 && $filtered->last()->mark==null) $should_check=true;

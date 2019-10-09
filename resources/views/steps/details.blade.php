@@ -90,7 +90,8 @@
       </div>
    </div>`
             var months = [
-                "January", "February", "March", "April", "May", "June", "Jule", "August", "September", "November", "December"
+                "January", "February", "March", "April", "May", "June", "Jule", "August", "September", 
+                "October", "November", "December"
             ]
 
             function checkTask(e, taskId) {

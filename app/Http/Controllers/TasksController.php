@@ -70,6 +70,8 @@ class TasksController extends Controller
         } else if ($request->has('is_code') and $request->is_code == true) {
             $task->is_code = true;
         }
+        $task->deadline = $request->deadline;
+        $task->penalty = $request->penalty;
         $task->save();
 
         if ($request->consequences)
@@ -152,6 +154,8 @@ class TasksController extends Controller
         }
 
 
+        $task->deadline = $request->deadline;
+        $task->penalty = $request->penalty;
         $task->save();
 
         $step_id = $task->step_id;

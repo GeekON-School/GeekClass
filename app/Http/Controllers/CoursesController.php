@@ -175,7 +175,7 @@ class CoursesController extends Controller
 
                     foreach ($tasks as $task) {
                         if (!$task->is_star) $students[$key]->max_points += $task->max_mark;
-                        $students[$key]->points += $value->submissions->where('task_id', $task->id)->max('mark');
+                        $students[$key]->points += $value->submissions->where('task_id', $task->id)->max('nmark');
                     }
 
 
@@ -205,7 +205,7 @@ class CoursesController extends Controller
 
                     foreach ($tasks as $task) {
                         if (!$task->is_star) $student_data[$student->id]->max_points += $task->max_mark;
-                        $student_data[$student->id]->points += $student->submissions->where('task_id', $task->id)->max('mark');
+                        $student_data[$student->id]->points += $student->submissions->where('task_id', $task->id)->max('nmark');
                     }
                 }
                 if ($student_data[$student->id]->max_points != 0) {
@@ -329,7 +329,7 @@ class CoursesController extends Controller
 
                     foreach ($tasks as $task) {
                         if (!$task->is_star) $students[$key]->max_points += $task->max_mark;
-                        $students[$key]->points += $value->submissions->where('task_id', $task->id)->max('mark');
+                        $students[$key]->points += $value->submissions->where('task_id', $task->id)->max('nmark');
                     }
 
 

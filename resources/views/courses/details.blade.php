@@ -510,11 +510,12 @@
                                         $filtered = $task->solutions->filter(function ($value) use ($user) {
                                             return $value->user_id == $user->id && !$value->is_quiz;
                                         });
-                                        $mark = $filtered->max('mark');
+                                        $mark = null;
+                                        $mark = $filtered->max('nmark');
+                                            
                                         $mark = $mark == null?0:$mark;
                                         $should_check = false;
                                         if (count($filtered)!=0 && $filtered->last()->mark==null) $should_check=true;
-
                                     @endphp
                                     <tr>
                                         <td>
@@ -526,7 +527,23 @@
                                                         (*)@endif</a>
                                             @endif
                                         </td>
-
+                                        <td>
+                                                @if ($task->deadline)
+                                                    @if ($task->deadline->lt(\Carbon\Carbon::now()))
+                                                        <span class="badge badge-danger">
+                                                            Просрочено {{$task->deadline->format('Y.m.d')}}
+                                                        </span>
+                                                    @elseif (\Carbon\Carbon::now()->addDays(1)->gt($task->deadline))
+                                                        <span class="badge badge-warning">
+                                                            Срок {{$task->deadline->format('Y.m.d')}}
+                                                        </span>
+                                                    @elseif (\Carbon\Carbon::now()->addDays(1)->lt($task->deadline))
+                                                        <span class="badge badge-light">
+                                                            Срок {{$task->deadline->format('Y.m.d')}}
+                                                        </span>
+                                                    @endif
+                                                @endif
+                                            </td>
                                         @if ($should_check)
                                             <td><span class="badge badge-warning">{{$mark}}</span></td>
                                         @elseif ($mark == 0)
@@ -534,7 +551,7 @@
                                         @else
                                             <td><span class="badge badge-primary">{{$mark}}</span></td>
                                         @endif
-
+                                        
                                     </tr>
                                 @endforeach
                             @endforeach

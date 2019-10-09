@@ -132,7 +132,8 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->score = 0;
         $group = $this->submissions->groupBy('task_id');
         foreach ($group as $task) {
-            $this->score += $task->max('mark');
+            
+            $this->score += $task->sortBy('mark')->first()->pmark();
         }
         
         foreach($this->games as $game)
@@ -147,6 +148,9 @@ class User extends Authenticatable implements MustVerifyEmail
         foreach ($this->completedCourses as $course) {
             $mark = $course->mark;
             switch ($mark) {
+                case 'S':
+                    $this->score += 2000;
+                    break;
                 case 'A+':
                     $this->score += 1500;
                     break;
