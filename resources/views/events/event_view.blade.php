@@ -1,76 +1,47 @@
 @extends('layouts.full')
 
 @section('content')
-    @extends('events.event_layout')
-    <br>
-        <div class="row" style = "margin-top: -30px">
-            <div class="col" style="margin: -10px">
-                <div class="float-left">
-                    <h2 class="nav-link" style="color: blue">События</h2>
+        <div class="mx-auto col-md-11 col-12">
+            <div class="row" >
+                <div class="col-md-6">
+                    <h2>События</h1>
                 </div>
-                <div class="text-center" style="margin-right: 10px">
-                    <a class="nav-link" href="{{url('/insider/events/old')}}" style="color:black"><h2>Архив событий</h2></a>
-                </div>
-                <div class="float-right" style="margin-top: -50px;">
-                    <a href="{{url('/insider/events/add_event')}}" class = "btn btn-success">Провести событие</a>
+                <div class="col-md-6" >
+                    <ul class="nav nav-pills float-right" style="padding-right:15px;">
+                        <li class="nav-item" style="margin-left: 5px;">
+                                <a class="nav-link active" id="active-tab" data-toggle="tab" href="#future" role="tab" aria-controls="active" aria-selected="true">Будущие</a>
+                        </li>
+                        <li class="nav-item" style="margin-left: 5px;">
+                                <a class="nav-link" data-toggle="tab" href="#past" role="tab" aria-controls="active" aria-selected="true">Прошедшие</a>
+                        </li>
+                        <li class="nav-item" style="margin-left: 5px;">
+                            <a class="btn btn-success btn-sm nav-link" href="/insider/events/create"><i class="icon ion-plus-round"></i>&nbsp;Создать</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <div class="row" style = "margin-top: 10px">
-            <div class="col-md-8">
-            @foreach($events as $event)
-                    <div class="card-group ev">
-                        <div class="card" style="border: none;">
-                            <div class="row" style="display: flex; justify-content: space-between;">
-                                <div class="text-center">
-                                    <h4><b>{{$event->name}}, ({{$event->type}})</b></h4>
-                                </div>
-
-                                @include('events.event_likes', ['event' => $event])
-                                <div style="margin-right:15px">
-                                    <b>{{$event->date}}</b>
+            <div class="tab-content">
+                <div class="row">
+                    <div class="tab-pane fade show active card-deck" id="future" style="width:100%;">
+                        @foreach ($events as $event)
+                            <div class="card" style="min-width: 45%; border-left: 3px solid #28a745;">
+                                <div class="card-body">
+                                    <h5><a href="/insider/events/{{$event->id}}">{{$event->name}}</a></h5>
+                                    <p>{{$event->short_text}}</p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col">
+                        @endforeach
+                    </div>
+                    <div class="tab-pane fade show card-deck" id="past" style="width:100%;">
+                            @foreach ($old_events as $event)
+                                <div class="card" style="min-width: 45%; border-left: 3px solid #28a745;">
                                     <div class="card-body">
-                                            {{$event->short_text}}
-                                        <div class="float-right">
-                                            <a href="{{url('/insider/events/'.$event->id)}}" style="margin-top: -5px"
-                                               class = "btn btn-primary">Перейти к событию</a>
-                                        </div>
+                                        <h5><a href="/insider/events/{{$event->id}}">{{$event->name}}</a></h5>
+                                        <p>{{$event->short_text}}</p>
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
-                    </div>
-                @endforeach
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Теги:</h2>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST">
-                            {{ csrf_field() }}
-                            <div class="form-group form-check">
-                                @foreach($tags as $tag)
-                                    @if($tag->id !=1)
-                                        <div class="form-check">
-                                            <input type="checkbox" style="margin-left:5px" name="sel_tags[]" class="form-check-input" value="{{$tag->id}}" id="{{$tag->id}}"
-                                                   @if((in_array($tag->id, $s_tags)) && ($s_tags[0] != 1)) checked @endif>
-                                            <label for="{{$tag->id}}" class="form-check-label" style="margin-left:2px" >{{$tag->name}}</label>
-                                        </div>
-                                    @endif
-                                @endforeach
-                                <br>
-                                <div class="float-left">
-                                    <input type="submit" value="Применить" class = "btn btn-success">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>

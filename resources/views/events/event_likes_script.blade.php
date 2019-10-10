@@ -6,7 +6,7 @@
             ch.hide();
             ch.show(500);
             $.ajax({
-                url: '/insider/events/'+id+'/dislike_from_events',
+                url: '/insider/events/'+id+'/dislike',
             });
             el.children('.likes1').html(el.attr('data-likes'));
 
@@ -18,7 +18,7 @@
             ch.hide();
             ch.show(500);
             $.ajax({
-                url: '/insider/events/'+id+'/like_from_events',
+                url: '/insider/events/'+id+'/like',
             });
 
             el.children('.likes1').html(el.attr('data-likes'));

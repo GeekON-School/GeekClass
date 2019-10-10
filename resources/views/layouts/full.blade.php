@@ -99,7 +99,9 @@
                 <a class="p-2 text-dark {{(Request::is('insider/market*') ? 'active' : '') }}"
                    href="{{url('insider/market')}}">Магазин</a>
             @endif
-
+            <a class="p-2 text-dark {{(Request::is('insider/events*') ? 'active' : '') }}"
+            href="{{url('insider/events')}}">События</a>
+        
             <a class="p-2 text-dark {{(Request::is('insider/games*') ? 'active' : '') }}"
                href="{{url('insider/games')}}">Игры</a>
         @else

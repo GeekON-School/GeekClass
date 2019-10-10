@@ -1,4 +1,4 @@
-<style>
+{{-- <style>
     .btn
     {
         background: none !important;
@@ -22,4 +22,4 @@
     {
         box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.1) !important;
     }
-</style>
+</style> --}}

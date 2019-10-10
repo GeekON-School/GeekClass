@@ -29,6 +29,7 @@ class EventController extends Controller
     public function event_view(Request $request)
     {
         $events = Event::getNew();
+        $old_events = Event::getOld();
         $tags = Tags::all();
         $s_tags = [];
         if(isset($request->sel_tags))
@@ -41,7 +42,7 @@ class EventController extends Controller
             }
         }
 
-    	return view('/events/event_view', ['events' => $events, 'tags' => $tags, 's_tags' => $s_tags]);
+    	return view('/events/event_view', ['old_events' => $old_events, 'events' => $events, 'tags' => $tags, 's_tags' => $s_tags]);
     }
 
     public function old_events_view(Request $request)
@@ -153,17 +154,6 @@ class EventController extends Controller
         }
         return redirect('/insider/events/'.$id);
     }
-
-    public function like_event_from_events($id)
-    {
-        $event = Event::findOrFail($id);
-        if (!$event->hasLiked(Auth::User()->id))
-        {
-            $event->userLikes()->attach(Auth::User()->id);
-        }
-        return redirect('/insider/events');
-    }
-
     public function dislike_event($id)
     {
         $event = Event::findOrFail($id);
@@ -172,13 +162,6 @@ class EventController extends Controller
             $event->userLikes()->detach(Auth::User()->id);
         }
         return redirect('/insider/events/'.$id);
-    }
-
-    public function dislike_event_from_events($id)
-    {
-        $event = Event::findOrFail($id);
-        $event->userLikes()->detach(Auth::User()->id);
-        return redirect('/insider/events');
     }
 
     public function add_comment(Request $request, $id)

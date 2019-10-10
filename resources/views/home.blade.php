@@ -114,6 +114,7 @@
                                                     return $value->id == \Auth::id();
                                                 })->first();
                                             @endphp
+                                            @if ($cstudent != null)
                                             @foreach($course->program->chapters as $chapter)
                                                 @foreach($chapter->lessons as $lesson)
                                                     @foreach($lesson->steps as $step)
@@ -162,6 +163,7 @@
                                                     @endforeach
                                                 @endforeach
                                             @endforeach
+                                            @endif
                                         </div>
                                         @if ($course->site != null)
                                             <a target="_blank" href="{{$course->site}}"

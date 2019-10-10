@@ -12,8 +12,8 @@
                 <div class="card-body">
                     <form method="POST" class="form-horizontal" enctype="multipart/form-data">
 
+                        {{ csrf_field() }}
                         <div class="form-group">
-                            {{ csrf_field() }}
                             <label for="name">Название</label>
                             <input id="name" type="text" class="form-control" name="name" value="{{old('name')}}"
                                    required>
