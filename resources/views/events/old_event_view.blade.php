@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('content')
     @extends('events.event_layout')

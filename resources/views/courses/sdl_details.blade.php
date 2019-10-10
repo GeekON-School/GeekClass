@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('title')
     GeekClass: "{{$course->name}}"
@@ -65,7 +65,7 @@
             <p>{{$course->description}}</p>
         </div>
         <div class="col">
-            <ul class="nav nav-pills float-right" id="lessonsTabs" role="tablist">
+            <ul class="nav nav-tabs nav-fill" id="lessonsTabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="lessons-tab" data-toggle="tab" href="#lessons" role="tab"
                        aria-controls="lessons" aria-selected="true">Доступные уроки</a>

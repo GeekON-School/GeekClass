@@ -30,7 +30,9 @@
     margin-left: -30px;
     margin-right: -30px;
 }
-
+.progress {
+    height: 0.8rem !important;
+}
 .markdown-big pre {
     padding: 16px;
     overflow: auto;
@@ -183,8 +185,6 @@ p, strong {
 
 .card {
     margin-bottom: 15px;
-    border: 0;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
 .list-group {
@@ -305,7 +305,8 @@ sup > i {
 }
 
 .bg-dark {
-    background-color: rgb(30, 155, 0) !important;
+    /*background-color: rgb(30, 155, 0) !important;*/
+    background-color: #01597C !important;
 }
 
 .card.bg-dark {
@@ -316,9 +317,6 @@ sup > i {
     color: #0A6187 !important;
 }
 
-.card {
-    border-radius: 0;
-}
 
 body {
     position: absolute;
@@ -481,4 +479,21 @@ h5.card-title {
 
 .error-block strong {
     color: red;
+}
+
+.nav-link.active-link {
+    font-weight: bold !important;
+}
+
+.list-group:first-child {
+    border-radius: 0.5rem 0;
+}
+
+.menu-avatar {
+    width: 4.2rem;
+    height: 4.2rem;
+    border-color: white !important;
+}
+.dropdown-item {
+    color: #01597C;
 }

@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('content')
     <div class="row" style="margin-top: 15px;">
@@ -6,7 +6,7 @@
             <h2>Статьи</h2>
         </div>
         <div class="col">
-            <ul class="nav nav-pills float-right" id="articlesTabs" role="tablist">
+            <ul class="nav nav-tabs nav-fill" id="articlesTabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab"
                        aria-controls="all" aria-selected="true">Все статьи</a>
@@ -22,8 +22,9 @@
                     </li>
                 @endif
                 <li class="nav-item" style="margin-left: 5px;">
-                    <a class="btn btn-success btn-sm nav-link" href="{{url('/insider/articles/create/')}}"><i
-                                class="icon ion-plus-round"></i>&nbsp;Добавить</a>
+                    <a class="btn btn-success btn-sm nav-link" style="color: white;"
+                       href="{{url('/insider/articles/create/')}}"><i
+                                class="icon ion-plus-round" style="color: white;"></i>&nbsp;Добавить</a>
                 </li>
             </ul>
         </div>
@@ -93,11 +94,11 @@
                         @for($i = 1; $i <= $pages; $i++)
                             @if ($tag)
                                 <li class="page-item @if ($page==$i) current @endif"><a class="page-link"
-                                                                                       href="{{url('/articles?tag='.$tag->name.'&page='.$i)}}">{{$i}}</a>
+                                                                                        href="{{url('/articles?tag='.$tag->name.'&page='.$i)}}">{{$i}}</a>
                                 </li>
                             @else
                                 <li class="page-item @if ($page==$i) current @endif"><a class="page-link"
-                                                                                       href="{{url('/articles?page='.$i)}}">{{$i}}</a>
+                                                                                        href="{{url('/articles?page='.$i)}}">{{$i}}</a>
                                 </li>
                             @endif
                         @endfor
@@ -290,10 +291,5 @@
         @endif
 
     </div>
-
-
-
-
-
 
 @endsection

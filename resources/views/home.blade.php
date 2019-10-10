@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('title')
     GeekClass
@@ -34,7 +34,7 @@
         </div>
         <div class="col">
             @if ($user->role=='teacher' || $user->role=='admin')
-                <ul class="nav nav-pills float-right" id="coursesTabs" role="tablist">
+                <ul class="nav nav-tabs nav-fill" id="coursesTabs" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="active-tab" data-toggle="tab" href="#active" role="tab"
                            aria-controls="active" aria-selected="true">Мои курсы</a>
@@ -47,13 +47,16 @@
                         <a class="nav-link" id="archive-tab" data-toggle="tab" href="#archive" role="tab"
                            aria-controls="archive" aria-selected="false">Архив</a>
                     </li>
-                    @if ($user->role=='admin' || $user->role=='teacher')
+
                         <li class="nav-item" style="margin-left: 5px;">
-                            <a class="btn btn-success btn-sm nav-link" href="{{url('/insider/courses/create/')}}"><i
-                                        class="icon ion-plus-round"></i>&nbsp;Создать</a>
+                            <a class="btn btn-success btn-sm nav-link" style="color: white;"  href="{{url('/insider/courses/create/')}}"><i
+                                        class="icon ion-plus-round" style="color: white;"></i>&nbsp;Создать</a>
                         </li>
-                    @endif
+
                 </ul>
+
+
+
 
 
             @else
@@ -64,7 +67,7 @@
                         <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0" id="invite"
                                name="invite" placeholder="Инвайт на курс">
 
-                        <button type="submit" class="btn btn-success btn-sm"><i class="icon ion-plus-round"></i>&nbsp;Добавить
+                        <button type="submit" class="btn btn-success btn-sm"><i class="icon ion-plus-round" style="color: white;"></i>&nbsp;Добавить
                         </button>
                     </form>
                 </div>

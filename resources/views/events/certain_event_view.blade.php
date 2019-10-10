@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('content')
     <div class="row" >
@@ -6,10 +6,10 @@
             <div class="row col-12">
                 <h2 style="margin: 20px; col"><a href="/insider/events">< </a>{{ $event->name }}</h2>
                 <div class="col" style="margin-top:20px;">
-                <ul class="nav nav-pills float-right">
+                <ul class="nav nav-tabs nav-fill">
                     @if($event->isOwner(Auth::User()->id))
                         <li class="nav-item" style="margin-left: 5px;">
-                                <a class="btn btn-success btn-sm nav-link" href="/insider/events/{{$event->id}}/edit">Изменить</a>
+                                <a class="btn btn-success btn-sm nav-link" style="color: white;"  href="/insider/events/{{$event->id}}/edit">Изменить</a>
                             </li>
                     @endif
                 </ul>

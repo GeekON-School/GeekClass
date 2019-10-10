@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('title')
     GeekClass: Изменение проекта "{{$project->name}}"

@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('content')
         <div class="mx-auto col-md-11 col-12">
@@ -7,7 +7,7 @@
                     <h2>События</h1>
                 </div>
                 <div class="col-md-6" >
-                    <ul class="nav nav-pills float-right" style="padding-right:15px;">
+                    <ul class="nav nav-tabs nav-fill" style="padding-right:15px;">
                         <li class="nav-item" style="margin-left: 5px;">
                                 <a class="nav-link active" id="active-tab" data-toggle="tab" href="#future" role="tab" aria-controls="active" aria-selected="true">Будущие</a>
                         </li>
@@ -15,7 +15,7 @@
                                 <a class="nav-link" data-toggle="tab" href="#past" role="tab" aria-controls="active" aria-selected="true">Прошедшие</a>
                         </li>
                         <li class="nav-item" style="margin-left: 5px;">
-                            <a class="btn btn-success btn-sm nav-link" href="/insider/events/create"><i class="icon ion-plus-round"></i>&nbsp;Создать</a>
+                            <a class="btn btn-success btn-sm nav-link" style="color: white;"  href="/insider/events/create"><i class="icon ion-plus-round" style="color: white;"></i>&nbsp;Создать</a>
                         </li>
                     </ul>
                 </div>

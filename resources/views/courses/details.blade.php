@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('title')
     GeekClass: "{{$course->name}}"
@@ -15,17 +15,34 @@
         <div class="col">
             <h2 style="font-weight: 300;">{{$course->name}}</h2>
             <p>{{$course->description}}</p>
+
+            <ul class="avatars">
+                @foreach($course->students as $student)
+                    <li>
+                        <a href="{{ url('insider/profile/'.$student->id) }}" data-toggle="tooltip" title="Kenny">
+                            @if ($student->image!=null)
+                                <img alt="Image" src="{{url('/media/'.$student->image)}}" class="avatar"/>
+                            @else
+                                <img alt="Image" src="http://api.adorable.io/avatars/256/{{$student->id}}"
+                                     class="avatar"/>
+                            @endif
+                        </a>
+                    </li>
+                @endforeach
+
+            </ul>
         </div>
         @if ($course->teachers->contains($user) || $user->role=='admin')
             <div class="col">
                 <div class="float-right">
 
                     <div class="dropdown">
-                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Действия
+                        <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
                         </button>
-                        <div class="dropdown-menu">
+
+                        <div class="dropdown-menu dropdown-menu-right">
                             <a href="{{url('/insider/courses/'.$course->id.'/create?chapter='.$chapter->id)}}"
                                class="dropdown-item"><i
                                         class="icon ion-compose"></i> Добавить урок</a>
@@ -91,45 +108,6 @@
 
             @endif
 
-            @if ($course->state=="started")
-
-                <div style="padding-top: 10px;">
-                    <div id="pulse" style="width:100%; height: 100px; margin-bottom: 10px;"></div>
-                </div>
-
-
-                <script>
-                    var data = [
-                        {
-                            x: {!! $pulse_keys !!},
-                            y: {!!$pulse_values!!},
-                            type: 'scatter'
-                        }
-                    ];
-
-                    Plotly.newPlot('pulse', data, {
-                        xaxis: {
-                            autotick: true,
-
-                            zeroline: false,
-                            showline: false,
-                            showgrid: false
-
-                        }, yaxis: {
-                            showgrid: false,
-                            zeroline: false,
-                            showline: false
-                        }, margin: {
-                            l: 15,
-                            r: 0,
-                            b: 24,
-                            t: 3,
-                            pad: 0
-                        },
-                    }, {staticPlot: false, displayModeBar: false});
-                </script>
-            @endif
-
             @foreach($chapter->lessons as $key => $lesson)
                 @if ($lesson->steps->count()!=0)
                     <div class="card-group">
@@ -148,20 +126,29 @@
                                         @endif
                                     </div>
                                     @if ($course->teachers->contains($user) || $user->role=='admin')
-                                        <div class="col-sm-auto">
-                                            <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/edit')}}"
-                                               class="btn btn-success btn-sm"><i
-                                                        class="icon ion-android-create"></i></a>
-                                            <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/export')}}"
-                                               class="btn btn-success btn-sm"><i
-                                                        class="icon ion-ios-cloud-download"></i></a>
-                                            <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/lower?chapter='.$chapter->id)}}"
-                                               class="btn btn-success btn-sm"><i
-                                                        class="icon ion-arrow-up-c"></i></a>
-                                            <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/upper?chapter='.$chapter->id)}}"
-                                               class="btn btn-success btn-sm"><i
-                                                        class="icon ion-arrow-down-c"></i></a>
+                                        <div class="dropdown">
+                                            <button class="btn-options" type="button" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                <i class="material-icons">more_vert</i>
+                                            </button>
+
+                                            <div class="dropdown-menu dropdown-menu-right">
+
+                                                <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/edit')}}"
+                                                   class="dropdown-item"><i
+                                                            class="icon ion-android-create"></i> Изменить</a>
+                                                <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/export')}}"
+                                                   class="dropdown-item"><i
+                                                            class="icon ion-ios-cloud-download"></i> Экспорт</a>
+                                                <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/lower?chapter='.$chapter->id)}}"
+                                                   class="dropdown-item"><i
+                                                            class="icon ion-arrow-up-c"></i> Выше</a>
+                                                <a href="{{url('insider/courses/'.$course->id.'/lessons/'.$lesson->id.'/upper?chapter='.$chapter->id)}}"
+                                                   class="dropdown-item"><i
+                                                            class="icon ion-arrow-down-c"></i> Ниже</a>
+                                            </div>
                                         </div>
+
                                     @endif
                                 </div>
 
@@ -330,12 +317,12 @@
         </div>
         <div class="col-md-4">
             @if ($course->program->chapters->count()>1)
-                <ul style="margin-bottom: 15px;margin-top1: 15px;" class="list-group">
+                <ul style="margin-bottom: 15px; margin-top: 15px;" class="list-group">
 
                     @foreach($course->program->chapters as $current_chapter)
                         @if ($user->role == 'teacher' or $user->role == 'admin' or $current_chapter->isStarted($course))
-                            <li class="list-group-item @if ($current_chapter->id == $chapter->id)  list-group-item-success @endif"
-                                style="border-radius: 0 !important;"><a
+                            <li class="list-group-item @if ($current_chapter->id == $chapter->id)  list-group-item-success @endif">
+                                <a
                                         href="{{url('/insider/courses/'.$course->id.'?chapter='.$current_chapter->id)}}">{{$current_chapter->name}}
                                     @if (($course->teachers->contains($user) || $user->role=='admin') and $current_chapter->isStarted($course))
                                         <span class="badge badge-primary"> {{ round($current_chapter->getStudentsPercent($course)) }}
@@ -348,17 +335,27 @@
                                 </a>
 
                                 @if ($course->teachers->contains($user) || $user->role=='admin')
-                                    <span class="float-right">
-                                <a href="{{url('insider/courses/'.$course->id.'/chapters/'.$current_chapter->id.'/edit')}}"
-                                   class="btn btn-success btn-sm"><i
-                                            class="icon ion-android-create"></i></a>
-                                <a href="{{url('insider/courses/'.$course->id.'/chapters/'.$current_chapter->id.'/lower')}}"
-                                   class="btn btn-success btn-sm"><i
-                                            class="icon ion-arrow-up-c"></i></a>
-                                <a href="{{url('insider/courses/'.$course->id.'/chapters/'.$current_chapter->id.'/upper')}}"
-                                   class="btn btn-success btn-sm"><i
-                                            class="icon ion-arrow-down-c"></i></a>
-                            </span>
+                                    <div class="float-right">
+                                        <div class="dropdown">
+                                            <button class="btn-options" type="button" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                <i class="material-icons">more_vert</i>
+                                            </button>
+
+                                            <div class="dropdown-menu dropdown-menu-right">
+
+                                                <a href="{{url('insider/courses/'.$course->id.'/chapters/'.$current_chapter->id.'/edit')}}"
+                                                   class="dropdown-item"><i
+                                                            class="icon ion-android-create"></i> Добавить</a>
+                                                <a href="{{url('insider/courses/'.$course->id.'/chapters/'.$current_chapter->id.'/lower')}}"
+                                                   class="dropdown-item"><i
+                                                            class="icon ion-arrow-up-c"></i> Выше</a>
+                                                <a href="{{url('insider/courses/'.$course->id.'/chapters/'.$current_chapter->id.'/upper')}}"
+                                                   class="dropdown-item"><i
+                                                            class="icon ion-arrow-down-c"></i> Ниже</a>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <p class="small" style="margin-bottom: 0;">{{$current_chapter->description}}</p>
                                 @else
                                     @if ($current_chapter->isDone($course) and $user->role!='teacher' and $user->role!='admin')
@@ -528,22 +525,22 @@
                                             @endif
                                         </td>
                                         <td>
-                                                @if ($task->deadline)
-                                                    @if ($task->deadline->lt(\Carbon\Carbon::now()))
-                                                        <span class="badge badge-danger">
+                                            @if ($task->deadline)
+                                                @if ($task->deadline->lt(\Carbon\Carbon::now()))
+                                                    <span class="badge badge-danger">
                                                             Просрочено {{$task->deadline->format('Y.m.d')}}
                                                         </span>
-                                                    @elseif (\Carbon\Carbon::now()->addDays(1)->gt($task->deadline))
-                                                        <span class="badge badge-warning">
+                                                @elseif (\Carbon\Carbon::now()->addDays(1)->gt($task->deadline))
+                                                    <span class="badge badge-warning">
                                                             Срок {{$task->deadline->format('Y.m.d')}}
                                                         </span>
-                                                    @elseif (\Carbon\Carbon::now()->addDays(1)->lt($task->deadline))
-                                                        <span class="badge badge-light">
+                                                @elseif (\Carbon\Carbon::now()->addDays(1)->lt($task->deadline))
+                                                    <span class="badge badge-light">
                                                             Срок {{$task->deadline->format('Y.m.d')}}
                                                         </span>
-                                                    @endif
                                                 @endif
-                                            </td>
+                                            @endif
+                                        </td>
                                         @if ($should_check)
                                             <td><span class="badge badge-warning">{{$mark}}</span></td>
                                         @elseif ($mark == 0)
@@ -551,7 +548,7 @@
                                         @else
                                             <td><span class="badge badge-primary">{{$mark}}</span></td>
                                         @endif
-                                        
+
                                     </tr>
                                 @endforeach
                             @endforeach

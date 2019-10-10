@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('title')
     GeekClass
@@ -11,7 +11,7 @@
         </div>
         <div class="col">
             <a class="float-right btn btn-success btn-sm" href="{{url('/insider/scales/create/')}}"><i
-                        class="icon ion-plus-round"></i>&nbsp;Добавить шкалу</a>
+                        class="icon ion-plus-round" style="color: white;"></i>&nbsp;Добавить шкалу</a>
         </div>
     </div>
     <div class="row" style="margin-top: 15px;">

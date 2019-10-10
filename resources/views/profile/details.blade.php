@@ -1,85 +1,8 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('content')
     <div class="row" style="margin-top: 15px;">
-        <div class="col-md-4">
 
-            <div class="card">
-                @if ($user->image)
-                    <img class="card-img-top"
-                         src="{{url('/media/'.$user->image)}}"/>
-                @else
-                    <img class="card-img-top"
-                         src="https://api.adorable.io/avatars/250/{{$user->id}}.png"/>
-                    @endif
-                <div class="card-body">
-
-                    <h4 class="card-title">{{ $user->name }}</h4>
-
-                    <p><strong>Дата
-                            рождения:</strong> @if($user->birthday!=null){{$user->birthday->format('Y-m-d')}}@endif<br>
-                        <strong>Место учебы:</strong> {{$user->school}}<br>
-                        <strong>Класс:</strong> {{$user->grade()}}</p>
-
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar"
-                             style="width:{{100*($user->score()-$user->rank()->from)/($user->rank()->to-$user->rank()->from)}}%;"
-                             aria-valuenow="{{$user->score()}}" aria-valuemin="{{$user->rank()->from}}"
-                             aria-valuemax="{{$user->rank()->to}}">{{$user->score()}}</div>
-                    </div>
-                    <p style="margin-top: 15px;">
-                        <a tabindex="0" data-toggle="popover" data-trigger="focus" title="Ранги" data-html="true"
-                           data-content="{{\App\Rank::getRanksListHTML($user->rank())}}"><span style="font-size: 15px;"
-                                                                                               class="badge badge-pill badge-success"><i
-                                        class="icon ion-ios-arrow-up"></i> {{$user->rank()->name}}</span></a>
-                        <br>
-                        @if ($user->is_trainee)
-                            <span class="badge badge-pill badge-info">Стажер</span>
-                        @endif
-                        @if ($user->is_teacher)
-                            <span class="badge badge-pill badge-info">Преподаватель</span>
-                        @endif
-                        <img src="https://png.icons8.com/color/50/000000/coins.png"
-                             style="height: 23px;">&nbsp;{{$user->balance()}}&nbsp;&nbsp;
-                    </p>
-                    <ul class="list-group list-group-flush" style="box-shadow: none;">
-                        @if ($user->telegram!='')
-                            <li class="list-group-item"><img src="https://png.icons8.com/telegram-app/win10/16"
-                                                             title="Telegram App" width="16"
-                                                             height="16"><strong> Telegram: </strong>
-                                {{$user->telegram}}</li>
-                        @endif
-                        @if ($user->git!='')
-                            <li class="list-group-item"><img src="https://png.icons8.com/git/color/24" title="Git"
-                                                             width="16" height="16"><strong> Git: </strong>
-                                {{$user->git}}</li>
-                        @endif
-                        @if ($user->vk!='')
-                            <li class="list-group-item"><img src="https://png.icons8.com/vkontakte/color/24"
-                                                             title="VKontakte" width="16"
-                                                             height="16">
-                                <strong> VK: </strong>
-                                {{$user->vk}}</li>
-                        @endif
-                        @if ($user->facebook!='')
-                            <li class="list-group-item"><img src="https://png.icons8.com/facebook/color/24"
-                                                             title="Facebook"
-                                                             width="16"
-                                                             height="16"><strong> Facebook: </strong>
-                                {{$user->facebook}}</li>
-                        @endif
-                    </ul>
-
-                    @foreach($stickers as $sticker)
-                        <img src="{{url($sticker)}}" title="{{$sticker_description[$sticker]}}"
-                             style="max-height: 35px;"/>
-                    @endforeach
-                </div>
-
-
-            </div>
-
-        </div>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
@@ -151,7 +74,8 @@
                                         @if ($guest->role=='admin')
                                             <br>
                                             <a href="{{url('insider/profile/'.$user->id.'/delete-course/'.$course->id)}}"
-                                               style="color: red;" class="card-link" onclick="return confirm('Вы уверены?')">Отчислить</a>
+                                               style="color: red;" class="card-link"
+                                               onclick="return confirm('Вы уверены?')">Отчислить</a>
                                         @endif
                                     </div>
                                 </div>
@@ -171,7 +95,7 @@
                         @if ($guest->role=='admin')
                             <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-success"
                                     data-toggle="modal" data-target="#exampleModal">
-                                <i class="icon ion-plus-round"></i> Добавить
+                                <i class="icon ion-plus-round" style="color: white;"></i> Добавить
                             </button>
                         @endif
                     </div>
@@ -184,7 +108,8 @@
                                     <h5 class="card-title">{{$course->name}}
                                         @if ($guest->role=='admin')
                                             <a class="float-right"
-                                               href="{{url('/insider/profile/delete-course/'.$course->id)}}"  onclick="return confirm('Вы уверены?')"><span
+                                               href="{{url('/insider/profile/delete-course/'.$course->id)}}"
+                                               onclick="return confirm('Вы уверены?')"><span
                                                         aria-hidden="true">&times;</span></a>
                                         @endif</h5>
                                     <p>
@@ -215,7 +140,7 @@
                         @if ($guest->role=='admin' || $guest->role=='teacher' || $guest->id==$user->id)
                             <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-success"
                                     data-toggle="modal" data-target="#createProject">
-                                <i class="icon ion-plus-round"></i> Добавить
+                                <i class="icon ion-plus-round" style="color: white;"></i> Добавить
                             </button>
                         @endif
                     </div>
@@ -346,6 +271,84 @@
                     @endforeach
                 </div>
             @endif
+        </div>
+        <div class="col-md-4">
+
+            <div class="card">
+                @if ($user->image)
+                    <img class="card-img-top"
+                         src="{{url('/media/'.$user->image)}}"/>
+                @else
+                    <img class="card-img-top"
+                         src="https://api.adorable.io/avatars/250/{{$user->id}}.png"/>
+                @endif
+                <div class="card-body">
+
+                    <h4 class="card-title">{{ $user->name }}</h4>
+
+                    <p><strong>Дата
+                            рождения:</strong> @if($user->birthday!=null){{$user->birthday->format('Y-m-d')}}@endif<br>
+                        <strong>Место учебы:</strong> {{$user->school}}<br>
+                        <strong>Класс:</strong> {{$user->grade()}}</p>
+
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar"
+                             style="width:{{100*($user->score()-$user->rank()->from)/($user->rank()->to-$user->rank()->from)}}%;"
+                             aria-valuenow="{{$user->score()}}" aria-valuemin="{{$user->rank()->from}}"
+                             aria-valuemax="{{$user->rank()->to}}">{{$user->score()}}</div>
+                    </div>
+                    <p style="margin-top: 15px;">
+                        <a tabindex="0" data-toggle="popover" data-trigger="focus" title="Ранги" data-html="true"
+                           data-content="{{\App\Rank::getRanksListHTML($user->rank())}}"><span style="font-size: 15px;"
+                                                                                               class="badge badge-pill badge-success"><i
+                                        class="icon ion-ios-arrow-up"></i> {{$user->rank()->name}}</span></a>
+                        <br>
+                        @if ($user->is_trainee)
+                            <span class="badge badge-pill badge-info">Стажер</span>
+                        @endif
+                        @if ($user->is_teacher)
+                            <span class="badge badge-pill badge-info">Преподаватель</span>
+                        @endif
+                        <img src="https://png.icons8.com/color/50/000000/coins.png"
+                             style="height: 23px;">&nbsp;{{$user->balance()}}&nbsp;&nbsp;
+                    </p>
+                    <ul class="list-group list-group-flush" style="box-shadow: none;">
+                        @if ($user->telegram!='')
+                            <li class="list-group-item"><img src="https://png.icons8.com/telegram-app/win10/16"
+                                                             title="Telegram App" width="16"
+                                                             height="16"><strong> Telegram: </strong>
+                                {{$user->telegram}}</li>
+                        @endif
+                        @if ($user->git!='')
+                            <li class="list-group-item"><img src="https://png.icons8.com/git/color/24" title="Git"
+                                                             width="16" height="16"><strong> Git: </strong>
+                                {{$user->git}}</li>
+                        @endif
+                        @if ($user->vk!='')
+                            <li class="list-group-item"><img src="https://png.icons8.com/vkontakte/color/24"
+                                                             title="VKontakte" width="16"
+                                                             height="16">
+                                <strong> VK: </strong>
+                                {{$user->vk}}</li>
+                        @endif
+                        @if ($user->facebook!='')
+                            <li class="list-group-item"><img src="https://png.icons8.com/facebook/color/24"
+                                                             title="Facebook"
+                                                             width="16"
+                                                             height="16"><strong> Facebook: </strong>
+                                {{$user->facebook}}</li>
+                        @endif
+                    </ul>
+
+                    @foreach($stickers as $sticker)
+                        <img src="{{url($sticker)}}" title="{{$sticker_description[$sticker]}}"
+                             style="max-height: 35px;"/>
+                    @endforeach
+                </div>
+
+
+            </div>
+
         </div>
     </div>
 

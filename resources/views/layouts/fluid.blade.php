@@ -47,8 +47,10 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css'/>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/prism.min.js' data-manual></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/components/prism-python.min.js' data-manual></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/components/prism-python.min.js'
+            data-manual></script>
     <script src="{{url('/js/nbv.js')}}"></script>
+    <link href="{{url('assets/css/theme.css')}}" rel="stylesheet" type="text/css" media="all"/>
 
 </head>
 <body style="min-height: 100%; height: 100%; background-color: white;">
@@ -66,7 +68,6 @@
 </div>
 
 <!-- Compiled and minified JavaScript -->
-
 
 
 <!-- Scripts -->
@@ -93,21 +94,27 @@
 
 </script>
 <!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+<script type="text/javascript">
+    (function (m, e, t, r, i, k, a) {
+        m[i] = m[i] || function () {
+            (m[i].a = m[i].a || []).push(arguments)
+        };
+        m[i].l = 1 * new Date();
+        k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+    })
     (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
     ym(55625236, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true
     });
 </script>
-<noscript><div><img src="https://mc.yandex.ru/watch/55625236" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/55625236" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript>
 <!-- /Yandex.Metrika counter -->
-
 
 
 </body>

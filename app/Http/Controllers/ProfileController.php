@@ -38,7 +38,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('name')->get();
+        $users = User::with('submissions', 'posts', 'games', 'completedCourses')->orderBy('name')->get();
         return view('profile.index', compact('users'));
     }
 

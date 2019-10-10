@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('content')
     <div class="row" style="margin-top: 15px;">
@@ -18,7 +18,7 @@
                     <div class="col-auto">
                         <input type="submit" class="btn btn-success" value="Найти" style="margin-right: 5px;"/>
                         <a class="float-right btn btn-success" href="{{url('/insider/forum/create/')}}"><i
-                                    class="icon ion-plus-round"></i>&nbsp;Задать вопрос</a>
+                                    class="icon ion-plus-round" style="color: white;"></i>&nbsp;Задать вопрос</a>
                     </div>
 
                 </div>

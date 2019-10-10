@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('content')
     <h2><a class="back-link" href="{{url('/insider/courses/'.$course->id.'/assessments')}}"><i

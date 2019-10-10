@@ -8,15 +8,16 @@
     @endif
 @endsection
 
+
 @section('tabs')
 
 @endsection
 
 @section('content')
-    <div class="row" style="min-height: 100%; position: absolute; width: 100%;">
+    <div class="row" style="min-height: 100%; position: absolute; width: 100%; background-color: #fafafa;">
         @include('steps/partials/nav')
 
-        <main role="main" class="col-sm-8 ml-sm-auto col-md-9 pt-3">
+        <main role="main" class="col-sm-8 ml-sm-auto col-md-9 col-xl-10 pt-3" style="background-color: white; padding-bottom: 40px;">
             @include('steps/partials/breadcrumb_widget')
             @include('steps/partials/tabs')
 
@@ -41,7 +42,8 @@
                 @endif
                 @if (\Request::is('open/*'))
                     @if ($step->previousStep() != null)
-                        <a href="{{url('/open/steps/'.$step->previousStep()->id)}}" class="btn btn-success btn-sm">Назад</a>
+                        <a href="{{url('/open/steps/'.$step->previousStep()->id)}}"
+                           class="btn btn-success btn-sm">Назад</a>
                     @endif
                     @if ($step->nextStep() != null)
                         <a href="{{url('/open/steps/'.$step->nextStep()->id)}}"
@@ -90,7 +92,7 @@
       </div>
    </div>`
             var months = [
-                "January", "February", "March", "April", "May", "June", "Jule", "August", "September", 
+                "January", "February", "March", "April", "May", "June", "Jule", "August", "September",
                 "October", "November", "December"
             ]
 

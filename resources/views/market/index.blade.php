@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('title')
     GeekClass
@@ -12,7 +12,7 @@
         <div class="col">
             @if ($user->role=='admin')
                 <a class="float-right btn btn-success btn-sm" href="{{url('/insider/market/create/')}}"><i
-                            class="icon ion-plus-round"></i>&nbsp;Добавить товар</a>
+                            class="icon ion-plus-round" style="color: white;"></i>&nbsp;Добавить товар</a>
             @endif
         </div>
     </div>

@@ -1,4 +1,4 @@
-<nav class="col-sm-4 col-md-3 sidebar" id="stepsSidebar">
+<nav class="col-sm-4 col-md-3 col-xl-2 sidebar" id="stepsSidebar">
 
             <ul class="nav nav-pills flex-column">
                 @if (\Request::is('insider/*'))

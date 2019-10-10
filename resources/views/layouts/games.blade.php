@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('head')
     <link rel="stylesheet" href="{{asset('codemirror.css')}}">

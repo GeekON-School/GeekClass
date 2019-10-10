@@ -1,4 +1,4 @@
-@extends('layouts.full')
+@extends('layouts.left-menu')
 
 @section('content')
     <div class="row" style="margin-top: 15px;">
@@ -6,7 +6,7 @@
             <h2>Проекты</h2>
         </div>
         <div class="col">
-            <ul class="nav nav-pills float-right" id="ideasTabs" role="tablist">
+            <ul class="nav nav-tabs nav-fill" id="ideasTabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="projects-tab" data-toggle="tab" href="#projects" role="tab"
                        aria-controls="projects" aria-selected="true">Мои проекты</a>
@@ -16,8 +16,8 @@
                        aria-controls="all_projects" aria-selected="false">Все проекты</a>
                 </li>
                 <li class="nav-item" style="margin-left: 5px;">
-                    <a class="btn btn-success btn-sm nav-link" href="{{url('/insider/projects/create/')}}"><i
-                                class="icon ion-plus-round"></i>&nbsp;Создать</a>
+                    <a class="btn btn-success btn-sm nav-link" style="color: white;"  href="{{url('/insider/projects/create/')}}"><i
+                                class="icon ion-plus-round" style="color: white;"></i>&nbsp;Создать</a>
                 </li>
             </ul>
         </div>
