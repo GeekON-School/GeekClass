@@ -75,7 +75,45 @@
             GeekClass
         </a>
 
+        <div class="d-flex align-items-center">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse"
+                    aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="d-block d-lg-none ml-2">
 
+                @if (\Auth::check())
+                    <div class="dropdown">
+                        <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                            @if (\Auth::User()->image!=null)
+                                <img alt="Image" src="{{url('/media/'.\Auth::User()->image)}}" class="avatar menu"/>
+                            @else
+                                <img alt="Image" src="http://api.adorable.io/avatars/256/{{\Auth::User()->id}}"
+                                     class="avatar"/>
+                            @endif
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="{{url('insider/profile')}}"><i class="icon ion-person"></i>
+                                Профиль</a>
+                            @if (\Auth::User()->role == 'admin')
+                                <a class="dropdown-item" href="{{url('insider/scales')}}"><i
+                                            class="icon ion-university"></i> Шкалы</a>
+                                <a class="dropdown-item" href="{{url('insider/core/editor')}}"><i
+                                            class="icon ion-edit"></i> Редактор карт</a>
+                            @endif
+
+
+                            <a class="dropdown-item" href="{{url('insider/core/'.\Auth::User()->id)}}"><i
+                                        class="icon ion-map"></i> Карта</a>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                        class="icon ion-reply"></i>Выход</a>
+                        </div>
+                    </div>
+                @endif
+            </div>
+        </div>
 
         <div class="collapse navbar-collapse flex-column" id="navbar-collapse">
             <ul class="navbar-nav d-lg-block">
