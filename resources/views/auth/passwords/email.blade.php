@@ -52,7 +52,14 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <form method="POST" action="{{ route('password.request') }}" class="form-signin text-left">
+                                @if (session('status'))
+                                    <div class="alert alert-success">
+                                        {{ session('status') }}
+                                    </div>
+                                @endif
+
+                                <form method="POST" action="{{ route('password.request') }}"
+                                      class="form-signin text-left">
 
                                     <div class="card">
                                         <div class="card-body">
