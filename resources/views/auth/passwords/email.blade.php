@@ -58,7 +58,7 @@
                                     </div>
                                 @endif
 
-                                <form method="POST" action="{{ route('password.request') }}"
+                                <form method="POST" action="{{ route('password.email') }}"
                                       class="form-signin text-left">
 
                                     <div class="card">
