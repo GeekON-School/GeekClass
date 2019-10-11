@@ -1,4 +1,4 @@
-@extends('layouts.left-menu')
+@extends('layouts.empty-dark')
 
 @section('content')
     <div class="row">
@@ -7,87 +7,20 @@
                   enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="row">
-                    <div class="col-md-8">
-                        <h4>Регистрация</h4>
-                    </div>
-                    <div class="col">
-                        <button type="submit" class="btn btn-success btn-sm float-right">Регистрация!</button>
+                    <div class="col-md-12">
+                        <a class="navbar-brand" href="{{ url('/') }}" style="line-height: 50px; font-size: 1.3rem; color: white;">
+            <span><img style="height: 35px; margin-bottom: 0px;"
+                       src="https://img.icons8.com/cute-clipart/64/000000/idea.png">&nbsp;</span>
+                            GeekClass
+                        </a>
+                        <h3 class="card-title"
+                            style="color: white; margin-top: 20px; font-weight: 300; margin-bottom: 5px;">
+                            Регистрация</h3>
                     </div>
                 </div>
 
                 <div class="row" style="margin-top: 15px;">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-
-
-                                <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-                                    <label for="image">Аватар</label>
-
-                                    <input id="image" type="file" class="form-control" name="image"/>
-
-                                    @if ($errors->has('image'))
-                                        <span class="help-block error-block"><strong>{{ $errors->first('image') }}</strong></span>
-                                    @endif
-                                </div>
-                                <h4>Контакты</h4>
-                                <span class="help-block text-muted">Эти данные увидят только другие студенты школы. <strong>Они не видны из интернета.</strong></span>
-
-                                <div class="form-group">
-                                    <label for='vk'>VK</label>
-
-                                    <input id='vk' type="text" class="form-control" name='vk' value="{{old('vk')}}">
-                                    @if ($errors->has('vk'))
-                                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first('vk') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label for='telegram'>Telegram</label>
-                                    <input id='telegram' type="text" class="form-control" name='telegram'
-                                           value="{{old('telegram')}}">
-
-                                    @if ($errors->has('telegram'))
-                                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first('telegram') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label for='git'>Git</label>
-
-                                    <input id='git' type="text" class="form-control" name='git'
-                                           value="{{old('git')}}">
-                                    @if ($errors->has('git'))
-                                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first('git') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <label for='facebook'>Facebook</label>
-
-                                    <input id='facebook' type="text" class="form-control" name='facebook'
-                                           value="{{old('facebook')}}">
-                                    @if ($errors->has('facebook'))
-                                        <span class="help-block error-block">
-                                        <strong>{{ $errors->first('facebook') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    {!! \NoCaptcha::display() !!}
-                                    @if ($errors->has('g-recaptcha-response'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
                                 <h4>Инвайт</h4>
@@ -228,6 +161,70 @@
                                     </span>
                                     @endif
                                 </div>
+                                <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+                                    <label for="image">Аватар</label>
+
+                                    <input id="image" type="file" class="form-control" name="image"/>
+
+                                    @if ($errors->has('image'))
+                                        <span class="help-block error-block"><strong>{{ $errors->first('image') }}</strong></span>
+                                    @endif
+                                </div>
+                                <h4>Контакты</h4>
+                                <span class="help-block text-muted">Эти данные увидят только другие студенты школы, заполнять не обязательно. <strong>Они не видны из интернета.</strong></span>
+
+                                <div class="form-group">
+                                    <label for='vk'>VK</label>
+
+                                    <input id='vk' type="text" class="form-control" name='vk' value="{{old('vk')}}">
+                                    @if ($errors->has('vk'))
+                                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('vk') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                                <div class="form-group">
+                                    <label for='telegram'>Telegram</label>
+                                    <input id='telegram' type="text" class="form-control" name='telegram'
+                                           value="{{old('telegram')}}">
+
+                                    @if ($errors->has('telegram'))
+                                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('telegram') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                                <div class="form-group">
+                                    <label for='git'>Git</label>
+
+                                    <input id='git' type="text" class="form-control" name='git'
+                                           value="{{old('git')}}">
+                                    @if ($errors->has('git'))
+                                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('git') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                                <div class="form-group">
+                                    <label for='facebook'>Facebook</label>
+
+                                    <input id='facebook' type="text" class="form-control" name='facebook'
+                                           value="{{old('facebook')}}">
+                                    @if ($errors->has('facebook'))
+                                        <span class="help-block error-block">
+                                        <strong>{{ $errors->first('facebook') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                                <div class="form-group">
+                                    {!! \NoCaptcha::display() !!}
+                                    @if ($errors->has('g-recaptcha-response'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <button type="submit" class="btn btn-success btn-lg">Регистрация!</button>
                             </div>
                         </div>
 
