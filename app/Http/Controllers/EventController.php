@@ -145,25 +145,28 @@ class EventController extends Controller
         return redirect('/insider/events/'.$id);
     }
 
-    public function like_event($id)
+    public function like_event($id, Request $request)
     {
         $event = Event::findOrFail($id);
-        if(!$event->hasLiked(Auth::User()->id))
-        {
-          $event->userLikes()->attach(Auth::User()->id);
-        }
-        return redirect('/insider/events/'.$id);
-    }
-    public function dislike_event($id)
-    {
-        $event = Event::findOrFail($id);
-        if ($event->hasLiked(Auth::User()->id))
-        {
-            $event->userLikes()->detach(Auth::User()->id);
-        }
+
+        // if ($event->user->id == \Auth::id()) abort(403);
+        
+        $event->vote(1);
+
         return redirect('/insider/events/'.$id);
     }
 
+    public function dislike_event($id, Request $request)
+    {
+        $event = Event::findOrFail($id);
+
+        // if ($event->user->id == \Auth::id()) abort(403);
+
+        $event->vote(-1);
+
+        return redirect('/insider/events/'.$id);
+    }
+    
     public function add_comment(Request $request, $id)
     {
         $comment = new EventComments;

@@ -1,7 +1,7 @@
 @extends('layouts.left-menu')
 
 @section('content')
-    <div class="row" >
+    <div class="row" id="root">
         <div class="row col-12">
             <div class="row col-12">
                 <h2 style="margin: 20px; col"><a href="/insider/events">< </a>{{ $event->name }}</h2>
@@ -28,7 +28,15 @@
                                 </p>
 
                                 <a class="col-md-12" style="position:absolute; bottom :0; left:-10px;">
-                                        @include('events.event_likes')
+                                    <gk-votes 
+                    :upvotes="{{$event->getUpvotes()-$event->hasUpvoted(\Auth::id())}}"
+                    :downvotes="{{$event->getDownvotes()-$event->hasDownvoted(\Auth::id())}}"
+                    :upvoted="{{$event->hasUpvoted(\Auth::id())?'1':'0'}}"
+                    :downvoted="{{$event->hasDownvoted(\Auth::id())?'1':'0'}}"
+                    :canvote="true"
+                    :urls="{upvote: '/insider/events/{{$event->id}}/like',
+                            downvote: '/insider/events/{{$event->id}}/dislike'}"
+                            ></gk-votes>
                                 </a>
                             </div>
                         </div>
@@ -36,12 +44,15 @@
                             <div>
                                 <div class="row">
                                     <div class="col-md-12 row">
-                                        <a role="button" style="margin-left:10px" class="col btn btn-danger" href={{"/insider/events/$event->id/left"}}>
-                                            Я не иду
-                                        </a>
-                                        <a role="button" style="margin-left:10px" class="col btn btn-primary" href={{"/insider/events/$event->id/go"}}>
-                                            Я иду!
-                                        </a>
+                                        @if ($event->userPartis()->where('user_id', \Auth::id())->count() > 0)
+                                            <a role="button" style="margin-left:10px" class="col btn btn-danger" href={{"/insider/events/$event->id/left"}}>
+                                                Я не иду
+                                            </a>
+                                        @else
+                                            <a role="button" style="margin-left:10px" class="col btn btn-primary" href={{"/insider/events/$event->id/go"}}>
+                                                Я иду!
+                                            </a>
+                                        @endif
                                     </div>
                                     <p class="col-md-12" style="margin-top:20px;">
                                         <b>Где: </b> {{$event->location}}
@@ -113,5 +124,5 @@
                 @endforeach
         </div>            
     </div>
-    @include('events.event_likes_script')
+    <script src="{{asset('js/forum.js')}}"></script>
 @endsection
