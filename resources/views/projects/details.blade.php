@@ -125,14 +125,14 @@
                         <div class="modal-body markdown">
                             @parsedown($project->task->text)
 
-                            <span class="badge badge-secondary">Максимальный балл: {{$project->task->max_mark}}</span>
+                            <span class="badge badge-secondary">очков опыта: {{$project->task->max_mark}}</span>
 
 
                             {{csrf_field()}}
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0"
                                        id="mark"
-                                       name="mark" placeholder="Оценка">
+                                       name="mark" placeholder="Очков опыта">
                                 @if ($errors->has('mark'))
                                     <span class="help-block error-block"><strong>{{ $errors->first('mark') }}</strong></span>
                                 @endif

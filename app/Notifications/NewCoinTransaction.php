@@ -33,7 +33,7 @@ class NewCoinTransaction extends Notification
      */
     public function via($notifiable)
     {
-        return [VkChannel::class];
+        return [VkChannel::class, 'database'];
     }
 
     /**
@@ -68,8 +68,11 @@ class NewCoinTransaction extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-            //
-        ];
+        if ($this->transaction->price > 0) {
+            return [
+                "text" => "🏧 Вам начислено " . $this->transaction->price . " GK (" . $this->transaction->comment . ")",
+                "type" => "success"
+            ];
+        }
     }
 }

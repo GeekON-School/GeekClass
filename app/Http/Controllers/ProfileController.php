@@ -150,10 +150,9 @@ class ProfileController extends Controller
             'name' => 'required|string',
             'school' => 'required|string',
             'grade' => 'required|integer',
-            'birthday' => 'required|date',
             'hobbies' => 'required|string',
             'interests' => 'required|string',
-            'image' => 'image|max:1000'
+            'image' => 'image|max:4000'
         ]);
 
         $user->name = $request->name;

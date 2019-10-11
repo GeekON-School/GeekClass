@@ -169,6 +169,10 @@
 
                     <li><a class="text-muted" target="_blank" href="https://gekkon-club.ru/programming">Сайт
                             Геккон-клуба</a></li>
+                    <li><a class="text-muted" target="_blank" href="https://gekkon-club.ru/programming">Бот в ВК</a></li>
+                    @if (\Auth::check())
+                        <li><a class="text-muted" target="_blank" href="https://gekkon-club.ru/programming">Беседа в ВК</a></li>
+                    @endif
                     <li><a class="text-muted" target="_blank" href="https://github.com/geekon-school/">GitHub</a></li>
                     <li><a class="text-muted" target="_blank" href="https://storage.geekclass.ru">Storage</a></li>
                     <li><a class="text-muted" target="_blank" href="https://paste.geekclass.ru">Paste</a></li>

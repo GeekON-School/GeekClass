@@ -121,7 +121,7 @@
                 @if (\Auth::check())
                     @if (\Auth::User()->role != 'novice')
                         <li class="nav-item">
-                            <a class="nav-link {{(Request::is('insider/articles*') ? 'active-link' : '') }}"
+                            <a class="nav-link {{((Request::is('insider/articles*') or Request::is('articles*'))? 'active-link' : '') }}"
                                href="{{url('/insider/articles')}}">Статьи</a></li>
                     @else
                         <li class="nav-item">
@@ -171,6 +171,9 @@
 
                     <li class="nav-item"><a class="nav-link" target="_blank" href="https://gekkon-club.ru/programming">Сайт
                             Геккон-клуба</a></li>
+                    @if (\Auth::check())
+                        <li class="nav-item"><a class="nav-link" target="_blank" href="{{ config('bot.vk_chat') }}">Беседа в ВК</a></li>
+                    @endif
                     <li class="nav-item"><a class="nav-link" target="_blank" href="https://github.com/geekon-school/">GitHub</a>
                     </li>
                     <li class="nav-item"><a class="nav-link" target="_blank"

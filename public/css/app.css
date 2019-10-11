@@ -172,7 +172,7 @@ a[disabled] {
 }
 
 .card-deck > .card {
-    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .card-group > .card {
@@ -496,4 +496,15 @@ h5.card-title {
 }
 .dropdown-item {
     color: #01597C;
+}
+
+@media screen and (max-width: 991px) { /* Bootstrap's mobile view breakpoint */
+    .navbar-dark {
+        position: relative !important;
+    }
+}
+
+
+li {
+    color: #212529;
 }

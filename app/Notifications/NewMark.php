@@ -46,7 +46,7 @@ class NewMark extends Notification implements ShouldQueue
         return (new MailMessage)->greeting('Добрый день!')->subject('Решение проверено')
             ->line($this->solution->teacher->name . " проверил ваше решение для задачи
                      " . $this->solution->task->name . " (курс " . $this->solution->course->name . ").")
-            ->line('Оценка: ' . $this->solution->mark . " / " . $this->solution->task->max_mark)
+            ->line('Очков опыта: ' . $this->solution->mark . " / " . $this->solution->task->max_mark)
             ->line('Комментарий: ' . $this->solution->comment)
             ->action('Подробнее', url("/insider/courses/" . $this->solution->course_id . "/steps/" . $this->solution->task->step->id . "#task" . $this->solution->task->id));
     }
@@ -55,7 +55,7 @@ class NewMark extends Notification implements ShouldQueue
     {
         $message = "✅ ".$this->solution->teacher->name . " проверил ваше решение задачи
                      \"" . $this->solution->task->name . "\" (курс " . $this->solution->course->name . "). Вы заработали " .
-            $this->solution->mark . " / " . $this->solution->task->max_mark . " баллов.";
+            $this->solution->mark . " / " . $this->solution->task->max_mark . " очков опыта.";
 
         if ($this->solution->comment != "") {
             $message .= "\n\n📃 Комментарий: " . $this->solution->comment;

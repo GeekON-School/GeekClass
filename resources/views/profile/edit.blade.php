@@ -15,84 +15,6 @@
         </div>
 
         <div class="row" style="margin-top: 15px;">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-
-
-                        <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-                            <label for="image">Аватар</label>
-
-                            <input id="image" type="file" class="form-control" name="image"/>
-
-                            @if ($errors->has('image'))
-                                <span class="help-block error-block"><strong>{{ $errors->first('image') }}</strong></span>
-                            @endif
-                        </div>
-                        <h4>Контакты</h4>
-                        <div class="form-group">
-                            <label for='vk'>VK</label>
-
-                            @if (old('vk')!="")
-                                <input id='vk' type="text" class="form-control" name='vk' value="{{old('vk')}}">
-                            @else
-                                <input id='vk' type="text" class="form-control" name='vk' value="{{$user->vk}}">
-                            @endif
-                            @if ($errors->has('vk'))
-                                <span class="help-block error-block">
-                                        <strong>{{ $errors->first('vk') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <label for='telegram'>Telegram</label>
-
-                            @if (old('telegram')!="")
-                                <input id='telegram' type="text" class="form-control" name='telegram'
-                                       value="{{old('telegram')}}">
-                            @else
-                                <input id='telegram' type="text" class="form-control" name='telegram'
-                                       value="{{$user->telegram}}">
-                            @endif
-                            @if ($errors->has('telegram'))
-                                <span class="help-block error-block">
-                                        <strong>{{ $errors->first('telegram') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <label for='git'>Git</label>
-
-                            @if (old('git')!="")
-                                <input id='git' type="text" class="form-control" name='git' value="{{old('git')}}">
-                            @else
-                                <input id='git' type="text" class="form-control" name='git' value="{{$user->git}}">
-                            @endif
-                            @if ($errors->has('git'))
-                                <span class="help-block error-block">
-                                        <strong>{{ $errors->first('git') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <label for='facebook'>Facebook</label>
-
-                            @if (old('facebook')!="")
-                                <input id='facebook' type="text" class="form-control" name='facebook'
-                                       value="{{old('facebook')}}">
-                            @else
-                                <input id='facebook' type="text" class="form-control" name='facebook'
-                                       value="{{$user->facebook}}">
-                            @endif
-                            @if ($errors->has('facebook'))
-                                <span class="help-block error-block">
-                                        <strong>{{ $errors->first('facebook') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
@@ -246,6 +168,85 @@
 
 
             </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+                            <label for="image">Аватар</label>
+
+                            <input id="image" type="file" class="form-control" name="image"/>
+
+                            @if ($errors->has('image'))
+                                <span class="help-block error-block"><strong>{{ $errors->first('image') }}</strong></span>
+                            @endif
+                        </div>
+                        <h4>Контакты</h4>
+                        <div class="form-group">
+                            <label for='vk'>VK</label>
+
+                            @if (old('vk')!="")
+                                <input id='vk' type="text" class="form-control" name='vk' value="{{old('vk')}}">
+                            @else
+                                <input id='vk' type="text" class="form-control" name='vk' value="{{$user->vk}}">
+                            @endif
+                            @if ($errors->has('vk'))
+                                <span class="help-block error-block">
+                                        <strong>{{ $errors->first('vk') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label for='telegram'>Telegram</label>
+
+                            @if (old('telegram')!="")
+                                <input id='telegram' type="text" class="form-control" name='telegram'
+                                       value="{{old('telegram')}}">
+                            @else
+                                <input id='telegram' type="text" class="form-control" name='telegram'
+                                       value="{{$user->telegram}}">
+                            @endif
+                            @if ($errors->has('telegram'))
+                                <span class="help-block error-block">
+                                        <strong>{{ $errors->first('telegram') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label for='git'>Git</label>
+
+                            @if (old('git')!="")
+                                <input id='git' type="text" class="form-control" name='git' value="{{old('git')}}">
+                            @else
+                                <input id='git' type="text" class="form-control" name='git' value="{{$user->git}}">
+                            @endif
+                            @if ($errors->has('git'))
+                                <span class="help-block error-block">
+                                        <strong>{{ $errors->first('git') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label for='facebook'>Facebook</label>
+
+                            @if (old('facebook')!="")
+                                <input id='facebook' type="text" class="form-control" name='facebook'
+                                       value="{{old('facebook')}}">
+                            @else
+                                <input id='facebook' type="text" class="form-control" name='facebook'
+                                       value="{{$user->facebook}}">
+                            @endif
+                            @if ($errors->has('facebook'))
+                                <span class="help-block error-block">
+                                        <strong>{{ $errors->first('facebook') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
     </form>

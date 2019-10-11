@@ -1,26 +1,45 @@
 @extends('layouts.left-menu')
 
 @section('content')
+    <div class="row">
+        <div class="col">
+            <h2 style="font-weight: 300;">{{$user->name}}</h2>
+        </div>
+    </div>
+
+
     <div class="row" style="margin-top: 15px;">
 
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">О себе
+                    <h4 class="card-title" style="max-width: 100% !important;">О себе
                         @if ($guest->role=='admin' || $guest->id==$user->id)
-                            <a class="btn btn-sm btn-success float-right"
-                               href="{{'/insider/profile/'.$user->id.'/edit'}}"><i class="icon ion-android-create"></i>
-                                Редактировать</a>
-                            @if ($guest->role=='teacher' || $guest->role=='admin')
-                                <button style="margin-right: 4px;" class="btn btn-sm btn-success float-right"
-                                        type="button"
-                                        data-toggle="modal" data-target="#addMoney">
-                                    <i class="icon ion-cash"></i> Начислить
+                            <div class="dropdown float-right">
+                                <button class="btn-options" type="button" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_vert</i>
                                 </button>
-                            @endif
-                            <a style="margin-right: 4px;" target="_blank" class="btn btn-sm btn-success float-right"
-                               href="{{'/insider/core/'.$user->id}}">
-                                Core</a>
+
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item"
+                                       href="{{url('insider/profile/'.$user->id.'/edit')}}"><i
+                                                class="icon ion-android-create"></i>
+                                        Редактировать</a>
+                                    @if ($guest->role=='teacher' || $guest->role=='admin')
+                                        <a href="#" class="dropdown-item"
+                                           role="button"
+                                           data-toggle="modal" data-target="#addMoney">
+                                            <i class="icon ion-cash"></i> Начислить
+                                        </a>
+                                    @endif
+                                    <a target="_blank" class="dropdown-item"
+                                       href="{{'/insider/core/'.$user->id}}">
+                                        Core</a>
+
+                                </div>
+                            </div>
+
                         @endif
                     </h4>
                     <p><strong>Технологические интересы:</strong><br>{{$user->interests}}</p>
@@ -93,10 +112,10 @@
                     </div>
                     <div class="col" style="padding-top: 19px;">
                         @if ($guest->role=='admin')
-                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-success"
-                                    data-toggle="modal" data-target="#exampleModal">
-                                <i class="icon ion-plus-round" style="color: white;"></i> Добавить
+                            <button class="btn btn-round float-right" data-toggle="modal" data-target="#exampleModal">
+                                <i class="material-icons">add</i>
                             </button>
+
                         @endif
                     </div>
                 </div>
@@ -114,7 +133,7 @@
                                         @endif</h5>
                                     <p>
                                         <span class="badge badge-pill badge-{{\App\CourseLabel::get($course)}}">{{$course->provider}}</span>
-                                        <span class="badge badge-pill badge-success">Оценка: <strong>{{$course->mark}}</strong></span>
+                                        <span class="badge badge-pill badge-success">Очков опыта: <strong>{{$course->mark}}</strong></span>
                                     </p>
                                     @if ($course->course_id!=null && ($guest->role=='teacher' || $course->course->students->contains($guest)))
                                         <a href="{{url('insider/courses/'.$course->course_id)}}"
@@ -133,14 +152,14 @@
             @if ($user->projects->count()!=0 || $guest->role=='teacher' || $guest->role=='admin')
                 <div class="row">
                     <div class="col-md-8">
-                        <h4 style="margin: 20px;" class="card-title">Проекты <img
-                                    src="https://png.icons8.com/microsoft-project/color/30/000000"></h4>
+                        <h4 style="margin: 20px;" class="card-title">Проекты <img style="height: 30px;"
+                                                                                  src="https://img.icons8.com/color/48/000000/ms-project.png">
+                        </h4>
                     </div>
                     <div class="col" style="padding-top: 19px;">
                         @if ($guest->role=='admin' || $guest->role=='teacher' || $guest->id==$user->id)
-                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-success"
-                                    data-toggle="modal" data-target="#createProject">
-                                <i class="icon ion-plus-round" style="color: white;"></i> Добавить
+                            <button class="btn btn-round float-right" data-toggle="modal" data-target="#createProject">
+                                <i class="material-icons">add</i>
                             </button>
                         @endif
                     </div>
@@ -284,8 +303,6 @@
                 @endif
                 <div class="card-body">
 
-                    <h4 class="card-title">{{ $user->name }}</h4>
-
                     <p><strong>Дата
                             рождения:</strong> @if($user->birthday!=null){{$user->birthday->format('Y-m-d')}}@endif<br>
                         <strong>Место учебы:</strong> {{$user->school}}<br>
@@ -379,7 +396,7 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('mark') ? ' has-error' : '' }}">
-                            <label for="mark" class="col-md-4">Оценка</label>
+                            <label for="mark" class="col-md-4">Очков опыта</label>
 
                             <div class="col-md-12">
                                 <input type="text" name="mark" class="form-control" id="mark"/>

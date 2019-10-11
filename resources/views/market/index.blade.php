@@ -11,8 +11,8 @@
         </div>
         <div class="col">
             @if ($user->role=='admin')
-                <a class="float-right btn btn-success btn-sm" href="{{url('/insider/market/create/')}}"><i
-                            class="icon ion-plus-round" style="color: white;"></i>&nbsp;Добавить товар</a>
+                <a class="btn btn-round float-right" href="{{url('/insider/market/create/')}}"><i
+                            class="material-icons">add</i></a>
             @endif
         </div>
     </div>
@@ -40,11 +40,15 @@
                         <p class="card-text" style="font-size: 0.8rem;">{{$good->description}}</p>
 
                         @if ($good->number > 0 and $good->price <= $user->balance())
-                            <a href="{{url('/insider/market/'.$good->id.'/buy')}}" class="btn btn-primary"  onclick="return confirm('Вы уверены?')">Купить за {{$good->price}} <img style="height: 20px;" src="https://png.icons8.com/color/50/000000/coins.png" /></a>
+                            <a href="{{url('/insider/market/'.$good->id.'/buy')}}" class="btn btn-primary"
+                               onclick="return confirm('Вы уверены?')">Купить за {{$good->price}} <img
+                                        style="height: 20px;"
+                                        src="https://png.icons8.com/color/50/000000/coins.png"/></a>
                         @else
-                            <a href="#" class="disabled btn btn-primary">Купить за {{$good->price}} <img style="height: 20px;" src="https://png.icons8.com/color/50/000000/coins.png" /></a>
+                            <a href="#" class="disabled btn btn-primary">Купить за {{$good->price}} <img
+                                        style="height: 20px;"
+                                        src="https://png.icons8.com/color/50/000000/coins.png"/></a>
                         @endif
-
 
 
                     </div>
@@ -69,11 +73,10 @@
                          style="min-width: 280px; background-size: cover;">
 
                         <div class="card-body" style="background-color: rgba(255,255,255,0.9);">
-                            <h5 style="margin-top: 15px; font-weight: 300;"
-                                class="card-title">{{$order->good->name}} <span class="float-right"><a
-                                            href="{{url('/insider/market/ship/'.$order->id)}}"
-                                            class="btn btn-primary btn-sm">Доставлено</a></span></h5>
-                            <p class="card-text" style="font-size: 0.8rem;">{{$order->user->name}}</p>
+                            <h5 style="margin-top: 15px; font-weight: 300;">{{$order->good->name}}</h5>
+                            <p >{{$order->user->name}}</p>
+                                <p><a href="{{url('/insider/market/ship/'.$order->id)}}"
+                                        class="btn btn-primary btn-sm">Доставлено</a></p>
                         </div>
 
                     </div>
@@ -106,8 +109,6 @@
                                                 class="icon ion-android-create"></i></a></span></h5>
                             <p class="card-text" style="font-size: 0.8rem;">{{$good->description}}</p>
                             <p><span class="badge badge-default">Снят с продажи</span></p>
-
-
 
 
                         </div>

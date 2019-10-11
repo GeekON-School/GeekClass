@@ -19,25 +19,7 @@
     </div>
 
     <div class="row">
-        <div class="col-3">
-            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                @foreach ($students as $key => $student)
-                    <a class="nav-link @if ($key == 0) active @endif" id="students-tab" data-toggle="pill"
-                       href="#student{{$student->id}}" role="tab"
-                       aria-controls="student{{$student->id}}" aria-selected="true"
-                       onclick="Plotly.relayout('pulse{{$student->id}}', {width: 1.5*getInnerWidth($('#v-pills-tabContent')[0]) + 'px', height: ''});">{{$student->name}}
-                        &nbsp;&nbsp;
-                        @if ($student->percent < 40)
-                            <span class="badge badge-danger">&nbsp;</span>
-                        @elseif($student->percent < 60)
-                            <span class="badge badge-warning">&nbsp;</span>
-                        @else
-                            <span class="badge badge-success">&nbsp;</span>
-                        @endif
-                    </a>
-                @endforeach
-            </div>
-        </div>
+
         <div class="col-9">
             <div class="tab-content" id="v-pills-tabContent">
                 <script>
@@ -154,7 +136,7 @@
                                                              aria-valuenow="{{$lesson->percent($student)}}"
                                                              aria-valuemin="0"
                                                              aria-valuemax="100">
-                                                            Успеваемость: {{$lesson->points($student)}}
+                                                            Очки опыта: {{$lesson->points($student)}}
                                                             / {{$lesson->max_points($student)}}</div>
 
                                                     @else
@@ -164,7 +146,7 @@
                                                              aria-valuenow="{{$lesson->percent($student)}}"
                                                              aria-valuemin="0"
                                                              aria-valuemax="100">
-                                                            Успеваемость: {{$lesson->points($student)}}
+                                                            Очки опыта: {{$lesson->points($student)}}
                                                             / {{$lesson->max_points($student)}}</div>
 
                                                     @endif
@@ -231,6 +213,25 @@
                     </div>
                 @endforeach
 
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                @foreach ($students as $key => $student)
+                    <a class="nav-link @if ($key == 0) active @endif" id="students-tab" data-toggle="pill"
+                       href="#student{{$student->id}}" role="tab"
+                       aria-controls="student{{$student->id}}" aria-selected="true"
+                       onclick="Plotly.relayout('pulse{{$student->id}}', {width: 1.5*getInnerWidth($('#v-pills-tabContent')[0]) + 'px', height: ''});">{{$student->name}}
+                        &nbsp;&nbsp;
+                        @if ($student->percent < 40)
+                            <span class="badge badge-danger">&nbsp;</span>
+                        @elseif($student->percent < 60)
+                            <span class="badge badge-warning">&nbsp;</span>
+                        @else
+                            <span class="badge badge-success">&nbsp;</span>
+                        @endif
+                    </a>
+                @endforeach
             </div>
         </div>
     </div>

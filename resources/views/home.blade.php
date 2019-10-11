@@ -28,7 +28,7 @@
         </div>
     @endif
 
-    <div class="row" style="margin-top: 15px;">
+    <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
         <div class="col">
             <h2>Мои курсы</h2>
         </div>
@@ -48,16 +48,13 @@
                            aria-controls="archive" aria-selected="false">Архив</a>
                     </li>
 
-                        <li class="nav-item" style="margin-left: 5px;">
-                            <a class="btn btn-success btn-sm nav-link" style="color: white;"  href="{{url('/insider/courses/create/')}}"><i
-                                        class="icon ion-plus-round" style="color: white;"></i>&nbsp;Создать</a>
-                        </li>
+                    <li class="nav-item" style="margin-left: 5px;">
+                        <a class="btn btn-success btn-sm nav-link" style="color: white;"
+                           href="{{url('/insider/courses/create/')}}"><i
+                                    class="icon ion-plus-round" style="color: white;"></i>&nbsp;Создать</a>
+                    </li>
 
                 </ul>
-
-
-
-
 
             @else
                 <div class="float-right">
@@ -67,7 +64,8 @@
                         <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0" id="invite"
                                name="invite" placeholder="Инвайт на курс">
 
-                        <button type="submit" class="btn btn-success btn-sm"><i class="icon ion-plus-round" style="color: white;"></i>&nbsp;Добавить
+                        <button type="submit" class="btn btn-success btn-sm"><i class="icon ion-plus-round"
+                                                                                style="color: white;"></i>&nbsp;Добавить
                         </button>
                     </form>
                 </div>
@@ -79,7 +77,16 @@
         <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="active">
 
             <div class="row">
-                <div class="col-12 col-lg-8 col-xl-9">
+                <div class="col-12 col-lg-7 col-xl-8">
+                    @foreach($notifications as $notification)
+                        <div class="alert alert-{{$notification->data['type']}} alert-dismissible fade show" role="alert">
+                            {!! $notification->data['text'] !!}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                    @endforeach
+
                     @if ($my_courses->count()!=0)
                         <div class="card-deck">
                             @foreach($my_courses->where('state', 'started') as $course)
@@ -111,61 +118,68 @@
                                             @endif
                                         @endif
                                         <div style="float:right;">
-                                            @php 
+                                            @php
                                                 $students = $course->students;
                                                 $cstudent = $students->filter(function ($value, $key) {
                                                     return $value->id == \Auth::id();
                                                 })->first();
                                             @endphp
                                             @if ($cstudent != null)
-                                            @foreach($course->program->chapters as $chapter)
-                                                @foreach($chapter->lessons as $lesson)
-                                                    @foreach($lesson->steps as $step)
-                                                        @php
-                                                            if ($cstudent->pivot->is_remote)
-                                                            {
-                                                            $tasks = $step->remote_tasks;
-                                                            }
-                                                            else {
-                                                            $tasks = $step->class_tasks;
-                                                            }
-                                                        @endphp
-                                                        @foreach($tasks as $task)
-                                                            @if ($task->deadline)
-                                                                <style>
-                                                                    *[data-tooltip]
-                                                                    {
-                                                                        position: relative;
-                                                                    }
-                                                                    *[data-tooltip]::before {
-                                                                        content: attr(data-tooltip);
-                                                                        position: absolute;
-                                                                        padding: 2px 10px;
-                                                                        border-radius: 3px;
-                                                                        color:#fff;
-                                                                        background: #333741;
-                                                                        display: none;
-                                                                        top:20px;
-                                                                        left:-100%;
-                                                                    }
-                                                                    *[data-tooltip]:hover::before {
-                                                                        display: block;
-                                                                    }
-                                                                </style>
-                                                                @if (\Carbon\Carbon::now()->gt($task->deadline))
-                                                            <span class="badge badge-danger" data-tooltip="{{$task->name}}" onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'" style="cursor:pointer;">
+                                                @foreach($course->program->chapters as $chapter)
+                                                    @foreach($chapter->lessons as $lesson)
+                                                        @foreach($lesson->steps as $step)
+                                                            @php
+                                                                if ($cstudent->pivot->is_remote)
+                                                                {
+                                                                $tasks = $step->remote_tasks;
+                                                                }
+                                                                else {
+                                                                $tasks = $step->class_tasks;
+                                                                }
+                                                            @endphp
+                                                            @foreach($tasks as $task)
+                                                                @if ($task->deadline)
+                                                                    <style>
+                                                                        *[data-tooltip] {
+                                                                            position: relative;
+                                                                        }
+
+                                                                        *[data-tooltip]::before {
+                                                                            content: attr(data-tooltip);
+                                                                            position: absolute;
+                                                                            padding: 2px 10px;
+                                                                            border-radius: 3px;
+                                                                            color: #fff;
+                                                                            background: #333741;
+                                                                            display: none;
+                                                                            top: 20px;
+                                                                            left: -100%;
+                                                                        }
+
+                                                                        *[data-tooltip]:hover::before {
+                                                                            display: block;
+                                                                        }
+                                                                    </style>
+                                                                    @if (\Carbon\Carbon::now()->gt($task->deadline))
+                                                                        <span class="badge badge-danger"
+                                                                              data-tooltip="{{$task->name}}"
+                                                                              onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'"
+                                                                              style="cursor:pointer;">
                                                                         !
                                                                     </span>
-                                                                @elseif (\Carbon\Carbon::now()->addDays(1)->gt($task->deadline))
-                                                                <span class="badge badge-warning" data-tooltip="{{$task->name}}" onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'" style="cursor:pointer;">
+                                                                    @elseif (\Carbon\Carbon::now()->addDays(1)->gt($task->deadline))
+                                                                        <span class="badge badge-warning"
+                                                                              data-tooltip="{{$task->name}}"
+                                                                              onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'"
+                                                                              style="cursor:pointer;">
                                                                         !
                                                                     </span>
+                                                                    @endif
                                                                 @endif
-                                                            @endif
+                                                            @endforeach
                                                         @endforeach
                                                     @endforeach
                                                 @endforeach
-                                            @endforeach
                                             @endif
                                         </div>
                                         @if ($course->site != null)
@@ -251,10 +265,10 @@
                     @endif
                 </div>
 
-                <div class="col-12  col-lg-4 col-xl-3">
+                <div class="col-12  col-lg-5 col-xl-4">
 
                     <div class="card"
-                         style="margin-top: 15px;border-left: 3px solid #007bff;">
+                         style="border-left: 3px solid #007bff;">
                         <div class="card-body">
 
                             <div class="row">

@@ -7,8 +7,7 @@
          @if ($task->is_star)
          <div class="alert alert-success" role="alert">
             <strong>Это необязательная задача.</strong> За ее решение вы получите
-            дополнительные
-            баллы.
+            дополнительный опыт.
          </div>
          @endif
          <div class="card">
@@ -90,12 +89,12 @@
                <br><span class="help-block error-block"><strong>{{ $errors->first('text') }}</strong></span>
                @endif
                @endif
-               <span class="badge badge-secondary">Максимальный балл: {{$task->max_mark}}</span>
+               <span class="badge badge-secondary">Очков опыта: {{$task->max_mark}}</span>
                @if ($task->is_quiz && $task->solutions()->where('user_id', Auth::User()->id)->count()!=0)
                @php
                $solution = $task->solutions()->where('user_id', Auth::User()->id)->get()->last();
                @endphp
-               <span class="badge badge-primary" id="TSK_{{$task->id}}">Оценка: {{$solution->mark}}</span>
+               <span class="badge badge-primary" id="TSK_{{$task->id}}">Очков опыта: {{$solution->mark}}</span>
                <span class="small" id="TSK_COM_{{$task->id}}">{{$solution->comment}}</span>
                @else
                <span class="badge badge-primary" id="TSK_{{$task->id}}"></span>
@@ -119,7 +118,7 @@
                Дата сдачи: {{ $solution->submitted->format('d.M.Y H:i')}}
                <div class="float-right">
                   @if ($solution->mark!=null)
-                  <span class="badge badge-primary">Оценка: {{$solution->mark}}</span>
+                  <span class="badge badge-primary">Очков опыта: {{$solution->mark}}</span>
                   <br>
                   @else
                   <span class="badge badge-secondary">Решение еще не проверено</span>
