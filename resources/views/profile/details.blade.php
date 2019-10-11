@@ -126,7 +126,7 @@
                                         @endif</h5>
                                     <p>
                                         <span class="badge badge-pill badge-{{\App\CourseLabel::get($course)}}">{{$course->provider}}</span>
-                                        <span class="badge badge-pill badge-success">Оценка: <strong>{{$course->mark}}</strong></span>
+                                        <span class="badge badge-pill badge-success">Очков опыта: <strong>{{$course->mark}}</strong></span>
                                     </p>
                                     @if ($course->course_id!=null && ($guest->role=='teacher' || $course->course->students->contains($guest)))
                                         <a href="{{url('insider/courses/'.$course->course_id)}}"
@@ -391,7 +391,7 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('mark') ? ' has-error' : '' }}">
-                            <label for="mark" class="col-md-4">Оценка</label>
+                            <label for="mark" class="col-md-4">Очков опыта</label>
 
                             <div class="col-md-12">
                                 <input type="text" name="mark" class="form-control" id="mark"/>

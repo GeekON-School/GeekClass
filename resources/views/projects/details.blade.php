@@ -132,7 +132,7 @@
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0"
                                        id="mark"
-                                       name="mark" placeholder="Оценка">
+                                       name="mark" placeholder="Очков опыта">
                                 @if ($errors->has('mark'))
                                     <span class="help-block error-block"><strong>{{ $errors->first('mark') }}</strong></span>
                                 @endif

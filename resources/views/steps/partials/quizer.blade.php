@@ -79,7 +79,7 @@
          @php
          $solution = $task->solutions()->where('user_id', Auth::User()->id)->orderBy('id', 'DESC')->get()->first();
          @endphp
-         <span class="badge badge-primary" id="TSK_{{$task->id}}">Оценка: {{$solution->mark}}</span>
+         <span class="badge badge-primary" id="TSK_{{$task->id}}">Очков опыта: {{$solution->mark}}</span>
          <span class="small" id="TSK_COM_{{$task->id}}">{{$solution->comment}}</span>
          @else
          <span class="badge badge-primary" id="TSK_{{$task->id}}"></span>

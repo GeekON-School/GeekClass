@@ -102,7 +102,7 @@
 
                 axios.post(`/insider/courses/{{$course->id}}/tasks/${taskId}/solution`, `text=` + encodeURI(text))
                     .then((res) => {
-                        document.getElementById("TSK_" + taskId).innerHTML = "Оценка: " + res.data.mark;
+                        document.getElementById("TSK_" + taskId).innerHTML = "Очков опыта: " + res.data.mark;
                         document.getElementById("TSK_COM_" + taskId).innerHTML = res.data.comment;
                     })
             }

@@ -45,7 +45,7 @@
                                 <br>
                                 @if ($solution->mark!=null)
                                     <p>
-                                        <span class="badge badge-primary">Оценка: {{$solution->mark}}</span><br>
+                                        <span class="badge badge-primary">Очков опыта: {{$solution->mark}}</span><br>
                                         <span class="badge badge-light">Проверено: {{$solution->checked}}
                                             , {{$solution->teacher->name}}</span>
                                     </p>
@@ -64,7 +64,7 @@
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0"
                                                id="mark"
-                                               name="mark" placeholder="Оценка">
+                                               name="mark" placeholder="Очков опыта">
                                         @if ($errors->has('mark'))
                                             <span class="help-block error-block"><strong>{{ $errors->first('mark') }}</strong></span>
                                         @endif

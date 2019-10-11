@@ -94,7 +94,7 @@
                @php
                $solution = $task->solutions()->where('user_id', Auth::User()->id)->get()->last();
                @endphp
-               <span class="badge badge-primary" id="TSK_{{$task->id}}">Оценка: {{$solution->mark}}</span>
+               <span class="badge badge-primary" id="TSK_{{$task->id}}">Очков опыта: {{$solution->mark}}</span>
                <span class="small" id="TSK_COM_{{$task->id}}">{{$solution->comment}}</span>
                @else
                <span class="badge badge-primary" id="TSK_{{$task->id}}"></span>
@@ -118,7 +118,7 @@
                Дата сдачи: {{ $solution->submitted->format('d.M.Y H:i')}}
                <div class="float-right">
                   @if ($solution->mark!=null)
-                  <span class="badge badge-primary">Оценка: {{$solution->mark}}</span>
+                  <span class="badge badge-primary">Очков опыта: {{$solution->mark}}</span>
                   <br>
                   @else
                   <span class="badge badge-secondary">Решение еще не проверено</span>
