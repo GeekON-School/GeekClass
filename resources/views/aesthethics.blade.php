@@ -37,27 +37,7 @@
 </head>
 <body>
     <canvas id="charmap"width="1920" height="1080"></canvas>
-
-    <script>
-        var canvas = document.getElementById('charmap');
-
-        var ctx = canvas.getContext('2d');
-
-        let blink = false;
-        setInterval(function() {blink = !blink;}, 500);
-        let width = 60;
-        let height = 30; 
-        let w = 16;
-        let h = 24;
-        canvas.width = width*w+10;
-        canvas.height = height*h;
-        ctx.font = "16px PressStart2P";
-        ctx.fillStyle = "white";
-        var snd;
-        let curx = 0;
-        let cury = 0;
-        let input = "";
-
+<script>
         let commands = {
             // 'sum': {
             //     process: function(argv)
@@ -235,6 +215,39 @@
                 'desc': "Play song, type --list to list all"
             }
         }
+        </script>
+        @if (\Auth::user()->role == "admin")
+        <script>
+            commands['rm'] = {
+                process: function(argv)
+                {
+                    writestr("ZA WARUDO, TOKI WO TOMARE");
+                },
+                'desc': "Clears screen"
+            },
+        </script>
+        @endif
+    <script>
+        var canvas = document.getElementById('charmap');
+
+        var ctx = canvas.getContext('2d');
+
+        let blink = false;
+        setInterval(function() {blink = !blink;}, 500);
+        let width = 60;
+        let height = 30; 
+        let w = 16;
+        let h = 24;
+        canvas.width = width*w+10;
+        canvas.height = height*h;
+        ctx.font = "16px PressStart2P";
+        ctx.fillStyle = "white";
+        var snd;
+        let curx = 0;
+        let cury = 0;
+        let input = "";
+
+
 
 
         function printHelp() {

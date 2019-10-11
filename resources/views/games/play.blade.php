@@ -74,7 +74,6 @@
         </div>
     </div>
 
-    {{$game->type}}
     @if (\Auth::check())
         <form action="/insider/games/{{$game->id}}/comment" method="POST">
             @csrf
