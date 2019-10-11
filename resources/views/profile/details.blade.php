@@ -1,6 +1,13 @@
 @extends('layouts.left-menu')
 
 @section('content')
+    <div class="row">
+        <div class="col">
+            <h2 style="font-weight: 300;">{{$user->name}}</h2>
+        </div>
+    </div>
+
+
     <div class="row" style="margin-top: 15px;">
 
         <div class="col-md-8">
@@ -295,8 +302,6 @@
                          src="https://api.adorable.io/avatars/250/{{$user->id}}.png"/>
                 @endif
                 <div class="card-body">
-
-                    <h4 class="card-title">{{ $user->name }}</h4>
 
                     <p><strong>Дата
                             рождения:</strong> @if($user->birthday!=null){{$user->birthday->format('Y-m-d')}}@endif<br>
