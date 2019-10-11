@@ -11,7 +11,7 @@
 
 @section('content')
 
-
+ 
 
     <div class="row">
         <div class="col-12">
@@ -59,7 +59,7 @@
     @endif
 
 
-    <div class="row" style="margin-top: 15px;">
+    <div class="row" style="margin-top: 15px;" id="root">
         <div class="col-12">
             <div style="float: left; width: 100%; padding-left: 5px;" class="col-auto">
                 <div class="row">
@@ -101,22 +101,82 @@
                     @parsedown($article->anounce)
                 </div>
                 <hr>
-                <div style="margin-top: 15px;" class="markdown markdown-big">
+                <div class="row">
+                <div class="col-md-1" style="display:flex; justify-content:center; align-items: flex-end;">
+                    
+                        @if(\Auth::check())
+                            <gk-votes 
+                            :upvotes="{{$article->getUpvotes()-$article->hasUpvoted(\Auth::id())}}"
+                            :downvotes="{{$article->getDownvotes()-$article->hasDownvoted(\Auth::id())}}"
+                            :upvoted="{{$article->hasUpvoted(\Auth::id())?'1':'0'}}"
+                            :downvoted="{{$article->hasDownvoted(\Auth::id())?'1':'0'}}"
+                            :canvote="true"
+                            :urls="{upvote: '/insider/articles/{{$article->id}}/upvote',
+                                downvote: '/insider/articles/{{$article->id}}/downvote'}"
+                                ></gk-votes>
+                        @endif
+                    </div>
+                <div style="margin-top: 15px;" class="col-md-11 markdown markdown-big">
                     @parsedown($article->text)
                 </div>
-                @if (\Auth::check() && \Auth::User()->role != 'novice')
-                    <a href="{{url('insider/articles')}}">Назад</a>
-                @else
-                    <a href="{{url('articles')}}">Назад</a>
-                @endif
-
+            </div>
+                <hr>
+                
             </div>
         </div>
     </div>
+    @if (\Auth::check())
+        <form action="/insider/articles/{{$article->id}}/comment" method="POST">
+            @csrf
 
+            <div id="comment">
+                <h4 style="margin: 20px;"><label for="title">Комментарий:</label></h4>
 
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <div>
+                            @foreach ($errors->all() as $error)
+                                <div>{{ $error }}</div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+                <textarea class="form-control" id="commentArea" rows="10" type="text"
+                          name="comment">{{old('comment')}}</textarea>
+                <input class="btn btn-primary" type="submit" style="margin:10px 0;" value="Оставить комментарий">
+            </div>
+        </form>
+    @endif
 
+    @foreach($article->comments as $comment)
+    <div class="row">
+        <div class="card col">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <p class="text-secondary">{{$comment->user->name}}</p>
+                    @if(\Auth::id() == $comment->user->id || \Auth::user()->role == "admin")
+                        <a class="nav-link btn btn-danger"
+                           style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
+                           href="/insider/articles/comments/{{$comment->id}}/delete"
+                           onclick="return confirm('Вы уверены?')"><i
+                                    class="ion-close-round"></i></a>
+                    @endcan
+                </div>
+                <blockquote>{!!parsedown(clean($comment->comment))!!}</blockquote>
+            </div>
+        </div>
+    </div>
+    
 
+    <script src="{{asset('js/forum.js')}}"></script>
+@endforeach
+<script>
+    var simplemde_text = new EasyMDE({
+        spellChecker: false,
+        autosave: true,
+        element: document.getElementById("commentArea")
+    });
+</script>
 
 
 @endsection

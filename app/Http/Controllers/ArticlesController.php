@@ -219,6 +219,43 @@ class ArticlesController extends Controller
         return redirect('/insider/articles');
     }
 
+    public function upvote($id)
+    {
+        $article = \App\Article::findOrFail($id);
+
+        $article->vote(1);
+        return back();
+    }
+
+    public function downvote($id)
+    {
+        $article = \App\Article::findOrFail($id);
+
+        $article->vote(-1);
+        return back();
+    }
+
+    public function delete_comment($id)
+    {
+        $comment = \App\ArticleComments::find($id);
+        if (\Auth::id() == $comment->user->id || \Auth::user()->role == "admin")
+        {
+            $comment->delete();
+        }
+        return back();
+    }
+
+    public function comment($id, Request $request)
+    {
+        \App\ArticleComments::create([
+            "user_id" => \Auth::id(),
+            "article_id" => $id,
+            "comment" => $request->comment
+        ]);
+        
+        return redirect('/insider/articles/'.$id);
+    }
+
     public function draft($id)
     {
         $article = Article::findOrFail($id);

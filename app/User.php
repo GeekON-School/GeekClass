@@ -58,6 +58,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('\App\Game');
     }
 
+    public function articles()
+    {
+        return $this->hasMany('\App\Article');
+    }
+
+    public function events()
+    {
+        return $this->hasMany('\App\Event');
+    }
+
     public function completedCourses()
     {
         return $this->hasMany('App\CompletedCourse', 'user_id', 'id');
@@ -146,6 +156,15 @@ class User extends Authenticatable implements MustVerifyEmail
             $this->score += ($game->upvotes()-$game->downvotes())*5;
         }
 
+        foreach($this->articles as $article)
+        {
+            $this->score += ($article->getUpvotes()-$article->getDownvotes())*10;
+        }
+
+        foreach($this->events as $event)
+        {
+            $this->score += ($event->getUpvotes()-$event->getDownvotes())*10;
+        }
         foreach ($this->posts as $post) {
             $this->score += 5 * $post->getVotes();
         }

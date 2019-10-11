@@ -82,6 +82,11 @@ Route::prefix('insider')->middleware('verified')->group(function () {
     Route::get('/articles/{id}/ask_review', 'ArticlesController@ask_review');
     Route::get('/articles/{id}/publish', 'ArticlesController@publish');
     Route::get('/articles/{id}/draft', 'ArticlesController@publish');
+    Route::post('/articles/{id}/comment', 'ArticlesController@comment');
+    Route::get('/articles/comments/{id}/delete', 'ArticlesController@delete_comment');
+
+    Route::get('/articles/{id}/downvote', 'ArticlesController@downvote');
+    Route::get('/articles/{id}/upvote', 'ArticlesController@upvote');
 
     Route::get('/games', 'GamesController@index');
     Route::post('/games', 'GamesController@store');
