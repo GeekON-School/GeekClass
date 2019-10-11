@@ -133,6 +133,9 @@
 
                     <li class="nav-item"><a class="nav-link" target="_blank" href="https://gekkon-club.ru/programming">Сайт
                             Геккон-клуба</a></li>
+                    @if (\Auth::check())
+                        <li class="nav-item"><a class="nav-link" target="_blank" href="https://vk.me/join/AJQ1d9qx/hSM4G9Q6bVmJRPo">Беседа в ВК</a></li>
+                    @endif
                     <li class="nav-item"><a class="nav-link" target="_blank" href="https://github.com/geekon-school/">GitHub</a>
                     </li>
                     <li class="nav-item"><a class="nav-link" target="_blank"
