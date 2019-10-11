@@ -72,15 +72,17 @@
         <a class="navbar-brand" href="{{ url('/') }}" style="line-height: 50px; font-size: 1.3rem;">
             <span><img style="height: 35px; margin-bottom: 0px;"
                        src="https://img.icons8.com/cute-clipart/64/000000/idea.png">&nbsp;</span>
-             GeekClass
+            GeekClass
         </a>
-        @if (\Auth::check())
-            <div class="d-flex align-items-center">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse"
-                        aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="d-block d-lg-none ml-2">
+
+        <div class="d-flex align-items-center">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse"
+                    aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="d-block d-lg-none ml-2">
+
+                @if (\Auth::check())
                     <div class="dropdown">
                         <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
@@ -109,9 +111,10 @@
                                         class="icon ion-reply"></i>Выход</a>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
-        @endif
+        </div>
+
         <div class="collapse navbar-collapse flex-column" id="navbar-collapse">
             <ul class="navbar-nav d-lg-block">
 
@@ -176,11 +179,10 @@
                     </li>
 
                 </ul>
-                <hr>
             </div>
-        </div>@if (\Auth::check())
+        </div>
+        @if (\Auth::check())
             <div class="d-none d-lg-block">
-
                 <div class="dropup">
                     <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
@@ -211,9 +213,8 @@
                     </div>
 
                 </div>
-
-
-            </div>@endif
+            </div>
+        @endif
 
     </div>
     <div class="container-fluid" style="padding-bottom: 30px;">
