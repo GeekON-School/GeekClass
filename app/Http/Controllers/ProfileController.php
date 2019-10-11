@@ -153,7 +153,7 @@ class ProfileController extends Controller
             'birthday' => 'required|date',
             'hobbies' => 'required|string',
             'interests' => 'required|string',
-            'image' => 'image|max:1000'
+            'image' => 'image|max:4000'
         ]);
 
         $user->name = $request->name;
