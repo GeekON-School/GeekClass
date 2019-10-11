@@ -98,7 +98,7 @@
                                             <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                                                 <label for="password-confirm" class="control-label">Подтверждение
                                                     пароля:</label>
-                                                    <input id="password-confirm" type="password" class="form-controlform-control"
+                                                    <input id="password-confirm" type="password" class="form-control form-control-lg"
                                                            name="password_confirmation" required>
 
                                                     @if ($errors->has('password_confirmation'))
