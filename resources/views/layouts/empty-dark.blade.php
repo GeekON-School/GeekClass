@@ -64,7 +64,7 @@
     <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 </head>
 
-<body style="background-color: #01597C;">
+<body style="background-color: #2D9CCC;">
 
 
 <div class="container" style="padding-bottom: 30px;">
