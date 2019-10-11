@@ -71,9 +71,14 @@ class CoursesController extends Controller
         $private_courses = $courses->filter(function ($course) use ($user) {
             return $course->state == 'started' && ($user->role != 'admin' && !$course->students->contains($user) && !$course->teachers->contains($user) && !$course->is_open);
         });
+        $notifications = collect([]);
+        foreach ($user->unreadNotifications as $notification) {
+            $notifications->push($notification);
+            $notification->markAsRead();
+        }
 
         $threads = ForumThread::orderBy('id', 'DESC')->limit(5)->get();
-        return view('home', compact('courses', 'user', 'users', 'threads', 'my_courses', 'open_courses', 'private_courses'));
+        return view('home', compact('courses', 'user', 'users', 'threads', 'my_courses', 'open_courses', 'private_courses', 'notifications'));
     }
 
     public function report($id)

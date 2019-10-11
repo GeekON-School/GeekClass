@@ -18,7 +18,7 @@
                 <div class="card-body markdown">
                     @parsedown($task->text)
 
-                    <span class="badge badge-secondary">Максимальный балл: {{$task->max_mark}}</span>
+                    <span class="badge badge-secondary">Очков опыта: {{$task->max_mark}}</span>
                 </div>
             </div>
 

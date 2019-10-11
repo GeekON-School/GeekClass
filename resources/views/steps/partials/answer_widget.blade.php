@@ -17,7 +17,7 @@
             class="help-block error-block"><strong>{{ $errors->first('text') }}</strong></span>
         @endif
     @endif
-    <span class="badge badge-secondary">Максимальный балл: {{$task->max_mark}}</span>
+    <span class="badge badge-secondary">Очков опыта: {{$task->max_mark}}</span>
     @if ($task->is_quiz && $task->solutions()->where('user_id', Auth::User()->id)->count()!=0)
         @php
             $solution = $task->solutions()->where('user_id', Auth::User()->id)->orderBy('id', 'DESC')->get()->first();

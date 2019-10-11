@@ -172,7 +172,7 @@ a[disabled] {
 }
 
 .card-deck > .card {
-    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .card-group > .card {

@@ -121,6 +121,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return false;
     }
 
+    public function rescore()
+    {
+        $this->score = null;
+    }
+
     public function score()
     {
         if ($this->score != null)
@@ -130,7 +135,7 @@ class User extends Authenticatable implements MustVerifyEmail
             return $this->score;
         }
         $this->score = 0;
-        $group = $this->submissions->groupBy('task_id');
+        $group = Solution::where('user_id', $this->id)->get()->groupBy('task_id');
         foreach ($group as $task) {
             
             $this->score += $task->sortBy('mark')->first()->pmark();
@@ -198,15 +203,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function rank()
     {
-        if ($this->rank != null)
-            return $this->rank;
-        if ($this->rank_id != null) {
-            $this->rank = $this->manual_rank;
-            return $this->rank;
+        if ($this->manual_rank != null) {
+            return $this->manual_rank;
         }
         $score = $this->score();
-        $this->rank = Rank::where('from', '<=', $score)->where('to', '>', $score)->first();
-        return $this->rank;
+        return Rank::where('from', '<=', $score)->where('to', '>', $score)->first();
     }
 
     public function eventOrgs()

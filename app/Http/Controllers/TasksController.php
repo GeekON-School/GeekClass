@@ -183,6 +183,7 @@ class TasksController extends Controller
     public function postSolution($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);
+        $user = User::findOrFail(Auth::User()->id);
         $this->validate($request, [
             'text' => 'required|string',
         ]);
@@ -198,6 +199,7 @@ class TasksController extends Controller
         $solution->text = clean($request->text);
 
         if ($task->is_quiz) {
+            $old_rank = $user->rank();
             if ($task->answer == $request->text) {
                 if ($task->price > 0 and !$task->isFullDone(Auth::User()->id)) {
                     CoinTransaction::register(Auth::User()->id, $task->price, "Task #" . $task->id);
@@ -219,6 +221,14 @@ class TasksController extends Controller
                 $solution->teacher_id = 1;
             }
             $solution->checked = Carbon::now();
+            $solution->save();
+            $user->rescore();
+            $new_rank = $user->rank();
+            if ($new_rank != $old_rank)
+            {
+                $when = \Carbon\Carbon::now()->addSeconds(1);
+                Notification::send($user, (new \App\Notifications\NewRank())->delay($when));
+            }
         }
         if ($task->is_code) {
             $solution->text = $request->text;
@@ -259,6 +269,8 @@ class TasksController extends Controller
             Notification::send($course->teachers, (new \App\Notifications\NewSolution($solution))->delay($when));
         }
 
+
+
         return [
             "mark" => $solution->mark,
             "comment" => $solution->comment
@@ -282,6 +294,9 @@ class TasksController extends Controller
         $this->validate($request, [
             'mark' => 'required|integer|min:0|max:' . $solution->task->max_mark
         ]);
+
+        $old_rank = $solution->user->rank();
+
         $solution->mark = $request->mark;
         if ($solution->task->price > 0 and $solution->mark == $solution->task->max_mark and !$solution->task->isFullDone($solution->user_id)) {
             CoinTransaction::register($solution->user_id, $solution->task->price, "Task #" . $solution->task->id);
@@ -292,8 +307,17 @@ class TasksController extends Controller
         $solution->checked = Carbon::now();
         $solution->save();
 
+        $solution->user->rescore();
+        $new_rank = $solution->user->rank();
+
         $when = \Carbon\Carbon::now()->addSeconds(1);
         Notification::send($solution->user, (new \App\Notifications\NewMark($solution))->delay($when));
+
+        if ($new_rank != $old_rank)
+        {
+            $when = \Carbon\Carbon::now()->addSeconds(1);
+            Notification::send($solution->user, (new \App\Notifications\NewRank())->delay($when));
+        }
 
         return redirect()->back();
 

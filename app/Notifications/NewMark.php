@@ -55,7 +55,7 @@ class NewMark extends Notification implements ShouldQueue
     {
         $message = "✅ ".$this->solution->teacher->name . " проверил ваше решение задачи
                      \"" . $this->solution->task->name . "\" (курс " . $this->solution->course->name . "). Вы заработали " .
-            $this->solution->mark . " / " . $this->solution->task->max_mark . " баллов.";
+            $this->solution->mark . " / " . $this->solution->task->max_mark . " очков опыта.";
 
         if ($this->solution->comment != "") {
             $message .= "\n\n📃 Комментарий: " . $this->solution->comment;

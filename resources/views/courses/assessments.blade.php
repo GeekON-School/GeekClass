@@ -6,7 +6,7 @@
 
 @section('content')
     <h2 style="margin: 20px;"><a class="back-link" href="{{url('/insider/courses/'.$course->id)}}"><i
-                    class="icon ion-chevron-left"></i></a>&nbsp;Успеваемость по курсу "{{$course->name}}"</h2>
+                    class="icon ion-chevron-left"></i></a>&nbsp;Очки опыта по курсу "{{$course->name}}"</h2>
     <div class="assessment-block">
         <div class="table-wrapper">
             <table class="table table-striped  table-sm">

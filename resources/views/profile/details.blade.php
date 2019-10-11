@@ -6,21 +6,33 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">О себе
+                    <h4 class="card-title" style="max-width: 100% !important;">О себе
                         @if ($guest->role=='admin' || $guest->id==$user->id)
-                            <a class="btn btn-sm btn-success float-right"
-                               href="{{'/insider/profile/'.$user->id.'/edit'}}"><i class="icon ion-android-create"></i>
-                                Редактировать</a>
-                            @if ($guest->role=='teacher' || $guest->role=='admin')
-                                <button style="margin-right: 4px;" class="btn btn-sm btn-success float-right"
-                                        type="button"
-                                        data-toggle="modal" data-target="#addMoney">
-                                    <i class="icon ion-cash"></i> Начислить
+                            <div class="dropdown float-right">
+                                <button class="btn-options" type="button" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_vert</i>
                                 </button>
-                            @endif
-                            <a style="margin-right: 4px;" target="_blank" class="btn btn-sm btn-success float-right"
-                               href="{{'/insider/core/'.$user->id}}">
-                                Core</a>
+
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item"
+                                       href="{{url('insider/profile/'.$user->id.'/edit')}}"><i
+                                                class="icon ion-android-create"></i>
+                                        Редактировать</a>
+                                    @if ($guest->role=='teacher' || $guest->role=='admin')
+                                        <a href="#" class="dropdown-item"
+                                           role="button"
+                                           data-toggle="modal" data-target="#addMoney">
+                                            <i class="icon ion-cash"></i> Начислить
+                                        </a>
+                                    @endif
+                                    <a target="_blank" class="dropdown-item"
+                                       href="{{'/insider/core/'.$user->id}}">
+                                        Core</a>
+
+                                </div>
+                            </div>
+
                         @endif
                     </h4>
                     <p><strong>Технологические интересы:</strong><br>{{$user->interests}}</p>
@@ -93,10 +105,10 @@
                     </div>
                     <div class="col" style="padding-top: 19px;">
                         @if ($guest->role=='admin')
-                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-success"
-                                    data-toggle="modal" data-target="#exampleModal">
-                                <i class="icon ion-plus-round" style="color: white;"></i> Добавить
+                            <button class="btn btn-round float-right" data-toggle="modal" data-target="#exampleModal">
+                                <i class="material-icons">add</i>
                             </button>
+
                         @endif
                     </div>
                 </div>
@@ -133,14 +145,14 @@
             @if ($user->projects->count()!=0 || $guest->role=='teacher' || $guest->role=='admin')
                 <div class="row">
                     <div class="col-md-8">
-                        <h4 style="margin: 20px;" class="card-title">Проекты <img
-                                    src="https://png.icons8.com/microsoft-project/color/30/000000"></h4>
+                        <h4 style="margin: 20px;" class="card-title">Проекты <img style="height: 30px;"
+                                                                                  src="https://img.icons8.com/color/48/000000/ms-project.png">
+                        </h4>
                     </div>
                     <div class="col" style="padding-top: 19px;">
                         @if ($guest->role=='admin' || $guest->role=='teacher' || $guest->id==$user->id)
-                            <button style="margin-right: 5px;" type="button" class="float-right btn btn-sm btn-success"
-                                    data-toggle="modal" data-target="#createProject">
-                                <i class="icon ion-plus-round" style="color: white;"></i> Добавить
+                            <button class="btn btn-round float-right" data-toggle="modal" data-target="#createProject">
+                                <i class="material-icons">add</i>
                             </button>
                         @endif
                     </div>

@@ -240,7 +240,7 @@
                                                                      aria-valuenow="{{$lesson->percent($user)}}"
                                                                      aria-valuemin="0"
                                                                      aria-valuemax="100">
-                                                                    Успеваемость: {{$lesson->points($user)}}
+                                                                    Очки опыта: {{$lesson->points($user)}}
                                                                     / {{$lesson->max_points($user)}}</div>
 
                                                             @else
@@ -250,7 +250,7 @@
                                                                      aria-valuenow="{{$lesson->percent($user)}}"
                                                                      aria-valuemin="0"
                                                                      aria-valuemax="100">
-                                                                    Успеваемость: {{$lesson->points($user)}}
+                                                                    Очки опыта: {{$lesson->points($user)}}
                                                                     / {{$lesson->max_points($user)}}</div>
 
                                                             @endif
@@ -441,7 +441,7 @@
                                                              aria-valuenow="{{$lesson->percent($user)}}"
                                                              aria-valuemin="0"
                                                              aria-valuemax="100">
-                                                            Успеваемость: {{$lesson->points($user)}}
+                                                            Очки опыта: {{$lesson->points($user)}}
                                                             / {{$lesson->max_points($user)}}</div>
 
                                                     @else
@@ -451,7 +451,7 @@
                                                              aria-valuenow="{{$lesson->percent($user)}}"
                                                              aria-valuemin="0"
                                                              aria-valuemax="100">
-                                                            Успеваемость: {{$lesson->points($user)}}
+                                                            Очки опыта: {{$lesson->points($user)}}
                                                             / {{$lesson->max_points($user)}}</div>
 
                                                     @endif

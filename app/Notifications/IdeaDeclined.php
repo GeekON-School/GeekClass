@@ -32,7 +32,7 @@ class IdeaDeclined extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', VkChannel::class];
+        return ['mail', VkChannel::class, 'database'];
     }
 
     /**
@@ -61,7 +61,8 @@ class IdeaDeclined extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
+            'text' => "🤔 Ваша идея для проекта <a href='".url("/insider/ideas/".$this->idea->id)."'>\"".$this->idea->name."\"</a> нуждается в доработке. Пожалуйста, внесите изменения и сообщите об этом преподавателю.",
+            'type' => 'warning'
         ];
     }
 }

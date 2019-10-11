@@ -32,7 +32,7 @@ class IdeaApproved extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', VkChannel::class];
+        return ['mail', VkChannel::class, 'database'];
     }
 
     /**
@@ -61,7 +61,8 @@ class IdeaApproved extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
+            'text' => "💡 Идея для проекта <a href='".url("/insider/ideas/".$this->idea->id)."'>\"".$this->idea->name."\"</a> одобрена. Поздравляем!",
+            'type' => 'success'
         ];
     }
 }

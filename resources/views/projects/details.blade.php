@@ -125,7 +125,7 @@
                         <div class="modal-body markdown">
                             @parsedown($project->task->text)
 
-                            <span class="badge badge-secondary">Максимальный балл: {{$project->task->max_mark}}</span>
+                            <span class="badge badge-secondary">очков опыта: {{$project->task->max_mark}}</span>
 
 
                             {{csrf_field()}}

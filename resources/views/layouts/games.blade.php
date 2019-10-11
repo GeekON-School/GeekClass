@@ -32,7 +32,8 @@
 
             <li class="nav-item controls col-xs">
                 @if (\Auth::check())
-                    <a class="nav-link text-white btn btn-success" href="/insider/games/create">+</a>
+                    <a class="btn btn-round float-right" href="{{url('/insider/games/create')}}"><i
+                                class="material-icons">add</i></a>
                 @endif
             </li>
 

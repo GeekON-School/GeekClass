@@ -62,7 +62,7 @@
             </tr>
             <tr>
                 <td>
-                    <small><strong>Итого&nbsp;баллов:</strong></small>
+                    <small><strong>Итого&nbsp;очков опыта:</strong></small>
                 </td>
                 <td style="border: 2px dotted green;">
 

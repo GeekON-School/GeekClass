@@ -7,8 +7,7 @@
          @if ($task->is_star)
          <div class="alert alert-success" role="alert">
             <strong>Это необязательная задача.</strong> За ее решение вы получите
-            дополнительные
-            баллы.
+            дополнительный опыт.
          </div>
          @endif
          <div class="card">
@@ -90,7 +89,7 @@
                <br><span class="help-block error-block"><strong>{{ $errors->first('text') }}</strong></span>
                @endif
                @endif
-               <span class="badge badge-secondary">Максимальный балл: {{$task->max_mark}}</span>
+               <span class="badge badge-secondary">Очков опыта: {{$task->max_mark}}</span>
                @if ($task->is_quiz && $task->solutions()->where('user_id', Auth::User()->id)->count()!=0)
                @php
                $solution = $task->solutions()->where('user_id', Auth::User()->id)->get()->last();

@@ -48,7 +48,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('max_mark') ? ' has-error' : '' }}">
-                            <label for="max_mark">Максимальный балл</label>
+                            <label for="max_mark">Очков опыта</label>
 
                             @if (old('max_mark')!="")
                                 <input type="text" name="max_mark" class="form-control" id="max_mark"
