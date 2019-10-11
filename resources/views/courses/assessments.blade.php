@@ -1,7 +1,7 @@
-@extends('layouts.left-menu')
+@extends('layouts.empty-nc')
 
 @section('title')
-    GeekClass: Добавление курса
+    GeekClass: Журнал
 @endsection
 
 @section('content')

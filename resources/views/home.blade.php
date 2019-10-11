@@ -79,7 +79,7 @@
         <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="active">
 
             <div class="row">
-                <div class="col-12 col-lg-8 col-xl-9">
+                <div class="col-12 col-lg-7 col-xl-8">
                     @if ($my_courses->count()!=0)
                         <div class="card-deck">
                             @foreach($my_courses->where('state', 'started') as $course)
@@ -251,7 +251,7 @@
                     @endif
                 </div>
 
-                <div class="col-12  col-lg-4 col-xl-3">
+                <div class="col-12  col-lg-5 col-xl-4">
 
                     <div class="card"
                          style="margin-top: 15px;border-left: 3px solid #007bff;">

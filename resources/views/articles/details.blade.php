@@ -20,7 +20,6 @@
                      style='background-size: contain;background-image: url("{{url($article->image)}}"); margin-bottom: 15px;'>
                     <div class="col-md-6 px-0">
                         @foreach($article->tags as $tag)
-
                             @if (\Auth::check())
                                 <span class="badge badge-secondary badge-light">
                                 <a target="_blank"
@@ -30,8 +29,7 @@
                                 <a target="_blank" href="{{url('/articles?tag='.$tag->name)}}">{{$tag->name}}</a></span>
                             @endif
                         @endforeach
-                        <h1 class="display-4">{{$article->name}}</h1>
-
+                        <h1 class="display-4" style="color: white;">{{$article->name}}</h1>
                     </div>
                 </div>
             @else
