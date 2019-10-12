@@ -60,12 +60,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function articles()
     {
-        return $this->hasMany('\App\Article');
+        return $this->hasMany('\App\Article', 'author_id', 'id');
     }
 
     public function events()
     {
-        return $this->hasMany('\App\Event');
+        return $this->belongsToMany('\App\Event', 'event_orgs');
     }
 
     public function completedCourses()
