@@ -80,7 +80,7 @@ class ProgramChapter extends Model
 
             foreach ($tasks as $task) {
                 if (!$task->is_star) $max_points += $task->max_mark;
-                $points += $student->submissions->where('task_id', $task->id)->max('nmark');
+                $points += $student->submissions->where('task_id', $task->id)->max('mark');
             }
 
         }

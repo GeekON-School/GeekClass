@@ -12,7 +12,7 @@ class Solution extends Model
         'text', 'step_id', 'submitted', 'user_id'
     ];
 
-    protected $appends = ['nmark'];
+    protected $appends = ['mark'];
 
     protected $dates = [
         'submitted', 'checked'

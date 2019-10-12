@@ -103,7 +103,7 @@ class ProgramStep extends Model
 
         if (array_has($data, 'notebook')) {
             $step->is_notebook = true;
-            $step->theory = str_replace(array("\n","\r"), '', $data['theory']);
+            $step->theory = str_replace(array("\n", "\r"), '', $data['theory']);
         }
 
         $step->save();
@@ -119,7 +119,7 @@ class ProgramStep extends Model
 
         if (array_has($data, 'notebook')) {
             $step->is_notebook = true;
-            $step->theory = str_replace(array("\n","\r"), '', $data['theory']);
+            $step->theory = str_replace(array("\n", "\r"), '', $data['theory']);
         } else {
             $step->is_notebook = false;
         }
@@ -138,8 +138,8 @@ class ProgramStep extends Model
         $tasks = $this->class_tasks;
         foreach ($tasks as $task) {
             if (!$task->is_star) $results['max_points'] += $task->max_mark;
-            $subm = $student->submissions()->where('task_id', $task->id)->orderBy('mark', 'desc')->first();
-            $results['points'] += $subm ? $subm->mark : 0;
+            $mark = $student->submissions()->where('task_id', $task->id)->max('mark');
+            $results['points'] += $mark ? $mark : 0;
         }
         if ($results['max_points'] != 0) {
             $results['percent'] = $results['points'] * 100 / $results['max_points'];

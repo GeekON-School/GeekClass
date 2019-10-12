@@ -172,7 +172,7 @@ class Course extends Model
 
             foreach ($tasks as $task) {
                 if (!$task->is_star) $max_points += $task->max_mark;
-                $points += $user->submissions->where('task_id', $task->id)->max('nmark');
+                $points += $user->submissions->where('task_id', $task->id)->max('mark');
             }
         }
         if ($max_points != 0) {

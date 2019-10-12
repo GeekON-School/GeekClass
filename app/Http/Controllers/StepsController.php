@@ -83,7 +83,7 @@ class StepsController extends Controller
             //Shown solutions
             $tasksSolutions[$key]->shownSolutions = $tasksSolutions[$key]->userSolutions
             ->filter(function($sol) use ($tasksSolutions, $key) {
-                return $sol->checked == null || $sol->mark == 0 || $sol->mark == $tasksSolutions[$key]->userSolutions->max('nmark');
+                return $sol->checked == null || $sol->mark == 0 || $sol->mark == $tasksSolutions[$key]->userSolutions->max('mark');
             });
             //Hidden solutions
             $tasksSolutions[$key]->hiddenSolutions =  $tasksSolutions[$key]->userSolutions

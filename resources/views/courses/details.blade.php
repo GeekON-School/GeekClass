@@ -513,7 +513,7 @@
                                             return $value->user_id == $user->id && !$value->is_quiz;
                                         });
                                         $mark = null;
-                                        $mark = $filtered->max('nmark');
+                                        $mark = $filtered->max('mark');
                                             
                                         $mark = $mark == null?0:$mark;
                                         $should_check = false;

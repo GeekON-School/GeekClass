@@ -210,7 +210,7 @@ class CoursesController extends Controller
 
                     foreach ($tasks as $task) {
                         if (!$task->is_star) $student_data[$student->id]->max_points += $task->max_mark;
-                        $student_data[$student->id]->points += $student->submissions->where('task_id', $task->id)->max('nmark');
+                        $student_data[$student->id]->points += $student->submissions->where('task_id', $task->id)->max('mark');
                     }
                 }
                 if ($student_data[$student->id]->max_points != 0) {
