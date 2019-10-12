@@ -70,7 +70,11 @@
                             <div class="card-meta d-flex justify-content-between" style="margin-top: 36px;">
                                 <div class="d-flex align-items-center">
                                     <i class="material-icons mr-1 text-small">people</i>
-                                    <span class="text-small">{{count($event->participants)}}/{{$event->max_people ? $event->max_people:"&infin;"}} @if ($event->participants->contains(\Auth::user())) <strong>(вы идете)</strong> @endif</span>
+                                    <span class="text-small">{{count($event->participants)}}/{{$event->max_people ? $event->max_people:"&infin;"}} @if ($event->participants->contains(\Auth::user())) <strong>(вы записаны)</strong> @endif</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="material-icons mr-1 text-small">near_me</i>
+                                    <span class="text-small">{{$event->location}}</span>
                                 </div>
                                 <span class="text-small SPAN-filter-by-text"><strong><i
                                                 class="material-icons mr-1 text-small">calendar_today</i> {{ $event->date->day }} {{$event->date->localeMonth}}, {{ $event->date->format('H:i') }}</strong></span>
