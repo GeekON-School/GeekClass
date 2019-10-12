@@ -183,7 +183,7 @@
             @endif
 
             {{-- @foreach($events as $event)
-                @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->lt(\Carbon\Carbon::now())))
+                @if($event->participants->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->lt(\Carbon\Carbon::now())))
                     <div class="row">
                         <div class="col-md-8">
                             <h4 style="margin: 20px;" class="card-title">Прошедшие события
@@ -197,7 +197,7 @@
 
             <div class="row">
                 {{-- @foreach($events as $event)
-                    @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->lt(\Carbon\Carbon::now())))
+                    @if($event->participants->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->lt(\Carbon\Carbon::now())))
                         <div class="col-md-6">
                             <div class="card" style="width: 100%; margin-bottom: 10px;">
                                 <div class="card-footer">
@@ -222,7 +222,7 @@
             </div>
 
             {{-- @foreach($events as $event)
-                @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now())))
+                @if($event->participants->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now())))
                     <div class="row">
                         <div class="col-md-8">
                             <h4 style="margin: 20px;" class="card-title">События <img
@@ -236,7 +236,7 @@
 
             <div class="row">
                 {{-- @foreach($events as $event)
-                    @if($event->userPartis->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now())))
+                    @if($event->participants->contains($user->id) && (\Carbon\Carbon::createFromFormat('Y-m-d', $event->date)->gt(\Carbon\Carbon::now())))
                         <div class="col-md-6">
                             <div class="card" style="width: 100%; margin-bottom: 10px;">
                                 <div class="card-footer">

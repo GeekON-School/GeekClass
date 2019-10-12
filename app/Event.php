@@ -8,6 +8,7 @@ use Carbon\Carbon;
 class Event extends Model
 {
     protected $table = 'events';
+    protected $dates = ['date'];
 
     public function userOrgs()
     {
@@ -38,7 +39,7 @@ class Event extends Model
     {
         return $this->userLikes()->where('id', $userId)->count() > 0;
     }
-    public function userPartis()
+    public function participants()
     {
         return $this->belongsToMany('App\User', 'event_partis');
     }

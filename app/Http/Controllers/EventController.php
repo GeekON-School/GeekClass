@@ -17,7 +17,7 @@ class EventController extends Controller
         $user = User::all();
         $tags = Tags::all();
         $comments = EventComments::all();
-        return view('/events/certain_event_view', ['event' => $event, 'users'=>$user, 'tags' => $tags, 'comments' => $comments]);
+        return view('/events/details', ['event' => $event, 'users'=>$user, 'tags' => $tags, 'comments' => $comments]);
     }
 
     public function add_event_view()
@@ -42,7 +42,7 @@ class EventController extends Controller
             }
         }
 
-    	return view('/events/event_view', ['old_events' => $old_events, 'events' => $events, 'tags' => $tags, 's_tags' => $s_tags]);
+    	return view('/events/index', ['old_events' => $old_events, 'events' => $events, 'tags' => $tags, 's_tags' => $s_tags]);
     }
 
     public function old_events_view(Request $request)
@@ -105,9 +105,9 @@ class EventController extends Controller
 
     {
     	$event = Event::findOrFail($id);
-      if($event->userPartis()->where('id', Auth::User()->id)->count() == 0)
+      if($event->participants()->where('id', Auth::User()->id)->count() == 0)
       {
-          $event->userPartis()->attach(Auth::User()->id);
+          $event->participants()->attach(Auth::User()->id);
       }
     	return redirect('/insider/events/'.$id);
     }
@@ -115,7 +115,7 @@ class EventController extends Controller
     public function left_event($id)
     {
         $event = Event::findOrFail($id);
-        $event->userPartis()->detach(Auth::User()->id);
+        $event->participants()->detach(Auth::User()->id);
         return redirect('/insider/events/'.$id);
     }
 
@@ -180,12 +180,8 @@ class EventController extends Controller
     public function edit_event_view($id)
     {
         $event = Event::findOrFail($id);
-        if($event->userOrgs->contains(Auth::User()->id))
+        if(Auth::User()->role=='admin' or $event->userOrgs->contains(Auth::User()->id))
         {
-            foreach ($event->tags as $tag)
-            {
-                $event->tags()->detach($tag->id);
-            }
             $tags = Tags::all();
             return view('events/edit_event_view', ['event' => $event, 'tags'=>$tags]);
         }
@@ -200,6 +196,8 @@ class EventController extends Controller
         $event->name = $request->name;
         $event->text = clean($request->text);
         $event->date = $request->date;
+        $time = explode(':', $request->time);
+        $event->date = $event->date->setTime($time[0], $time[1]);
         $event->location = $request->location;
         $event->type = $request->type;
         $event->short_text = $request->short_text;

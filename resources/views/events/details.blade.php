@@ -44,7 +44,7 @@
                             <div>
                                 <div class="row">
                                     <div class="col-md-12 row">
-                                        @if ($event->userPartis()->where('user_id', \Auth::id())->count() > 0)
+                                        @if ($event->participants()->where('user_id', \Auth::id())->count() > 0)
                                             <a role="button" style="margin-left:10px" class="col btn btn-danger" href={{"/insider/events/$event->id/left"}}>
                                                 Я не иду
                                             </a>
@@ -71,10 +71,10 @@
                                     </p>
                                     <p class="col-md-12">
                                         <b>Студенты:
-                                            {{count($event->userPartis)}}/{{$event->max_people}}: 
+                                            {{count($event->participants)}}/{{$event->max_people}}:
                                         </b>
                                         @foreach($users as $user)
-                                            @if($event->userPartis->contains($user->id))
+                                            @if($event->participants->contains($user->id))
                                                 <span>{{$user->name}}</span>
                                             @endif
                                         @endforeach
