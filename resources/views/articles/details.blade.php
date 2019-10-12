@@ -150,20 +150,41 @@
 
     @foreach($article->comments as $comment)
     <div class="row">
-        <div class="card col">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <p class="text-secondary">{{$comment->user->name}}</p>
-                    @if(\Auth::id() == $comment->user->id || \Auth::user()->role == "admin")
-                        <a class="nav-link btn btn-danger"
-                           style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
-                           href="/insider/articles/comments/{{$comment->id}}/delete"
-                           onclick="return confirm('Вы уверены?')"><i
-                                    class="ion-close-round"></i></a>
-                    @endcan
+        <div class="col">
+            <div class="row">
+                <ul class="avatars ">
+                        <li>
+                            <a href="{{ url('insider/profile/'.\Auth::user()->id) }}" data-toggle="tooltip"
+                                title="Kenny">
+                                @if (\Auth::user()->image!=null)
+                                    <img alt="Image" src="{{url('/media/'.\Auth::user()->image)}}" class="avatar"/>
+                                @else
+                                    <img alt="Image" src="http://api.adorable.io/avatars/256/{{\Auth::user()->id}}"
+                                            class="avatar"/>
+                                @endif
+                            </a>
+                        </li>
+                </ul>
+                <div class="col">
+                    <div class="d-flex justify-content-between">
+                        <p class="text-secondary">{{$comment->user->name}}</p>
+                        @if(\Auth::check())
+                            @if(\Auth::id() == $comment->user->id || \Auth::user()->role == "admin")
+                                <a onclick="return confirm('Вы уверены?')" class="btn btn-round" href="/insider/articles/comments/{{$comment->id}}/delete">
+                                    <i class="material-icons">close</i>
+                                </a>
+                                {{-- <a class="nav-link btn btn-danger"
+                                style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
+                                
+                                onclick="return confirm('Вы уверены?')"><i
+                                            class="ion-close-round"></i></a> --}}
+                            @endif
+                        @endif
+                    </div>
+                    <blockquote>{!!parsedown(clean($comment->comment))!!}</blockquote>
                 </div>
-                <blockquote>{!!parsedown(clean($comment->comment))!!}</blockquote>
             </div>
+            <hr>
         </div>
     </div>
     

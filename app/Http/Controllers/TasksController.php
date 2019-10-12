@@ -331,6 +331,28 @@ class TasksController extends Controller
         return redirect('/insider/courses/' . $course_id . '/steps/' . $task->step->id . '#task' . $id);
     }
 
+    public function makeDeadline($course_id, $id, Request $request)
+    {
+        $deadline = \App\TaskDeadline::all()->where('course_id', $course_id)->where('task_id', $id)->first();
+        // dd($deadline);
+        if ($deadline)
+        {
+            
+            $deadline->expiration = $request->deadline;
+            $deadline->penalty = $request->penalty;
+            $deadline->save();
+        }
+        else {
+            \App\TaskDeadline::create([
+                "course_id" => $course_id,
+                "task_id" => $id,
+                "expiration" => $request->deadline,
+                "penalty" => $request->penalty
+            ]);
+        }
+        return back();
+    }
+
     public function makeUpper($course_id, $id, Request $request)
     {
         $task = Task::findOrFail($id);

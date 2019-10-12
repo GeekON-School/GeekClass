@@ -530,18 +530,22 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($task->deadline)
-                                                @if ($task->deadline->lt(\Carbon\Carbon::now()))
+                                            @if ($task->getDeadline($course->id))
+                                                {{-- {{}} --}}
+                                                @php
+                                                $deadline = \Carbon\Carbon::parse($task->getDeadline($course->id)->expiration);
+                                                @endphp
+                                                @if ($deadline->lt(\Carbon\Carbon::now()))
                                                     <span class="badge badge-danger">
-                                                            Просрочено {{$task->deadline->format('Y.m.d')}}
+                                                            Просрочено {{$deadline->format('Y.m.d')}}
                                                         </span>
-                                                @elseif (\Carbon\Carbon::now()->addDays(1)->gt($task->deadline))
+                                                @elseif (\Carbon\Carbon::now()->addDays(1)->gt($deadline))
                                                     <span class="badge badge-warning">
-                                                            Срок {{$task->deadline->format('Y.m.d')}}
+                                                            Срок {{$deadline->format('Y.m.d')}}
                                                         </span>
-                                                @elseif (\Carbon\Carbon::now()->addDays(1)->lt($task->deadline))
+                                                @elseif (\Carbon\Carbon::now()->addDays(1)->lt($deadline))
                                                     <span class="badge badge-light">
-                                                            Срок {{$task->deadline->format('Y.m.d')}}
+                                                            Срок {{$deadline->format('Y.m.d')}}
                                                         </span>
                                                 @endif
                                             @endif

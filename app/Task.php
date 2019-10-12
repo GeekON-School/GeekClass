@@ -63,6 +63,12 @@ class Task extends Model
         return $this->solutions()->where('user_id', $user_id)->where('mark', '=', $this->max_mark)->count() !=0;
     }
 
+    public function getDeadline($course_id)
+    {
+        return $this->hasMany('App\TaskDeadline', 'task_id', 'id')->where('course_id', $course_id)->get()->first();
+
+    }
+
 
 
 }

@@ -138,7 +138,10 @@
                                                                 }
                                                             @endphp
                                                             @foreach($tasks as $task)
-                                                                @if ($task->deadline)
+                                                                @if ($task->getDeadline($course->id))
+                                                                    @php
+                                                                    $deadline = \Carbon\Carbon::parse($task->getDeadline($course->id)->expiration);
+                                                                    @endphp
                                                                     <style>
                                                                         *[data-tooltip] {
                                                                             position: relative;
@@ -160,14 +163,14 @@
                                                                             display: block;
                                                                         }
                                                                     </style>
-                                                                    @if (\Carbon\Carbon::now()->gt($task->deadline))
+                                                                    @if (\Carbon\Carbon::now()->gt($deadline))
                                                                         <span class="badge badge-danger"
                                                                               data-tooltip="{{$task->name}}"
                                                                               onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'"
                                                                               style="cursor:pointer;">
                                                                         !
                                                                     </span>
-                                                                    @elseif (\Carbon\Carbon::now()->addDays(1)->gt($task->deadline))
+                                                                    @elseif (\Carbon\Carbon::now()->addDays(1)->gt($deadline))
                                                                         <span class="badge badge-warning"
                                                                               data-tooltip="{{$task->name}}"
                                                                               onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'"

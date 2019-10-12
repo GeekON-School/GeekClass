@@ -197,6 +197,8 @@ Route::prefix('insider')->middleware('verified')->group(function () {
     Route::get('/courses/{course_id}/tasks/{id}/left', 'TasksController@makeLower');
     Route::get('/courses/{course_id}/tasks/{id}/right', 'TasksController@makeUpper');
     Route::get('/courses/{course_id}/tasks/{id}/peer', 'TasksController@reviewTable');
+    Route::post('/courses/{course_id}/tasks/{id}/deadline', 'TasksController@makeDeadline');
+        
 
     Route::post('/courses/{course_id}/tasks/{id}/edit', 'TasksController@edit');
     Route::post('/courses/{course_id}/tasks/{id}/solution', 'TasksController@postSolution');

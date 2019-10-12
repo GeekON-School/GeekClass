@@ -26,12 +26,15 @@
                <img src="https://png.icons8.com/color/50/000000/coins.png" style="height: 23px;">&nbsp;{{$task->price}}
                @endif
                @if (\Request::is('insider/*') && ($course->teachers->contains($user) || $user->role=='admin'))
+
                <a class="float-right btn btn-danger btn-sm"
                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/delete')}}"
                   onclick="return confirm('Вы уверены?')"><i class="icon ion-android-close"></i></a>
                <a style="margin-right: 5px;" class="float-right btn btn-success btn-sm"
                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/edit')}}"><i
                      class="icon ion-android-create"></i></a>
+               @include('steps/partials/deadline_modal')
+            <i data-toggle="modal" data-target="#deadline-modal-{{$task->id}}" class="float-right btn btn-default btn-sm"><i class="icon ion-ios-calendar"></i></i>
                <a class="float-right btn btn-default btn-sm"
                   href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/phantom')}}"><i
                      class="icon ion-ios-color-wand"></i></a>
