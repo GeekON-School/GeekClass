@@ -39,12 +39,13 @@ class MarketGood extends Authenticatable
         $this->number -= 1;
         $this->save();
 
-        CoinTransaction::register($user->id, -1 * $this->price, "Good #".$this->id);
         $deal = new MarketDeal();
         $deal->user_id = $user->id;
         $deal->good_id = $this->id;
         $deal->shipped = false;
         $deal->save();
+
+        CoinTransaction::register($user->id, -1 * $this->price, "Good #".$this->id);
 
         return $deal;
     }
