@@ -33,7 +33,7 @@
                             <p><span class="badge badge-danger">Закончился</span></p>
                         @endif
                         <h5 style="margin-top: 15px; font-weight: 300;"
-                            class="card-title">{{$good->name}} @if ($user->role=='teacher') <span class="float-right"><a
+                            class="card-title">{{$good->name}} @if ($user->role=='teacher' || $user->role=='admin') <span class="float-right"><a
                                         href="{{url('/insider/market/'.$good->id.'/edit')}}"
                                         class="btn btn-primary btn-sm"><i
                                             class="icon ion-android-create"></i></a></span> @endif </h5>
