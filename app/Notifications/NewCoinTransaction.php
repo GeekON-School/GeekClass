@@ -33,7 +33,11 @@ class NewCoinTransaction extends Notification
      */
     public function via($notifiable)
     {
-        return [VkChannel::class, 'database'];
+        $channels = [VkChannel::class];
+        if ($this->transaction->price > 0) {
+            array_push($channels, 'database');
+        }
+        return $channels;
     }
 
     /**
@@ -42,20 +46,11 @@ class NewCoinTransaction extends Notification
      * @param  mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
-    }
-
     public function toVk($notifiable)
     {
         if ($this->transaction->price > 0) {
             return "🏧 Вам начислено " . $this->transaction->price . " GK (" . $this->transaction->comment . ")";
-        }
-        else {
+        } else {
             return "🏧 Списание " . $this->transaction->price . " GK (" . $this->transaction->comment . ")";
         }
     }
@@ -68,11 +63,11 @@ class NewCoinTransaction extends Notification
      */
     public function toArray($notifiable)
     {
-        if ($this->transaction->price > 0) {
-            return [
-                "text" => "🏧 Вам начислено " . $this->transaction->price . " GK (" . $this->transaction->comment . ")",
-                "type" => "success"
-            ];
-        }
+
+        return [
+            "text" => "🏧 Вам начислено " . $this->transaction->price . " GK (" . $this->transaction->comment . ")",
+            "type" => "success"
+        ];
+
     }
 }
