@@ -22,7 +22,6 @@
                         </div>
                     </div>
                 @endif</h2>
-
         </div>
         <div class="col-12">
             <div class="card">
@@ -37,8 +36,6 @@
 
                             <p>
                                 <b>Организаторы: </b>
-
-
                                 @foreach($event->userOrgs as $user)
                                     <div class="row">
                                         <div class="col" style="width: 85px; max-width: 85px;">
