@@ -43,7 +43,7 @@
                             <p>
                                 <b>Организаторы: </b>
                                 @foreach($event->userOrgs as $user)
-                                    <div class="row">
+                                    <div class="row" style="margin-bottom: 10px;">
                                         <div class="col" style="width: 85px; max-width: 85px;">
                                             @if ($user->image!=null)
                                                 <div class="mr-3 rounded-circle img-circle"
