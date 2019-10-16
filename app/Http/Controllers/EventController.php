@@ -240,7 +240,6 @@ class EventController extends Controller
         foreach ($request->orgs as $org) {
             $event->userOrgs()->attach($org);
         }
-        $event->userOrgs()->attach(Auth::User()->id);
         if (isset($request->tags)) {
             $tags = $request->tags;
             foreach ($tags as $tag) {
