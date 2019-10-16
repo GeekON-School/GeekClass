@@ -205,6 +205,10 @@ class EventController extends Controller
         $event->skills = $request->skills;
         $event->site = $request->site;
         $event->save();
+        foreach ($event->userOrgs as $org)
+        {
+            $event->userOrgs()->detach($org->id);
+        }
         $event->userOrgs()->attach(Auth::User()->id);
         if(isset($request->tags))
         {

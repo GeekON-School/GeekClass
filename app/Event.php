@@ -80,6 +80,12 @@ class Event extends Model
     {
         return $this->hasMany('App\EventLikes');
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\EventComments');
+    }
+
     public function vote($amount, $user_id = null)
     {
         $user_id = \Auth::id();

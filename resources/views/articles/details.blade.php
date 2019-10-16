@@ -11,7 +11,7 @@
 
 @section('content')
 
- 
+
 
     <div class="row">
         <div class="col-12">
@@ -63,7 +63,9 @@
         <div class="col-12">
             <div style="float: left; width: 100%; padding-left: 5px;" class="col-auto">
                 <div class="row">
-                    <div class="col" style="width: 85px; max-width: 85px;">
+
+                    <div class="col-1" style="width: 85px; max-width: 85px;">
+
                         @if ($article->author->image!=null)
                             <div class="mr-3 rounded-circle img-circle"
                                  style='background-image: url("{{url('/media/'.$article->author->image)}}");'>
@@ -102,35 +104,65 @@
                 </div>
                 <hr>
                 <div class="row">
-                <div class="col-md-1" style="display:flex; justify-content:center; align-items: flex-end;">
-                    
-                        @if(\Auth::check())
-                            <gk-votes 
-                            :upvotes="{{$article->getUpvotes()-$article->hasUpvoted(\Auth::id())}}"
-                            :downvotes="{{$article->getDownvotes()-$article->hasDownvoted(\Auth::id())}}"
-                            :upvoted="{{$article->hasUpvoted(\Auth::id())?'1':'0'}}"
-                            :downvoted="{{$article->hasDownvoted(\Auth::id())?'1':'0'}}"
-                            :canvote="true"
-                            :urls="{upvote: '/insider/articles/{{$article->id}}/upvote',
-                                downvote: '/insider/articles/{{$article->id}}/downvote'}"
-                                ></gk-votes>
-                        @endif
+                    <div style="margin-top: 15px;" class="col-md-12 markdown markdown-big">
+                        @parsedown($article->text)
                     </div>
-                <div style="margin-top: 15px;" class="col-md-11 markdown markdown-big">
-                    @parsedown($article->text)
                 </div>
-            </div>
                 <hr>
-                
+
             </div>
         </div>
     </div>
+    @foreach($article->comments as $comment)
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <ul class="avatars ">
+                        <li>
+                            <a href="{{ url('insider/profile/'.\Auth::user()->id) }}" data-toggle="tooltip"
+                               title="Kenny">
+                                @if (\Auth::user()->image!=null)
+                                    <img alt="Image" src="{{url('/media/'.\Auth::user()->image)}}" class="avatar"/>
+                                @else
+                                    <img alt="Image" src="http://api.adorable.io/avatars/256/{{\Auth::user()->id}}"
+                                         class="avatar"/>
+                                @endif
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="col">
+                        <div class="d-flex justify-content-between">
+                            <p class="text-secondary">{{$comment->user->name}}</p>
+                            @if(\Auth::check())
+                                @if(\Auth::id() == $comment->user->id || \Auth::user()->role == "admin")
+                                    <a onclick="return confirm('Вы уверены?')" class="btn btn-round"
+                                       href="/insider/articles/comments/{{$comment->id}}/delete">
+                                        <i class="material-icons">close</i>
+                                    </a>
+                                    {{-- <a class="nav-link btn btn-danger"
+                                    style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
+
+                                    onclick="return confirm('Вы уверены?')"><i
+                                                class="ion-close-round"></i></a> --}}
+                                @endif
+                            @endif
+                        </div>
+                        <blockquote>{!!parsedown(clean($comment->comment))!!}</blockquote>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+
+        <script src="{{asset('js/forum.js')}}"></script>
+    @endforeach
     @if (\Auth::check())
         <form action="/insider/articles/{{$article->id}}/comment" method="POST">
             @csrf
 
             <div id="comment">
-                <h4 style="margin: 20px;"><label for="title">Комментарий:</label></h4>
+                <h5 style="margin-top: 10px;"><label for="title">Комментарий:</label></h5>
 
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -148,56 +180,14 @@
         </form>
     @endif
 
-    @foreach($article->comments as $comment)
-    <div class="row">
-        <div class="col">
-            <div class="row">
-                <ul class="avatars ">
-                        <li>
-                            <a href="{{ url('insider/profile/'.\Auth::user()->id) }}" data-toggle="tooltip"
-                                title="Kenny">
-                                @if (\Auth::user()->image!=null)
-                                    <img alt="Image" src="{{url('/media/'.\Auth::user()->image)}}" class="avatar"/>
-                                @else
-                                    <img alt="Image" src="http://api.adorable.io/avatars/256/{{\Auth::user()->id}}"
-                                            class="avatar"/>
-                                @endif
-                            </a>
-                        </li>
-                </ul>
-                <div class="col">
-                    <div class="d-flex justify-content-between">
-                        <p class="text-secondary">{{$comment->user->name}}</p>
-                        @if(\Auth::check())
-                            @if(\Auth::id() == $comment->user->id || \Auth::user()->role == "admin")
-                                <a onclick="return confirm('Вы уверены?')" class="btn btn-round" href="/insider/articles/comments/{{$comment->id}}/delete">
-                                    <i class="material-icons">close</i>
-                                </a>
-                                {{-- <a class="nav-link btn btn-danger"
-                                style="padding: 8px 9px;height: 40px; margin: 0 0; margin-left: 5px; width: 40px;"
-                                
-                                onclick="return confirm('Вы уверены?')"><i
-                                            class="ion-close-round"></i></a> --}}
-                            @endif
-                        @endif
-                    </div>
-                    <blockquote>{!!parsedown(clean($comment->comment))!!}</blockquote>
-                </div>
-            </div>
-            <hr>
-        </div>
-    </div>
-    
 
-    <script src="{{asset('js/forum.js')}}"></script>
-@endforeach
-<script>
-    var simplemde_text = new EasyMDE({
-        spellChecker: false,
-        autosave: true,
-        element: document.getElementById("commentArea")
-    });
-</script>
+    <script>
+        var simplemde_text = new EasyMDE({
+            spellChecker: false,
+            autosave: true,
+            element: document.getElementById("commentArea")
+        });
+    </script>
 
 
 @endsection
