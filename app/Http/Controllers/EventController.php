@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CoinTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Event;
@@ -41,6 +42,42 @@ class EventController extends Controller
         }
 
         return view('/events/index', ['old_events' => $old_events, 'events' => $events, 'tags' => $tags, 's_tags' => $s_tags]);
+    }
+
+    public function prize_view($id, Request $request)
+    {
+        if (\Auth::user()->role != 'admin' and \Auth::user()->role != 'teacher') abort(403);
+        $event = Event::findOrFail($id);
+        if ($event->coins_delivered) abort(403);
+        return view('/events/coins', ['event' => $event]);
+    }
+
+    public function prize($id, Request $request)
+    {
+        if (\Auth::user()->role != 'admin' and \Auth::user()->role != 'teacher') abort(403);
+        $event = Event::findOrFail($id);
+        if ($event->coins_delivered) abort(403);
+
+        foreach ($event->userOrgs as $user) {
+            if ($request->has('prize' . $user->id) and is_numeric($request->get('prize' . $user->id))) {
+                $coins = intval($request->get('prize' . $user->id));
+                CoinTransaction::register($user->id, $coins, "Event #" . $event->id);
+            }
+        }
+
+        foreach ($event->participants as $user) {
+            if (!$event->userOrgs->contains($user)) {
+                if ($request->has('prize' . $user->id) and is_numeric($request->get('prize' . $user->id))) {
+                    $coins = intval($request->get('prize' . $user->id));
+                    CoinTransaction::register($user->id, $coins, "Event #" . $event->id);
+                }
+            }
+        }
+
+        $event->coins_delivered = true;
+        $event->save();
+
+        return redirect('/insider/events/');
     }
 
     public function old_events_view(Request $request)
@@ -181,8 +218,7 @@ class EventController extends Controller
     public function edit_event(Request $request)
     {
         $event = Event::findOrFail($request->id);
-        if (!(Auth::User()->role == 'admin' or Auth::User()->role == 'teacher' or $event->userOrgs->contains(Auth::User()->id)))
-        {
+        if (!(Auth::User()->role == 'admin' or Auth::User()->role == 'teacher' or $event->userOrgs->contains(Auth::User()->id))) {
             abort(503);
         }
         $event->name = $request->name;

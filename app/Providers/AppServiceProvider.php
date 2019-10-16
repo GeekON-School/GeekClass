@@ -21,7 +21,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::withoutDoubleEncoding();
         if (config('app.env') != 'local')
         {
-
             \URL::forceScheme('https');
         }
 

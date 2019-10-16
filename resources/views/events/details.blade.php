@@ -16,7 +16,13 @@
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item"
                                href="{{ url('/insider/events/'.$event->id.'/edit') }}">Изменить</a>
+                            @if (!$event->coins_delivered and (\Auth::user()->role == 'admin' or \Auth::user()->role == 'teacher'))
+                                <a class="dropdown-item"
+                                   href="{{ url('/insider/events/'.$event->id.'/prize') }}">Начислить премию</a>
+                            @endif
                             <div class="dropdown-divider"></div>
+
+
                             <a class="dropdown-item text-danger" onclick="return confirm('Вы уверены?')"
                                href="{{ url('/insider/events/'.$event->id.'/delete') }}">Удалить</a>
                         </div>
