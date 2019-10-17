@@ -35,7 +35,7 @@ class NewRank extends Notification implements ShouldQueue
 
     public function toVk($notifiable)
     {
-        $message = "🌟 Вы получили новое звание - <strong>\"" . $notifiable->rank()->name . "\"</strong>! Поздравляем!";
+        $message = "🌟 Вы получили новое звание - \"" . $notifiable->rank()->name . "\"! Поздравляем!";
 
         return $message;
 
