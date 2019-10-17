@@ -64,6 +64,21 @@
                             </script>
                         </div>
 
+                        <div class="form-group">
+                            <label for="participants" style="padding-bottom: 10px;">Участники:</label><br>
+                            <select class="selectpicker2  form-control" data-live-search="true" id="orgs"
+                                    name="participants[]" multiple data-width="auto">
+                                @foreach (\App\User::all() as $user)
+                                    <option data-tokens="{{ $user->id }}"
+                                            value="{{ $user->id }}">{{$user->name}}</option>
+                                @endforeach
+                            </select>
+
+                            <script>
+                                $('.selectpicker2').selectpicker('val', [{{implode(',', $event->participants->pluck('id')->toArray())}}]);
+                            </script>
+                        </div>
+
                         <div class="form-group required">
                             <label>Краткое описание события</label>
                             <input name="short_text" class="form-control" required @if (!old('short_text')) value="{{$event->short_text}}" @else value="{{old('short_text')}}" @endif>

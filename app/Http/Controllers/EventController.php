@@ -198,6 +198,14 @@ class EventController extends Controller
         foreach ($request->orgs as $org) {
             $event->userOrgs()->attach($org);
         }
+
+        foreach ($event->participants as $participant) {
+            $event->participants()->detach($participant->id);
+        }
+
+        foreach ($request->participants as $participant) {
+            $event->participants()->attach($participant);
+        }
         return redirect('/insider/events/' . $event->id);
     }
 }
