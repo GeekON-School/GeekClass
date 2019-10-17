@@ -33,7 +33,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col col-md-8">
+                        <div class="col col-xl-8">
 
                             <h5>Начало
                                 события: {{\Carbon\Carbon::parse($event->date)->format("Y.m.d в h:m")}}</h5>
@@ -82,7 +82,7 @@
                     @endforeach
                 </div>
 
-                <div class="col col-md-4">
+                <div class="col col-xl-4">
                     @if ($event->participants()->where('user_id', \Auth::id())->count() > 0)
                         <a role="button" class="btn btn-danger" style="width: 100%;"
                            href={{"/insider/events/$event->id/left"}}>
@@ -111,6 +111,16 @@
                         @endforeach
 
                     </ul>
+                    @if ($event->type == 'in')
+                        <p>
+                            <b>Тип: </b> внутреннее
+                        </p>
+                    @else
+                        <p>
+                            <b>Тип: </b> внешнее
+                        </p>
+
+                    @endif
                     <p>
                         <b>Где: </b> {{$event->location}}
                     </p>
@@ -125,6 +135,12 @@
                         / {{$event->max_people ? $event->max_people:"&infin;"}}
 
                     </p>
+
+                    @if ($event->skills)
+                        <p>
+                            <b>Ограничения: </b> {{$event->skills}}
+                        </p>
+                    @endif
 
                     <ul>
                         @foreach($users as $user)
