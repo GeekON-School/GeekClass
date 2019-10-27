@@ -8,7 +8,7 @@ class GameReward extends Model
 {
     //
     public static function register($user_id, $game_id, $amount, $comment)
-    {
+    {/*
         $reward = new \App\GameReward();
         $reward->user_id = $user_id;
         $reward->game_id = $game_id;
@@ -21,6 +21,6 @@ class GameReward extends Model
         {
             \App\CoinTransaction::register(\Auth::id(), -$amount, "Наградил игру");
         }
-        return $reward;
+        return $reward;*/
     }
 }
