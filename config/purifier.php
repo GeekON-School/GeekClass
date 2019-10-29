@@ -31,7 +31,8 @@ return [
             'URI.AllowedSchemes' => array (
                 'http' => true,
                 'https' => true,
-            )
+            ),
+            'Core.EscapeInvalidTags' => true
         ],
         'test'    => [
             'Attr.EnableID' => 'true',
