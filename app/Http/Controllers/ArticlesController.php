@@ -121,7 +121,7 @@ class ArticlesController extends Controller
             'anounce' => 'required|string',
         ]);
 
-        $article->text = clean($request->text);
+        $article->text = clean($request->text, 'youtube');
         $article->anounce = clean($request->anounce);
         $article->name = $request->name;
         $article->image = $request->image;
@@ -160,7 +160,7 @@ class ArticlesController extends Controller
         $user = User::findOrFail(Auth::User()->id);
 
         $article = new Article();
-        $article->text = clean($request->text);
+        $article->text = clean($request->text, 'youtube');
         $article->anounce = clean($request->anounce);
         $article->name = $request->name;
         $article->image = $request->image;
