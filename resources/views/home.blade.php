@@ -346,10 +346,31 @@
                     </div>
 
                     <div class="card"
+                         style="border-left: 3px solid #007bff;">
+                        <div class="card-body">
+
+                            <h5 style="font-weight: 400; font-size: 1.1rem;"
+                                class="card-title">Ближайшие события:</h5>
+                            <p class="card-text" style="font-size: 0.8rem;">
+                            <ul>
+                                @foreach($events as $event)
+                                     <li>
+                                            <a style="color: black;" href="{{url('insider/events/'.$event->id)}}">{{ $event->name }}</a>
+                                            -
+                                            <strong>{{$event->date->format('d.m')}}</strong></li>
+                                @endforeach
+                            </ul>
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card"
                          style="margin-top: 15px;border-left: 3px solid #007bff;">
                         <div class="card-body">
 
-                            <h5 style="margin-top: 15px; font-weight: 400; font-size: 1.1rem;"
+                            <h5 style="font-weight: 400; font-size: 1.1rem;"
                                 class="card-title">Празднуем день рождения:</h5>
                             <p class="card-text" style="font-size: 0.8rem;">
                             <ul>

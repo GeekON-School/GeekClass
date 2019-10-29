@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ActionLog;
 use App\CompletedCourse;
 use App\Course;
+use App\Event;
 use App\ForumThread;
 use App\Idea;
 use App\Program;
@@ -59,6 +60,7 @@ class CoursesController extends Controller
         $user = User::findOrFail(Auth::User()->id);
         $users = User::where('is_hidden', false)->get();
         $courses = Course::orderBy('id')->get();
+        $events = Event::getNew()->sortBy('date')->take(5);
 
         $my_courses = $courses->filter(function ($course) use ($user) {
             return $course->state == 'started' && ($user->role == 'admin' || $course->students->contains($user) || $course->teachers->contains($user));
@@ -78,7 +80,7 @@ class CoursesController extends Controller
         }
 
         $threads = ForumThread::orderBy('id', 'DESC')->limit(5)->get();
-        return view('home', compact('courses', 'user', 'users', 'threads', 'my_courses', 'open_courses', 'private_courses', 'notifications'));
+        return view('home', compact('courses', 'user', 'users', 'threads', 'my_courses', 'open_courses', 'private_courses', 'notifications', 'events'));
     }
 
     public function report($id)
