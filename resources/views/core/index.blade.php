@@ -43,7 +43,7 @@
 
 @section('content')
 
-    <div class="alchemy" id="alchemy"></div>
+    <div class="alchemy" id="alchemy" style="height:calc(88vh);"</div>
 
     <script src="{{url('js/vendor.js')}}"></script>
     <script src="{{url('js/alchemy.js')}}"></script>
