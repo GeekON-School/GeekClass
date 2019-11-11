@@ -77,16 +77,22 @@
                                                        placeholder="Password"
                                                        required>
                                                 @if ($errors->has('password'))
-                                                    <span class="help-block error-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
+                                                    <span class="help-block error-block"><strong>{{ $errors->first('password') }}</strong></span>
                                                 @endif
                                             </div>
+
                                             <div class="form-group">
 
                                                 <button class="btn btn-lg btn-primary btn-block"
                                                         type="submit">Вход
                                                 </button>
+                                            </div>
+                                            <div class="form-check text-left"
+                                                 style="color: #0A6187; margin-top: 0px; margin-bottom: 15px;">
+                                                <input type="checkbox" name="remember" class="form-check-input"
+                                                       id="exampleCheck1">
+                                                <label class="form-check-label" for="exampleCheck1">Не выходить из
+                                                    системы</label>
                                             </div>
                                             <p style="margin-top: 15px;" class="text-left">
                                                 <a style="color: #0A6187;" href="{{url('/register')}}"><i
