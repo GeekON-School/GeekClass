@@ -77,8 +77,28 @@ class ProjectsController extends Controller
 
         $project = Project::findOrFail($id);
         $user = User::findOrFail(Auth::User()->id);
-        if (!$project->team->contains($user)) abort(503);
-        $project->editProject($request);
+        // if (!$project->team->contains($user)) abort(503);
+
+        if ($request->idea !== null)
+        {
+            if ($project->basedOn->count() !== 0)
+            {
+                $project->basedOn->first()->idea_id = $request->idea;
+                $project->basedOn->first()->save();
+            }
+            else
+            {
+                \App\ProjectIdea::create([
+                    "project_id" => $project->id,
+                    "idea_id" => $request->idea
+                ]);
+            }
+        }
+        else 
+        {
+            $project->basedOn->first()->delete();
+        }
+        
 
         foreach ($project->team as $member) {
             if ($member == $project->author) continue;
@@ -125,6 +145,14 @@ class ProjectsController extends Controller
         $user = User::findOrFail(Auth::User()->id);
         $project = Project::createProject($request);
         $project->team()->attach($user->id);
+        
+        if ($request->idea !== null)
+        {
+            \App\ProjectIdea::create([
+                "project_id" => $project->id,
+                "idea_id" => $request->idea
+            ]);
+        }
 
         if ($request['task'] != "") {
             $parts = explode('_', $request->task);
@@ -206,4 +234,34 @@ class ProjectsController extends Controller
         return redirect('/insider/projects/' . $project->id);
 
     }
+
+    public function rewardView($id)
+    {
+        $project = \App\Project::findOrFail($id);
+        return view('projects.reward', ['project' => $project]);
+    }
+    public function reward($id, Request $request)
+    {
+        $project = \App\Project::findOrFail($id);
+        if ($project->author_ !== null)
+        {
+            if (\Auth::user()->id === $project->author_->id && \Auth::user()->role !== "admin") abort(403);
+
+            $messages = [
+                'reward.min' => 'Минимальная сумма награды - 1 GeekCoin',
+                'reward.max' => 'На вашем балансе не хватает GeekCoin',
+                'comment.min' => 'Комментарий обязятелен'
+            ];
+            $request->validate([
+                'reward' => 'numeric|min:1' . (\Auth::user()->is_teacher ? '' : '|max:' . \Auth::user()->balance()),
+                'comment' => 'min:1'
+            ], $messages);
+
+            
+            \App\ProjectAward::register($project->author_->id, $id, $request->reward, $request->comment);
+        }
+        return redirect('/insider/projects/' . $project->id);
+    
+    }
 }
+

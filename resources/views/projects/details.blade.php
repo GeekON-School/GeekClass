@@ -28,12 +28,27 @@
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col col-md-auto">
-                            <h3 class="card-title">{{$project->name}}</h3>
+                        <div class="col col-md-auto" style="display:flex;">
+                        <h3 class="card-title">{{$project->name}}</h3>
+                        @if ($project->getRewardAmount() > 0)
+                            <div class="d-flex" style="margin: 10px;">
+                                <img src="https://png.icons8.com/color/50/000000/coins.png" width="20" height="20"
+                                    alt="Rewarded: ">
+                                <p>{{$project->getRewardAmount()}}</p></div>
+                        @endif
+                        @if ($project->basedOn->count() > 0)
+                            <small style="margin:10px; display:inline-block;">основано на идее {{$project->basedOn[0]->idea->name}}</small>
+                        @endif
                         </div>
                         <div class="col">
                             @if ($user->role=='teacher' || $user->role=='admin' || $is_in_project)
                                 <div class="float-right">
+
+                                        @if ($project->author_ !== null)
+                                    </p>@if (\Auth::user()->id !== $project->author_->id || \Auth::user()->role == "admin")
+                                            <a href="/insider/projects/{{$project->id}}/reward" class="btn btn-warning btn-sm"><i class="icon ion-trophy"></i></a>
+                                        @endif
+                                        @endif
                                     @if ($user->role != 'student' && $user->role != 'novice' && $project->task != null)
                                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                                 data-target="#reviewModal">

@@ -37,7 +37,19 @@ class Project extends Model
     {
         return $this->belongsTo('App\User', 'user_id', 'id');
     }
-
+    public function getRewards()
+    {
+        return $this->hasMany('App\ProjectAward');
+    }
+    
+    public function getRewardAmount()
+    {
+        return $this->hasMany('App\ProjectAward')->sum('amount');
+    }
+    public function author_()
+    {
+        return $this->belongsTo('App\User', 'author_id', 'id');
+    }
     public function task()
     {
         return $this->belongsTo('App\Task', 'task_id', 'id');
@@ -45,6 +57,11 @@ class Project extends Model
     public function task_course()
     {
         return $this->belongsTo('App\Course', 'course_id', 'id');
+    }
+
+    public function basedOn()
+    {
+        return $this->hasMany('App\ProjectIdea');
     }
 
     public function editProject($data)

@@ -79,10 +79,33 @@
                                 @endforeach
                             </select>
 
+                            
+
                             <script>
                                 $('.selectpicker').selectpicker();
                             </script>
                         </div>
+
+                        <div class="form-group">
+                            <label for="students" style="padding-bottom: 10px;">Привязать к идее:</label><br>
+                            <select class="selectpicker  form-control" data-live-search="true" id="idea" name="idea"
+                                    data-width="auto">
+                                <option data-tokens="-1"
+                                        value=""> Не привязывать к идее
+                                </option>
+                                @foreach (\App\Idea::all()->where("is_approved", true) as $idea)
+                                    @
+                                    <option value="{{$idea->id}}">{{$idea->name}}</option>
+                                @endforeach
+                            </select>
+
+                            
+
+                            <script>
+                                $('.selectpicker').selectpicker();
+                            </script>
+                        </div>
+
 
 
                         <input type="submit" class="btn btn-success" value="Создать"/>

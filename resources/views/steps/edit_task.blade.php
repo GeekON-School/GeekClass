@@ -229,18 +229,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
-                            <label for="price" class="col-md-4">Дедлайн</label>
-
-                            <div class="col-md-12">
-                                <input type="date" name="deadline" class="form-control" id="deadline" value="{{$task->deadline ? $task->deadline->format("Y-m-d") : ''}}"/>
-                                @if ($errors->has('deadline'))
-                                    <span class="help-block error-block">
-                                    <strong>{{ $errors->first('deadline') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
+                   
                         <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
                             <label for="price" class="col-md-4">Штраф (баллы * штраф)</label>
 

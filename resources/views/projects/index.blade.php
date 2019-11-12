@@ -43,10 +43,34 @@
                             <div class="card" style="min-width: 40%; border-left: 3px solid #28a745;">
                                 <div class="card-body">
                                     <div class="media">
-                                        <div class="media-body">
-                                            <h5 class="mt-0 mb-1"><a  href="{{url('/insider/projects/'.$project->id)}}">{{$project->name}}</a></h5>
-                                            {{$project->short_description}}
-                                        </div>
+                                            <div class="media-body row">
+                                                    <div class="col col-md-auto">
+                                                        <h5 class="mt-0 mb-1" style="float:left;"><a href="{{url('/insider/projects/'.$project->id)}}"> {{$project->name}}</a></h5>
+                                                        @if ($project->getRewardAmount() > 0)
+                                                            <div class="d-inline-flex " >
+                                                                <img src="https://png.icons8.com/color/50/000000/coins.png" width="20" height="20"
+                                                                    alt="Rewarded: ">
+                                                                <p>{{$project->getRewardAmount()}}</p></div>
+                                                        @endif
+                                                        @if ($project->basedOn->count() > 0)
+                                                        <small style=" margin:3px; display:inline-block;">основано на идее {{$project->basedOn[0]->idea->name}}</small>
+                                                        
+                                                        @endif
+                                                    </div>
+                                                    
+                                                    <p class="col col-md-12">
+                                                        {{$project->short_description}}
+
+                                                    </p>
+                                                    @if ($project->author_ !== null)
+                                                    @if (\Auth::user()->id !== $project->author_->id || \Auth::user()->role == "admin")
+                                                    <div class="col col-md-12">
+                                                            <a href="/insider/projects/{{$project->id}}/reward" class="btn btn-warning"><i class="icon ion-trophy"></i></a>
+                                                        </div>
+                                                        @endif
+                                                        @endif
+                                                    
+                                                </div>
                                         @if ($project->url!=null)
                                         <img height="75px"
                                              src="@if ($project->url!=null){{$project->url}}@endif"
@@ -70,9 +94,30 @@
                             <div class="card" style="min-width: 40%;border-left: 3px solid #28a745;">
                                 <div class="card-body">
                                     <div class="media">
-                                        <div class="media-body">
-                                            <h5 class="mt-0 mb-1"><a href="{{url('/insider/projects/'.$project->id)}}"> {{$project->name}}</a></h5>
-                                            {{$project->short_description}}
+                                        <div class="media-body row">
+                                            <div class="col col-md-auto">
+                                                <h5 class="mt-0 mb-1" style="float:left;"><a href="{{url('/insider/projects/'.$project->id)}}"> {{$project->name}}</a></h5>
+                                                @if ($project->getRewardAmount() > 0)
+                                                            <div class="d-inline-flex " >
+                                                                <img src="https://png.icons8.com/color/50/000000/coins.png" width="20" height="20"
+                                                                    alt="Rewarded: ">
+                                                                <p>{{$project->getRewardAmount()}}</p></div>
+                                                        @endif
+                                                        @if ($project->basedOn->count() > 0)
+                                                        <small style=" margin:3px; display:inline-block;">основано на идее {{$project->basedOn[0]->idea->name}}</small>
+                                                        
+                                                        @endif
+                                            </div>
+                                            <p class="col col-md-12">
+                                                {{$project->short_description}}
+                                            </p>
+                                            @if ($project->author_ !== null)
+                                                    </p>@if (\Auth::user()->id !== $project->author_->id || \Auth::user()->role == "admin")
+                                                    <div class="col col-md-12">
+                                                            <a href="/insider/projects/{{$project->id}}/reward" class="btn btn-warning"><i class="icon ion-trophy"></i></a>
+                                                        </div>
+                                                        @endif
+                                                        @endif
                                         </div>
                                         @if ($project->url!=null)
                                             <img height="75px"
