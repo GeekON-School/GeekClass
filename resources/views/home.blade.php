@@ -307,7 +307,7 @@
 
                                         <span style="margin-top: 8px;" data-container="body"
                                               data-placement="bottom"
-                                              data-content="{!! $user->getHtmlTransactions() !!}"
+                                              data-content="{{ $user->getHtmlTransactions() }}"
                                               data-html="true" data-toggle="popover">
                                            <img src="https://png.icons8.com/color/50/000000/coins.png"
                                                 style="height: 30px;"/>&nbsp;{{$user->balance()}}&nbsp;&nbsp;

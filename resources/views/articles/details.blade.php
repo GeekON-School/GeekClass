@@ -10,9 +10,6 @@
 
 
 @section('content')
-
-
-
     <div class="row">
         <div class="col-12">
             @if ($article->image)
@@ -109,7 +106,25 @@
                     </div>
                 </div>
                 <hr>
+                <div class="card">
+                    <div style="padding:10px" class="card-body">
+                        @if(\Auth::check())
+                            <gk-votes 
+                            :upvotes="{{$article->getUpvotes()-$article->hasUpvoted(\Auth::id())}}"
+                            :downvotes="{{$article->getDownvotes()-$article->hasDownvoted(\Auth::id())}}"
+                            :upvoted="{{$article->hasUpvoted(\Auth::id())?'1':'0'}}"
+                            :downvoted="{{$article->hasDownvoted(\Auth::id())?'1':'0'}}"
+                            :canvote="true"
+                            :urls="{upvote: '/insider/articles/{{$article->id}}/upvote',
+                                downvote: '/insider/articles/{{$article->id}}/downvote'}"
+                                sideways="true"
+                                ></gk-votes>
+                        @endif  
+                        {{$article->comments->count()}}
+                        <i class="material-icons small">message</i>
 
+                    </div>
+                </div>
             </div>
         </div>
     </div>
