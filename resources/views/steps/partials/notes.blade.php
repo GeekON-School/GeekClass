@@ -4,7 +4,7 @@
             <div style="width:100%; margin: -30px;" id="notebook">
 
             </div>
-        {{dd(str_replace($step->theory, array('<', '>'), array('&lt;', '&rt;'))}}
+        {{dd(str_replace($step->theory, array('<', '>'), array('&lt;', '&rt;')))}}
             <script>nbv.render(JSON.parse('{!! addslashes (str_replace($step->theory, array('<', '>'), array('&lt;', '&rt;'))) !!}'), document.getElementById('notebook'));</script>
         @else
             @parsedown($step->theory)
