@@ -380,7 +380,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Информация <img src="https://png.icons8.com/info/color/30/000000"></h4>
+                    <h4 class="card-title">Информация <img style="width: 30px;" src="https://img.icons8.com/cute-clipart/64/000000/information.png"></h4>
                     <p>
                         @if ($course->teachers->contains($user) || $user->role=='admin')
                             <b>Статус:</b> {{$course->state}}<br/>
