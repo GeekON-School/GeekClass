@@ -4,7 +4,7 @@
             <div style="width:100%; margin: -30px;" id="notebook">
 
             </div>
-            <script>nbv.render(JSON.parse('{!! addslashes (str_replace(array('<', '>'), array('&lt;', '&rt;'), $step->theory)) !!}'), document.getElementById('notebook'));</script>
+            <script>nbv.render(JSON.parse('{!! addslashes ( $step->theory) !!}'), document.getElementById('notebook'));</script>
         @else
             @parsedown($step->theory)
         @endif
