@@ -23,7 +23,7 @@
 
             @foreach($goods as $good)
                 <div class="card"
-                     style="min-width: 280px; max-width: 300px; background-size: cover;">
+                     style="min-width: 140px; max-width: 160px; background-size: cover;">
                     @if ($good->image != null)
                         <img class="card-img-top" src="{{$good->image}}" style="max-width: 335px;"/>
                     @endif
