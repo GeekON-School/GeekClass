@@ -8,6 +8,8 @@
     <div class="row" style="margin-top: 15px;">
         <div class="col">
             <h2> Магазин</h2>
+            <p>Ваш баланс - <img src="https://png.icons8.com/color/50/000000/coins.png"
+                                 style="height: 30px;"/>&nbsp;{{$user->balance()}}&nbsp;</p>
         </div>
         <div class="col">
             @if ($user->role=='admin')
@@ -21,7 +23,7 @@
 
             @foreach($goods as $good)
                 <div class="card"
-                     style="min-width: 280px; max-width: 330px; background-size: cover;">
+                     style="min-width: 280px; max-width: 300px; background-size: cover;">
                     @if ($good->image != null)
                         <img class="card-img-top" src="{{$good->image}}" style="max-width: 335px;"/>
                     @endif
