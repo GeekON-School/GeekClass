@@ -26,7 +26,7 @@
         <div class="row">
             <div class="tab-pane fade show active card-deck" id="future" style="width:100%;">
                 @foreach ($events as $event)
-                    <div class="card card-team @if ($event->participants->contains(\Auth::user())) bg-success @endif">
+                    <div class="card card-team @if ($event->participants->contains(\Auth::user())) bg-success @endif" style="min-width: 280px;">
                         <div class="card-body">
                             @if (\Auth::User()->role=='admin' or $event->userOrgs->contains(Auth::User()->id))
                                 <div class="dropdown card-options">
@@ -85,7 +85,7 @@
             </div>
             <div class="tab-pane fade show card-deck" id="past" style="width:100%;">
                 @foreach ($old_events as $event)
-                    <div class="card card-team @if ($event->participants->contains(\Auth::user())) bg-success @endif">
+                    <div class="card card-team @if ($event->participants->contains(\Auth::user())) bg-success @endif" style="min-width: 280px;">
                         <div class="card-body">
                             @if (\Auth::User()->role=='admin' or $event->userOrgs->contains(Auth::User()->id))
                                 <div class="dropdown card-options">
