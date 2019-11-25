@@ -38,7 +38,7 @@ class MarketController extends Controller
     public function index()
     {
         $user = User::findOrFail(Auth::User()->id);
-        $goods = MarketGood::where('in_stock', true)->get();
+        $goods = MarketGood::where('in_stock', true)->orderBy('id', 'desc')->get();
         $active_orders = MarketDeal::where('shipped', false)->get();
         $archive = MarketGood::where('in_stock', false)->get();
         return view('market.index', compact('goods', 'user', 'archive', 'active_orders'));
