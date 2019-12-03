@@ -127,10 +127,10 @@
                             <div class="card" style="min-width:40% !important;">
                                 <div class="card-body">
                                     <h4 class="card-title">Информация <img
-                                                src="https://png.icons8.com/info/color/30/000000"></h4>
+                                                src="{{ url('images/icons/icons8-info-48.png') }}"></h4>
                                     <p>
                                         @if ($course->telegram!=null)
-                                            <b><img src="https://png.icons8.com/telegram-app/win10/16"
+                                            <b><img src="{{ url('images/icons/icons8-telegram-app-48.png') }}"
                                                     title="Telegram App"
                                                     width="16"
                                                     height="16"> Чат в телеграм:</b> <a

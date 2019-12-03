@@ -48,7 +48,7 @@
                                                         <h5 class="mt-0 mb-1" style="float:left;"><a href="{{url('/insider/projects/'.$project->id)}}"> {{$project->name}}</a></h5>
                                                         @if ($project->getRewardAmount() > 0)
                                                             <div class="d-inline-flex " >
-                                                                <img src="https://png.icons8.com/color/50/000000/coins.png" width="20" height="20"
+                                                                <img src="{{ url('images/icons/icons8-coins-48.png') }}" width="20" height="20"
                                                                     alt="Rewarded: ">
                                                                 <p>{{$project->getRewardAmount()}}</p></div>
                                                         @endif
@@ -99,7 +99,7 @@
                                                 <h5 class="mt-0 mb-1" style="float:left;"><a href="{{url('/insider/projects/'.$project->id)}}"> {{$project->name}}</a></h5>
                                                 @if ($project->getRewardAmount() > 0)
                                                             <div class="d-inline-flex " >
-                                                                <img src="https://png.icons8.com/color/50/000000/coins.png" width="20" height="20"
+                                                                <img src="{{ url('images/icons/icons8-coins-48.png') }}" width="20" height="20"
                                                                     alt="Rewarded: ">
                                                                 <p>{{$project->getRewardAmount()}}</p></div>
                                                         @endif

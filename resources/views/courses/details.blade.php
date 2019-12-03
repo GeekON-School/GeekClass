@@ -380,7 +380,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Информация <img style="width: 30px;" src="https://img.icons8.com/cute-clipart/64/000000/information.png"></h4>
+                    <h4 class="card-title">Информация <img style="width: 30px;" src="{{ url('images/icons/icons8-info-48.png') }}"></h4>
                     <p>
                         @if ($course->teachers->contains($user) || $user->role=='admin')
                             <b>Статус:</b> {{$course->state}}<br/>
@@ -388,11 +388,11 @@
 
                         @endif
                         @if ($course->git!=null)
-                            <b><img src="https://png.icons8.com/git/color/24" title="Git" width="16" height="16"> Git
+                            <b><img src="{{ url('images/icons/icons8-git-48.png') }}" title="Git" width="16" height="16"> Git
                                 репозиторий:</b> <a href="{{$course->git}}">{{$course->git}}</a><br/>
                         @endif
                         @if ($course->telegram!=null)
-                            <b><img src="https://png.icons8.com/telegram-app/win10/16" title="Telegram App" width="16"
+                            <b><img src="{{ url('images/icons/icons8-telegram-app-48.png') }}" title="Telegram App" width="16"
                                     height="16"> Чат в телеграм:</b> <a
                                     href="{{$course->telegram}}">{{$course->telegram}}</a><br/>
                         @endif
@@ -470,7 +470,7 @@
                 <div class="card" style="margin-top: 15px;">
                     <div class="card-body">
 
-                        <h4 class="card-title">Оценки <img src="https://png.icons8.com/medal/color/30/000000">
+                        <h4 class="card-title">Оценки <img src="{{ url('images/icons/icons8-medal-48.png') }}">
                             <small class="float-right"><span class="badge badge-primary">{{$cstudent->points}}
                                     / {{$cstudent->max_points}}</span></small>
                         </h4>

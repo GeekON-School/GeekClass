@@ -71,7 +71,7 @@
 
         <a class="navbar-brand" href="{{ url('/') }}" style="line-height: 50px; font-size: 1.3rem;">
             <span><img style="height: 35px; margin-bottom: 0px;"
-                       src="https://img.icons8.com/cute-clipart/64/000000/idea.png">&nbsp;</span>
+                       src="{{ url('images/icons/icons8-idea-48.png') }}">&nbsp;</span>
             GeekClass
         </a>
 

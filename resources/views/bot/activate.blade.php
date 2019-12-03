@@ -53,7 +53,7 @@
 @section('content')
     <form class="form-signin" method="post">
         {{ csrf_field() }}
-        <img style="height: 64px;" src="https://img.icons8.com/cute-clipart/64/000000/idea.png">&nbsp;
+        <img style="height: 64px;" src="{{ url('images/icons/icons8-idea-48.png') }}">&nbsp;
         <h1 style="margin-top: 10px;" class="h3 mb-3 font-weight-normal">Активация внешнего сервиса</h1>
         <label for="code" class="sr-only">Код</label>
         <input type="text" id="code" name="code" class="form-control" placeholder="1234" required autofocus>

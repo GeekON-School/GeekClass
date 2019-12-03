@@ -21,21 +21,21 @@
                                 @if($task->isSubmitted($user->id))
                                     @if($task->isFailed($user->id))
                                         <sup><img title="Не выполнено"
-                                                  src="https://img.icons8.com/color/48/000000/cancel.png"
+                                                  src="{{ url('images/icons/icons8-cancel-48.png') }}"
                                                   style="height: 20px;"/></sup>
                                     @else
                                         @if ($task->isOnCheck($user->id))
                                             <sup><img title="Ожидает проверки"
-                                                      src="https://img.icons8.com/office/16/000000/historical.png"
+                                                      src="{{ url('images/icons/icons8-historical-48.png') }}"
                                                       style="height: 20px;"/></sup>
                                         @else
                                             @if($task->isFullDone($user->id))
                                                 <sup><img title="Выполнено"
-                                                          src="https://img.icons8.com/color/48/000000/checkmark.png"
+                                                          src="{{ url('images/icons/icons8-checkmark-48.png') }}"
                                                           style="height: 20px;"/></sup>
                                             @else
                                                 <sup><img title="Требует доработки"
-                                                          src="https://img.icons8.com/color/48/000000/error.png"
+                                                          src="{{ url('images/icons/icons8-error-48.png') }}"
                                                           style="height: 20px;"/></sup>
                                             @endif
                                         @endif

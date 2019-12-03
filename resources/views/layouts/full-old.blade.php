@@ -74,7 +74,7 @@
 <body>
 
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <img style="height: 40px;" src="https://img.icons8.com/cute-clipart/64/000000/idea.png">&nbsp;&nbsp;&nbsp;
+    <img style="height: 40px;" src="{{ url('images/icons/icons8-idea-48.png') }}">&nbsp;&nbsp;&nbsp;
     <h5 class="my-0 mr-md-auto font-weight-normal">GeekClass</h5>
     <nav class="my-2 my-md-0 mr-md-3">
         <a class="p-2 text-dark {{(Request::is('insider/courses*') ? 'active' : '') }}" href="{{url('/insider/courses')}}">Курсы</a>
@@ -156,7 +156,7 @@
             <ul class="navbar-nav" style="width: 260px;">
             <span style="margin-top: 8px; color: white;" data-container="body" data-placement="bottom"
                   data-content="{!! Auth::user()->getHtmlTransactions() !!}" data-html="true" data-toggle="popover">
-               <img src="https://png.icons8.com/color/50/000000/coins.png"
+               <img src="{{ url('images/icons/icons8-coins-48.png') }}"
                     style="height: 23px;">&nbsp;{{Auth::user()->balance()}}&nbsp;&nbsp;
 
             </span>

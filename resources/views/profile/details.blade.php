@@ -51,7 +51,7 @@
             </div>
             @if($user->managed_courses->count()!=0)
                 <h4 style="margin: 20px;" class="card-title">Преподаватель в курсах <img
-                            src="https://png.icons8.com/school-director/color/30/000000"></h4>
+                            src="{{ url('images/icons/icons8-school-director-48.png') }}"></h4>
                 <div class="row">
                     @foreach($user->managed_courses as $course)
                         @if ($course->state == 'started')
@@ -75,7 +75,7 @@
             @endif
             @if($user->courses()->where('state', 'started')->count()!=0)
                 <h4 style="margin: 20px;" class="card-title"> Текущие курсы <img
-                            src="https://png.icons8.com/graduation-cap/color/30/000000"></h4>
+                            src="{{ url('images/icons/icons8-graduation-cap-48.png') }}"></h4>
                 <div class="row">
                     @foreach($user->courses as $course)
                         @if ($course->state == 'started')
@@ -108,7 +108,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <h4 style="margin: 20px;" class="card-title">Завершенные курсы <img
-                                    src="https://png.icons8.com/gold-medal/color/30/000000"></h4>
+                                    src="{{ url('images/icons/icons8-gold-medal-48.png') }}"></h4>
                     </div>
                     <div class="col" style="padding-top: 19px;">
                         @if ($guest->role=='admin')
@@ -153,7 +153,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <h4 style="margin: 20px;" class="card-title">Проекты <img style="height: 30px;"
-                                                                                  src="https://img.icons8.com/color/48/000000/ms-project.png">
+                                                                                  src="{{ url('images/icons/icons8-microsoft-project-48.png') }}">
                         </h4>
                     </div>
                     <div class="col" style="padding-top: 19px;">
@@ -263,7 +263,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <h4 style="margin: 20px;" class="card-title">Покупки <img
-                                    src="https://png.icons8.com/color/30/000000/shopping-basket.png"></h4>
+                                    src="{{ url('images/icons/icons8-shopping-basket-48.png') }}"></h4>
                     </div>
                 </div>
 
@@ -326,30 +326,30 @@
                         @if ($user->is_teacher)
                             <span class="badge badge-pill badge-info">Преподаватель</span>
                         @endif
-                        <img src="https://png.icons8.com/color/50/000000/coins.png"
+                        <img src="{{ url('images/icons/icons8-coins-48.png') }}"
                              style="height: 23px;">&nbsp;{{$user->balance()}}&nbsp;&nbsp;
                     </p>
                     <ul class="list-group list-group-flush" style="box-shadow: none;">
                         @if ($user->telegram!='')
-                            <li class="list-group-item"><img src="https://png.icons8.com/telegram-app/win10/16"
+                            <li class="list-group-item"><img src="{{ url('images/icons/icons8-telegram-app-48.png') }}"
                                                              title="Telegram App" width="16"
                                                              height="16"><strong> Telegram: </strong>
                                 {{$user->telegram}}</li>
                         @endif
                         @if ($user->git!='')
-                            <li class="list-group-item"><img src="https://png.icons8.com/git/color/24" title="Git"
+                            <li class="list-group-item"><img src="{{ url('images/icons/icons8-git-48.png') }}" title="Git"
                                                              width="16" height="16"><strong> Git: </strong>
                                 {{$user->git}}</li>
                         @endif
                         @if ($user->vk!='')
-                            <li class="list-group-item"><img src="https://png.icons8.com/vkontakte/color/24"
+                            <li class="list-group-item"><img src="{{ url('images/icons/icons8-vk.com-48.png') }}"
                                                              title="VKontakte" width="16"
                                                              height="16">
                                 <strong> VK: </strong>
                                 {{$user->vk}}</li>
                         @endif
                         @if ($user->facebook!='')
-                            <li class="list-group-item"><img src="https://png.icons8.com/facebook/color/24"
+                            <li class="list-group-item"><img src="{{ url('images/icons/icons8-facebook-like-48.png') }}"
                                                              title="Facebook"
                                                              width="16"
                                                              height="16"><strong> Facebook: </strong>

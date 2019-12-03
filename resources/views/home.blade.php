@@ -15,14 +15,14 @@
                                 aria-hidden="true">&times;</span>
                     </button>
                     <h3>
-                        <img src="https://png.icons8.com/color/50/000000/confetti.png"> <img
-                                src="https://png.icons8.com/color/50/000000/confetti.png"> <img
-                                src="https://png.icons8.com/color/50/000000/confetti.png">
+                        <img src="{{ url('images/icons/icons8-confetti-48.png') }}"> <img
+                                src="{{ url('images/icons/icons8-confetti-48.png') }}"> <img
+                                src="{{ url('images/icons/icons8-confetti-48.png') }}">
                         <span>С днем рождения!!!</span> <img
-                                src="https://png.icons8.com/color/50/000000/confetti.png">
+                                src="{{ url('images/icons/icons8-confetti-48.png') }}">
                         <img
-                                src="https://png.icons8.com/color/50/000000/confetti.png"> <img
-                                src="https://png.icons8.com/color/50/000000/confetti.png"></h3>
+                                src="{{ url('images/icons/icons8-confetti-48.png') }}"> <img
+                                src="{{ url('images/icons/icons8-confetti-48.png') }}"></h3>
                 </div>
             </div>
         </div>
@@ -309,7 +309,7 @@
                                               data-placement="bottom"
                                               data-content="{{ $user->getHtmlTransactions() }}"
                                               data-html="true" data-toggle="popover">
-                                           <img src="https://png.icons8.com/color/50/000000/coins.png"
+                                           <img src="{{ url('images/icons/icons8-coins-48.png') }}"
                                                 style="height: 30px;"/>&nbsp;{{$user->balance()}}&nbsp;&nbsp;
 
                                         </span>

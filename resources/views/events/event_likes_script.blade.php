@@ -1,7 +1,7 @@
         <script>
         function dislike(id, el) {
             el.attr('data-likes', parseInt(el.attr('data-likes')) - 1);
-            var ch = el.children('img').attr('src', 'https://img.icons8.com/material-outlined/24/000000/hearts.png');
+            var ch = el.children('img').attr('src', '{{ url('images/icons/icons8-heart-24.png') }}');
            
             ch.hide();
             ch.show(500);
@@ -14,7 +14,7 @@
         function like(id, el) {
             el.attr('data-likes', parseInt(el.attr('data-likes')) + 1);
             
-            var ch = el.children('img').attr('src', 'https://img.icons8.com/material/24/000000/like.png');
+            var ch = el.children('img').attr('src', '{{ url('images/icons/icons8-like-48.png') }}');
             ch.hide();
             ch.show(500);
             $.ajax({

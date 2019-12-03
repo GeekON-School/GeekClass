@@ -8,7 +8,7 @@
     <div class="row" style="margin-top: 15px;">
         <div class="col">
             <h2> Магазин</h2>
-            <p>Ваш баланс - <img src="https://png.icons8.com/color/50/000000/coins.png"
+            <p>Ваш баланс - <img src="{{ url('images/icons/icons8-coins-48.png') }}"
                                  style="height: 30px;"/>&nbsp;{{$user->balance()}}&nbsp;</p>
         </div>
         <div class="col">
@@ -45,11 +45,11 @@
                             <a href="{{url('/insider/market/'.$good->id.'/buy')}}" class="btn btn-primary"
                                onclick="return confirm('Вы уверены?')">Купить за {{$good->price}} <img
                                         style="height: 20px;"
-                                        src="https://png.icons8.com/color/50/000000/coins.png"/></a>
+                                        src="{{ url('images/icons/icons8-coins-48.png') }}"/></a>
                         @else
                             <a href="#" class="disabled btn btn-primary">Купить за {{$good->price}} <img
                                         style="height: 20px;"
-                                        src="https://png.icons8.com/color/50/000000/coins.png"/></a>
+                                        src="{{ url('images/icons/icons8-coins-48.png') }}"/></a>
                         @endif
 
 

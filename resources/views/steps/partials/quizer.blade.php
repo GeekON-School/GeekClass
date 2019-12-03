@@ -12,7 +12,7 @@
          @endforeach
 
          @if ($task->price > 0)
-         <img src="https://png.icons8.com/color/50/000000/coins.png" style="height: 23px;">
+         <img src="{{ url('images/icons/icons8-coins-48.png') }}" style="height: 23px;">
          &nbsp;{{$task->price}}
          @endif
 

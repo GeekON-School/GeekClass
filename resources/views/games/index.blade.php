@@ -62,7 +62,7 @@
                                     <p class="meta">Автор: {{$game->user->name}}</p>
 
                                     @if ($game->getReward() > 0)
-                                        <img src="https://png.icons8.com/color/50/000000/coins.png" width="20"
+                                        <img src="{{ url('images/icons/icons8-coins-48.png') }}" width="20"
                                              height="20"
                                              alt="Rewarded: ">
                                         <p class="meta">{{$game->getReward()}}</p>

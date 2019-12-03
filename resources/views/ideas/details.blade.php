@@ -74,7 +74,7 @@
                     <div class="row">
                         <div class="col col-md-auto">
                             <h3 class="card-title" style="line-height: 50px; font-weight: 200;">{{$idea->name}}
-                                &nbsp;<img src="https://img.icons8.com/color/48/000000/idea-sharing.png">
+                                &nbsp;<img src="{{ url('images/icons/icons8-idea-sharing-48.png') }}">
                             </h3>
 
                             @if ($idea->is_approved) <p class="text-muted">

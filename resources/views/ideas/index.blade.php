@@ -50,9 +50,9 @@
                                         @foreach($list as $idea)
                                             <li><a href="{{url('/insider/ideas/'.$idea->id)}}">{{$idea->name}}</a>&nbsp;<img
                                                         style="height: 25px;"
-                                                        src="https://img.icons8.com/color/48/000000/idea-sharing.png">
+                                                        src="{{ url('images/icons/icons8-idea-sharing-48.png') }}">
                                                 @if($idea->author->role=='student') &nbsp;<img style="height: 25px;"
-                                                                                               src="https://img.icons8.com/color/48/000000/teamwork.png"
+                                                                                               src="{{ url('images/icons/icons8-teamwork-48.png') }}"
                                                                                                title="Идея сообщества"> @endif
                                                 <br>
                                                 <span class=" text-muted">{{$idea->short_description}}</span></li>
@@ -97,9 +97,9 @@
                                         @foreach($list as $idea)
                                             <li><a href="{{url('/insider/ideas/'.$idea->id)}}">{{$idea->name}}</a>&nbsp;<img
                                                         style="height: 25px;"
-                                                        src="https://img.icons8.com/color/48/000000/idea-sharing.png">
+                                                        src="{{ url('images/icons/icons8-idea-sharing-48.png') }}">
                                                 @if($idea->author->role=='student') &nbsp;<img style="height: 25px;"
-                                                                                               src="https://img.icons8.com/color/48/000000/teamwork.png"
+                                                                                               src="{{ url('images/icons/icons8-teamwork-48.png') }}"
                                                                                                title="Идея сообщества"> @endif
                                                 <br>
                                                 <span class=" text-muted">{{$idea->short_description}}</span></li>

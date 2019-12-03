@@ -32,7 +32,7 @@
                         <h3 class="card-title">{{$project->name}}</h3>
                         @if ($project->getRewardAmount() > 0)
                             <div class="d-flex" style="margin: 10px;">
-                                <img src="https://png.icons8.com/color/50/000000/coins.png" width="20" height="20"
+                                <img src="{{ url('images/icons/icons8-coins-48.png') }}" width="20" height="20"
                                     alt="Rewarded: ">
                                 <p>{{$project->getRewardAmount()}}</p></div>
                         @endif
