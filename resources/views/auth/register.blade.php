@@ -10,7 +10,7 @@
                     <div class="col-md-12">
                         <a class="navbar-brand" href="{{ url('/') }}" style="line-height: 50px; font-size: 1.3rem; color: white;">
             <span><img style="height: 35px; margin-bottom: 0px;"
-                       src="{{ url('images/icons/icons8-idea-48.png') }}">&nbsp;</span>
+                       src="{{ url('images/icons/icons8-idea-64.png') }}">&nbsp;</span>
                             GeekClass
                         </a>
                         <h3 class="card-title"

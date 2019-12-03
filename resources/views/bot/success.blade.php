@@ -30,7 +30,7 @@
 
 @section('content')
     <div class="form-signin">
-        <img style="height: 64px;" src="{{ url('images/icons/icons8-idea-48.png') }}">&nbsp;
+        <img style="height: 64px;" src="{{ url('images/icons/icons8-idea-64.png') }}">&nbsp;
         <h1 style="margin-top: 10px;" class="h3 mb-3 font-weight-normal">Активация внешнего сервиса прошла успешно!<br><br>
             <small>Можно начинать пользоваться!</small>
         </h1>
