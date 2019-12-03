@@ -50,7 +50,7 @@
                 </div>
             </div>
             @if($user->managed_courses->count()!=0)
-                <h4 style="margin: 20px;" class="card-title">Преподаватель в курсах <img
+                <h4 style="margin: 20px;" class="card-title">Преподаватель в курсах <img style="height: 30px;"
                             src="{{ url('images/icons/icons8-school-director-48.png') }}"></h4>
                 <div class="row">
                     @foreach($user->managed_courses as $course)
@@ -74,7 +74,7 @@
                 </div>
             @endif
             @if($user->courses()->where('state', 'started')->count()!=0)
-                <h4 style="margin: 20px;" class="card-title"> Текущие курсы <img
+                <h4 style="margin: 20px;" class="card-title"> Текущие курсы <img style="height: 30px;"
                             src="{{ url('images/icons/icons8-graduation-cap-48.png') }}"></h4>
                 <div class="row">
                     @foreach($user->courses as $course)
@@ -107,7 +107,7 @@
             @if($user->completedCourses->count()!=0 || $guest->role=='admin')
                 <div class="row">
                     <div class="col-md-8">
-                        <h4 style="margin: 20px;" class="card-title">Завершенные курсы <img
+                        <h4 style="margin: 20px;" class="card-title">Завершенные курсы <img style="height: 30px;"
                                     src="{{ url('images/icons/icons8-gold-medal-48.png') }}"></h4>
                     </div>
                     <div class="col" style="padding-top: 19px;">
@@ -262,7 +262,7 @@
             @if ($user->orders->count()!=0)
                 <div class="row">
                     <div class="col-md-8">
-                        <h4 style="margin: 20px;" class="card-title">Покупки <img
+                        <h4 style="margin: 20px;" class="card-title">Покупки <img style="height: 30px;"
                                     src="{{ url('images/icons/icons8-shopping-basket-48.png') }}"></h4>
                     </div>
                 </div>

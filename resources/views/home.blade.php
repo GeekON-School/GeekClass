@@ -310,7 +310,7 @@
                                               data-content="{{ $user->getHtmlTransactions() }}"
                                               data-html="true" data-toggle="popover">
                                            <img src="{{ url('images/icons/icons8-coins-48.png') }}"
-                                                style="height: 30px;"/>&nbsp;{{$user->balance()}}&nbsp;&nbsp;
+                                                style="height: 23px;"/>&nbsp;{{$user->balance()}}&nbsp;&nbsp;
 
                                         </span>
 
