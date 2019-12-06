@@ -12,7 +12,7 @@ class EmailVerify
 
     public function getDate()
     {
-        if ($this->isEnabled) return \Carbon\Carbon::now();
+        if (!$this->isEnabled) return \Carbon\Carbon::now();
         return null;
     }
 }
