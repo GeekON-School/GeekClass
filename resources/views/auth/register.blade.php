@@ -142,7 +142,7 @@
                                     <label for='interests'>Технические интересы</label>
                                     <textarea id="interests" class="form-control"
                                               name="interests">{{old('interests')}}</textarea>
-                                    <span class="help-block text-muted">Все направления, предметы и технологии, которые вам могут быть интересны. Например, "Нейронные сети и блокчейн, разработка мобильных приложений на React Native". <strong>Это обязательное поле.</strong></span>
+                                    <span class="help-block text-muted">Все направления, предметы и технологии, которые вам могут быть интересны. Например, "Нейронные сети и блокчейн, разработка мобильных приложений на React Native".</span>
 
                                     @if ($errors->has('interests'))
                                         <span class="help-block error-block"><strong>{{ $errors->first('interests') }}</strong></span>
@@ -153,7 +153,7 @@
 
                                     <textarea id="hobbies" class="form-control"
                                               name="hobbies">{{old('hobbies')}}</textarea>
-                                    <span class="help-block text-muted">Все, чем вы интересуетесь помимо учебы и работы. Например, "катание на лошадях и игра на гитаре". <strong>Это обязательное поле.</strong></span>
+                                    <span class="help-block text-muted">Все, чем вы интересуетесь помимо учебы и работы. Например, "катание на лошадях и игра на гитаре".</span>
 
                                     @if ($errors->has('hobbies'))
                                         <span class="help-block error-block">
