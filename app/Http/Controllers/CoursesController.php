@@ -685,7 +685,7 @@ class CoursesController extends Controller
         $course->students()->attach([$user->id => ['is_remote' => false]]);
 
 
-        return redirect()->back();
+        return redirect('/insider/courses/'.$course->id);
     }
 
     public function export($id)
