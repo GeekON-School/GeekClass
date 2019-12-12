@@ -59,7 +59,12 @@
     <script src="{{url('/js/bootstrap-select.min.js')}}"></script>
     <link rel="stylesheet" href="{{url('css/bootstrap-select.min.css')}}">
 
-
+    @auth
+        @if(\Auth::user()->currentTheme())
+            <link rel="stylesheet" href="/insider/themes/{{\Auth::user()->currentTheme()->id}}/css"></style>
+            <script src="/insider/themes/{{\Auth::user()->currentTheme()->id}}/js"></script>
+        @endif
+    @endauth
     @yield('head')
     <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 </head>

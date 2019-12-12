@@ -305,39 +305,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasTheme($theme_id)
     {
-        return $this->themes()->where('theme_id', $theme_id)->count() > 0;
+        return \App\ThemeBoughts::where('theme_id', $theme_id)->exists();
     }
-    
+    :
     public function themes()
     {
         return $this->hasMany(\App\ThemeBought::class);
-    }
-
-    public function currentTheme()
-    {
-        return $this->hasMany(\App\ThemeUsing::class)->first() ? $this->hasMany(\App\ThemeUsing::class)->first()->theme : null;
-    }
-
-    public function wearTheme($theme_id)
-    {
-        $inst = $this->hasMany(\App\ThemeUsing::class);
-        if ($inst->count() > 0)
-        {
-            $inst[0]->theme_id == $theme_id;
-            $inst[0]->save();
-        }
-        else
-        {
-            \App\ThemeUsing::create([
-                "user_id" => $this->id,
-                "theme_id" => $theme_id
-            ]);
-        }
-    }
-
-    public function takeOffTheme($id)
-    {
-        \App\ThemeUsing::where('user_id', $this->id)->where('theme_id', $id)->delete();
-        
     }
 }

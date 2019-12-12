@@ -15,7 +15,7 @@ class HasAccessToGame
      */
     public function handle($request, Closure $next)
     {
-        if (\Auth::User()->role=='teacher') {
+        if (\Auth::User()->role=='teacher' || \Auth::User()->role=='admin') {
             return $next($request);
         }
 
