@@ -320,10 +320,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function wearTheme($theme_id)
     {
-        $inst = $this->hasMany(\App\ThemeUsing::class);
+        $inst = $this->hasMany(\App\ThemeUsing::class)->get();
+        
         if ($inst->count() > 0)
         {
-            $inst[0]->theme_id == $theme_id;
+            $inst[0]->theme_id = $theme_id;
             $inst[0]->save();
         }
         else

@@ -4,6 +4,14 @@
     GeekClass: Добавление проекта
 @endsection
 
+@section('head')
+    <script src="/codemirror.js"></script>
+    <script src="/css.js"></script>
+    <script src="/javascript.js"></script>
+    <link rel="stylesheet" href="/codemirror.css">
+@endsection
+
+
 @section('content')
     <h2>Создание проекта</h2>
     <div class="row" style="margin-top: 15px;">
@@ -94,6 +102,19 @@
                 autosave: true,
                 element: document.getElementById("description")
             });
+            var simplemde_text = new EasyMDE({
+                spellChecker: false,
+                autosave: true,
+                element: document.getElementById("description")
+            });
+            CodeMirror.fromTextArea(document.getElementById("css"), {
+                lineNumbers: true,
+                mode:  "css"
+            }).setSize(null, 500);
+            CodeMirror.fromTextArea(document.getElementById("js"), {
+                lineNumbers: true,
+                mode:  "javascript"
+            }).setSize(null, 500);
         </script>
     </div>
 @endsection

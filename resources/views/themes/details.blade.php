@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col">
                     <div class="d-flex align-items-center justify-content-between">
-                        <h3>{{$theme->name}}</h3>    
+                        <h3 style="margin-top: 10px;">{{$theme->name}}</h3>    
                         <div>
                             @if(!\Auth::user()->hasTheme($theme->id))
                                 <a href="/insider/themes/{{$theme->id}}/buy" class="btn btn-warning">
@@ -22,6 +22,8 @@
                                     @endif
                                 </a>
                             @endif
+ 
+                        @if(\Auth::user()->hasTheme($theme->id))
                             @if(\Auth::user()->currentTheme() !== null && \Auth::user()->currentTheme()->id == $theme->id)
                             <a class="btn btn-danger" href="/insider/themes/{{$theme->id}}/takeoff/">
 
@@ -34,7 +36,7 @@
                                 Одеть
                             </a>
                             @endif
-                        
+                        @endif                        
                             <a href="/insider/themes/{{$theme->id}}?try=true" class="btn btn-primary">Попробовать</a>
                         @if(\Auth::user()->is_teacher || \Auth::user()->role == 'admin')
                             <a href="/insider/themes/{{$theme->id}}/edit" class="btn btn-success"><i class="ion ion-edit"></i></a>   
@@ -42,7 +44,7 @@
                         </div> 
 
                         </div>
-                        
+                        <hr>
                     <p>@parsedown($theme->description)</p>
                 </div>
 

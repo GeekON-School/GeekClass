@@ -30,7 +30,7 @@
                     <div class="card-body">
                         <div class="media">
                             <div class="media-body row">
-                                <div style=' width:100px; height:100px; background-image:url("{{$theme->image}}"); float:left;'></div>
+                                <div style=' width:100px; height:100px; background-image:url("{{$theme->image}}"); background-size: cover; float:left;'></div>
                                 <div class="row col" style="margin-left: 0px">
                                     <h5 class="col com-md-12"><a href="{{url('/insider/themes/'.$theme->id)}}"> {{$theme->name}}</a></h5>
 
@@ -38,7 +38,22 @@
                                     <small class="disabled">Автор {{$theme->user->name}}</small>
                                     <span>
                                         <a class="btn btn-primary" href="/insider/themes?try={{$theme->id}}">Примерить</a>
+@if(\Auth::user()->hasTheme($theme->id))
+                                            @if(\Auth::user()->currentTheme() !== null && \Auth::user()->currentTheme()->id == $theme->id)
+                                            <a class="btn btn-danger" href="/insider/themes/{{$theme->id}}/takeoff/">
+    
+                                            Снять
+                                        </a>
+
+                                            @else
+                                            <a class="btn btn-success" href="/insider/themes/{{$theme->id}}/wear/">
+    
+                                                Одеть
+                                            </a>
+                                            @endif
+                                        
                                     </span>
+                                    @endif
                                     </p>
                                 </div>
                             </div>
@@ -56,12 +71,13 @@
                     <div class="card-body">
                         <div class="media">
                             <div class="media-body row">
-                                <div style=" width:100px; height:100px; background-image:url(\"{{$theme->image}}\"); float:left;"></div>
+                                <div style=" width:100px; height:100px; background-image:url('{{$theme->image}}'); background-size:cover; float:left;"></div>
                                 <div class="row col" style="margin-left: 0px">
                                     <h5 class="col com-md-12"><a href="{{url('/insider/themes/'.$theme->id)}}"> {{$theme->name}}</a></h5>
 
                                     <p class="col col-md-12" style="display: flex; justify-content: space-between; align-items: center;">
                                     <small class="disabled">Автор {{$theme->user->name}}</small>
+                                        @if(\Auth::user()->hasTheme($theme->id))
                                     <span>
                                         <a class="btn btn-primary" href="/insider/themes?try={{$theme->id}}">Примерить</a>
                                             @if(\Auth::user()->currentTheme() !== null && \Auth::user()->currentTheme()->id == $theme->id)
@@ -78,6 +94,7 @@
                                             @endif
                                         
                                     </span>
+                                    @endif
                                     </p>
                                 </div>
                             </div>

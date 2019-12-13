@@ -23,14 +23,16 @@ class ThemesController extends Controller
     function buy($id)
     {
         $theme = \App\Theme::find($id);
+        if (\Auth::user()->balance() < $theme->price || \Auth::user()->hasTheme($id)) abort(403);
         $themeBought = \App\ThemeBought::create([
             "user_id" => \Auth::id(),
             "theme_id" => $id    
         ]);
-
+        
+        
         if ($theme->price > 0)
         {
-            \App\CoinTransaction::register(\Auth::id(), $theme->price, "Купил тему ".$theme->name);
+            \App\CoinTransaction::register(\Auth::id(), -$theme->price, "Купил тему ".$theme->name);
         }
         return redirect("/insider/themes");       
     }
@@ -62,6 +64,7 @@ class ThemesController extends Controller
 
     function wear($id)
     {
+        if (!\Auth::user()->hasTheme($id)) abort(403);
         \Auth::user()->wearTheme($id);
         return back();
     }
@@ -99,9 +102,10 @@ class ThemesController extends Controller
         return view('themes.edit', compact('theme'));
     }
 
-    function edit()
+    function edit($id, Request $request)
     {
-        // \App\
+        \App\Theme::modify($id, $request->name, $request->description, $request->image, $request->price, $request->css, $request->js);
+        return redirect('/insider/themes/{id}');
     }
 
 }

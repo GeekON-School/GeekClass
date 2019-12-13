@@ -156,7 +156,9 @@
 
                     <li class="nav-item"><a class="nav-link {{(Request::is('insider/games*') ? 'active-link' : '') }}"
                                             href="{{url('insider/games')}}">Игры</a></li>
-                @else
+                    <li class="nav-item"><a class="nav-link {{(Request::is('insider/themes*') ? 'active-link' : '') }}"
+                                            href="{{url('insider/themes')}}">Темы<sub style="color: red">new</sub></a></li>
+             @else
                     <li class="nav-item"><a class="nav-link {{(Request::is('articles*') ? 'active-link' : '') }}"
                                             href="{{url('/articles')}}">Статьи</a></li>
                     <li class="nav-item"><a class="nav-link {{(Request::is('courses*') ? 'active-link' : '') }}"

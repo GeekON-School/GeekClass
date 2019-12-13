@@ -42,10 +42,12 @@ class Theme extends Model
         return \Storage::disk('local')->get('themes/'.$this->id.'/script.js');
     }
 
-    static function modify($id, $name, $description, $css, $js)
+    static function modify($id, $name, $description, $image, $price, $css, $js)
     {
         $theme = \App\Theme::find($id);
         $theme->name = $name;
+        $theme->image = $image;
+        $theme->price = $price;
         $theme->description = $description;
         $theme->save();
         
