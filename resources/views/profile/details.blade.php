@@ -1,5 +1,10 @@
-@extends('layouts.left-menu')
-
+@extends('layouts.left-menu', ["disabletheme" => true])
+@section('head')
+    @if($user->currentTheme())
+        <link rel="stylesheet" href="/insider/themes/{{$user->currentTheme()->id}}/css"></style>
+        <script src="/insider/themes/{{$user->currentTheme()->id}}/js"></script>
+    @endif
+@endsection
 @section('content')
     <div class="row">
         <div class="col">
