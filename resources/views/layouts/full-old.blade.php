@@ -82,7 +82,7 @@
         <a class="p-2 text-dark {{(Request::is('insider/community*') ? 'active' : '') }}" href="{{url('insider/community')}}">Сообщество</a>
         <a class="p-2 text-dark {{(Request::is('insider/projects*') ? 'active' : '') }}" href="{{url('insider/projects')}}">Проекты</a>
         <a class="p-2 text-dark {{(Request::is('insider/market*') ? 'active' : '') }}" href="{{url('insider/market')}}">Магазин</a>
-        <a class="p-2 text-dark {{(Request::is('insider/games*') ? 'active' : '') }}" href="{{url('insider/games')}}">Игры</a>
+        <!--<a class="p-2 text-dark {{(Request::is('insider/games*') ? 'active' : '') }}" href="{{url('insider/games')}}">Игры</a>-->
     </nav>
     @if (\Auth::check())
         <ul class="navbar-nav" style="width: 260px;">
@@ -147,9 +147,9 @@
                 <li class="nav-item {{(Request::is('insider/market*') ? 'active' : '') }}">
                     <a class="nav-link" href="{{url('insider/market')}}">Магазин</a>
                 </li>
-                <li class="nav-item {{(Request::is('insider/game*') ? 'active' : '') }}">
+                <!--<li class="nav-item {{(Request::is('insider/game*') ? 'active' : '') }}">
                     <a class="nav-link" href="{{url('insider/games')}}">Игры</a>
-                </li>
+                </li>-->
             </ul>
 
             <ul class="navbar-nav" style="width: 260px;">

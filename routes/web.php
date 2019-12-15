@@ -52,12 +52,12 @@ Route::get('/aesthethics', function () {
 Route::get('/articles', 'ArticlesController@open_index');
 Route::get('/articles/{id}', 'ArticlesController@details');
 Route::get('/courses', 'CoursesController@open_index');
-
+/*
 Route::get('/games', 'GamesController@index');
 Route::get('/games/{id}', 'GamesController@play');
 Route::get('/games/{id}/frame', 'GamesController@frame');
 Route::get('/insider/games/{id}/viewsource', 'GamesController@viewsource');
-
+*/
 Route::get('/activate', 'BotController@activateView');
 Route::get('/activate/success', 'BotController@successView');
 Route::post('/activate', 'BotController@activate');
@@ -87,7 +87,7 @@ Route::prefix('insider')->middleware('verified')->group(function () {
 
     Route::get('/articles/{id}/downvote', 'ArticlesController@downvote');
     Route::get('/articles/{id}/upvote', 'ArticlesController@upvote');
-
+/*
     Route::get('/games', 'GamesController@index');
     Route::post('/games', 'GamesController@store');
     Route::get('/games/{id}', 'GamesController@play');
@@ -105,7 +105,7 @@ Route::prefix('insider')->middleware('verified')->group(function () {
     Route::get('/games/{id}/ide', 'GamesController@ide')->middleware('gameown');
     Route::get('/games/{id}/delete', 'GamesController@delete')->middleware('gameown');
     Route::get('/games/create', 'GamesController@create');
-
+*/
     Route::get('/market', 'MarketController@index');
     Route::get('/market/create', 'MarketController@createView');
     Route::post('/market/create', 'MarketController@create');

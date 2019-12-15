@@ -161,8 +161,8 @@
                                             href="{{url('/articles')}}">Статьи</a></li>
                     <li class="nav-item"><a class="nav-link {{(Request::is('courses*') ? 'active-link' : '') }}"
                                             href="{{url('courses')}}">Курсы</a></li>
-                    <li class="nav-item"><a class="nav-link {{(Request::is('games*') ? 'active-link' : '') }}"
-                                            href="{{url('games')}}">Игры</a></li>
+                    <!--<li class="nav-item"><a class="nav-link {{(Request::is('games*') ? 'active-link' : '') }}"
+                                            href="{{url('games')}}">Игры</a></li>-->
                     <li class="nav-item"><a class="nav-link {{(Request::is('games*') ? 'active-link' : '') }}"
                                             href="{{url('login')}}">Войти</a></li>
                 @endif

@@ -102,14 +102,14 @@
             <a class="p-2 text-dark {{(Request::is('insider/events*') ? 'active' : '') }}"
             href="{{url('insider/events')}}">События</a>
         
-            <a class="p-2 text-dark {{(Request::is('insider/games*') ? 'active' : '') }}"
-               href="{{url('insider/games')}}">Игры</a>
+           <!-- <a class="p-2 text-dark {{(Request::is('insider/games*') ? 'active' : '') }}"
+               href="{{url('insider/games')}}">Игры</a>-->
         @else
             <a class="p-2 text-dark {{(Request::is('articles*') ? 'active' : '') }}"
                href="{{url('/articles')}}">Статьи</a>
             <a class="p-2 text-dark {{(Request::is('courses*') ? 'active' : '') }}"
                href="{{url('courses')}}">Курсы</a>
-            <a class="p-2 text-dark {{(Request::is('games*') ? 'active' : '') }}" href="{{url('games')}}">Игры</a>
+            <!--<a class="p-2 text-dark {{(Request::is('games*') ? 'active' : '') }}" href="{{url('games')}}">Игры</a>-->
         @endif
     </nav>
     @if (\Auth::check())
