@@ -19,10 +19,6 @@ class AppServiceProvider extends ServiceProvider
         setlocale(LC_TIME, 'ru_RU.UTF-8');
         \Carbon\Carbon::setLocale('ru');
         Blade::withoutDoubleEncoding();
-        if (config('app.env') != 'local')
-        {
-            \URL::forceScheme('https');
-        }
 
         /*\DB::listen(function ($query) {
             print(
