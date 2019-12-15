@@ -3,12 +3,6 @@
 @section('title')
     GeekClass: "{{$article->name}}"
 @endsection
-
-@section('tabs')
-
-@endsection
-
-
 @section('content')
     <div class="row">
         <div class="col-12">

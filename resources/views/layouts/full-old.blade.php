@@ -69,7 +69,6 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="{{url('/js/bootstrap-select.min.js')}}"></script>
     @yield('head')
-
 </head>
 <body>
 

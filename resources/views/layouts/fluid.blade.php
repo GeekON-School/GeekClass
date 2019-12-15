@@ -51,7 +51,12 @@
             data-manual></script>
     <script src="{{url('/js/nbv.js')}}"></script>
     <link href="{{url('assets/css/theme.css')}}" rel="stylesheet" type="text/css" media="all"/>
-
+ @auth
+        @if(\Auth::user()->currentTheme())
+            <link rel="stylesheet" href="/insider/themes/{{\Auth::user()->currentTheme()->id}}/css"></style>
+            <script src="/insider/themes/{{\Auth::user()->currentTheme()->id}}/js"></script>
+        @endif
+    @endauth
 </head>
 <body style="min-height: 100%; height: 100%; background-color: white;">
 

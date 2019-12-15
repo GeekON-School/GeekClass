@@ -90,12 +90,12 @@
                 autosave: true,
                 element: document.getElementById("text")
             });
-
-            var simplemde_anounce = new EasyMDE({
+            var simplemde_text = new EasyMDE({
                 spellChecker: false,
                 autosave: true,
                 element: document.getElementById("anounce")
             });
+
         </script>
     </div>
 @endsection

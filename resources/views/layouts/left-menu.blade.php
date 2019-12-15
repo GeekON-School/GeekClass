@@ -59,7 +59,12 @@
     <script src="{{url('/js/bootstrap-select.min.js')}}"></script>
     <link rel="stylesheet" href="{{url('css/bootstrap-select.min.css')}}">
 
-
+    @auth
+        @if(!isset($disabletheme) && \Auth::user()->currentTheme())
+            <link rel="stylesheet" href="/insider/themes/{{\Auth::user()->currentTheme()->id}}/css"></style>
+            <script src="/insider/themes/{{\Auth::user()->currentTheme()->id}}/js"></script>
+        @endif
+    @endauth
     @yield('head')
     <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 </head>
@@ -151,7 +156,7 @@
 
                     <li class="nav-item"><a class="nav-link {{(Request::is('insider/games*') ? 'active-link' : '') }}"
                                             href="{{url('insider/games')}}">Игры</a></li>
-                @else
+             @else
                     <li class="nav-item"><a class="nav-link {{(Request::is('articles*') ? 'active-link' : '') }}"
                                             href="{{url('/articles')}}">Статьи</a></li>
                     <li class="nav-item"><a class="nav-link {{(Request::is('courses*') ? 'active-link' : '') }}"
@@ -208,6 +213,8 @@
                         @endif
 
 
+                        <a class="dropdown-item" href="{{url('insider/themes/')}}"><i
+                                    class="icon ion-monitor"></i> Темы</a>
                         <a class="dropdown-item" href="{{url('insider/core/'.\Auth::User()->id)}}"><i
                                     class="icon ion-map"></i> Карта</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
