@@ -38,7 +38,7 @@
             @else
                 <p>Сейчас нет доступных открытых курсов.</p>@endif
 
-            <h5 style="margin-top: 15px;">Очные курсы курсы</h5>
+            <h5 style="margin-top: 15px;">Очные курсы</h5>
             @if ($private_courses->count() != 0)
                 <div class="card-deck">
                     @foreach($private_courses as $course)
