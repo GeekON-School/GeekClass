@@ -128,12 +128,12 @@
                 <div class="row">
                     <ul class="avatars ">
                         <li>
-                            <a href="{{ url('insider/profile/'.\Auth::user()->id) }}" data-toggle="tooltip"
+                            <a href="{{ url('insider/profile/'.$comment->user->id) }}" data-toggle="tooltip"
                                title="Kenny">
-                                @if (\Auth::user()->image!=null)
-                                    <img alt="Image" src="{{url('/media/'.\Auth::user()->image)}}" class="avatar"/>
+                                @if ($comment->user->image!=null)
+                                    <img alt="Image" src="{{url('/media/'.$comment->user->image)}}" class="avatar"/>
                                 @else
-                                    <img alt="Image" src="http://api.adorable.io/avatars/256/{{\Auth::user()->id}}"
+                                    <img alt="Image" src="http://api.adorable.io/avatars/256/{{$comment->user->id}}"
                                          class="avatar"/>
                                 @endif
                             </a>
