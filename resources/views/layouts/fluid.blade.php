@@ -10,9 +10,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 
     <!-- Styles -->
     <!-- Latest compiled and minified CSS -->
@@ -35,14 +35,30 @@
     <script src="{{url('/js/linkify.min.js')}}"></script>
     <script src="{{url('/js/linkify-jquery.min.js')}}"></script>
     <link rel="stylesheet"
-          href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/styles/atom-one-dark.min.css">
+          href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/styles/atelier-lakeside-light.min.css">
     <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     <script src="{{url('src-min-noconflict/ace.js')}}" type="text/javascript" charset="utf-8"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{{url('/js/bootstrap-select.min.js')}}"></script>
+    <link rel="stylesheet" href="{{url('css/bootstrap-select.min.css')}}">
+    <script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>
 
-
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css'/>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/prism.min.js' data-manual></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/components/prism-python.min.js'
+            data-manual></script>
+    <script src="{{url('/js/nbv.js')}}"></script>
+    <link href="{{url('assets/css/theme.css')}}" rel="stylesheet" type="text/css" media="all"/>
+ @auth
+        @if(\Auth::user()->currentTheme())
+            <link rel="stylesheet" href="/insider/themes/{{\Auth::user()->currentTheme()->id}}/css"></style>
+            <script src="/insider/themes/{{\Auth::user()->currentTheme()->id}}/js"></script>
+        @endif
+    @endauth
 </head>
-<body style="min-height: 100%; height: 100%;">
+<body style="min-height: 100%; height: 100%; background-color: white;">
 
 <div class="container-fluid" style="min-height: calc(100% - 56px);">
     @if(Session::has('alert-class') and Session::get('alert-destination')=='head')
@@ -57,7 +73,6 @@
 </div>
 
 <!-- Compiled and minified JavaScript -->
-
 
 
 <!-- Scripts -->
@@ -83,8 +98,28 @@
     $('div.markdown a').attr('target', 'blank');
 
 </script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (m, e, t, r, i, k, a) {
+        m[i] = m[i] || function () {
+            (m[i].a = m[i].a || []).push(arguments)
+        };
+        m[i].l = 1 * new Date();
+        k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+    })
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-
+    ym(55625236, "init", {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true
+    });
+</script>
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/55625236" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript>
+<!-- /Yandex.Metrika counter -->
 
 
 </body>

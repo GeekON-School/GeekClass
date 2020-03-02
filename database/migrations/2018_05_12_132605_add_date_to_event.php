@@ -13,7 +13,7 @@ class AddDateToEvent extends Migration
      */
     public function up()
     {
-        Schema::table('Events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table) {
             $table->dateTime('date')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddDateToEvent extends Migration
      */
     public function down()
     {
-        Schema::table('Events', function (Blueprint $table) {
+        Schema::table('events', function (Blueprint $table) {
             $table->dropColumn('date');
         });
     }

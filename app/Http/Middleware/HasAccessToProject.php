@@ -19,7 +19,7 @@ class HasAccessToProject
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::User()->role=='teacher') {
+        if (Auth::User()->role=='teacher' or Auth::User()->role=='admin') {
             return $next($request);
         }
 
@@ -27,7 +27,7 @@ class HasAccessToProject
             $user = User::findOrFail(Auth::User()->id);
             $project = Project::findOrFail($request->id);
 
-            if ($project->students->contains($user))
+            if ($project->team->contains($user))
             {
                 return $next($request);
             }

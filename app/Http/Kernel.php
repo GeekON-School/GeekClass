@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\HasAccessToCourse;
+use App\Http\Middleware\HasAccessToIdea;
 use App\Http\Middleware\HasAccessToProject;
 use App\Http\Middleware\HasAccessToStep;
 use App\Http\Middleware\HasAccessToTask;
@@ -29,6 +30,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         HttpsProtocol::class,
+        \App\Http\Middleware\TrustProxies::class,
     ];
 
     /**
@@ -64,6 +66,11 @@ class Kernel extends HttpKernel
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
         'teacher' => \App\Http\Middleware\IsTeacher::class,
         'student' => \App\Http\Middleware\IsStudent::class,
+        'novice' => \App\Http\Middleware\IsNovice::class,
+        'admin' => \App\Http\Middleware\IsAdmin::class,
+        'gameown' => \App\Http\Middleware\HasAccessToGame::class,
+        'gameowncomment' => \App\Http\Middleware\HasAccessToGameComment::class,
+        'noysreward' => \App\Http\Middleware\CannotRewardYourself::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
@@ -73,7 +80,10 @@ class Kernel extends HttpKernel
         'course' => HasAccessToCourse::class,
         'task' => HasAccessToTask::class,
         'project' => HasAccessToProject::class,
-        'self' => SelfAccess::class
+        'idea' => HasAccessToIdea::class,
+        'self' => SelfAccess::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
 
     ];
 }

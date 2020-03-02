@@ -17,7 +17,7 @@ class IsTeacher
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::User()->role!='teacher') {
+        if (Auth::User()->role!='teacher' and Auth::User()->role!='admin') {
             return abort(403);
         }
 

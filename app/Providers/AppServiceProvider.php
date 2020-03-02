@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,11 +16,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (config('app.env') != 'local')
-        {
+        setlocale(LC_TIME, 'ru_RU.UTF-8');
+        \Carbon\Carbon::setLocale('ru');
+        Blade::withoutDoubleEncoding();
 
-            \URL::forceSchema('https');
-        }
+        /*\DB::listen(function ($query) {
+            print(
+                $query->sql."<br>"
+            );
+        });*/
     }
 
     /**
@@ -28,6 +34,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        //Recaptcha service
+        app()->singleton('App\Services\Recaptcha', function () {
+            return new \App\Services\Recaptcha();
+        });
+        app()->singleton('App\Services\EmailVerify', function () {
+            return new \App\Services\EmailVerify();
+        });
     }
 }

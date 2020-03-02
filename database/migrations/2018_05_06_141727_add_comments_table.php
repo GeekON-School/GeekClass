@@ -29,6 +29,6 @@ class AddCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('EventComments');
+        Schema::dropIfExists('event_comments');
     }
 }

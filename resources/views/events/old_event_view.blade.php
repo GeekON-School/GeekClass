@@ -1,6 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.left-menu')
 
 @section('content')
+    @extends('events.event_layout')
     <br>
     <div class="row" style = "margin-top: -30px">
         <div class="col" style="margin: -10px">
@@ -15,46 +16,30 @@
     <div class="row" style = "margin-top: 10px">
         <div class="col-md-8">
             @foreach($events as $event)
-                @if(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $event->date)->lt(\Carbon\Carbon::now()))
-                    @foreach($event->tags as $tag)
-                        @if(in_array($tag->id, $s_tags))
-                            <div class="card-group">
-                                <div class="card" style="border: 1px solid grey">
-                                    <div class="card-footer">
-                                        <div class="text-center" style="margin-bottom: -33px">
-                                            <h4><b>{{$event->name}}, ({{$event->type}})</b></h4>
-                                        </div>
-                                        <div class="float-left">
-                                            @if($event->userLikes->contains(Auth::User()->id))
-                                                <a href={{"/insider/events/$event->id/dislike_from_events"}}>
-                                                    <img src="https://png.icons8.com/color/50/000000/hearts.png" width="35px"></a>
-                                            @else
-                                                <a href={{"/insider/events/$event->id/like_from_events"}}>
-                                                    <img src="https://png.icons8.com/ios/50/000000/hearts.png" width="35px"></a>
-                                            @endif
-                                            {{count($event->userLikes)}}
-                                        </div>
-                                        <div class="float-right" style="margin-right:15px">
-                                            <b>{{$event->date}}</b>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="card-body">
-                                                {{$event->short_text}}
-                                                <div class="float-right">
-                                                    <a href="{{url('/insider/events/'.$event->id)}}" style="margin-top: -5px"
-                                                       class = "btn btn-primary">Перейти к событию</a>
-                                                </div>
-                                            </div>
+                    <div class="card-group ev">
+                        <div class="card" style="border: none;">
+                            <div class="row" style="display: flex; justify-content: space-between;">
+                                <div class="text-center">
+                                    <h4><b>{{$event->name}}, ({{$event->type}})</b></h4>
+                                </div>
+                                @include('event_likes', ['event' => $event])
+                                <div style="margin-right:15px">
+                                    <b>{{$event->date}}</b>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card-body">
+                                            {{$event->short_text}}
+                                        <div class="float-right">
+                                            <a href="{{url('/insider/events/'.$event->id)}}" style="margin-top: -5px"
+                                               class = "btn btn-primary">Перейти к событию</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            @break
-                        @endif
-                    @endforeach
-                @endif
+                        </div>
+                    </div>
             @endforeach
         </div>
         <div class="col-md-4">
@@ -85,4 +70,6 @@
             </div>
         </div>
     </div>
+        </div>
+    @include('events.event_likes_script')
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.empty')
 
 @section('title')
-    GeekClass: "{{$step->course->name}}" - "{{$step->name}}"
+    GeekClass: "{{$course->name}}" - "{{$step->name}}"
 @endsection
 
 @section('tabs')
@@ -13,8 +13,8 @@
         <div class="col-md-8">
 
             <h2><span style="font-weight: 200;"><a style="display: inline;" class="nav-link" role="tab" id="back-link"
-                                                   href="{{url('/insider/steps/'.$step->id)}}"><i
-                                class="icon ion-chevron-left"></i></a>{{$step->course->name}}
+                                                   href="{{url('/insider/courses/'.$course->id.'/steps/'.$step->id)}}"><i
+                                class="icon ion-chevron-left"></i></a>{{$course->name}}
                     - </span>{{$step->lesson->name}}</h2>
         </div>
     </div>
@@ -93,7 +93,7 @@
                                     <div class="card-body markdownn perform">
                                         @parsedown($task->text)
 
-                                        <span class="badge badge-secondary">Максимальный балл: {{$task->max_mark}}</span>
+                                        <span class="badge badge-secondary">Очков опыта: {{$task->max_mark}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -106,16 +106,16 @@
                     $('.tab-pane').first().addClass('show active');
                 </script>
 
-                    <p>
-                        @if ($step->previousStep() != null)
-                            <a href="{{url('/insider/perform/'.$step->previousStep()->id)}}"
-                               class="btn btn-success btn-sm">Назад</a>
-                        @endif
-                        @if ($step->nextStep() != null)
-                            <a href="{{url('/insider/perform/'.$step->nextStep()->id)}}"
-                               class="btn btn-success btn-sm float-right">Вперед</a>
-                        @endif
-                    </p>
+                <p>
+                    @if ($step->previousStep() != null)
+                        <a href="{{url('/insider/courses/'.$course->id.'/perform/'.$step->previousStep()->id)}}"
+                           class="btn btn-success btn-sm">Назад</a>
+                    @endif
+                    @if ($step->nextStep() != null)
+                        <a href="{{url('/insider/courses/'.$course->id.'/perform/'.$step->nextStep()->id)}}"
+                           class="btn btn-success btn-sm float-right">Вперед</a>
+                    @endif
+                </p>
             </div>
         </div>
     </div>

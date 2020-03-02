@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\CoinTransaction;
 use App\CompletedCourse;
 use App\Course;
-use App\CourseStep;
+use App\ProgramStep;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Event;
@@ -12,7 +13,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
 use App\Project;
-
 
 
 class ProfileController extends Controller
@@ -27,7 +27,8 @@ class ProfileController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('self')->except(['index', 'details', 'project', 'editProject']);
-        $this->middleware('teacher')->only(['deleteCourse', 'course']);
+        $this->middleware('teacher')->only(['addMoney']);
+        $this->middleware('admin')->only(['deleteCourse', 'course', 'deleteCurrentCourse', 'addMoney']);
     }
 
     /**
@@ -37,38 +38,62 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('name')->get();
+        $users = User::with('submissions', 'posts', 'games', 'completedCourses')->orderBy('name')->get();
         return view('profile.index', compact('users'));
     }
+
     public function details($id = null)
     {
-        $guest  = User::findOrFail(Auth::User()->id);
+        $guest = User::findOrFail(Auth::User()->id);
         $user = null;
-        if ($id == null)
-        {
+        if ($id == null) {
             $user = $guest;
-        }
-        else {
+        } else {
             $user = User::findOrFail($id);
         }
-        $projects = $user->projects ();
+
+        $stickers = collect([]);
+        $sticker_description = [];
+
+        foreach ($user->courses as $course) {
+            if ($course->is_sdl) continue;
+            foreach ($course->lessons as $lesson) {
+                if ($lesson->percent($user) > 90) {
+                    $stickers->push($lesson->sticker);
+                    $sticker_description[$lesson->sticker] = $lesson->name;
+                }
+            }
+        }
+        $stickers = $stickers->unique();
+
+
+        $projects = $user->projects();
         $events = Event::all();
-        return view('profile.details', compact('user', 'guest', 'projects', 'events'));
+        return view('profile.details', compact('user', 'guest', 'projects', 'events', 'stickers', 'sticker_description'));
     }
 
     public function editView($id)
     {
-        $guest  = User::findOrFail(Auth::User()->id);
+        $guest = User::findOrFail(Auth::User()->id);
         $user = User::findOrFail($id);
-        $projects = $user->projects ();
+        $projects = $user->projects();
         return view('profile.edit', compact('user', 'guest', 'projects'));
     }
+
     public function deleteCourse($id)
     {
         $course = CompletedCourse::findOrFail($id);
         $course->delete();
         return redirect()->back();
     }
+
+    public function deleteCurrentCourse($user_id, $course_id)
+    {
+        $user = User::findOrFail($user_id);
+        $user->courses()->detach($course_id);
+        return redirect()->back();
+    }
+
     public function course($id, Request $request)
     {
         $user = User::findOrFail(Auth::User()->id);
@@ -82,28 +107,19 @@ class ProfileController extends Controller
         $course->mark = $request->mark;
         $course->user_id = $id;
         $course->provider = $request->provider;
-        if (str_contains(mb_strtolower($course->provider), 'goto'))
-        {
+        if (str_contains(mb_strtolower($course->provider), 'goto')) {
             $course->provider = 'GoTo';
             $course->class = 'danger';
-        }
-        else if (str_contains(mb_strtolower($course->provider), 'geekon'))
-        {
+        } else if (str_contains(mb_strtolower($course->provider), 'geekon')) {
             $course->provider = 'GeekON-School';
             $course->class = 'success';
-        }
-        else if (str_contains(mb_strtolower($course->provider), 'геккон'))
-        {
+        } else if (str_contains(mb_strtolower($course->provider), 'геккон')) {
             $course->provider = 'Геккон-клуб';
             $course->class = 'info';
-        }
-        else if (str_contains(mb_strtolower($course->provider), 'polymus'))
-        {
+        } else if (str_contains(mb_strtolower($course->provider), 'polymus')) {
             $course->provider = 'Политехнический музей';
             $course->class = 'primary';
-        }
-        else if (str_contains(mb_strtolower($course->provider), 'алгоритмика'))
-        {
+        } else if (str_contains(mb_strtolower($course->provider), 'алгоритмика')) {
             $course->provider = 'Алгоритмика';
             $course->class = 'warning';
         }
@@ -111,19 +127,32 @@ class ProfileController extends Controller
         return redirect()->back();
     }
 
+    public function addMoney($id, Request $request)
+    {
+        $this->validate($request, [
+            'description' => 'required|string',
+            'amount' => 'integer|min:-100|max:100|required'
+        ]);
+
+        CoinTransaction::register($id, $request->amount, clean($request->description));
+
+        $this->make_success_alert('Успех!', 'Деньги начислены.');
+
+        return redirect()->back();
+    }
+
     public function edit($id, Request $request)
     {
-        $guest  = User::findOrFail(Auth::User()->id);
+        $guest = User::findOrFail(Auth::User()->id);
         $user = User::findOrFail($id);
 
         $this->validate($request, [
             'name' => 'required|string',
             'school' => 'required|string',
             'grade' => 'required|integer',
-            'birthday' => 'required|date',
             'hobbies' => 'required|string',
             'interests' => 'required|string',
-            'image' => 'image|max:1000'
+            'image' => 'image|max:4000'
         ]);
 
         $user->name = $request->name;
@@ -134,19 +163,19 @@ class ProfileController extends Controller
         $user->hobbies = $request->hobbies;
         $user->interests = $request->interests;
         $user->school = $request->school;
-        $user->birthday = Carbon::createFromFormat('Y-m-d', $request->birthday);
+        if (Auth::User()->role == 'teacher' || Auth::User()->role == 'admin') {
+            $user->birthday = Carbon::createFromFormat('Y-m-d', $request->birthday);
+        }
         $user->setGrade($request->grade);
 
-        if ($request->password!="")
-        {
+        if ($request->password != "") {
             $this->validate($request, ['password' => 'required|string|min:6|confirmed']);
             $user->password = bcrypt($request->password);
         }
 
-        if ($request->hasFile('image'))
-        {
-            $extn = '.'.$request->file('image')->guessClientExtension();
-            $path = $request->file('image')->storeAs('user_avatars', $user->id.$extn);
+        if ($request->hasFile('image')) {
+            $extn = '.' . $request->file('image')->guessClientExtension();
+            $path = $request->file('image')->storeAs('user_avatars', $user->id . $extn);
             $user->image = $path;
         }
 
@@ -154,7 +183,7 @@ class ProfileController extends Controller
             $user->comments = $request->comments;
         $user->save();
 
-        return redirect('/insider/profile/'.$id);
+        return redirect('/insider/profile/' . $id);
     }
     #TODO do i need this?
     /*public function project ($id, Request $request)
@@ -168,7 +197,7 @@ class ProfileController extends Controller
         ]);
         $project = new Project();
         $project->name = $request->name;
-        $project->description = $request->description;
+        $project->description = clean($request->description);
         $project->type = $request->type;
         $project->url = $request->url;
 

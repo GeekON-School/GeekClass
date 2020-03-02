@@ -19,14 +19,29 @@ class Course extends Model
         'start_date', 'end_date'
     ];
 
+    public function sdl_lessons()
+    {
+        return $this->belongsToMany('App\Lesson', 'sdl_courses_users_lessons', 'course_id', 'lesson_id');
+    }
+
+    public function user_sdl_lessons($user)
+    {
+        return $this->sdl_lessons()->wherePivot('user_id', $user->id);
+    }
+
     public function students()
     {
-        return $this->belongsToMany('App\User', 'course_students', 'course_id', 'user_id')->withPivot('is_remote');
+        return $this->belongsToMany('App\User', 'course_students', 'course_id', 'user_id')->withPivot(['is_remote', 'idea_id'])->orderBy('name');
     }
 
     public function provider()
     {
         return $this->hasOne('App\Provider', 'id', 'provider_id');
+    }
+
+    public function program()
+    {
+        return $this->hasOne('App\Program', 'id', 'program_id');
     }
 
     public function teachers()
@@ -36,19 +51,17 @@ class Course extends Model
 
     public function steps()
     {
-        return $this->hasMany('App\CourseStep', 'course_id', 'id')->orderBy('sort_index')->orderBy('id');
+        return $this->program->steps();
     }
 
     public function lessons()
     {
-        return $this->hasMany('App\Lesson', 'course_id', 'id')->with('steps')->orderBy('sort_index')->orderBy('id');
+        return $this->program->lessons();
     }
 
-    public static function createCourse($data)
+    public function solutions()
     {
-        $course = Course::create(['name' => $data['name'], 'description' => $data['description']]);
-        $course->teachers()->attach(Auth::User()->id);
-        return $course;
+        return $this->hasMany('App\Solution', 'course_id', 'id');
     }
 
     public function start()
@@ -63,11 +76,22 @@ class Course extends Model
         $this->save();
     }
 
+    public function isAvailable($lesson)
+    {
+        $user = User::findOrFail(\Auth::User()->id);
+        if (!$this->isStarted($lesson)) return false;
+        if ($user->role == 'teacher') return true;
+        foreach ($lesson->prerequisites as $prerequisite) {
+            if (!$user->checkPrerequisite($prerequisite)) return false;
+        }
+        return true;
+    }
+
     public function points(User $student)
     {
         $sum = 0;
         foreach ($this->lessons as $step)
-            $sum += $step->points($student);
+            $sum += $step->points($student, $this);
         return $sum;
     }
 
@@ -113,7 +137,6 @@ class Course extends Model
         $cert_result = json_decode($res->getBody()->getContents());
 
 
-
         foreach ($this->students as $student) {
             $completed_course = new CompletedCourse();
             $completed_course->name = $this->name;
@@ -129,33 +152,32 @@ class Course extends Model
         $this->save();
     }
 
-    public function export()
+    public function getPercent(User $user)
     {
-        $export = collect([]);
-        $lessons = $this->lessons;
+        $course = $this;
+        $lessons = $course->lessons->filter(function ($lesson) use ($course) {
+            return $lesson->isStarted($this);
+        });
+
+        $temp_steps = collect([]);
         foreach ($lessons as $lesson) {
-            $export->push(json_decode($lesson->export()));
-        }
-        return $export->toJson();
-    }
-
-    public function import($course_json)
-    {
-        $lessons = json_decode($course_json);
-        foreach ($lessons as $lesson) {
-            $steps = $lesson->steps;
-            unset($lesson->steps);
-
-            $new_lesson = new Lesson();
-            foreach ($lesson as $property => $value)
-                $new_lesson->$property = $value;
-            $new_lesson->course_id = $this->id;
-            $new_lesson->save();
-
-            $lesson->steps = $steps;
-            $new_lesson->import(json_encode($lesson));
-
+            $temp_steps = $temp_steps->merge($lesson->steps);
         }
 
+        $percent = 100;
+        $max_points = 0;
+        $points = 0;
+        foreach ($temp_steps as $step) {
+            $tasks = $step->class_tasks;
+
+            foreach ($tasks as $task) {
+                if (!$task->is_star) $max_points += $task->max_mark;
+                $points += $user->submissions->where('task_id', $task->id)->max('mark');
+            }
+        }
+        if ($max_points != 0) {
+            $percent = min(100, $points * 100 / $max_points);
+        }
+        return $percent;
     }
 }

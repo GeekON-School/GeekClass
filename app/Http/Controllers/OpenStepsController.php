@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
-use App\CourseStep;
+use App\ProgramStep;
 use App\Http\Controllers\Controller;
 use App\Lesson;
 use App\Question;
@@ -35,7 +35,7 @@ class OpenStepsController extends Controller
 
     public function details($id)
     {
-        $step = CourseStep::findOrFail($id);
+        $step = ProgramStep::findOrFail($id);
 
         if (!$step->lesson->is_open) abort(503);
 

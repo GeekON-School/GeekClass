@@ -18,7 +18,7 @@ class Task extends Model
 
     public function step()
     {
-        return $this->belongsTo('App\CourseStep', 'step_id', 'id');
+        return $this->belongsTo('App\ProgramStep', 'step_id', 'id');
     }
 
     public function solutions()
@@ -30,6 +30,45 @@ class Task extends Model
     {
         return $this->hasMany('App\Question', 'task_id', 'id');
     }
+
+    public function consequences()
+    {
+        return $this->belongsToMany('App\CoreNode', 'core_consequences', "task_id", "node_id");
+    }
+
+    public function tests()
+    {
+        return $this->hasMany('App\CodeTask', 'task_id', 'id');
+    }
+
+    public function isDone($user_id)
+    {
+        return $this->solutions()->where('user_id', $user_id)->where('mark', '>', 1)->count() !=0;
+    }
+    public function isOnCheck($user_id)
+    {
+        return $this->solutions()->where('user_id', $user_id)->where('mark',  null)->count() !=0;
+    }
+    public function isSubmitted($user_id)
+    {
+        return $this->solutions()->where('user_id', $user_id)->count() !=0;
+    }
+    public function isFailed($user_id)
+    {
+        return $this->isSubmitted($user_id) and !$this->isDone($user_id) and !$this->isOnCheck($user_id);
+    }
+
+    public function isFullDone($user_id)
+    {
+        return $this->solutions()->where('user_id', $user_id)->where('mark', '=', $this->max_mark)->count() !=0;
+    }
+
+    public function getDeadline($course_id)
+    {
+        return $this->hasMany('App\TaskDeadline', 'task_id', 'id')->where('course_id', $course_id)->get()->first();
+
+    }
+
 
 
 }

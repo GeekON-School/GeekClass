@@ -26,7 +26,7 @@ class NewSolution extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -37,21 +37,21 @@ class NewSolution extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
         return (new MailMessage)->greeting('Добрый день!')->subject('Новое решение')
-                    ->line($this->solution->User->name." загрузил новое решение для задачи
-                     ".$this->solution->task->name." (курс ".$this->solution->task->step->course->name.").")
-                    ->action('Оценить', url("/insider/tasks/".$this->solution->task->id."/student/".$this->solution->User->id));
+            ->line($this->solution->User->name . " загрузил новое решение для задачи
+                     " . $this->solution->task->name . " (курс " . $this->solution->course->name . ").")
+            ->action('Оценить', url("/insider/courses/" . $this->solution->course_id . "/tasks/" . $this->solution->task->id . "/student/" . $this->solution->User->id));
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)

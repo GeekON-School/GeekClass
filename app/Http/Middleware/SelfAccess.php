@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Course;
-use App\CourseStep;
+use App\ProgramStep;
 use App\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
@@ -20,17 +20,15 @@ class SelfAccess
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::User()->role=='teacher') {
+        if (Auth::User()->role=='admin') {
             return $next($request);
         }
 
-        if (Auth::User()->role=='student') {
-
-            if (Auth::User()->id == $request->id)
-            {
-                return $next($request);
-            }
+        if (Auth::User()->id == $request->id)
+        {
+            return $next($request);
         }
+
         return abort(403);
 
     }
