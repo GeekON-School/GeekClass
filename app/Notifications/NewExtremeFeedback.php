@@ -42,7 +42,7 @@ class NewExtremeFeedback extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)->greeting('Добрый день!')->subject('Кажется, что-то идет не так...')
-            ->line('Участник ' . $this->feedback->user->name . ' оценил сегодняшние занятия на ' . $this->feedback->mark . ' / 10 (' . $this->feedback->comment . ')')
+            ->line('Участник ' . $this->feedback->user->name . ' оценил сегодняшние занятия на ' . $this->feedback->mark . ' / 5.')
             ->action('Посмотреть профиль', url('insider/profile/' . $this->feedback->user->id));
     }
 
