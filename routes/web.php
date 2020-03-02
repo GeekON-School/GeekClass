@@ -49,6 +49,9 @@ Route::get('/aesthethics', function () {
     return view('aesthethics');
 });
 
+Route::get('/feedback/{key}', 'DetailedFeedbackController@feedback_view');
+Route::post('/feedback/{key}', 'DetailedFeedbackController@feedback');
+
 Route::get('/articles', 'ArticlesController@open_index');
 Route::get('/articles/{id}', 'ArticlesController@details');
 Route::get('/courses', 'CoursesController@open_index');

@@ -49,12 +49,13 @@ class RequestFeedback extends Command
         $students = [];
         foreach ($courses as $course) {
             foreach ($course->students as $student) {
-                #if ($student->vk_id == null) continue;
-
                 $record = DetailedFeedback::getRecord($course, $student);
 
                 if (!array_key_exists($student->id, $students)) {
                     $students[$student->id] = $record->access_key;
+
+                    $when = \Carbon\Carbon::now()->addSeconds(1);
+                    $student->notify((new \App\Notifications\Feedback($record->access_key))->delay($when));
                 } else {
                     $key = $students[$student->id];
                     $record->access_key = $key;
@@ -62,22 +63,6 @@ class RequestFeedback extends Command
                 }
             }
         }
-        if (config('app.env') != 'local') {
-            try {
-                $client = new \GuzzleHttp\Client();
-                $client->post(config('bot.vk_bot') . '/detailed_feedback', [
-                    'form_params' => [
-                        'users' => \GuzzleHttp\json_encode($students),
-                        'key' => config('bot.vk_bot_key')
-                    ]
-                ]);
-            } catch (\Exception $e) {
-                Log::info($e);
-            }
-        } else {
-            Log::info(\GuzzleHttp\json_encode($students));
-        }
-
         return True;
 
     }

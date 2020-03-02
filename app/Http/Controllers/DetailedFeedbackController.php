@@ -12,19 +12,37 @@ class DetailedFeedbackController extends Controller
         $this->middleware('auth');
     }
 
-    public function feedback_view(Request $request)
+    public function feedback_view($key, Request $request)
     {
         $user = \Auth::user();
-        $key = $request->key;
-
         $queries = DetailedFeedback::getForms($user, $key);
 
-        if (count($queries) == 0)
-        {
-            abort(404);
+        return view('/feedback/form', compact('queries'));
+    }
+
+    public function feedback($key, Request $request)
+    {
+        $user = \Auth::user();
+        $queries = DetailedFeedback::getForms($user, $key);
+
+        foreach ($queries as $query) {
+            if ($request->has($query->id.'_missed')) {
+                $query->is_missed = true;
+            }
+            else {
+                $this->validate($request, [ $query->id.'_mark' => 'required|integer|min:1|max:5'] );
+                $query->mark = (int) $request->get($query->id.'_mark');
+
+                if (!$request->has($query->id.'_not_late')) $query->is_late = true;
+                if (!$request->has($query->id.'_ready')) $query->is_unprepaired = true;
+                if ($request->has($query->id.'_need_contact')) $query->need_communication = true;
+
+            }
+
+            $query->is_filled = true;
+            $query->save();
         }
 
-        $date = $queries[0]->created_at;
-
+        return redirect('/');
     }
 }
