@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Course;
+use App\DetailedFeedback;
 use Illuminate\Console\Command;
 use Log;
 
@@ -42,32 +43,42 @@ class RequestFeedback extends Command
         $courses = Course::where('state', 'started')->where('weekdays', '!=', '')->get()->filter(function ($course) {
             $current = \Carbon\Carbon::now()->dayOfWeek;
             if ($current == 0) $current = 7;
-            return in_array(strval($current), explode( ';', $course->weekdays));
+            return in_array(strval($current), explode(';', $course->weekdays));
         });
 
-        $students = collect([]);
+        $students = [];
+        foreach ($courses as $course) {
+            foreach ($course->students as $student) {
+                #if ($student->vk_id == null) continue;
 
-        foreach ($courses as $course)
-        {
-            foreach ($course->students as $student)
-            {
-                if ($student->vk_id == null) continue;
-                if (!$students->contains($student)) $students->push($student);
+                $record = DetailedFeedback::getRecord($course, $student);
+
+                if (!array_key_exists($student->id, $students)) {
+                    $students[$student->id] = $record->access_key;
+                } else {
+                    $key = $students[$student->id];
+                    $record->access_key = $key;
+                    $record->save();
+                }
             }
         }
+        if (config('app.env') != 'local') {
+            try {
+                $client = new \GuzzleHttp\Client();
+                $client->post(config('bot.vk_bot') . '/detailed_feedback', [
+                    'form_params' => [
+                        'users' => \GuzzleHttp\json_encode($students),
+                        'key' => config('bot.vk_bot_key')
+                    ]
+                ]);
+            } catch (\Exception $e) {
+                Log::info($e);
+            }
+        } else {
+            Log::info(\GuzzleHttp\json_encode($students));
+        }
 
-        try {
-            $client = new \GuzzleHttp\Client();
-            $client->post(config('bot.vk_bot') . '/feedback', [
-                'form_params' => [
-                    'users' => \GuzzleHttp\json_encode($students->pluck('id')),
-                    'key' => config('bot.vk_bot_key')
-                ]
-            ]);
-        }
-        catch (\Exception $e)
-        {
-            Log::info($e);
-        }
+        return True;
+
     }
 }
