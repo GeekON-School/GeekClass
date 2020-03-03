@@ -35,17 +35,22 @@ class DetailedFeedbackController extends Controller
             } else {
                 $this->validate($request, [$query->id . '_mark' => 'required|integer|min:1|max:5']);
                 $query->mark = (int)$request->get($query->id . '_mark');
+                if ($query->mark < 4) {
+                    if ($query->mark < 3) {
+                        $admin = User::findOrFail(1);
+                        $when = Carbon::now()->addSeconds(1);
+                        $admin->notify((new NewExtremeFeedback($query))->delay($when));
 
-                if ($query->mark < 3) {
-                    $admin = User::findOrFail(1);
-                    $when = Carbon::now()->addSeconds(1);
-                    $admin->notify((new NewExtremeFeedback($query))->delay($when));
+                    }
 
+                    if ($request->has($query->id . '_late')) $query->is_late = true;
+                    if ($request->has($query->id . '_unclear')) $query->is_unclear = true;
+                    if ($request->has($query->id . '_unprepaired')) $query->is_unprepaired = true;
+                    if ($request->has($query->id . '_notanswering')) $query->is_conflict = true;
+                    if ($request->has($query->id . '_need_contact')) $query->need_communication = true;
+                    if ($request->has($query->id . '_comment') and $request->get($query->id . '_comment') != '')
+                        $query->comment = $request->get($query->id . '_comment');
                 }
-
-                if (!$request->has($query->id . '_not_late')) $query->is_late = true;
-                if (!$request->has($query->id . '_ready')) $query->is_unprepaired = true;
-                if ($request->has($query->id . '_need_contact')) $query->need_communication = true;
 
             }
 
