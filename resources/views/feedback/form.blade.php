@@ -162,7 +162,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div style="display: none" class="{{ $query->id }}_problems {{ $query->id }}_1 {{ $query->id }}_2">
+                                <div style="display: none" class="{{ $query->id }}_problems {{ $query->id }}_3 {{ $query->id }}_4 {{ $query->id }}_5 {{ $query->id }}_1 {{ $query->id }}_2">
                                     <div class="form-check">
                                         <input class="form-check-input" name="{{ $query->id }}_need_contact" type="checkbox" style="margin-left: 0px;"
                                                value="yes" @if (old($query->id.'_need_contact')) checked @endif>
