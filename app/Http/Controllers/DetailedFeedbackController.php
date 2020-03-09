@@ -58,7 +58,10 @@ class DetailedFeedbackController extends Controller
             $query->save();
         }
 
-        CoinTransaction::register($user->id, 1, 'Обратная связь после занятий');
+        if (count($queries) != 0) {
+            CoinTransaction::register($user->id, 1, 'Обратная связь после занятий');
+        }
+
 
         return redirect('/');
     }
