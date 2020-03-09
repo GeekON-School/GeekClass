@@ -72,7 +72,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5>{{ $query->course->name }}<br><small>@if (count($query->course->teachers)){{ $query->course->teachers[0]->name }}, @endif{{ $query->created_at->format('d.m.Y') }}</small>
+                        <h5>{{ $query->course->name }}<br><small>{{ $query->created_at->format('d.m.Y') }}</small>
                         </h5>
 
                         <div class="form-check">
