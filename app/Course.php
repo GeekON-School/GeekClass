@@ -34,6 +34,11 @@ class Course extends Model
         return $this->belongsToMany('App\User', 'course_students', 'course_id', 'user_id')->withPivot(['is_remote', 'idea_id'])->orderBy('name');
     }
 
+    public function feedback()
+    {
+        return $this->hasMany('App\DetailedFeedback', 'course_id', 'id');
+    }
+
     public function provider()
     {
         return $this->hasOne('App\Provider', 'id', 'provider_id');
@@ -179,5 +184,15 @@ class Course extends Model
             $percent = min(100, $points * 100 / $max_points);
         }
         return $percent;
+    }
+
+    public function average_mark()
+    {
+        return $this->feedback()->where('is_filled', true)->average('mark');
+    }
+
+    public function recent_mark()
+    {
+        return $this->feedback()->where('is_filled', true)->where('created_at', '>', Carbon::now()->addWeeks(-1))->average('mark');
     }
 }
