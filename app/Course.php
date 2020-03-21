@@ -200,4 +200,9 @@ class Course extends Model
     {
         return $this->feedback()->where('is_filled', true)->where('created_at', '>', Carbon::now()->addWeeks(-1))->count();
     }
+
+    public function recent_mark()
+    {
+        return $this->feedback()->where('is_filled', true)->where('created_at', '>', Carbon::now()->addWeeks(-1))->average('mark');
+    }
 }
