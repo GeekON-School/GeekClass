@@ -386,8 +386,8 @@
                         @if ($course->teachers->contains($user) || $user->role=='admin')
                             <b>Статус:</b> {{$course->state}}<br/>
                             <b>Инвайт:</b> {{$course->invite}}<br/>
-                            <b>Средняя оценка:</b> {{$course->average_mark() }}<br/>
-                            <b>Последние оценки:</b> {{$course->recent_mark() }}<br/>
+                            <b>Средняя оценка:</b> {{ round($course->average_mark(), 2) }}<br/>
+                            <b>Последние оценки:</b> {{ round($course->recent_mark(), 2) }}<br/>
 
                         @endif
                         @if ($course->git!=null)
