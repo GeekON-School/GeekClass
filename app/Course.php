@@ -191,8 +191,13 @@ class Course extends Model
         return $this->feedback()->where('is_filled', true)->average('mark');
     }
 
-    public function recent_mark()
+    public function marks_count()
     {
-        return $this->feedback()->where('is_filled', true)->where('created_at', '>', Carbon::now()->addWeeks(-1))->average('mark');
+        return $this->feedback()->where('is_filled', true)->count();
+    }
+
+    public function recent_marks_count()
+    {
+        return $this->feedback()->where('is_filled', true)->where('created_at', '>', Carbon::now()->addWeeks(-1))->average('mark')->count();
     }
 }
