@@ -5,7 +5,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deadline-modal-{{$task->id}}Label">Дэдлайн для задачи</h5>
+                    <h5 class="modal-title" id="deadline-modal-{{$task->id}}Label">Дедлайн для задачи</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -19,7 +19,7 @@
                             <label for="price" class="col-md-4">Дедлайн</label>
 
                             <div class="col-md-12">
-                            <input type="date" name="deadline" class="form-control" id="deadline" value="{{\Carbon\Carbon::parse($task->getDeadline($course->id) ? $task->getDeadline($course->id)->expiration : '0000-00-00')->format('Y-m-d')}}"/>
+                            <input type="date" name="deadline" class="form-control" id="deadline" value="{{$task->getDeadline($course->id) ? $task->getDeadline($course->id)->expiration->format('Y-m-d') : '0000-00-00'}}"/>
                                 @if ($errors->has('deadline'))
                                     <span class="help-block error-block">
                                     <strong>{{ $errors->first('deadline') }}</strong>
@@ -39,6 +39,8 @@
                                 @endif
                             </div>
                         </div>
+
+                        <button class="btn btn-success">Сохранить</button>
                     </form>
                 </div>
             </div>

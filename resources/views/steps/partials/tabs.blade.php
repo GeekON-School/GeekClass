@@ -41,6 +41,19 @@
                                         @endif
 
                                     @endif
+                                @else
+                                    @if ($task->getDeadline($course->id))
+                                        @php
+                                            $exp = $task->getDeadline($course->id)->expiration;
+                                        @endphp
+                                        @if (\Carbon\Carbon::now()->gt($exp))
+                                            &nbsp;<sup><img style="border: 1px dotted red; height: 20px; border-radius: 3px;" title="Дедлайн"
+                                                            src="{{ url('images/icons/deadline.png') }}" /></sup>
+                                        @elseif (\Carbon\Carbon::now()->addDays(3)->gt($exp))
+                                            &nbsp;<sup><img style="border: 1px dotted yellow; height: 20px; border-radius: 3px;" title="Дедлайн"
+                                                            src="{{ url('images/icons/deadline.png') }}" /></sup>
+                                        @endif
+                                    @endif
                                 @endif
                             @endif
                         </a>

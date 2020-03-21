@@ -70,8 +70,6 @@ class TasksController extends Controller
         } else if ($request->has('is_code') and $request->is_code == true) {
             $task->is_code = true;
         }
-        $task->deadline = $request->deadline;
-        $task->penalty = $request->penalty;
         $task->save();
 
         if ($request->consequences)
@@ -153,9 +151,6 @@ class TasksController extends Controller
             $task->is_code = false;
         }
 
-
-        $task->deadline = $request->deadline;
-        $task->penalty = $request->penalty;
         $task->save();
 
         $step_id = $task->step_id;
@@ -204,28 +199,32 @@ class TasksController extends Controller
                 if ($task->price > 0 and !$task->isFullDone(Auth::User()->id)) {
                     CoinTransaction::register(Auth::User()->id, $task->price, "Task #" . $task->id);
                 }
-                $solution->mark = $task->max_mark;
-                $solution->comment = "Правильно.";
+
+                $deadline = $task->getDeadline($course_id);
+
+                if (!$deadline or Carbon::now()->lt($deadline->expiration)) {
+                    $solution->mark = $task->max_mark;
+                    $solution->comment = "Правильно.";
+                } else {
+                    $solution->mark = ceil($task->max_mark * $deadline->penalty);
+                    $solution->comment = "Правильно. Сдано с опозданием.";
+                }
 
             } else {
                 $solution->mark = 0;
                 $solution->comment = "Неверный ответ.";
             }
 
-            if (count($course->Teachers) > 0)
-            {
+            if (count($course->Teachers) > 0) {
                 $solution->teacher_id = $course->Teachers->first()->id;
-            }
-            else
-            {
+            } else {
                 $solution->teacher_id = 1;
             }
             $solution->checked = Carbon::now();
             $solution->save();
             $user->rescore();
             $new_rank = $user->rank();
-            if ($new_rank != $old_rank)
-            {
+            if ($new_rank != $old_rank) {
                 $when = \Carbon\Carbon::now()->addSeconds(1);
                 Notification::send($user, (new \App\Notifications\NewRank())->delay($when));
             }
@@ -250,8 +249,16 @@ class TasksController extends Controller
             }
             if ($data->state == 'success') {
                 if (str_contains($data->result, $task->code_answer)) {
-                    $solution->mark = $task->max_mark;
-                    $solution->comment = "Правильно.";
+                    $deadline = $this->getDeadline($course_id);
+
+                    if (!$deadline or $solution->created_at->lt($deadline->expiration)) {
+                        $solution->mark = $task->max_mark;
+                        $solution->comment = "Правильно.";
+                    } else {
+                        $solution->mark = ceil($task->max_mark * $deadline->penalty);
+                        $solution->comment = "Правильно. Сдано с опозданием.";
+                    }
+
                 } else {
                     $solution->mark = 0;
                     $solution->comment = "Неверное решение.";
@@ -268,7 +275,6 @@ class TasksController extends Controller
             $when = \Carbon\Carbon::now()->addSeconds(1);
             Notification::send($course->teachers, (new \App\Notifications\NewSolution($solution))->delay($when));
         }
-
 
 
         return [
@@ -296,13 +302,21 @@ class TasksController extends Controller
         ]);
 
         $old_rank = $solution->user->rank();
+        $deadline = $solution->task->getDeadline($course_id);
 
-        $solution->mark = $request->mark;
+        if (!$deadline or $solution->created_at->lt($deadline->expiration)) {
+            $solution->mark = $request->mark;
+            $solution->comment = $request->comment;
+        } else {
+            $solution->mark = ceil($request->mark * $deadline->penalty);
+            $solution->comment = "Сдано с опозданием.\n\n" . $request->comment;
+        }
+
         if ($solution->task->price > 0 and $solution->mark == $solution->task->max_mark and !$solution->task->isFullDone($solution->user_id)) {
             CoinTransaction::register($solution->user_id, $solution->task->price, "Task #" . $solution->task->id);
         }
 
-        $solution->comment = $request->comment;
+
         $solution->teacher_id = Auth::User()->id;
         $solution->checked = Carbon::now();
         $solution->save();
@@ -313,8 +327,7 @@ class TasksController extends Controller
         $when = \Carbon\Carbon::now()->addSeconds(1);
         Notification::send($solution->user, (new \App\Notifications\NewMark($solution))->delay($when));
 
-        if ($new_rank != $old_rank)
-        {
+        if ($new_rank != $old_rank) {
             $when = \Carbon\Carbon::now()->addSeconds(1);
             Notification::send($solution->user, (new \App\Notifications\NewRank())->delay($when));
         }
@@ -335,14 +348,12 @@ class TasksController extends Controller
     {
         $deadline = \App\TaskDeadline::all()->where('course_id', $course_id)->where('task_id', $id)->first();
         // dd($deadline);
-        if ($deadline)
-        {
-            
+        if ($deadline) {
+
             $deadline->expiration = $request->deadline;
             $deadline->penalty = $request->penalty;
             $deadline->save();
-        }
-        else {
+        } else {
             \App\TaskDeadline::create([
                 "course_id" => $course_id,
                 "task_id" => $id,

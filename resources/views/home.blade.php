@@ -79,7 +79,8 @@
             <div class="row">
                 <div class="col-12 col-lg-7 col-xl-8">
                     @foreach($notifications as $notification)
-                        <div class="alert alert-{{$notification->data['type']}} alert-dismissible fade show" role="alert">
+                        <div class="alert alert-{{$notification->data['type']}} alert-dismissible fade show"
+                             role="alert">
                             {!! $notification->data['text'] !!}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">×</span>
@@ -125,62 +126,34 @@
                                                 })->first();
                                             @endphp
                                             @if ($cstudent != null)
-                                                @foreach($course->program->chapters as $chapter)
-                                                    @foreach($chapter->lessons as $lesson)
-                                                        @foreach($lesson->steps as $step)
+                                                @foreach($course->program->steps as $step)
+                                                    @php
+                                                        $tasks = $step->tasks;
+                                                    @endphp
+                                                    @foreach($tasks as $task)
+                                                        @if ($task->getDeadline($course->id))
+                                                            @if (!$task->isDone($cstudent->id))
                                                             @php
-                                                                if ($cstudent->pivot->is_remote)
-                                                                {
-                                                                $tasks = $step->remote_tasks;
-                                                                }
-                                                                else {
-                                                                $tasks = $step->class_tasks;
-                                                                }
+                                                                $deadline = \Carbon\Carbon::parse($task->getDeadline($course->id)->expiration);
                                                             @endphp
-                                                            @foreach($tasks as $task)
-                                                                @if ($task->getDeadline($course->id))
-                                                                    @php
-                                                                    $deadline = \Carbon\Carbon::parse($task->getDeadline($course->id)->expiration);
-                                                                    @endphp
-                                                                    <style>
-                                                                        *[data-tooltip] {
-                                                                            position: relative;
-                                                                        }
 
-                                                                        *[data-tooltip]::before {
-                                                                            content: attr(data-tooltip);
-                                                                            position: absolute;
-                                                                            padding: 2px 10px;
-                                                                            border-radius: 3px;
-                                                                            color: #fff;
-                                                                            background: #333741;
-                                                                            display: none;
-                                                                            top: 20px;
-                                                                            left: -100%;
-                                                                        }
-
-                                                                        *[data-tooltip]:hover::before {
-                                                                            display: block;
-                                                                        }
-                                                                    </style>
-                                                                    @if (\Carbon\Carbon::now()->gt($deadline))
-                                                                        <span class="badge badge-danger"
-                                                                              data-tooltip="{{$task->name}}"
-                                                                              onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'"
-                                                                              style="cursor:pointer;">
+                                                            @if (\Carbon\Carbon::now()->gt($deadline))
+                                                                <span class="badge badge-danger"
+                                                                      data-tooltip="{{$task->name}}"
+                                                                      onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'"
+                                                                      style="cursor:pointer;">
                                                                         !
                                                                     </span>
-                                                                    @elseif (\Carbon\Carbon::now()->addDays(1)->gt($deadline))
-                                                                        <span class="badge badge-warning"
-                                                                              data-tooltip="{{$task->name}}"
-                                                                              onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'"
-                                                                              style="cursor:pointer;">
+                                                            @elseif (\Carbon\Carbon::now()->addDays(1)->gt($deadline))
+                                                                <span class="badge badge-warning"
+                                                                      data-tooltip="{{$task->name}}"
+                                                                      onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'"
+                                                                      style="cursor:pointer;">
                                                                         !
                                                                     </span>
-                                                                    @endif
+                                                            @endif
                                                                 @endif
-                                                            @endforeach
-                                                        @endforeach
+                                                        @endif
                                                     @endforeach
                                                 @endforeach
                                             @endif
@@ -354,10 +327,11 @@
                             <p class="card-text" style="font-size: 0.8rem;">
                             <ul>
                                 @foreach($events as $event)
-                                     <li>
-                                            <a style="color: black;" href="{{url('insider/events/'.$event->id)}}">{{ $event->name }}</a>
-                                            -
-                                            <strong>{{$event->date->format('d.m')}}</strong></li>
+                                    <li>
+                                        <a style="color: black;"
+                                           href="{{url('insider/events/'.$event->id)}}">{{ $event->name }}</a>
+                                        -
+                                        <strong>{{$event->date->format('d.m')}}</strong></li>
                                 @endforeach
                             </ul>
                             </p>

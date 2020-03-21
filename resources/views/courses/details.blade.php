@@ -380,7 +380,8 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Информация <img style="width: 30px;" src="{{ url('images/icons/icons8-info-48.png') }}"></h4>
+                    <h4 class="card-title">Информация <img style="width: 30px;"
+                                                           src="{{ url('images/icons/icons8-info-48.png') }}"></h4>
                     <p>
                         @if ($course->teachers->contains($user) || $user->role=='admin')
                             <b>Статус:</b> {{$course->state}}<br/>
@@ -388,11 +389,13 @@
 
                         @endif
                         @if ($course->git!=null)
-                            <b><img src="{{ url('images/icons/icons8-git-48.png') }}" title="Git" width="16" height="16"> Git
+                            <b><img src="{{ url('images/icons/icons8-git-48.png') }}" title="Git" width="16"
+                                    height="16"> Git
                                 репозиторий:</b> <a href="{{$course->git}}">{{$course->git}}</a><br/>
                         @endif
                         @if ($course->telegram!=null)
-                            <b><img src="{{ url('images/icons/icons8-telegram-app-48.png') }}" title="Telegram App" width="16"
+                            <b><img src="{{ url('images/icons/icons8-telegram-app-48.png') }}" title="Telegram App"
+                                    width="16"
                                     height="16"> Чат в телеграм:</b> <a
                                     href="{{$course->telegram}}">{{$course->telegram}}</a><br/>
                         @endif
@@ -498,26 +501,20 @@
                         <table class="table">
                             @foreach($steps as $step)
                                 @php
-                                    if ($cstudent->pivot->is_remote)
-                                    {
-                                    $tasks = $step->remote_tasks;
-                                    }
-                                    else {
-                                    $tasks = $step->class_tasks;
-                                    }
+                                    $tasks = $step->tasks;
                                 @endphp
                                 @foreach($tasks as $task)
                                     @php
                                         if ($task->answer != null) continue;
-                                        $filtered = $task->solutions->filter(function ($value) use ($user) {
-                                            return $value->user_id == $user->id && !$value->is_quiz;
-                                        });
-                                        $mark = null;
-                                        $mark = $filtered->max('mark');
-                                            
-                                        $mark = $mark == null?0:$mark;
-                                        $should_check = false;
-                                        if (count($filtered)!=0 && $filtered->last()->mark==null) $should_check=true;
+                                            $filtered = $task->solutions->filter(function ($value) use ($user) {
+                                                return $value->user_id == $user->id && !$value->is_quiz;
+                                            });
+                                            $mark = null;
+                                            $mark = $filtered->max('mark');
+
+                                            $mark = $mark == null?0:$mark;
+                                            $should_check = false;
+                                            if (count($filtered)!=0 && $filtered->last()->mark==null) $should_check=true;
                                     @endphp
                                     <tr>
                                         <td>
@@ -528,12 +525,11 @@
                                                 <a href="#" class="text-muted">{{$task->name}} @if ($task->is_star)
                                                         (*)@endif</a>
                                             @endif
-                                        </td>
-                                        <td>
-                                            @if ($task->getDeadline($course->id))
-                                                {{-- {{}} --}}
+
+                                            @if ($task->isDone($cstudent->id) and $task->getDeadline($course->id))
+                                                &nbsp;
                                                 @php
-                                                $deadline = \Carbon\Carbon::parse($task->getDeadline($course->id)->expiration);
+                                                    $deadline = \Carbon\Carbon::parse($task->getDeadline($course->id)->expiration);
                                                 @endphp
                                                 @if ($deadline->lt(\Carbon\Carbon::now()))
                                                     <span class="badge badge-danger">

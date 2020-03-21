@@ -59,9 +59,30 @@
     <script src="{{url('/js/bootstrap-select.min.js')}}"></script>
     <link rel="stylesheet" href="{{url('css/bootstrap-select.min.css')}}">
 
+    <style>
+        *[data-tooltip] {
+            position: relative;
+        }
+
+        *[data-tooltip]::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            padding: 2px 10px;
+            border-radius: 3px;
+            color: #fff;
+            background: #333741;
+            display: none;
+            top: 20px;
+            left: -100%;
+        }
+
+        *[data-tooltip]:hover::before {
+            display: block;
+        }
+    </style>
     @auth
         @if(!isset($disabletheme) && \Auth::user()->currentTheme())
-            <link rel="stylesheet" href="/insider/themes/{{\Auth::user()->currentTheme()->id}}/css"></style>
+            <link rel="stylesheet" href="/insider/themes/{{\Auth::user()->currentTheme()->id}}/css" />
             <script src="/insider/themes/{{\Auth::user()->currentTheme()->id}}/js"></script>
         @endif
     @endauth

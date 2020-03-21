@@ -229,19 +229,6 @@
                                 @endif
                             </div>
                         </div>
-                   
-                        <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
-                            <label for="price" class="col-md-4">Штраф (баллы * штраф)</label>
-
-                            <div class="col-md-12">
-                            <input type="number" min=0 step="0.01" max=1 name="penalty" class="form-control" id="penalty" value="{{$task->penalty}}"/>
-                                @if ($errors->has('penalty'))
-                                    <span class="help-block error-block">
-                                    <strong>{{ $errors->first('penalty') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
 
                         <button type="submit" class="btn btn-success">Сохранить</button>
                     </form>
