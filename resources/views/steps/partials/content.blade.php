@@ -69,10 +69,10 @@
                                 <i data-toggle="modal" data-target="#deadline-modal-{{$task->id}}"
                                    class="float-right btn btn-default btn-sm"><i
                                             class="icon ion-ios-calendar"></i></i>
-                                <a class="float-right btn btn-default btn-sm"
+                                <a title="Фантомное решение (добавить пустое решение для всех студентов)" class="float-right btn btn-default btn-sm"
                                    href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/phantom')}}"><i
                                             class="icon ion-ios-color-wand"></i></a>
-                                <a class="float-right btn btn-default btn-sm"
+                                <a title="Сгенерировать форму perr-review" class="float-right btn btn-default btn-sm"
                                    href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/peer')}}"><i
                                             class="icon ion-person-stalker"></i></a>
                                 <a class="float-right btn btn-default btn-sm"
