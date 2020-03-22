@@ -66,7 +66,7 @@
                                    href="{{url('/insider/courses/'.$course->id.'/tasks/'.$task->id.'/edit')}}"><i
                                             class="icon ion-android-create"></i></a>
                                 @include('steps/partials/deadline_modal')
-                                <i data-toggle="modal" data-target="#deadline-modal-{{$task->id}}"
+                                <i title="Установить дедлайн" data-toggle="modal" data-target="#deadline-modal-{{$task->id}}"
                                    class="float-right btn btn-default btn-sm"><i
                                             class="icon ion-ios-calendar"></i></i>
                                 <a title="Фантомное решение (добавить пустое решение для всех студентов)" class="float-right btn btn-default btn-sm"
