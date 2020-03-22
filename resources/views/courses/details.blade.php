@@ -251,9 +251,6 @@
                                             <div class="col">
                                                 <small class="text-muted"><i class="ion ion-clock"></i> Доступно
                                                     с {{$lesson->getStartDate($course)->format('Y-m-d')}}</small>
-                                                @if ($lesson->is_open && ($user->role=='admin' or $user->role=='teacher') )
-                                                    <small class="text-muted"><i class="ion ion-android-contacts"></i> Открытый URL: {{ url('/open/steps/'.$lesson->steps->first()->id) }}</small>
-                                                @endif
                                             </div>
                                             <div class="col">
                                                 @if ($user->role=='student' and $lesson->max_points($cstudent)!=0 and $lesson->isAvailable($course))
@@ -314,6 +311,11 @@
                                                 @endif
                                             </div>
                                         </div>
+                                        @if ($lesson->is_open && ($user->role=='admin' or $user->role=='teacher') )
+                                            <small class="text-muted"><i class="ion ion-android-contacts"></i>
+                                                Открытый URL: {{ url('/open/steps/'.$lesson->steps->first()->id) }}
+                                            </small>
+                                        @endif
                                     </div>
                                 @endif
                             </div>
@@ -389,8 +391,10 @@
                         @if ($course->teachers->contains($user) || $user->role=='admin')
                             <b>Статус:</b> {{$course->state}}<br/>
                             <b>Инвайт:</b> {{$course->invite}}<br/>
-                            <b>Средняя оценка:</b> {{ round($course->average_mark(), 2) }} ({{$course->marks_count()}})<br/>
-                            <b>Последние оценки:</b> {{ round($course->recent_mark(), 2) }} ({{$course->recent_marks_count()}})<br/>
+                            <b>Средняя оценка:</b> {{ round($course->average_mark(), 2) }} ({{$course->marks_count()}})
+                            <br/>
+                            <b>Последние оценки:</b> {{ round($course->recent_mark(), 2) }}
+                            ({{$course->recent_marks_count()}})<br/>
 
                         @endif
                         @if ($course->git!=null)
