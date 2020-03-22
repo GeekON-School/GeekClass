@@ -346,6 +346,11 @@ class TasksController extends Controller
 
     public function makeDeadline($course_id, $id, Request $request)
     {
+        if (!$request->deadline)
+        {
+            \App\TaskDeadline::all()->where('course_id', $course_id)->where('task_id', $id)->delete();
+            return back();
+        }
         $deadline = \App\TaskDeadline::all()->where('course_id', $course_id)->where('task_id', $id)->first();
         // dd($deadline);
         if ($deadline) {
