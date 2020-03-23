@@ -73,14 +73,14 @@
                              style="min-width: 280px; background-image: url({{$course->image}}); border-left: 3px solid #17a2b8;">
                             <div class="card-body"
                                  style="background-color: rgba(255,255,255,0.9);">
-                                <h5 style="font-weight: 300;"
+                                <h5 style="font-weight: 300; margin-bottom: 5px;"
                                     class="card-title">{{$course->name}}</h5>
                                 @if ($course->mode == 'open')
                                     <span class="badge badge-success">Бесплатно</span>
                                 @endif
                                 <span class="badge badge-primary">Онлайн</span>
                                 <p class="card-text"
-                                   style="font-size: 0.8rem;">{{$course->description}}</p>
+                                   style="font-size: 0.8rem; margin-top: 15px;">{{$course->description}}</p>
 
                                 @if ($course->site != null)
                                     <a target="_blank" href="{{$course->site}}"
