@@ -54,6 +54,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    <div class="videoWrapper"><iframe width="560" height="315" src="https://www.youtube.com/embed/ZB4ksznihW0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
                     <h5 class="card-title">Подробнее о направлении</h5>
                     <div style="margin-top: 15px;" class="col-md-12 markdown markdown-big">
                         @parsedown($category->description)
@@ -99,7 +100,7 @@
                                 @else
 
                                     <a href="https://goo.gl/forms/jMsLU855JBFaZRQE2" target="_blank"
-                                       class="btn btn-success btn-sm">Оставить заявку</a>
+                                       class="btn btn-primary btn-sm">Оставить заявку</a>
                                 @endif
                             </div>
                         </div>
