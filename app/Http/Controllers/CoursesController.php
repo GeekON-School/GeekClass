@@ -499,6 +499,7 @@ class CoursesController extends Controller
         $course->site = $request->site;
         $course->image = $request->image;
         $course->telegram = $request->telegram;
+        $course->start_date = $request->start_date;
         $course->weekdays = $request->weekdays ? $request->weekdays : "";
         if (\Auth::user()->role == 'admin') {
             foreach ($course->teachers as $teacher) {
