@@ -98,15 +98,15 @@
                                 @if ($course->mode == 'open')
                                     @if (\Auth::check())
                                         <a href="{{ url('/insider/courses/'.$course->id.'/enroll') }}"
-                                           class="btn btn-success btn-sm">Записаться</a>
+                                           class="btn btn-success btn-sm">Начать учиться</a>
                                     @else
                                         <a href="{{ url('/register?course_id='.$course->id) }}"
-                                           class="btn btn-success btn-sm">Зарегистрироваться</a>
+                                           class="btn btn-success btn-sm">Начать учиться</a>
                                     @endif
                                 @else
 
                                     <a href="https://goo.gl/forms/jMsLU855JBFaZRQE2" target="_blank"
-                                       class="btn btn-primary btn-sm">Оставить заявку</a>
+                                       class="btn btn-primary btn-sm">Записаться</a>
                                 @endif
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                 <p>Сейчас нет онлайн курсов по этому направлению.</p>
             @endif
 
-            <h5 style="margin-top: 15px;">Очно или заочно с преподавателем</h5>
+            <h5 style="margin-top: 15px;">По расписанию с преподавателем</h5>
             <p class="text-muted">Еженедельные занятия по расписанию с преподавателем и группой единомышленников очно или онлайн.</p>
             @if ($private_courses->count() != 0)
                 <div class="card-deck">
