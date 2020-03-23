@@ -70,7 +70,7 @@
                     @foreach($open_courses->sortBy('created_at') as $course)
 
                         <div class="card"
-                             style="min-width: 280px; background-image: url({{$course->image}}); border-left: 3px solid @if ($course->mode == 'open')#28a745;@else #007bff@endif">
+                             style="min-width: 280px; background-image: url({{$course->image}}); border-left: 3px solid @if ($course->mode == 'open') #28a745; @else #007bff @endif">
                             <div class="card-body"
                                  style="background-color: rgba(255,255,255,0.9);">
                                 <h5 style="font-weight: 300; margin-bottom: 5px;"
