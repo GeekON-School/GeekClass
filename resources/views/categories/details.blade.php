@@ -105,7 +105,7 @@
                                     @endif
                                 @else
 
-                                    <a href="https://goo.gl/forms/jMsLU855JBFaZRQE2" target="_blank"
+                                    <a href="https://forms.gle/EpesRiW2PTCSdGif8" target="_blank"
                                        class="btn btn-primary btn-sm">Записаться</a>
                                 @endif
                             </div>
