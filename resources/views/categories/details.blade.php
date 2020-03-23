@@ -80,7 +80,7 @@
                                 @endif
                                 <span class="badge badge-primary">Онлайн</span>
                                 <p class="card-text"
-                                   style="font-size: 0.8rem; margin-top: 15px;">{{$course->description}}</p>
+                                   style="font-size: 0.8rem; margin-top: 10px;">{{$course->description}}</p>
 
                                 @if ($course->site != null)
                                     <a target="_blank" href="{{$course->site}}"
@@ -117,16 +117,25 @@
                              style="min-width: 280px; background-image: url({{$course->image}});">
                             <div class="card-body"
                                  style="background-color: rgba(255,255,255,0.9);">
-                                <h5 style="font-weight: 300;"
+                                <h5 style="font-weight: 300; margin-bottom: 5px;"
                                     class="card-title">{{$course->name}}</h5>
+
+                                @if ($course->mode == 'zomm')
+                                    <span class="badge badge-primary">Онлайн</span>
+                                @else
+                                    <span class="badge badge-light">Очный</span>
+                                @endif
+                                <span class="badge badge-info">С преподавателем</span>
+
+
                                 <p class="card-text"
-                                   style="font-size: 0.8rem;">{{$course->description}}</p>
+                                   style="font-size: 0.8rem; margin-top: 10px;">{{$course->description}}</p>
 
                                 <p class="card-text text-muted">
                                     @if ($course->state != 'draft')
-                                        Курс начался {{ $course->start_date->format('d.m.Y') }}.
+                                        <small>Курс начался {{ $course->start_date->format('d.m.Y') }}.</small>
                                     @else
-                                        Курс начнется {{ $course->start_date->format('d.m.Y') }}.
+                                        <small>Курс начнется {{ $course->start_date->format('d.m.Y') }}.</small>
                                     @endif
                                 </p>
 
