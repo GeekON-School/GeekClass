@@ -133,26 +133,26 @@
                                                     @foreach($tasks as $task)
                                                         @if ($task->getDeadline($course->id))
                                                             @if (!$task->isDone($cstudent->id))
-                                                            @php
-                                                                $deadline = \Carbon\Carbon::parse($task->getDeadline($course->id)->expiration);
-                                                            @endphp
+                                                                @php
+                                                                    $deadline = \Carbon\Carbon::parse($task->getDeadline($course->id)->expiration);
+                                                                @endphp
 
-                                                            @if (\Carbon\Carbon::now()->gt($deadline))
-                                                                <span class="badge badge-danger"
-                                                                      data-tooltip="{{$task->name}}"
-                                                                      onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'"
-                                                                      style="cursor:pointer;">
+                                                                @if (\Carbon\Carbon::now()->gt($deadline))
+                                                                    <span class="badge badge-danger"
+                                                                          data-tooltip="{{$task->name}}"
+                                                                          onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'"
+                                                                          style="cursor:pointer;">
                                                                         !
                                                                     </span>
-                                                            @elseif (\Carbon\Carbon::now()->addDays(1)->gt($deadline))
-                                                                <span class="badge badge-warning"
-                                                                      data-tooltip="{{$task->name}}"
-                                                                      onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'"
-                                                                      style="cursor:pointer;">
+                                                                @elseif (\Carbon\Carbon::now()->addDays(1)->gt($deadline))
+                                                                    <span class="badge badge-warning"
+                                                                          data-tooltip="{{$task->name}}"
+                                                                          onclick="location.href='/insider/courses/{{$course->id}}/steps/{{$step->id}}#task{{$task->id}}'"
+                                                                          style="cursor:pointer;">
                                                                         !
                                                                     </span>
-                                                            @endif
                                                                 @endif
+                                                            @endif
                                                         @endif
                                                     @endforeach
                                                 @endforeach
@@ -173,75 +173,12 @@
                     @else
                         <p>Вы пока не записаны на курсы.</p>
                     @endif
-
-                    @if ($user->role!='admin' )
-                        <h5 style="margin-top: 15px;">Открытые курсы</h5>
-                        @if ($open_courses->count() != 0)
-                            <div class="card-deck">
-                                @foreach($open_courses as $course)
-
-                                    <div class="card"
-                                         style="min-width: 280px; background-image: url({{$course->image}}); border-left: 3px solid #17a2b8;">
-                                        <div class="card-body"
-                                             style="background-color: rgba(255,255,255,0.9);">
-                                            <h5 style="font-weight: 300;"
-                                                class="card-title">{{$course->name}}</h5>
-                                            <p class="card-text"
-                                               style="font-size: 0.8rem;">{{$course->description}}</p>
-                                            <a href="{{ url('/insider/courses/'.$course->id.'/enroll') }}"
-                                               class="btn btn-info btn-sm">Записаться</a>
-
-                                            @if ($course->site != null)
-                                                <a target="_blank" href="{{$course->site}}"
-                                                   style="margin-top: 6px; font-size: 0.8rem;"
-                                                   class="float-right">О курсе</a>
-                                            @endif
-
-
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @else
-                            <p>Сейчас нет доступных открытых курсов. Ну или вы просто записались на все! :)</p>
-                        @endif
-
-                        <h5 style="margin-top: 15px;">Приватные курсы</h5>
-                        @if ($private_courses->count() != 0)
-                            <div class="card-deck">
-                                @foreach($private_courses as $course)
-
-                                    <div class="card"
-                                         style="min-width: 280px; background-image: url({{$course->image}}); border-left: 3px solid #f8f9fa;">
-                                        <div class="card-body"
-                                             style="background-color: rgba(255,255,255,0.9);">
-                                            <h5 style="font-weight: 300;"
-                                                class="card-title">{{$course->name}}</h5>
-                                            <p class="card-text"
-                                               style="font-size: 0.8rem;">{{$course->description}}</p>
-
-                                            <a href="https://goo.gl/forms/jMsLU855JBFaZRQE2" target="_blank"
-                                               class="btn btn-info btn-sm">Оставить заявку</a>
-
-                                            @if ($course->site != null)
-                                                <a target="_blank" href="{{$course->site}}"
-                                                   style="margin-top: 6px; font-size: 0.8rem;"
-                                                   class="float-right">О курсе</a>
-                                            @endif
-
-
-                                        </div>
-                                    </div>
-                                @endforeach
-
-                            </div>
-                        @else
-                            <p>Сейчас нет доступных приватных курсов.</p>
-                        @endif
-                    @endif
+                    <div class="d-none d-lg-block">
+                        <img style="max-width: 100%;" src="{{'/images/clip-education.png'}}"/>
+                    </div>
                 </div>
 
-                <div class="col-12  col-lg-5 col-xl-4">
+                <div class="col-12 col-lg-5 col-xl-4">
 
                     <div class="card"
                          style="border-left: 3px solid #007bff;">
@@ -317,28 +254,29 @@
                         </div>
 
                     </div>
+                    @if (count($events) > 0)
+                        <div class="card"
+                             style="border-left: 3px solid #007bff;">
+                            <div class="card-body">
 
-                    <div class="card"
-                         style="border-left: 3px solid #007bff;">
-                        <div class="card-body">
+                                <h5 style="font-weight: 400; font-size: 1.1rem;"
+                                    class="card-title">Ближайшие события:</h5>
+                                <p class="card-text" style="font-size: 0.8rem;">
+                                <ul>
+                                    @foreach($events as $event)
+                                        <li>
+                                            <a style="color: black;"
+                                               href="{{url('insider/events/'.$event->id)}}">{{ $event->name }}</a>
+                                            -
+                                            <strong>{{$event->date->format('d.m')}}</strong></li>
+                                    @endforeach
+                                </ul>
+                                </p>
 
-                            <h5 style="font-weight: 400; font-size: 1.1rem;"
-                                class="card-title">Ближайшие события:</h5>
-                            <p class="card-text" style="font-size: 0.8rem;">
-                            <ul>
-                                @foreach($events as $event)
-                                    <li>
-                                        <a style="color: black;"
-                                           href="{{url('insider/events/'.$event->id)}}">{{ $event->name }}</a>
-                                        -
-                                        <strong>{{$event->date->format('d.m')}}</strong></li>
-                                @endforeach
-                            </ul>
-                            </p>
+                            </div>
 
                         </div>
-
-                    </div>
+                    @endif
 
                     <div class="card"
                          style="margin-top: 15px;border-left: 3px solid #007bff;">

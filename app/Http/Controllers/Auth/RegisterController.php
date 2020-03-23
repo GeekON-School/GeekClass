@@ -27,6 +27,16 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
+    public function showRegistrationForm(Request $request)
+    {
+        $to_course = false;
+        if ($request->has('course_id'))
+        {
+            $to_course = true;
+        }
+        return view('auth.register', compact('to_course'));
+    }
+
     /**
      * Where to redirect users after registration.
      *
@@ -47,7 +57,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -67,7 +77,7 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array $data
+     * @param array $data
      * @return User
      */
     protected function create($data)
@@ -136,9 +146,13 @@ class RegisterController extends Controller
         }
         $this->guard()->login($user);
 
-        if ($request->has('course_id'))
-        {
-
+        if ($request->has('course_id')) {
+            $course = Course::where('id', $request->course_id)->first();
+            if ($course == null or $course->mode != 'open') {
+                $this->make_error_alert('Ошибка!', 'Вы не можете записаться на приватный курс.');
+            } else {
+                $course->students()->attach([$user->id => ['is_remote' => false]]);
+            }
         }
 
         return $this->registered($request, $user)

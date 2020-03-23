@@ -29,21 +29,72 @@
                                     </span>
                             @endif
                         </div>
+                        @if (Auth::user()->role=='admin')
+                            <div class="form-group">
+                                <label for="mode" style="padding-bottom: 10px;">Тип курса:</label><br>
+                                <select class="selectpicker4 form-control" data-live-search="true" id="mode"
+                                        name="mode">
+                                    <option data-tokens="private" value="private">Скрытый</option>
+                                    <option data-tokens="offline" value="offline">Офлайн</option>
+                                    <option data-tokens="paid" value="paid">Платный онлайн курс</option>
+                                    <option data-tokens="open" value="open">Бесплатный онлайн курс</option>
+                                </select>
 
-                        <div class="form-group">
-                            <label for="teachers" style="padding-bottom: 10px;">Учителя:</label><br>
-                            <select class="selectpicker1  form-control" data-live-search="true" id="teachers"
-                                    name="teachers[]" multiple data-width="auto">
-                                @foreach (\App\User::where('role', 'teacher')->orWhere('role', 'admin')->get() as $teacher)
-                                    <option data-tokens="{{ $teacher->id }}"
-                                            value="{{ $teacher->id }}">{{$teacher->name}}</option>
-                                @endforeach
-                            </select>
+                                <script>
+                                    $('.selectpicker4').selectpicker('val', '{{$course->mode}}');
+                                </script>
+                            </div>
 
-                            <script>
-                                $('.selectpicker1').selectpicker('val', [{{implode(',', $course->teachers->pluck('id')->toArray())}}]);
-                            </script>
-                        </div>
+                            <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+                                <label for="image" class="col-md-4 control-label">Аватар</label>
+
+                                <div class="col-md-8">
+                                    <input id="image" type="file" class="form-control" name="image"/>
+
+                                    @if ($errors->has('image'))
+                                        <span class="help-block error-block">
+                            <strong>{{ $errors->first('image') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="categories" style="padding-bottom: 10px;">Образовательные
+                                    направления:</label><br>
+                                <select class="selectpicker3 form-control" data-live-search="true" id="categories"
+                                        name="categories[]" multiple data-width="auto">
+                                    @foreach (\App\CourseCategory::all() as $category)
+                                        <option data-tokens="{{ $category->id }}"
+                                                value="{{ $category->id }}">{{$category->title}}</option>
+                                    @endforeach
+                                </select>
+
+                                <script>
+                                    $('.selectpicker3').selectpicker('val', [{{implode(',', $course->categories->pluck('id')->toArray())}}]);
+                                </script>
+                            </div>
+
+                        @endif
+
+                        @if (Auth::user()->role=='admin')
+                            <div class="form-group">
+                                <label for="teachers" style="padding-bottom: 10px;">Учителя:</label><br>
+                                <select class="selectpicker1  form-control" data-live-search="true" id="teachers"
+                                        name="teachers[]" multiple data-width="auto">
+                                    @foreach (\App\User::where('role', 'teacher')->orWhere('role', 'admin')->get() as $teacher)
+                                        <option data-tokens="{{ $teacher->id }}"
+                                                value="{{ $teacher->id }}">{{$teacher->name}}</option>
+                                    @endforeach
+                                </select>
+
+                                <script>
+                                    $('.selectpicker1').selectpicker('val', [{{implode(',', $course->teachers->pluck('id')->toArray())}}]);
+                                </script>
+                            </div>
+
+                        @endif
 
                         @if ($course->state == 'draft')
                             <div class="form-group{{ $errors->has("start_date") ? ' has-error' : '' }}">
@@ -209,21 +260,6 @@
                             @endif
                         </div>
 
-                    <!--
-                        <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-                            <label for="image" class="col-md-4 control-label">Аватар</label>
-
-                            <div class="col-md-8">
-                                <input id="image" type="file" class="form-control" name="image"/>
-
-                                @if ($errors->has('image'))
-                        <span class="help-block error-block">
-                            <strong>{{ $errors->first('image') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
--->
 
                         <button type="submit" class="btn btn-success">Сохранить</button>
                     </form>

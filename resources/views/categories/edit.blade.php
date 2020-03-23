@@ -70,8 +70,7 @@
 
                             <label for="video_url">Картинка</label>
                             <input id="video_url" type="text" class="form-control" name="video_url"
-                                   value="@if (old('video_url')!=''){{old('video_url')}}@else{{$category->video_url}}@endif"
-                                   required>
+                                   value="@if (old('video_url')!=''){{old('video_url')}}@else{{$category->video_url}}@endif">
                             @if ($errors->has('video_url'))
                                 <span class="help-block error-block">
                                     <strong>{{ $errors->first('video_url') }}</strong>
@@ -94,7 +93,7 @@
                         <div class="form-group">
                             <label for="description">Текст</label>
                             <textarea id="description" class="form-control"
-                                      name="description">@if (old("description")!=''){{old("description")}}@else{{$category->text}}@endif</textarea>
+                                      name="description">@if (old("description")!=''){{old("description")}}@else{{$category->description}}@endif</textarea>
                             @if ($errors->has("description"))
                                 <span class="help-block error-block">
                                         <strong>{{ $errors->first("description") }}</strong>
@@ -111,7 +110,7 @@
             var simplemde_text = new EasyMDE({
                 spellChecker: false,
                 autosave: true,
-                element: document.getElementById("text")
+                element: document.getElementById("description")
             });
         </script>
     </div>

@@ -54,7 +54,14 @@ Route::post('/feedback/{key}', 'DetailedFeedbackController@feedback');
 
 Route::get('/articles', 'ArticlesController@open_index');
 Route::get('/articles/{id}', 'ArticlesController@details');
-Route::get('/courses', 'CoursesController@open_index');
+Route::get('/courses', 'CourseCategoriesController@index');
+Route::get('/categories/create', 'CourseCategoriesController@createView');
+Route::post('/categories/create', 'CourseCategoriesController@create');
+Route::get('/categories/{id}', 'CourseCategoriesController@details');
+Route::get('/categories/{id}/start', 'CourseCategoriesController@start');
+Route::get('/categories/{id}/stop', 'CourseCategoriesController@stop');
+Route::get('/categories/{id}/edit', 'CourseCategoriesController@editView');
+Route::post('/categories/{id}/edit', 'CourseCategoriesController@edit');
 /*
 Route::get('/games', 'GamesController@index');
 Route::get('/games/{id}', 'GamesController@play');

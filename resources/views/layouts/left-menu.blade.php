@@ -82,7 +82,7 @@
     </style>
     @auth
         @if(!isset($disabletheme) && \Auth::user()->currentTheme())
-            <link rel="stylesheet" href="/insider/themes/{{\Auth::user()->currentTheme()->id}}/css" />
+            <link rel="stylesheet" href="/insider/themes/{{\Auth::user()->currentTheme()->id}}/css"/>
             <script src="/insider/themes/{{\Auth::user()->currentTheme()->id}}/js"></script>
         @endif
     @endauth
@@ -156,7 +156,10 @@
                     @endif
                     <li class="nav-item">
                         <a class="nav-link {{(Request::is('insider/courses*') ? 'active-link' : '') }}"
-                           href="{{url('/insider/courses')}}">Курсы</a></li>
+                           href="{{url('/insider/courses')}}">Мои курсы</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link {{((Request::is('courses*') or Request::is('categories*')) ? 'active-link' : '') }}"
+                           href="{{url('courses')}}">Каталог курсов</a></li>
                     <li class="nav-item"><a class="nav-link {{(Request::is('insider/forum*') ? 'active-link' : '') }}"
                                             href="{{url('insider/forum')}}">Ответы</a></li>
                     <li class="nav-item"><a class="nav-link {{(Request::is('insider/ideas*') ? 'active-link' : '') }}"
@@ -175,14 +178,14 @@
                     <li class="nav-item"><a class="nav-link {{(Request::is('insider/events*') ? 'active-link' : '') }}"
                                             href="{{url('insider/events')}}">События</a></li>
 
-                    <!--<li class="nav-item"><a class="nav-link {{(Request::is('insider/games*') ? 'active-link' : '') }}"
+                <!--<li class="nav-item"><a class="nav-link {{(Request::is('insider/games*') ? 'active-link' : '') }}"
                                             href="{{url('insider/games')}}">Игры</a></li>-->
-             @else
+                @else
                     <li class="nav-item"><a class="nav-link {{(Request::is('articles*') ? 'active-link' : '') }}"
                                             href="{{url('/articles')}}">Статьи</a></li>
-                    <li class="nav-item"><a class="nav-link {{(Request::is('courses*') ? 'active-link' : '') }}"
-                                            href="{{url('courses')}}">Курсы</a></li>
-                    <!--<li class="nav-item"><a class="nav-link {{(Request::is('games*') ? 'active-link' : '') }}"
+                    <li class="nav-item"><a class="nav-link {{((Request::is('courses*') or Request::is('categories*')) ? 'active-link' : '') }}"
+                                            href="{{url('courses')}}">Каталог курсов</a></li>
+                <!--<li class="nav-item"><a class="nav-link {{(Request::is('games*') ? 'active-link' : '') }}"
                                             href="{{url('games')}}">Игры</a></li>-->
                     <li class="nav-item"><a class="nav-link {{(Request::is('games*') ? 'active-link' : '') }}"
                                             href="{{url('login')}}">Войти</a></li>
@@ -198,7 +201,8 @@
                     <li class="nav-item"><a class="nav-link" target="_blank" href="https://gekkon-club.ru/programming">Сайт
                             Геккон-клуба</a></li>
                     @if (\Auth::check())
-                        <li class="nav-item"><a class="nav-link" target="_blank" href="{{ config('bot.vk_chat') }}">Беседа в ВК</a></li>
+                        <li class="nav-item"><a class="nav-link" target="_blank" href="{{ config('bot.vk_chat') }}">Беседа
+                                в ВК</a></li>
                     @endif
                     <li class="nav-item"><a class="nav-link" target="_blank" href="https://github.com/geekon-school/">GitHub</a>
                     </li>

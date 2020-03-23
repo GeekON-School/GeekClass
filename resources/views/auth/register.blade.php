@@ -23,6 +23,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
+                                @if (!$to_course)
                                 <h4>Инвайт</h4>
                                 <div class="form-group{{ $errors->has('invite') ? ' has-error' : '' }}">
                                     <label for="invite" class="control-label">Инвайт</label>
@@ -38,6 +39,7 @@
                                     @endif
 
                                 </div>
+                                @endif
                                 <h4>Аккаунт</h4>
                                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                     <label for="email" class="control-label">E-Mail</label>

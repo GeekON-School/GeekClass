@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ActionLog;
 use App\CompletedCourse;
 use App\Course;
+use App\CourseCategory;
 use App\Event;
 use App\ForumThread;
 use App\Idea;
@@ -29,25 +30,9 @@ class CoursesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('open_index');
+        $this->middleware('auth')->except('details', 'open_index');
         $this->middleware('course')->only(['details', 'editView', 'start', 'stop', 'edit', 'assessments', 'report', 'createChapter', 'editChapter', 'createChapterView', 'editChapterView']);
         $this->middleware('teacher')->only(['createView', 'create', 'editView', 'start', 'stop', 'edit', 'assessments', 'report', 'createChapter', 'editChapter', 'createChapterView', 'editChapterView']);
-    }
-
-    public function open_index()
-    {
-        $courses = Course::orderBy('id')->get();
-
-        $open_courses = $courses->filter(function ($course) {
-            return $course->state == 'started' && $course->is_open;
-        });
-
-        $private_courses = $courses->filter(function ($course) {
-            return $course->state != 'ended' && $course->start_date != null && !$course->is_open;
-        });
-
-        $threads = ForumThread::orderBy('id', 'DESC')->limit(5)->get();
-        return view('courses', compact('open_courses', 'private_courses'));
     }
 
     /**
@@ -515,14 +500,27 @@ class CoursesController extends Controller
         $course->image = $request->image;
         $course->telegram = $request->telegram;
         $course->weekdays = $request->weekdays ? $request->weekdays : "";
-
-        foreach ($course->teachers as $teacher) {
-            $course->teachers()->detach($teacher->id);
-        }
-        if ($request->teachers != null)
-            foreach ($request->teachers as $teacher_id) {
-                $course->teachers()->attach($teacher_id);
+        if (\Auth::user()->role == 'admin') {
+            foreach ($course->teachers as $teacher) {
+                $course->teachers()->detach($teacher->id);
             }
+            if ($request->teachers != null) {
+                foreach ($request->teachers as $teacher_id) {
+                    $course->teachers()->attach($teacher_id);
+                }
+            }
+
+            foreach ($course->categories as $category) {
+                $course->categories()->detach($category->id);
+            }
+            if ($request->categories != null) {
+                foreach ($request->categories as $category_id) {
+                    $course->categories()->attach($category_id);
+                }
+            }
+            if ($request->mode != null)
+                $course->mode = $request->mode;
+        }
 
         foreach ($course->students as $teacher) {
             $course->students()->detach($teacher->id);
@@ -672,7 +670,9 @@ class CoursesController extends Controller
         $user = User::findOrFail(Auth::User()->id);
         $course = Course::findOrFail($id);
 
-        if ($course == null or !$course->is_open) {
+        if ($user->role == 'admin' or $user->role == 'teacher') return redirect('/insider/courses/' . $course->id);
+
+        if ($course == null or $course->mode != 'open') {
             $this->make_error_alert('Ошибка!', 'Вы не можете записаться на приватный курс.');
             return $this->backException();
         }
@@ -685,7 +685,7 @@ class CoursesController extends Controller
         $course->students()->attach([$user->id => ['is_remote' => false]]);
 
 
-        return redirect('/insider/courses/'.$course->id);
+        return redirect('/insider/courses/' . $course->id);
     }
 
     public function export($id)

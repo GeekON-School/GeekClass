@@ -86,7 +86,9 @@
                    href="{{url('/articles')}}">Статьи</a>
             @endif
             <a class="p-2 text-dark {{(Request::is('insider/courses*') ? 'active' : '') }}"
-               href="{{url('/insider/courses')}}">Курсы</a>
+               href="{{url('/insider/courses')}}">Мои курсы</a>
+            <a class="p-2 text-dark {{(Request::is('courses*') or Request::is('categories*') ? 'active' : '') }}"
+                   href="{{url('/insider/courses')}}">Каталог курсов</a>
             <a class="p-2 text-dark {{(Request::is('insider/forum*') ? 'active' : '') }}"
                href="{{url('insider/forum')}}">Ответы</a>
             <a class="p-2 text-dark {{(Request::is('insider/ideas*') ? 'active' : '') }}"
@@ -107,8 +109,8 @@
         @else
             <a class="p-2 text-dark {{(Request::is('articles*') ? 'active' : '') }}"
                href="{{url('/articles')}}">Статьи</a>
-            <a class="p-2 text-dark {{(Request::is('courses*') ? 'active' : '') }}"
-               href="{{url('courses')}}">Курсы</a>
+            <a class="p-2 text-dark {{(Request::is('courses*') or Request::is('categories*') ? 'active' : '') }}"
+               href="{{url('courses')}}">Каталог курсов</a>
             <!--<a class="p-2 text-dark {{(Request::is('games*') ? 'active' : '') }}" href="{{url('games')}}">Игры</a>-->
         @endif
     </nav>

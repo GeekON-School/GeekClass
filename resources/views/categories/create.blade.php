@@ -1,29 +1,26 @@
 @extends('layouts.left-menu')
 
 @section('title')
-    GeekClass: Редактирование образовательного направления
+    GeekClass: Добавление образовательного направления
 @endsection
 
 @section('content')
-    <h2>Изменение образовательного направления</h2>
+    <h2>Новое образовательное направление</h2>
     <div class="row" style="margin-top: 15px;">
         <div class="col">
             <div class="card">
                 <div class="card-body">
                     <form method="POST">
-                        {{ csrf_field() }}
-
 
                         <div class="form-group">
-
-                            <label for="title">Название</label>
-                            <input id="title" type="text" class="form-control" name="title"
-                                   value="@if (old('title')!=''){{old('title')}}@else{{$category->title}}@endif"
+                            {{ csrf_field() }}
+                            <label for="name">Название</label>
+                            <input id="title" type="text" class="form-control" name="title" value="{{old('title')}}"
                                    required>
                             @if ($errors->has('title'))
                                 <span class="help-block error-block">
-                                    <strong>{{ $errors->first('title') }}</strong>
-                                </span>
+                                        <strong>{{ $errors->first('title') }}</strong>
+                                    </span>
                             @endif
                         </div>
 
@@ -31,7 +28,7 @@
 
                             <label for="small_image_url">Маленькая картинка</label>
                             <input id="small_image_url" type="text" class="form-control" name="small_image_url"
-                                   value="@if (old('small_image_url')!=''){{old('small_image_url')}}@else{{$category->small_image_url}}@endif"
+                                   value="{{old('small_image_url')}}"
                                    required>
                             @if ($errors->has('small_image_url'))
                                 <span class="help-block error-block">
@@ -42,9 +39,9 @@
 
                         <div class="form-group">
 
-                            <label for="card_image_url">Картинка на карточке</label>
+                            <label for="card_image_url">Картинка для карточки</label>
                             <input id="card_image_url" type="text" class="form-control" name="card_image_url"
-                                   value="@if (old('card_image_url')!=''){{old('card_image_url')}}@else{{$category->card_image_url}}@endif"
+                                   value="{{old('card_image_url')}}"
                                    required>
                             @if ($errors->has('card_image_url'))
                                 <span class="help-block error-block">
@@ -55,9 +52,9 @@
 
                         <div class="form-group">
 
-                            <label for="head_image_url">Картинка в заголовке</label>
+                            <label for="head_image_url">Картинка для заголовка</label>
                             <input id="head_image_url" type="text" class="form-control" name="head_image_url"
-                                   value="@if (old('head_image_url')!=''){{old('head_image_url')}}@else{{$category->head_image_url}}@endif"
+                                   value="{{old('head_image_url')}}"
                                    required>
                             @if ($errors->has('head_image_url'))
                                 <span class="help-block error-block">
@@ -68,10 +65,9 @@
 
                         <div class="form-group">
 
-                            <label for="video_url">Картинка</label>
+                            <label for="video_url">Видео</label>
                             <input id="video_url" type="text" class="form-control" name="video_url"
-                                   value="@if (old('video_url')!=''){{old('video_url')}}@else{{$category->video_url}}@endif"
-                                   required>
+                                   value="{{old('video_url')}}">
                             @if ($errors->has('video_url'))
                                 <span class="help-block error-block">
                                     <strong>{{ $errors->first('video_url') }}</strong>
@@ -81,9 +77,9 @@
 
 
                         <div class="form-group">
-                            <label for="short_description">Описание на карточке</label>
+                            <label for="short_description">Описание для карточки</label>
                             <textarea id="short_description" class="form-control"
-                                      name="short_description">@if (old('short_description')!=''){{old('short_description')}}@else{{$category->short_description}}@endif</textarea>
+                                      name="short_description">{{old('short_description')}}</textarea>
                             @if ($errors->has('short_description'))
                                 <span class="help-block error-block">
                                         <strong>{{ $errors->first('short_description') }}</strong>
@@ -92,9 +88,14 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="description">Текст</label>
+                            <label for="description">Описание</label>
+                            <p class="text-muted">Для разметки текста используется markdown, описание - <a
+                                        target="_blank"
+                                        href="https://simplemde.com/markdown-guide">тут</a>.
+                            </p>
+
                             <textarea id="description" class="form-control"
-                                      name="description">@if (old("description")!=''){{old("description")}}@else{{$category->text}}@endif</textarea>
+                                      name="description">{{old("description")}}</textarea>
                             @if ($errors->has("description"))
                                 <span class="help-block error-block">
                                         <strong>{{ $errors->first("description") }}</strong>
@@ -102,7 +103,8 @@
                             @endif
                         </div>
 
-                        <input type="submit" class="btn btn-success" value="Сохранить"/>
+                        <input type="submit" class="btn btn-success" value="Добавить"/>
+
                     </form>
                 </div>
             </div>
@@ -111,7 +113,7 @@
             var simplemde_text = new EasyMDE({
                 spellChecker: false,
                 autosave: true,
-                element: document.getElementById("text")
+                element: document.getElementById("description")
             });
         </script>
     </div>

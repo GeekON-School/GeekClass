@@ -54,6 +54,11 @@ class Course extends Model
         return $this->belongsToMany('App\User', 'course_teachers', 'course_id', 'user_id');
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany('App\CourseCategory', 'course_course_category', 'course_id', 'category_id');
+    }
+
     public function steps()
     {
         return $this->program->steps();

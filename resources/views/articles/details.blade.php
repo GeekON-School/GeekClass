@@ -194,7 +194,7 @@
         var simplemde_text = new EasyMDE({
             spellChecker: false,
             autosave: true,
-            element: document.getElementById("commentArea")
+            element: document.getElementById("description")
         });
     </script>
 
