@@ -70,7 +70,7 @@
                     @foreach($open_courses->sortBy('created_at') as $course)
 
                         <div class="card"
-                             style="min-width: 280px; background-image: url({{$course->image}}); border-left: 3px solid #17a2b8;">
+                             style="min-width: 280px; background-image: url({{$course->image}}); border-left: 3px solid @if ($course->mode == 'open')#28a745;@else #007bff@endif">
                             <div class="card-body"
                                  style="background-color: rgba(255,255,255,0.9);">
                                 <h5 style="font-weight: 300; margin-bottom: 5px;"
@@ -90,10 +90,10 @@
                                 @if ($course->mode == 'open')
                                     @if (\Auth::check())
                                         <a href="{{ url('/insider/courses/'.$course->id.'/enroll') }}"
-                                           class="btn btn-info btn-sm">Записаться</a>
+                                           class="btn btn-success btn-sm">Записаться</a>
                                     @else
                                         <a href="{{ url('/register?course_id='.$course->id) }}"
-                                           class="btn btn-info btn-sm">Зарегистрироваться</a>
+                                           class="btn btn-primary btn-sm">Зарегистрироваться</a>
                                     @endif
                                 @else
 
