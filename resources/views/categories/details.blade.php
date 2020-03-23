@@ -7,57 +7,58 @@
     <div class="row">
         <div class="col-12">
 
-                <div class="jumbotron p-5 p-md-7 text-white bg-dark"
-                     style='background-size: cover; background-position-y: center; background-image: url("{{url($category->head_image_url)}}"); margin-bottom: 10px; padding: 0 !important;'>
-                    <div style="height: 35vh; "></div>
-                    <div class="col-md-12"  style="color: white; padding: 40px; background-color: #2D9CCC99; ">
+            <div class="jumbotron p-5 p-md-7 text-white bg-dark"
+                 style='background-size: cover; background-position-y: center; background-image: url("{{url($category->head_image_url)}}"); margin-bottom: 10px; padding: 0 !important;'>
+                <div style="height: 35vh; "></div>
+                <div class="col-md-12" style="color: white; padding: 40px; background-color: #2D9CCC99; ">
 
-                        <h1 class="display-12" style="color: white;">{{$category->title}}@if (Auth::check() and Auth::user()->role=='admin')
-                                <div style="margin-top: 10px;" class="float-right">
+                    <h1 class="display-12"
+                        style="color: white;">{{$category->title}}@if (Auth::check() and Auth::user()->role=='admin')
+                            <div style="margin-top: 10px;" class="float-right">
 
-                                    <div class="dropdown">
-                                        <button class="btn btn-round" data-toggle="dropdown"
-                                                data-target="#project-add-modal">
-                                            <i class="material-icons">more_vert</i>
-                                        </button>
+                                <div class="dropdown">
+                                    <button class="btn btn-round" data-toggle="dropdown"
+                                            data-target="#project-add-modal">
+                                        <i class="material-icons">more_vert</i>
+                                    </button>
 
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            @if (!$category->is_available)
-                                                <a href="{{url('/categories/'.$category->id.'/start')}}"
-                                                   class="dropdown-item"><i
-                                                            class="icon ion-power"></i> Показать в каталоге</a>
-                                            @else
-                                                <a href="{{url('/categories/'.$category->id.'/stop')}}"
-                                                   class="dropdown-item"><i
-                                                            class="icon ion-stop"></i> Спрятать</a>
-                                            @endif
-                                            <a href="{{url('/categories/'.$category->id.'/edit')}}"
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        @if (!$category->is_available)
+                                            <a href="{{url('/categories/'.$category->id.'/start')}}"
                                                class="dropdown-item"><i
-                                                        class="icon ion-android-create"></i> Изменить</a>
-                                            <a href="{{url('/categories/'.$category->id.'/delete')}}"
+                                                        class="icon ion-power"></i> Показать в каталоге</a>
+                                        @else
+                                            <a href="{{url('/categories/'.$category->id.'/stop')}}"
                                                class="dropdown-item"><i
-                                                        class="icon ion-android-delete"></i> Удалить</a>
-                                        </div>
+                                                        class="icon ion-stop"></i> Спрятать</a>
+                                        @endif
+                                        <a href="{{url('/categories/'.$category->id.'/edit')}}"
+                                           class="dropdown-item"><i
+                                                    class="icon ion-android-create"></i> Изменить</a>
+                                        <a href="{{url('/categories/'.$category->id.'/delete')}}"
+                                           class="dropdown-item"><i
+                                                    class="icon ion-android-delete"></i> Удалить</a>
                                     </div>
+                                </div>
 
 
-                                </div>@endif</h1>
+                            </div>@endif</h1>
 
-                        <p style="color: white;">{{$category->short_description}}</p>
-                    </div>
+                    <p style="color: white;">{{$category->short_description}}</p>
                 </div>
+            </div>
         </div>
     </div>
 
     <div class="row" style="margin-top: 15px;" id="root">
         <div class="col-12">
-            <div style="float: left; width: 100%; padding-left: 5px;" class="col-auto">
-                <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Подробнее о направлении</h5>
                     <div style="margin-top: 15px;" class="col-md-12 markdown markdown-big">
                         @parsedown($category->description)
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -93,12 +94,12 @@
                                            class="btn btn-success btn-sm">Записаться</a>
                                     @else
                                         <a href="{{ url('/register?course_id='.$course->id) }}"
-                                           class="btn btn-primary btn-sm">Зарегистрироваться</a>
+                                           class="btn btn-success btn-sm">Зарегистрироваться</a>
                                     @endif
                                 @else
 
                                     <a href="https://goo.gl/forms/jMsLU855JBFaZRQE2" target="_blank"
-                                       class="btn btn-info btn-sm">Оставить заявку</a>
+                                       class="btn btn-success btn-sm">Оставить заявку</a>
                                 @endif
                             </div>
                         </div>
