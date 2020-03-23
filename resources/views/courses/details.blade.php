@@ -571,7 +571,7 @@
                 </div>
             @endif
 
-            <img src="{{url('images/ginger-cat-750.png')}}" style="max-width: 100%;" />
+            <img src="{{url('images/ginger-cat.png')}}" style="max-width: 100%;" />
         </div>
         <script>
             $(function () {
