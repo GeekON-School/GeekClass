@@ -39,7 +39,7 @@
 
                     <div class="card-deck">
                         @foreach($categories->where('is_available', true) as $category)
-                            <div class="card mb-3" style="min-width: 280px; max-width: 33%;">
+                            <div class="card mb-3" style="min-width: 280px;">
                                 <img alt="Team" class="card-img-top" src="{{$category->card_image_url}}">
                                 <div class="card-body" style="background-color: rgba(255,255,255,0.9);">
                                     <h5 style="font-weight: 300;"
