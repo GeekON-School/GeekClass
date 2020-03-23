@@ -54,9 +54,15 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="videoWrapper"><iframe width="560" height="315" src="https://www.youtube.com/embed/ZB4ksznihW0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                    @if ($category->video_url)
+                        <div class="videoWrapper" style="margin: -24px; margin-bottom: 30px;">
+                            <iframe width="560" height="315" src="{{$category->video_url}}" frameborder="0"
+                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                        </div>
+                    @endif
                     <h5 class="card-title">Подробнее о направлении</h5>
-                    <div style="margin-top: 15px;" class="col-md-12 markdown markdown-big">
+                    <div style="margin-top: 15px;" class="markdown markdown-big">
                         @parsedown($category->description)
                     </div>
                 </div>
@@ -66,15 +72,14 @@
 
     <div class="row">
         <div class="col-12">
-            <h5 style="margin-top: 30px; margin-bottom: 15px;">Заочные курсы для самостоятельного освоения</h5>
+            <h5 style="margin-top: 30px; margin-bottom: 30px;">Заочные курсы для самостоятельного освоения</h5>
             @if ($open_courses->count() != 0)
                 <div class="card-deck">
                     @foreach($open_courses->sortBy('created_at') as $course)
 
                         <div class="card"
                              style="min-width: 280px; background-image: url({{$course->image}}); border-left: 3px solid @if ($course->mode == 'open') #28a745; @else #007bff @endif">
-                            <div class="card-body"
-                                 style="background-color: rgba(255,255,255,0.9);">
+                            <div class="card-body">
                                 <h5 style="font-weight: 300; margin-bottom: 5px;"
                                     class="card-title">{{$course->name}}</h5>
                                 @if ($course->mode == 'open')
@@ -110,19 +115,18 @@
                 <p>Сейчас нет онлайн курсов по этому направлению.</p>
             @endif
 
-            <h5 style="margin-top: 15px;">Очные курсы и заочные курсы с преподавателем</h5>
+            <h5 style="margin-top: 15px; margin-bottom: 30px;">Очные курсы и заочные курсы с преподавателем</h5>
             @if ($private_courses->count() != 0)
                 <div class="card-deck">
                     @foreach($private_courses as $course)
 
                         <div class="card"
-                             style="min-width: 280px; background-image: url({{$course->image}});">
-                            <div class="card-body"
-                                 style="background-color: rgba(255,255,255,0.9);">
+                             style="min-width: 280px; background-image: url({{$course->image}}); border-left: 3px solid #17a2b8">
+                            <div class="card-body">
                                 <h5 style="font-weight: 300; margin-bottom: 5px;"
                                     class="card-title">{{$course->name}}</h5>
 
-                                @if ($course->mode == 'zomm')
+                                @if ($course->mode == 'zoom')
                                     <span class="badge badge-primary">Онлайн</span>
                                 @else
                                     <span class="badge badge-light">Очный</span>
@@ -146,13 +150,11 @@
                                        style="margin-top: 6px; font-size: 0.8rem;"
                                        class="float-right">О курсе</a>
                                 @endif
-
-
-                            </div>
-                            <div class="card-footer text-center" style="padding-left:0;">
                                 <a href="https://goo.gl/forms/jMsLU855JBFaZRQE2" target="_blank"
                                    class="btn btn-info btn-sm">Оставить заявку</a>
+
                             </div>
+
                         </div>
                     @endforeach
 
