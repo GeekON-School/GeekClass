@@ -72,7 +72,7 @@
 
     <div class="row">
         <div class="col-12">
-            <h5 style="margin-top: 30px; margin-bottom: 30px;">Онлайн в своем темпе:</h5>
+            <h5 style="margin-top: 30px; margin-bottom: 30px;">Онлайн в своем темпе<br><small class="text-muted">Осваивать теории и сдавать задачи можно в своем темпе, вопросы можно задачь в чате преподавателю и другим участникам, а при необходимости, запросить индивидуальную консультацию преподавателя.</small></h5>
             @if ($open_courses->count() != 0)
                 <div class="card-deck">
                     @foreach($open_courses->sortBy('created_at') as $course)
@@ -115,7 +115,7 @@
                 <p>Сейчас нет онлайн курсов по этому направлению.</p>
             @endif
 
-            <h5 style="margin-top: 15px; margin-bottom: 30px;">Очно или заочно с преподавателем:</h5>
+            <h5 style="margin-top: 15px; margin-bottom: 30px;">Очно или заочно с преподавателем<br><small>Еженедельные занятия по расписанию с преподавателем или группой единомышленников очно или онлайн.</small></h5>
             @if ($private_courses->count() != 0)
                 <div class="card-deck">
                     @foreach($private_courses as $course)
