@@ -73,7 +73,9 @@
     <div class="row">
         <div class="col-12">
             <h5 style="margin-top: 30px;">Онлайн в своем темпе</h5>
-            <p class="text-muted">Осваивать теорию и сдавать задачи можно в своем темпе, а вопросы задавать в чате преподавателю и другим участникам. При необходимости можно запросить индивидуальную консультацию преподавателя.</p>
+            <p class="text-muted">Осваивать теорию и сдавать задачи можно в своем темпе, а вопросы задавать в чате
+                преподавателю и другим участникам. При необходимости можно запросить индивидуальную консультацию
+                преподавателя.</p>
             @if ($open_courses->count() != 0)
                 <div class="card-deck">
                     @foreach($open_courses->sortBy('created_at') as $course)
@@ -117,7 +119,8 @@
             @endif
 
             <h5 style="margin-top: 15px;">По расписанию с преподавателем</h5>
-            <p class="text-muted">Еженедельные занятия по расписанию с преподавателем и группой единомышленников очно или онлайн.</p>
+            <p class="text-muted">Еженедельные занятия по расписанию с преподавателем и группой единомышленников очно
+                или онлайн.</p>
             @if ($private_courses->count() != 0)
                 <div class="card-deck">
                     @foreach($private_courses as $course)
@@ -138,14 +141,15 @@
 
                                 <p class="card-text"
                                    style="font-size: 0.8rem; margin-top: 10px;">{{$course->description}}</p>
-
-                                <p class="card-text text-muted">
-                                    @if ($course->state != 'draft')
-                                        <small>Курс начался {{ $course->start_date->format('d.m.Y') }}.</small>
-                                    @else
-                                        <small>Курс начнется {{ $course->start_date->format('d.m.Y') }}.</small>
-                                    @endif
-                                </p>
+                                @if ($course->start_date)
+                                    <p class="card-text text-muted">
+                                        @if ($course->state != 'draft')
+                                            <small>Курс начался {{ $course->start_date->format('d.m.Y') }}.</small>
+                                        @else
+                                            <small>Курс начнется {{ $course->start_date->format('d.m.Y') }}.</small>
+                                        @endif
+                                    </p>
+                                @endif
 
                                 @if ($course->site != null)
                                     <a target="_blank" href="{{$course->site}}"
