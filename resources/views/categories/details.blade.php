@@ -64,10 +64,10 @@
 
     <div class="row">
         <div class="col-12">
-            <h5 style="margin-top: 30px; margin-bottom: 15px;">Онлайн курсы</h5>
+            <h5 style="margin-top: 30px; margin-bottom: 15px;">Заочные курсы для самостоятельного освоения</h5>
             @if ($open_courses->count() != 0)
                 <div class="card-deck">
-                    @foreach($open_courses as $course)
+                    @foreach($open_courses->sortBy('created_at') as $course)
 
                         <div class="card"
                              style="min-width: 280px; background-image: url({{$course->image}}); border-left: 3px solid #17a2b8;">
@@ -104,7 +104,7 @@
                 <p>Сейчас нет онлайн курсов по этому направлению.</p>
             @endif
 
-            <h5 style="margin-top: 15px;">Очные курсы</h5>
+            <h5 style="margin-top: 15px;">Очные курсы и заочные курсы с преподавателем</h5>
             @if ($private_courses->count() != 0)
                 <div class="card-deck">
                     @foreach($private_courses as $course)

@@ -100,7 +100,7 @@ class CourseCategoriesController extends Controller
     {
         $category = CourseCategory::findOrFail($id);
         $open_courses = $category->courses->whereIn('mode', ['open', 'paid']);
-        $private_courses = $category->courses->where('mode', 'offline');
+        $private_courses = $category->courses->where('mode', ['offline', 'zoom']);
 
         return view('categories.details', compact('category', 'open_courses', 'private_courses'));
     }

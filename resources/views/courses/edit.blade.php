@@ -36,7 +36,8 @@
                                         name="mode">
                                     <option data-tokens="private" value="private">Скрытый</option>
                                     <option data-tokens="offline" value="offline">Офлайн</option>
-                                    <option data-tokens="paid" value="paid">Платный онлайн курс</option>
+                                    <option data-tokens="zoom" value="zoom">Платный онлайн курс</option>
+                                    <option data-tokens="paid" value="paid">Платный онлайн курс без преподавателя</option>
                                     <option data-tokens="open" value="open">Бесплатный онлайн курс</option>
                                 </select>
 
@@ -44,21 +45,6 @@
                                     $('.selectpicker4').selectpicker('val', '{{$course->mode}}');
                                 </script>
                             </div>
-
-                            <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-                                <label for="image" class="col-md-4 control-label">Аватар</label>
-
-                                <div class="col-md-8">
-                                    <input id="image" type="file" class="form-control" name="image"/>
-
-                                    @if ($errors->has('image'))
-                                        <span class="help-block error-block">
-                            <strong>{{ $errors->first('image') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
 
                             <div class="form-group">
                                 <label for="categories" style="padding-bottom: 10px;">Образовательные
