@@ -251,11 +251,11 @@ class TasksController extends Controller
                 if (str_contains($data->result, $task->code_answer)) {
                     $deadline = $this->getDeadline($course_id);
 
-                    if (!$deadline or $solution->created_at->lt($deadline->expiration)) {
+                    if (!$deadline or $solution->created_at->lt($deadline->expiration->addDay())) {
                         $solution->mark = $task->max_mark;
                         $solution->comment = "Правильно.";
                     } else {
-                        $solution->mark = ceil($task->max_mark * $deadline->penalty->addDay());
+                        $solution->mark = ceil($task->max_mark * $deadline->penalty);
                         $solution->comment = "Правильно. Сдано с опозданием.";
                     }
 
@@ -308,7 +308,7 @@ class TasksController extends Controller
             $solution->mark = $request->mark;
             $solution->comment = $request->comment;
         } else {
-            $solution->mark = ceil($request->mark * $deadline->penalty->addDay());
+            $solution->mark = ceil($request->mark * $deadline->penalty);
             $solution->comment = "Сдано с опозданием.\n\n" . $request->comment;
         }
 
