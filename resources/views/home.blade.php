@@ -134,7 +134,7 @@
                                                         @if ($task->getDeadline($course->id))
                                                             @if (!$task->isDone($cstudent->id))
                                                                 @php
-                                                                    $deadline = \Carbon\Carbon::parse($task->getDeadline($course->id)->expiration);
+                                                                    $deadline = $task->getDeadline($course->id)->expiration->addDay();
                                                                 @endphp
 
                                                                 @if (\Carbon\Carbon::now()->gt($deadline))

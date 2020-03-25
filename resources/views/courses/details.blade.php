@@ -540,7 +540,7 @@
                                                 @php
                                                     $deadline = \Carbon\Carbon::parse($task->getDeadline($course->id)->expiration);
                                                 @endphp
-                                                @if ($deadline->lt(\Carbon\Carbon::now()))
+                                                @if ($deadline->addDay()->lt(\Carbon\Carbon::now()))
                                                     <span class="badge badge-danger">
                                                             Просрочено {{$deadline->format('Y.m.d')}}
                                                         </span>

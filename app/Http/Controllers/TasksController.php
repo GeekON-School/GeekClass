@@ -202,7 +202,7 @@ class TasksController extends Controller
 
                 $deadline = $task->getDeadline($course_id);
 
-                if (!$deadline or Carbon::now()->lt($deadline->expiration)) {
+                if (!$deadline or Carbon::now()->lt($deadline->expiration->addDay())) {
                     $solution->mark = $task->max_mark;
                     $solution->comment = "Правильно.";
                 } else {
@@ -255,7 +255,7 @@ class TasksController extends Controller
                         $solution->mark = $task->max_mark;
                         $solution->comment = "Правильно.";
                     } else {
-                        $solution->mark = ceil($task->max_mark * $deadline->penalty);
+                        $solution->mark = ceil($task->max_mark * $deadline->penalty->addDay());
                         $solution->comment = "Правильно. Сдано с опозданием.";
                     }
 
@@ -304,11 +304,11 @@ class TasksController extends Controller
         $old_rank = $solution->user->rank();
         $deadline = $solution->task->getDeadline($course_id);
 
-        if (!$deadline or $solution->created_at->lt($deadline->expiration)) {
+        if (!$deadline or $solution->created_at->lt($deadline->expiration->addDay())) {
             $solution->mark = $request->mark;
             $solution->comment = $request->comment;
         } else {
-            $solution->mark = ceil($request->mark * $deadline->penalty);
+            $solution->mark = ceil($request->mark * $deadline->penalty->addDay());
             $solution->comment = "Сдано с опозданием.\n\n" . $request->comment;
         }
 
