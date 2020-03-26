@@ -86,6 +86,18 @@
                                     </span>
                             @endif
                         </div>
+                        <div class="form-group{{ $errors->has('video_url') ? ' has-error' : '' }}">
+                            <label for="video_url">Видео</label>
+
+                            <input id="video_url" type="text" class="form-control" value="{{old('video_url')}}"
+                                   name="video_url">
+
+                            @if ($errors->has('video_url'))
+                                <span class="help-block error-block">
+                                        <strong>{{ $errors->first('video_url') }}</strong>
+                                    </span>
+                            @endif
+                        </div>
                         <div class="form-check">
                             <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" name="notebook" value="yes">
