@@ -96,7 +96,6 @@ class ProgramStep extends Model
         $step->name = $data['name'];
         $step->notes = $data['notes'];
         $step->theory = $data['theory'];
-        $step->video_url = $data['video_url'];
         $step->program_id = $lesson->program->id;
         $step->lesson_id = $lesson->id;
         $step->sort_index = $order;

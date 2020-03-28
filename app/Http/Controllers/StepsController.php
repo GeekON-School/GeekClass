@@ -122,6 +122,8 @@ class StepsController extends Controller
             'name' => 'required|string',
         ]);
         $step = ProgramStep::createStep($lesson, $request);
+        $step->video_url = $request->video_url;
+        $step->save();
 
         return redirect('/insider/courses/'.$course_id.'/steps/' . $step->id);
     }
