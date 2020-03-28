@@ -70,10 +70,10 @@
 
                             @if (old('video_url')!="")
                                 <input id="video_url" type="text" class="form-control" value="{{old('video_url')}}"
-                                       name="video_url" required>
+                                       name="video_url">
                             @else
                                 <input id="video_url" type="text" class="form-control" value="{{$step->video_url}}"
-                                       name="video_url" required>
+                                       name="video_url">
                             @endif
                             @if ($errors->has('video_url'))
                                 <span class="help-block error-block">
