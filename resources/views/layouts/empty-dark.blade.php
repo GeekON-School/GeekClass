@@ -29,7 +29,7 @@
     <script type="text/javascript" src="{{ url('assets/js/bootstrap.js') }}"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+    <script src="{{ url('/assets/js/easymde.min.js') }}"></script>
 
     <!-- Autosize - resizes textarea inputs as user types -->
     <script type="text/javascript" src="{{ url('assets/js/autosize.min.js') }}"></script>
