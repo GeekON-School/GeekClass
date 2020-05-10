@@ -14,7 +14,7 @@
                     <div class="card">
                         <div class="card-header">
                             {{$task->name}} &nbsp; &nbsp;
-
+                            @if (\Request::is('insider/*'))
                             @if ($task->getDeadline($course->id))
 
                                 @php
@@ -38,6 +38,7 @@
                                 @endif
                                 {{ $task->getDeadline($course->id)->expiration->format('d.m.Y')}}
 
+                            @endif
                             @endif
 
 
