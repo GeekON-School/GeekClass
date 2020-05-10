@@ -125,7 +125,7 @@
                                                     return $value->id == \Auth::id();
                                                 })->first();
                                             @endphp
-                                            @if ($cstudent != null)
+                                            @if ($cstudent != null and !$course->is_sdl)
                                                 @foreach($course->program->steps as $step)
                                                     @php
                                                         $tasks = $step->tasks;
