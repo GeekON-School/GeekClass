@@ -478,7 +478,7 @@
 
                 </div>
             </div>
-            @if ($user->role=='student' || $user->role=='novice')
+            @if ($user->role=='student')
                 <div class="card" style="margin-top: 15px;">
                     <div class="card-body">
 
