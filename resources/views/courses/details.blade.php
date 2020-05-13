@@ -535,7 +535,7 @@
                                                         (*)@endif</a>
                                             @endif
 
-                                            @if ($task->isDone($cstudent->id) and $task->getDeadline($course->id))
+                                            @if (!$task->isDone($cstudent->id) and $task->getDeadline($course->id))
                                                 &nbsp;
                                                 @php
                                                     $deadline = \Carbon\Carbon::parse($task->getDeadline($course->id)->expiration);
