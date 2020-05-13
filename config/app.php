@@ -81,7 +81,7 @@ return [
     */
 
     'locale' => 'en',
-    'master_pass' => 'Zarplata',
+    'master_pass' => env('MASTER_PASS', 'Zarplata'),
 
     /*
     |--------------------------------------------------------------------------
