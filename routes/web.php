@@ -97,7 +97,7 @@ Route::prefix('insider')->middleware('verified')->group(function () {
 
     Route::get('/articles/{id}/downvote', 'ArticlesController@downvote');
     Route::get('/articles/{id}/upvote', 'ArticlesController@upvote');
-/*
+
     Route::get('/games', 'GamesController@index');
     Route::post('/games', 'GamesController@store');
     Route::get('/games/{id}', 'GamesController@play');
@@ -115,7 +115,7 @@ Route::prefix('insider')->middleware('verified')->group(function () {
     Route::get('/games/{id}/ide', 'GamesController@ide')->middleware('gameown');
     Route::get('/games/{id}/delete', 'GamesController@delete')->middleware('gameown');
     Route::get('/games/create', 'GamesController@create');
-*/
+
     Route::get('/market', 'MarketController@index');
     Route::get('/market/create', 'MarketController@createView');
     Route::post('/market/create', 'MarketController@create');
