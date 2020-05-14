@@ -62,12 +62,12 @@ Route::get('/categories/{id}/start', 'CourseCategoriesController@start');
 Route::get('/categories/{id}/stop', 'CourseCategoriesController@stop');
 Route::get('/categories/{id}/edit', 'CourseCategoriesController@editView');
 Route::post('/categories/{id}/edit', 'CourseCategoriesController@edit');
-/*
+
 Route::get('/games', 'GamesController@index');
 Route::get('/games/{id}', 'GamesController@play');
 Route::get('/games/{id}/frame', 'GamesController@frame');
 Route::get('/insider/games/{id}/viewsource', 'GamesController@viewsource');
-*/
+
 Route::get('/activate', 'BotController@activateView');
 Route::get('/activate/success', 'BotController@successView');
 Route::post('/activate', 'BotController@activate');
