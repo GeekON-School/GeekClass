@@ -199,7 +199,7 @@
                                 </div>
                                 @if ($lesson->getStartDate($course)!=null)
                                     <div class="card-footer">
-                                        @if ($course->teachers->contains($user) || $user->role=='admin')
+                                        @if (($course->teachers->contains($user) || $user->role=='admin') && count($students) < 15)
                                             <div class="collapse" id="marks{{$lesson->id}}">
                                                 @foreach($students as $student)
                                                     <div class="row">
