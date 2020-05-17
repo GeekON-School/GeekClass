@@ -262,31 +262,32 @@ class CoursesController extends Controller
                 $all_steps = $all_steps->merge($lesson->steps);
             }
 
+            if (count($students) < 15) {
+                foreach ($students as $key => $value) {
+                    $students[$key]->percent = 0;
+                    $students[$key]->max_points = 0;
+                    $students[$key]->points = 0;
 
-            foreach ($students as $key => $value) {
-                $students[$key]->percent = 0;
-                $students[$key]->max_points = 0;
-                $students[$key]->points = 0;
+                    foreach ($all_steps as $step) {
 
-                foreach ($all_steps as $step) {
+                        $tasks = $step->class_tasks;
 
-                    $tasks = $step->class_tasks;
+                        foreach ($tasks as $task) {
+                            if (!$task->is_star) $students[$key]->max_points += $task->max_mark;
 
-                    foreach ($tasks as $task) {
-                        if (!$task->is_star) $students[$key]->max_points += $task->max_mark;
+                            $students[$key]->points += $value->submissions->filter(function ($item) use ($task) {
+                                return $item->task_id == $task->id;
+                            })->max('mark');
 
-                        $students[$key]->points += $value->submissions->filter(function ($item) use ($task) {
-                            return $item->task_id == $task->id;
-                        })->max('mark');
+                        }
+
 
                     }
-
+                    if ($students[$key]->max_points != 0) {
+                        $students[$key]->percent = min(100, $students[$key]->points * 100 / $students[$key]->max_points);
+                    }
 
                 }
-                if ($students[$key]->max_points != 0) {
-                    $students[$key]->percent = min(100, $students[$key]->points * 100 / $students[$key]->max_points);
-                }
-
             }
 
 

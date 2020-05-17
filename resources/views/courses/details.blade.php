@@ -421,6 +421,7 @@
                     <p>
                         <b>Студенты:</b>
                     </p>
+                    @if (count($students) < 15)
                     <ul>
                         @foreach($students->sortByDesc('percent') as $student)
                             <li><a class="black-link"
@@ -429,6 +430,13 @@
                                     % </span></li>
                         @endforeach
                     </ul>
+                    @else
+
+                        @foreach($students as $student)
+                            <li><a class="black-link"
+                                   href="{{url('/insider/profile/'.$student->id)}}">{{$student->name}}</a></li>
+                        @endforeach
+                    @endif
 
                     @if (($course->teachers->contains($user) || $user->role=='admin') && count($students) < 15)
 
