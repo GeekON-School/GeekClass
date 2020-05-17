@@ -290,7 +290,7 @@
                                                 @if ($user->role=='student' and !$lesson->isAvailable($course))
                                                     <span class="badge badge-danger float-right" style="margin: 3px;">Не выполнены требования</span>
                                                 @endif
-                                                @if ($course->teachers->contains($user) || $user->role=='admin')
+                                                @if (($course->teachers->contains($user) || $user->role=='admin') && count($students) < 15)
                                                     <small class="text-muted float-right" style="margin-right: 15px;">
                                                         @foreach($students as $student)
                                                             @if ($lesson->percent($student) < 40)
@@ -430,7 +430,7 @@
                         @endforeach
                     </ul>
 
-                    @if ($course->teachers->contains($user) || $user->role=='admin')
+                    @if (($course->teachers->contains($user) || $user->role=='admin') && count($students) < 15)
 
                         <div id="histogram"></div>
 
