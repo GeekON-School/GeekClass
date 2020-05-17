@@ -305,8 +305,6 @@ class CoursesController extends Controller
                 $lessons = $course->lessons->where('chapter_id', $chapter->id);
             }
 
-            dd("done");
-
             return view('courses.details', compact('chapter', 'course', 'user', 'steps', 'students', 'cstudent', 'lessons', 'marks'));
 
         } else {
