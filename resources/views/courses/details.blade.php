@@ -422,20 +422,21 @@
                         <b>Студенты:</b>
                     </p>
                     @if (count($students) < 15)
-                    <ul>
-                        @foreach($students->sortByDesc('percent') as $student)
-                            <li><a class="black-link"
-                                   href="{{url('/insider/profile/'.$student->id)}}">{{$student->name}}</a> <span
-                                        class="badge badge-primary float-right" title="{{ $student->points }}"> {{ round($student->percent) }}
+                        <ul>
+                            @foreach($students->sortByDesc('percent') as $student)
+                                <li><a class="black-link"
+                                       href="{{url('/insider/profile/'.$student->id)}}">{{$student->name}}</a> <span
+                                            class="badge badge-primary float-right" title="{{ $student->points }}"> {{ round($student->percent) }}
                                     % </span></li>
-                        @endforeach
-                    </ul>
+                            @endforeach
+                        </ul>
                     @else
-
-                        @foreach($students as $student)
-                            <li><a class="black-link"
-                                   href="{{url('/insider/profile/'.$student->id)}}">{{$student->name}}</a></li>
-                        @endforeach
+                        <ul>
+                            @foreach($students as $student)
+                                <li><a class="black-link"
+                                       href="{{url('/insider/profile/'.$student->id)}}">{{$student->name}}</a></li>
+                            @endforeach
+                        </ul>
                     @endif
 
                     @if (($course->teachers->contains($user) || $user->role=='admin') && count($students) < 15)
@@ -579,7 +580,7 @@
                 </div>
             @endif
 
-            <img src="{{url('images/ginger-cat.png')}}" style="max-width: 100%;" />
+            <img src="{{url('images/ginger-cat.png')}}" style="max-width: 100%;"/>
         </div>
         <script>
             $(function () {
