@@ -116,6 +116,7 @@ class ProgramStep extends Model
         $step->description = $data['description'];
         $step->notes = $data['notes'];
         $step->theory = $data['theory'];
+        $step->video_url = $data['video_url'];
 
         if (array_has($data, 'notebook')) {
             $step->is_notebook = true;

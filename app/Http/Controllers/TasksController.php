@@ -202,7 +202,7 @@ class TasksController extends Controller
 
                 $deadline = $task->getDeadline($course_id);
 
-                if (!$deadline or Carbon::now()->lt($deadline->expiration)) {
+                if (!$deadline or Carbon::now()->lt($deadline->expiration->addDay())) {
                     $solution->mark = $task->max_mark;
                     $solution->comment = "Правильно.";
                 } else {
@@ -251,7 +251,7 @@ class TasksController extends Controller
                 if (str_contains($data->result, $task->code_answer)) {
                     $deadline = $this->getDeadline($course_id);
 
-                    if (!$deadline or $solution->created_at->lt($deadline->expiration)) {
+                    if (!$deadline or $solution->created_at->lt($deadline->expiration->addDay())) {
                         $solution->mark = $task->max_mark;
                         $solution->comment = "Правильно.";
                     } else {
@@ -304,7 +304,7 @@ class TasksController extends Controller
         $old_rank = $solution->user->rank();
         $deadline = $solution->task->getDeadline($course_id);
 
-        if (!$deadline or $solution->created_at->lt($deadline->expiration)) {
+        if (!$deadline or $solution->created_at->lt($deadline->expiration->addDay())) {
             $solution->mark = $request->mark;
             $solution->comment = $request->comment;
         } else {

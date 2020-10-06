@@ -29,7 +29,7 @@
     <script type="text/javascript" src="{{ url('assets/js/bootstrap.js') }}"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+    <script src="{{ url('/assets/js/easymde.min.js') }}"></script>
 
     <!-- Autosize - resizes textarea inputs as user types -->
     <script type="text/javascript" src="{{ url('assets/js/autosize.min.js') }}"></script>
@@ -178,8 +178,8 @@
                     <li class="nav-item"><a class="nav-link {{(Request::is('insider/events*') ? 'active-link' : '') }}"
                                             href="{{url('insider/events')}}">События</a></li>
 
-                <!--<li class="nav-item"><a class="nav-link {{(Request::is('insider/games*') ? 'active-link' : '') }}"
-                                            href="{{url('insider/games')}}">Игры</a></li>-->
+                <li class="nav-item"><a class="nav-link {{(Request::is('insider/games*') ? 'active-link' : '') }}"
+                                            href="{{url('insider/games')}}">Игры</a></li>
                 @else
                     <li class="nav-item"><a class="nav-link {{(Request::is('articles*') ? 'active-link' : '') }}"
                                             href="{{url('/articles')}}">Статьи</a></li>

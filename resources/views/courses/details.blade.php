@@ -199,7 +199,7 @@
                                 </div>
                                 @if ($lesson->getStartDate($course)!=null)
                                     <div class="card-footer">
-                                        @if ($course->teachers->contains($user) || $user->role=='admin')
+                                        @if (($course->teachers->contains($user) || $user->role=='admin') && count($students) < 15)
                                             <div class="collapse" id="marks{{$lesson->id}}">
                                                 @foreach($students as $student)
                                                     <div class="row">
@@ -290,7 +290,7 @@
                                                 @if ($user->role=='student' and !$lesson->isAvailable($course))
                                                     <span class="badge badge-danger float-right" style="margin: 3px;">Не выполнены требования</span>
                                                 @endif
-                                                @if ($course->teachers->contains($user) || $user->role=='admin')
+                                                @if (($course->teachers->contains($user) || $user->role=='admin') && count($students) < 15)
                                                     <small class="text-muted float-right" style="margin-right: 15px;">
                                                         @foreach($students as $student)
                                                             @if ($lesson->percent($student) < 40)
@@ -421,16 +421,25 @@
                     <p>
                         <b>Студенты:</b>
                     </p>
-                    <ul>
-                        @foreach($students->sortByDesc('percent') as $student)
-                            <li><a class="black-link"
-                                   href="{{url('/insider/profile/'.$student->id)}}">{{$student->name}}</a> <span
-                                        class="badge badge-primary float-right" title="{{ $student->points }}"> {{ round($student->percent) }}
+                    @if (count($students) < 15)
+                        <ul>
+                            @foreach($students->sortByDesc('percent') as $student)
+                                <li><a class="black-link"
+                                       href="{{url('/insider/profile/'.$student->id)}}">{{$student->name}}</a> <span
+                                            class="badge badge-primary float-right" title="{{ $student->points }}"> {{ round($student->percent) }}
                                     % </span></li>
-                        @endforeach
-                    </ul>
+                            @endforeach
+                        </ul>
+                    @else
+                        <ul>
+                            @foreach($students as $student)
+                                <li><a class="black-link"
+                                       href="{{url('/insider/profile/'.$student->id)}}">{{$student->name}}</a></li>
+                            @endforeach
+                        </ul>
+                    @endif
 
-                    @if ($course->teachers->contains($user) || $user->role=='admin')
+                    @if (($course->teachers->contains($user) || $user->role=='admin') && count($students) < 15)
 
                         <div id="histogram"></div>
 
@@ -535,12 +544,12 @@
                                                         (*)@endif</a>
                                             @endif
 
-                                            @if ($task->isDone($cstudent->id) and $task->getDeadline($course->id))
+                                            @if (!$task->isDone($cstudent->id) and $task->getDeadline($course->id))
                                                 &nbsp;
                                                 @php
                                                     $deadline = \Carbon\Carbon::parse($task->getDeadline($course->id)->expiration);
                                                 @endphp
-                                                @if ($deadline->lt(\Carbon\Carbon::now()))
+                                                @if ($deadline->addDay()->lt(\Carbon\Carbon::now()))
                                                     <span class="badge badge-danger">
                                                             Просрочено {{$deadline->format('Y.m.d')}}
                                                         </span>
@@ -571,7 +580,7 @@
                 </div>
             @endif
 
-            <img src="{{url('images/ginger-cat.png')}}" style="max-width: 100%;" />
+            <img src="{{url('images/ginger-cat.png')}}" style="max-width: 100%;"/>
         </div>
         <script>
             $(function () {

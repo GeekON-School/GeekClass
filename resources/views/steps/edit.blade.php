@@ -56,13 +56,30 @@
                                     </span>
                             @endif
                         </div>
-
+                
                         <div class="form-check">
                             <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" name="notebook" value="yes"
                                        @if ($step->is_notebook) checked @endif>
                                 Это тетрадка
                             </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="video_url">Видео</label>
+
+                            @if (old('video_url')!="")
+                                <input id="video_url" type="text" class="form-control" value="{{old('video_url')}}"
+                                       name="video_url">
+                            @else
+                                <input id="video_url" type="text" class="form-control" value="{{$step->video_url}}"
+                                       name="video_url">
+                            @endif
+                            @if ($errors->has('video_url'))
+                                <span class="help-block error-block">
+                                        <strong>{{ $errors->first('video_url') }}</strong>
+                                    </span>
+                            @endif
                         </div>
 
                         <button type="submit" class="btn btn-success">Сохранить</button>
@@ -72,17 +89,14 @@
             <script>
                 var simplemde_description = new EasyMDE({
                     spellChecker: false,
-                    autosave: true,
                     element: document.getElementById("description")
                 });
                 var simplemde_theory = new EasyMDE({
                     spellChecker: false,
-                    autosave: true,
                     element: document.getElementById("theory")
                 });
                 var simplemde_notes = new EasyMDE({
                     spellChecker: false,
-                    autosave: true,
                     element: document.getElementById("notes")
                 });
             </script>
