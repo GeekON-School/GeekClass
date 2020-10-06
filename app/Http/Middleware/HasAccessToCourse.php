@@ -29,7 +29,7 @@ class HasAccessToCourse
             $course_id = $request->id;
         }
         $course = Course::findOrFail($course_id);
-        if ($course->teachers->contains($user) || ($course->students->contains($user) and $course->state != 'draft')) {
+        if ($course->teachers->contains($user) || ($course->students->contains($user))) {
             return $next($request);
         }
 
