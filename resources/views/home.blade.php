@@ -455,8 +455,10 @@
                                             <div class="col-md-9">
                                                 <h5 style="padding: 0; margin: 0;" class="card-title">{{$course->name}}
                                                     <br>
+                                                    @if ($course->start_date)
                                                     <small style="font-size: 70%;">{{$course->start_date->format('d.m.Y')}}
                                                         - {{$course->end_date->format('d.m.Y')}}</small>
+                                                    @endif
                                                 </h5>
 
                                             </div>
